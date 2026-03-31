@@ -3,17 +3,14 @@ services:
     name: netacad-ethereal-inkar
     plan: free
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      python manage.py collectstatic --noinput
-      python manage.py migrate
-    startCommand: gunicorn config.wsgi:application
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "python manage.py migrate && gunicorn config.wsgi:application"
     envVars:
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY
         generateValue: true
       - key: PYTHON_VERSION
-        value: 3.11.10
+        value: "3.11"
       - key: ALLOWED_HOSTS
-        value: ".render.com,localhost,127.0.0.1"
+        value: ".onrender.com,localhost,127.0.0.1"

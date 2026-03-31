@@ -176,7 +176,7 @@
                             {% for module in module_performance %}
                             <div class="w-full flex flex-col items-center gap-3"> 
                                 <div class="w-full bg-primary/10 rounded-t-lg relative group h-full"> 
-                                    <div class="absolute inset-x-0 bottom-0 bg-primary/40 rounded-t-lg transition-all group-hover:bg-primary/60" style="height: {{ module.avg_score|floatformat:0|default:0 }}%;">
+                                    <div class="absolute inset-x-0 bottom-0 bg-primary/40 rounded-t-lg transition-all group-hover:bg-primary/60"  {{ module.avg_score|floatformat:0|default:0 }}%;>
                                         <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                             {{ module.avg_score|floatformat:1|default:0 }}%
                                         </div>
