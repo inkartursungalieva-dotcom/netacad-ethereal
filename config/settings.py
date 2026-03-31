@@ -23,6 +23,12 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 # ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*'] # Для отладки в облаке разрешаем всё
 
+# Доверяем доменам для CSRF (нужно для работы форм входа)
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.pythonanywhere.com',
+    'https://*.onrender.com',
+]
+
 
 # Application definition
 
