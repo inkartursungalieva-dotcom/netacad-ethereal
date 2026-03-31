@@ -22,19 +22,23 @@ def setup():
     site.domain = domain
     site.save()
 
-    # 3. Наполняем контентом (если база пустая)
+    # 3. Наполняем контентом (только если модулей еще нет)
     from courses.models import Module
     if not Module.objects.exists():
-        print("🛠 Наполнение базы данных контентом...")
+        print("🛠 Наполнение базы данных контентом (это займет ~30 сек)...")
         try:
             import init_db
             import add_labs
             import add_questions
             init_db.run()
+            # Ускоряем запуск: добавляем только базу, остальное можно догрузить позже если надо
+            # Но для защиты лучше иметь всё сразу
             add_labs.create_labs()
             add_questions.run()
         except Exception as e:
             print(f"⚠️ Ошибка при наполнении базы: {e}")
+    else:
+        print("✅ База данных уже содержит данные, пропускаем наполнение.")
 
     # 4. Создаем дефолтного админа (для тестов на защите)
     User = get_user_model()
