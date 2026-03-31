@@ -96,8 +96,8 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT = os.getenv('DB_PORT', '3306')
 
-# На бесплатном тарифе Render используем SQLite (надежно и бесплатно)
-if os.getenv('RENDER'):
+# На бесплатном тарифе Render или PythonAnywhere используем SQLite (надежно и бесплатно)
+if os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
