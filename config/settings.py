@@ -89,8 +89,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url # pyright: ignore
-
 # Параметры из .env
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
@@ -98,14 +96,13 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT = os.getenv('DB_PORT', '3306')
 
-# Если есть DATABASE_URL (обычно на Render/Heroku), используем её (PostgreSQL)
-if os.getenv('DATABASE_URL'):
+# На бесплатном тарифе Render используем SQLite (надежно и бесплатно)
+if os.getenv('RENDER'):
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 else:
     # Попытка подключения к MySQL, если нет - используем SQLite (для портативности на защите)
