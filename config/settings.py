@@ -81,6 +81,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+
 # Параметры из .env
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
@@ -88,49 +90,59 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT = os.getenv('DB_PORT', '3306')
 
-# Попытка подключения к MySQL, если нет - используем SQLite (для портативности на защите)
-USE_SQLITE = False
-if not DB_NAME:
-    USE_SQLITE = True
-else:
-    try:
-        # Импортируем MySQLdb только если планируем его использовать
-        import MySQLdb
-        # Быстрая проверка доступности MySQL
-        conn = MySQLdb.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            passwd=DB_PASSWORD,
-            port=int(DB_PORT),
-            connect_timeout=2
+# Если есть DATABASE_URL (обычно на Render/Heroku), используем её (PostgreSQL)
+if os.getenv('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
         )
-        conn.close()
-    except (ImportError, Exception):
-        print("⚠️ [WARNING] MySQL недоступен или библиотека не установлена. Используем SQLite.")
-        USE_SQLITE = True
-
-if USE_SQLITE:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': DB_NAME,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT,
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                'charset': 'utf8mb4',
-            },
+    # Попытка подключения к MySQL, если нет - используем SQLite (для портативности на защите)
+    USE_SQLITE = False
+    if not DB_NAME:
+        USE_SQLITE = True
+    else:
+        try:
+            # Импортируем MySQLdb только если планируем его использовать
+            import MySQLdb
+            # Быстрая проверка доступности MySQL
+            conn = MySQLdb.connect(
+                host=DB_HOST,
+                user=DB_USER,
+                passwd=DB_PASSWORD,
+                port=int(DB_PORT),
+                connect_timeout=2
+            )
+            conn.close()
+        except (ImportError, Exception):
+            print("⚠️ [WARNING] MySQL недоступен или библиотека не установлена. Используем SQLite.")
+            USE_SQLITE = True
+
+    if USE_SQLITE:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
         }
-    }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': DB_NAME,
+                'USER': DB_USER,
+                'PASSWORD': DB_PASSWORD,
+                'HOST': DB_HOST,
+                'PORT': DB_PORT,
+                'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',
+                },
+            }
+        }
 
 
 # Password validation
