@@ -7,7 +7,11 @@ django.setup()
 from django.contrib.sites.models import Site
 
 def fix_site():
-    domain = os.getenv('PYTHONANYWHERE_DOMAIN', 'inkara.pythonanywhere.com') # Подставь свой домен
+    # Пытаемся определить домен Render, если нет - используем дефолтный
+    domain = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+    if not domain:
+        domain = os.getenv('PYTHONANYWHERE_DOMAIN', 'inkara.pythonanywhere.com')
+    
     site_id = 1
     
     try:

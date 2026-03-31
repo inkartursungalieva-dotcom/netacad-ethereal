@@ -197,7 +197,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             except User.DoesNotExist:
                 # Если пользователь не найден — вернём email как есть
                 # (аутентификация всё равно не пройдёт, но ошибка будет корректной)
-                pass
+                return email
         return email
     
     def clean(self):
