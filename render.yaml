@@ -1,6 +1,7 @@
 services:
   - type: web
     name: netacad-ethereal
+    plan: free
     env: python
     buildCommand: |
       pip install -r requirements.txt
