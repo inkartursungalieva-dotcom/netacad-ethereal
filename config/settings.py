@@ -6,7 +6,7 @@ load_dotenv()  # Загрузка переменных из .env
 
 # Поддержка MySQL через PyMySQL (чтобы не было проблем при установке на Render)
 try:
-    import pymysql
+    import pymysql # pyright: ignore
     pymysql.install_as_MySQLdb()
 except ImportError:
     pass
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url
+import dj_database_url # pyright: ignore
 
 # Параметры из .env
 DB_NAME = os.getenv('DB_NAME')
