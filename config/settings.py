@@ -3,6 +3,14 @@ from pathlib import Path
 from dotenv import load_dotenv # pyright: ignore[reportMissingImports]
 
 load_dotenv()  # Загрузка переменных из .env
+
+# Поддержка MySQL через PyMySQL (чтобы не было проблем при установке на Render)
+try:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+except ImportError:
+    pass
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -106,7 +114,7 @@ else:
         USE_SQLITE = True
     else:
         try:
-            # Импортируем MySQLdb только если планируем его использовать
+            # Пытаемся подключиться к MySQL через MySQLdb (который теперь pymysql)
             import MySQLdb
             # Быстрая проверка доступности MySQL
             conn = MySQLdb.connect(
