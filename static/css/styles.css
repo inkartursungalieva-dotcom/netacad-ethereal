@@ -1,0 +1,206 @@
+/* ========================================
+   NetAcad Ethereal - Custom Styles
+   Файл: static/css/styles.css
+   ======================================== */
+
+/* === Base Styles === */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fef7fe;
+    color: #35313a;
+}
+
+.headline-font {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* === Material Symbols === */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* === Glassmorphism Card === */
+.glass-card {
+    background: rgba(254, 247, 254, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 25px 50px rgba(104, 85, 141, 0.1);
+}
+
+/* === Aether Glow Effect === */
+.aether-glow {
+    background: radial-gradient(circle at 50% 50%, rgba(213, 191, 255, 0.15) 0%, rgba(254, 247, 254, 0) 70%);
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* === Form Elements === */
+.input-focus {
+    transition: all 0.2s ease;
+}
+
+.input-focus:focus {
+    box-shadow: 0 0 0 4px rgba(104, 85, 141, 0.15);
+    background-color: #ffffff;
+}
+
+/* === Buttons === */
+.btn-primary {
+    background: linear-gradient(135deg, #68558d, #5c4981);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    box-shadow: 0px 25px 50px rgba(104, 85, 141, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* === Toggle Buttons (Language/Role) === */
+.toggle-btn {
+    transition: all 0.2s ease;
+}
+
+.toggle-btn.active {
+    background-color: #ffffff;
+    color: #68558d;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(104, 85, 141, 0.1);
+}
+
+.toggle-btn.inactive {
+    color: #625d67;
+    font-weight: 500;
+}
+
+.toggle-btn.inactive:hover {
+    color: #68558d;
+}
+
+/* === Form Messages === */
+.form-message {
+    transition: all 0.3s ease;
+}
+
+.form-message.success {
+    background-color: #dcfce7;
+    color: #166534;
+    border-left: 4px solid #22c55e;
+}
+
+.form-message.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+/* === Custom Scrollbar === */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f3ebf5;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #68558d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5c4981;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .hero-section {
+        display: none;
+    }
+    
+    .form-section {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .input-field {
+        padding: 0.875rem;
+    }
+}
+
+/* === Dark Mode (заготовка) === */
+html.dark .glass-card {
+    background: rgba(30, 27, 35, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark body {
+    background-color: #1a1720;
+    color: #e7e0ec;
+}
+
+/* === Print Styles === */
+@media print {
+    header, footer, .hero-section {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}

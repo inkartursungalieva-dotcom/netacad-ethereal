@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Симулятор сети" %} | EthernetArch{% endblock %}
+
+{% block extra_head %}
+<style>
+    .terminal-output {
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    .terminal-output::-webkit-scrollbar { width: 6px; }
+    .terminal-output::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+    
+    .cisco-btn {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cisco-btn:active { transform: scale(0.95); }
+
+    @keyframes pulse-border {
+        0% { border-color: rgba(104, 85, 141, 0.2); }
+        50% { border-color: rgba(104, 85, 141, 0.6); }
+        100% { border-color: rgba(104, 85, 141, 0.2); }
+    }
+    .active-device { animation: pulse-border 2s infinite; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex h-screen bg-[#0f0d12] overflow-hidden pt-16">
+    <!-- SideNavBar (Hidden on mobile for more space) -->
+    <div class="hidden lg:block">
+        {% include 'includes/sidebar.html' %}
+    </div>
+
+    <!-- Main Simulator Area -->
+    <main class="flex-1 flex flex-col lg:ml-64 h-full relative">
+        <!-- Header -->
+        <header class="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-[#16141a]">
+            <div class="flex items-center gap-4">
+                <a href="{% url 'courses:list' %}" class="text-white/60 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+                <div>
+                    <h1 class="text-white font-bold text-sm">{% trans "Лабораторная работа" %}: {{ lab.title }}</h1>
+                    <p class="text-primary text-[10px] font-black uppercase tracking-widest">{{ module.name }}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/60 uppercase tracking-widest">
+                    {% trans "Статус" %}: <span id="lab-status" class="text-amber-400">{% trans "В процессе" %}</span>
+                </div>
+                <button id="finish-lab-btn" class="px-6 py-1.5 bg-primary text-white rounded-full text-xs font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+                    {% trans "Завершить" %}
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Topology Map (Canvas-like) -->
+            <div class="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] bg-[#0f0d12]">
+                <div id="topology-container" class="absolute inset-0 p-8 flex items-center justify-center">
+                    <!-- Devices will be rendered here by JS -->
+                    <div id="network-map" class="relative w-full h-full border border-white/5 rounded-[2rem] overflow-hidden bg-black/20 backdrop-blur-sm">
+                        <!-- Grid Overlay -->
+                        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+                        
+                        <!-- Dynamically generated devices -->
+                        <div id="devices-layer" class="relative z-10 w-full h-full"></div>
+                        <svg id="links-layer" class="absolute inset-0 w-full h-full pointer-events-none z-0"></svg>
+                    </div>
+                </div>
+
+                <!-- Scenario Info (Floating) -->
+                <div class="absolute top-12 left-12 w-80 flex flex-col gap-4 z-20">
+                    <!-- Assignment -->
+                    <div class="glass-panel rounded-3xl p-6 border border-white/10 text-white shadow-2xl">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-primary">assignment</span>
+                            <h3 class="font-bold text-sm">{% trans "Задание" %}</h3>
+                        </div>
+                        <div class="text-xs text-white/70 leading-relaxed space-y-3" id="scenario-text">
+                            {{ lab.description|safe }}
+                        </div>
+                    </div>
+
+                    <!-- Hints -->
+                    {% if lab.hints %}
+                    <div class="glass-panel rounded-3xl p-6 border border-white/10 text-white shadow-2xl">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-amber-400">lightbulb</span>
+                            <h3 class="font-bold text-sm text-amber-400">{% trans "Подсказки" %}</h3>
+                        </div>
+                        <div class="text-[11px] text-white/60 leading-relaxed font-mono bg-black/30 p-3 rounded-xl border border-white/5">
+                            {{ lab.hints|linebreaksbr }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Cisco IOS Terminal (Right) -->
+            <div class="w-[450px] border-l border-white/10 flex flex-col bg-[#050505]">
+                <div class="p-4 bg-[#16141a] border-b border-white/10 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span id="active-device-name" class="text-[10px] font-black text-white uppercase tracking-widest">{% trans "Консоль" %}: Router_0</span>
+                    </div>
+                    <span class="text-[10px] text-white/40 font-mono italic">Cisco IOS (TM) v15.4</span>
+                </div>
+                
+                <div id="terminal-output" class="flex-1 p-6 text-green-500 font-mono text-xs overflow-y-auto terminal-output space-y-1">
+                    <p class="opacity-50 italic">{% trans "--- Нажмите ENTER для начала работы ---" %}</p>
+                </div>
+
+                <div class="p-4 bg-[#16141a] border-t border-white/10 flex items-center gap-3">
+                    <span class="text-green-500 font-mono text-xs" id="terminal-prompt">Router></span>
+                    <input type="text" id="terminal-input" 
+                           class="flex-1 bg-transparent border-none text-green-500 font-mono text-xs focus:ring-0 p-0"
+                           autofocus autocomplete="off">
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Scripts for Simulation -->
+{{ lab.scenario_data|json_script:"lab-data" }}
+<script>
+    const parsedLabData = JSON.parse(document.getElementById('lab-data').textContent);
+    const labId = "{{ lab.id }}";
+    const saveUrl = "{% url 'laboratory:save_progress' lab.id %}";
+    const csrfToken = "{{ csrf_token }}";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalPrompt = document.getElementById('terminal-prompt');
+        const deviceNameDisplay = document.getElementById('active-device-name');
+        
+        // Use parsed data
+        let activeDevice = parsedLabData.devices[0];
+        let history = [];
+        let configMode = false;
+        let score = 0;
+
+        // Auto-focus terminal on click anywhere in the terminal area
+        document.querySelector('.w-\\[450px\\]').addEventListener('click', () => {
+            terminalInput.focus();
+        });
+
+        // Initialize Topology
+        const devicesLayer = document.getElementById('devices-layer');
+        parsedLabData.devices.forEach((dev, idx) => {
+            const el = document.createElement('div');
+            el.className = `absolute cursor-pointer group transition-all duration-300 p-4 rounded-2xl border-2 border-transparent hover:bg-white/5 ${idx === 0 ? 'active-device' : ''}`;
+            el.style.left = dev.x + '%';
+            el.style.top = dev.y + '%';
+            el.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <span class="material-symbols-outlined text-4xl ${dev.type === 'router' ? 'text-primary' : 'text-secondary'}">${dev.type === 'router' ? 'router' : 'lan'}</span>
+                    <span class="text-[10px] font-bold text-white mt-2 group-hover:text-primary transition-colors">${dev.name}</span>
+                </div>
+            `;
+            el.onclick = () => switchDevice(dev, el);
+            devicesLayer.appendChild(el);
+        });
+
+        function switchDevice(dev, element) {
+            activeDevice = dev;
+            deviceNameDisplay.innerText = `{% trans "Консоль" %}: ${dev.name}`;
+            terminalPrompt.innerText = configMode ? `${dev.name}(config)#` : `${dev.name}>`;
+            
+            document.querySelectorAll('.active-device').forEach(e => e.classList.remove('active-device'));
+            element.classList.add('active-device');
+            
+            printToTerminal(`\n*** {% trans "Соединение установлено с" %} ${dev.name} ***\n`);
+            terminalInput.focus();
+        }
+
+        function printToTerminal(text, isCommand = false) {
+            const p = document.createElement('p');
+            if (isCommand) {
+                p.innerHTML = `<span class="opacity-50">${terminalPrompt.innerText}</span> ${text}`;
+            } else {
+                p.innerText = text;
+            }
+            terminalOutput.appendChild(p);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        let isStarted = false;
+
+        function handleCommand(cmd) {
+            const originalCmd = cmd;
+            cmd = cmd.trim().toLowerCase();
+            
+            // Clear initial message
+            if (!isStarted) {
+                terminalOutput.innerHTML = '';
+                isStarted = true;
+            }
+
+            // Print prompt even for empty command
+            if (!cmd) {
+                printToTerminal("", true);
+                return;
+            }
+
+            history.push({device: activeDevice.name, cmd: originalCmd});
+            printToTerminal(originalCmd, true);
+
+            // Simple Logic for Cisco Commands
+            if (cmd === 'enable' || cmd === 'en') {
+                terminalPrompt.innerText = `${activeDevice.name}#`;
+            } else if (cmd === 'conf t' || cmd === 'configure terminal') {
+                terminalPrompt.innerText = `${activeDevice.name}(config)#`;
+                configMode = true;
+            } else if (cmd === 'exit') {
+                if (configMode) {
+                    terminalPrompt.innerText = `${activeDevice.name}#`;
+                    configMode = false;
+                } else {
+                    terminalPrompt.innerText = `${activeDevice.name}>`;
+                }
+            } else if (cmd.startsWith('hostname ')) {
+                const newName = originalCmd.split(' ')[1];
+                activeDevice.name = newName;
+                terminalPrompt.innerText = configMode ? `${newName}(config)#` : `${newName}#`;
+                deviceNameDisplay.innerText = `{% trans "Консоль" %}: ${newName}`;
+                checkTasks();
+            } else if (cmd === 'show ip int br' || cmd === 'sh ip int br') {
+                printToTerminal("Interface              IP-Address      OK? Method Status                Protocol");
+                printToTerminal("GigabitEthernet0/0     unassigned      YES unset  up                    up");
+            } else if (cmd === 'show interfaces' || cmd === 'sh int') {
+                printToTerminal("GigabitEthernet0/0 is up, line protocol is up");
+                printToTerminal("  Hardware is MV96340 Ethernet, address is 0011.92a7.1b01");
+                printToTerminal("  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, reliability 255/255");
+            } else {
+                printToTerminal(`% Invalid input detected at '^' marker.`);
+            }
+        }
+
+        function checkTasks() {
+            // Logic to check if user completed the tasks in scenario_data
+            if (parsedLabData.target_hostname && activeDevice.name === parsedLabData.target_hostname) {
+                score = 100;
+                document.getElementById('lab-status').innerText = '{% trans "Завершено" %}';
+                document.getElementById('lab-status').className = 'text-green-400';
+            } else {
+                score = Math.min(90, history.length * 5);
+            }
+        }
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                handleCommand(terminalInput.value);
+                terminalInput.value = '';
+            }
+        });
+
+        document.getElementById('finish-lab-btn').addEventListener('click', () => {
+            fetch(saveUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({
+                    score: score,
+                    history: history,
+                    completed: true
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('{% trans "Практическая работа завершена! Результат сохранен." %}');
+                    window.location.href = "{% url 'courses:list' %}";
+                } else {
+                    alert('{% trans "Ошибка при сохранении результата." %}');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('{% trans "Сетевая ошибка при сохранении." %}');
+            });
+        });
+    });
+</script>
+{% endblock %}

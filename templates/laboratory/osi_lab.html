@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load osi_extras %}
+
+{% block title %}{% trans "Визуализатор OSI" %} | {% trans "NetAcad Ethereal" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .glass-panel { 
+        background: rgba(254, 247, 254, 0.6); 
+        backdrop-filter: blur(12px); 
+        -webkit-backdrop-filter: blur(12px); 
+    } 
+    .osi-node-gradient { 
+        background: linear-gradient(135deg, #68558d 0%, #d5bfff 100%); 
+    }
+    .draggable-pdu {
+        cursor: grab;
+        transition: all 0.2s ease;
+    }
+    .draggable-pdu:active {
+        cursor: grabbing;
+        transform: scale(0.95);
+    }
+    .drop-zone.hover {
+        border-color: #68558d !important;
+        background: rgba(104, 85, 141, 0.1);
+    }
+    .drop-zone.correct {
+        border-color: #4caf50 !important;
+        background: rgba(76, 175, 80, 0.1);
+        border-style: solid !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex min-h-[calc(100vh-80px)] bg-surface pt-16"> 
+    <!-- SideNavBar --> 
+    {% include 'includes/sidebar.html' %}
+
+    <!-- Main Content Area --> 
+    <main class="flex-1 lg:ml-64 p-8 bg-surface"> 
+        <!-- Breadcrumbs & Header --> 
+        <div class="mb-10"> 
+            <nav class="flex items-center gap-2 text-xs text-on-surface-variant uppercase tracking-widest mb-4"> 
+                <span>{{ module.name }}</span> 
+                <span class="material-symbols-outlined text-xs">chevron_right</span> 
+                <span>{% trans "Практическое задание" %}</span> 
+                <span class="material-symbols-outlined text-xs">chevron_right</span> 
+                <span class="text-primary font-bold">{% trans "Визуализация OSI" %}</span> 
+            </nav> 
+            <div class="flex justify-between items-end"> 
+                <div> 
+                    <h1 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface">{{ lab.title }}</h1> 
+                    <div class="text-on-surface-variant mt-2 text-lg max-w-2xl">
+                        {{ lab.description|safe }}
+                    </div> 
+                </div> 
+                <div class="flex gap-3 items-center">
+                    <div id="lab-score-display" class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold">
+                        {% trans "Прогресс" %}: <span id="current-score">0</span>/7
+                    </div>
+                    <button id="finish-osi-lab" class="px-6 py-2 bg-primary text-white rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-all">
+                        {% trans "Завершить" %}
+                    </button>
+                </div>
+            </div> 
+        </div> 
+
+        <div class="grid grid-cols-12 gap-6 items-start"> 
+            <!-- Left Column: OSI Stack --> 
+            <div class="col-span-12 xl:col-span-7 space-y-4"> 
+                <div class="glass-panel p-4 rounded-2xl shadow-xl border border-outline-variant/10"> 
+                    <!-- Layers loop -->
+                    {% define_layers as osi_layers %}
+                    {% for layer in osi_layers %}
+                    <div class="group flex items-stretch h-20 bg-surface-container-lowest rounded-xl mb-2 last:mb-0 overflow-hidden hover:shadow-md transition-shadow"> 
+                        <div class="w-16 flex flex-col items-center justify-center bg-primary text-on-primary font-headline font-bold text-xl" style="opacity: {{ layer.opacity }};">
+                            {{ layer.number }}
+                        </div> 
+                        <div class="flex-1 px-6 flex items-center justify-between"> 
+                            <div> 
+                                <h3 class="font-headline font-bold text-on-surface">{{ layer.name }}</h3> 
+                                <p class="text-xs text-on-surface-variant">{{ layer.protocols }}</p> 
+                            </div> 
+                            <div class="drop-zone w-32 h-12 border-2 border-dashed border-outline-variant/30 rounded-lg flex items-center justify-center text-xs text-outline-variant italic transition-all" 
+                                 data-layer="{{ layer.number }}" data-expected="{{ layer.pdu }}">
+                                {% trans "Перетащите сюда" %}
+                            </div> 
+                        </div> 
+                    </div> 
+                    {% endfor %}
+                </div> 
+            </div> 
+
+            <!-- Right Column: PDUs and Info --> 
+            <div class="col-span-12 xl:col-span-5 space-y-6"> 
+                <!-- PDU Tray --> 
+                <section class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/10"> 
+                    <h2 class="font-headline font-bold text-lg mb-4 flex items-center gap-2"> 
+                        <span class="material-symbols-outlined text-primary">drag_indicator</span> 
+                        {% trans "Доступные PDU" %}
+                    </h2> 
+                    <div class="grid grid-cols-2 gap-3" id="pdu-tray"> 
+                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Data"> 
+                            <span class="material-symbols-outlined text-secondary">description</span> 
+                            <span class="font-bold text-sm">Data</span> 
+                        </div> 
+                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Packet"> 
+                            <span class="material-symbols-outlined text-secondary">inventory_2</span> 
+                            <span class="font-bold text-sm">Packet</span> 
+                        </div> 
+                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Frame"> 
+                            <span class="material-symbols-outlined text-secondary">view_agenda</span> 
+                            <span class="font-bold text-sm">Frame</span> 
+                        </div> 
+                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Segment"> 
+                            <span class="material-symbols-outlined text-secondary">grid_view</span> 
+                            <span class="font-bold text-sm">Segment</span> 
+                        </div> 
+                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Bits"> 
+                            <span class="material-symbols-outlined text-secondary">reorder</span> 
+                            <span class="font-bold text-sm">Bits</span> 
+                        </div> 
+                    </div> 
+                </section> 
+
+                <!-- Feedback & Info Card --> 
+                <section class="bg-primary text-on-primary p-6 rounded-2xl shadow-xl shadow-primary/20 relative overflow-hidden"> 
+                    <div class="absolute top-0 right-0 p-4 opacity-10"> 
+                        <span class="material-symbols-outlined text-9xl">lightbulb</span> 
+                    </div> 
+                    <h2 class="font-headline font-bold text-xl mb-2">{% trans "Подсказки уровней" %}</h2> 
+                    <p class="text-primary-container/90 text-sm leading-relaxed mb-6" id="feedback-text">
+                        {% trans "Выберите уровень или перетащите PDU, чтобы увидеть подробные функции архитектуры." %}
+                    </p> 
+                    <div id="layer-details" class="hidden space-y-4"> 
+                        <div class="bg-primary-dim/30 p-4 rounded-xl border border-white/10"> 
+                            <h4 id="focus-layer-name" class="font-bold text-sm uppercase tracking-wider text-primary-container mb-1"></h4> 
+                            <p id="focus-layer-desc" class="text-sm"></p> 
+                        </div> 
+                    </div> 
+                </section> 
+            </div> 
+        </div> 
+    </main> 
+</div> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const draggables = document.querySelectorAll('.draggable-pdu');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const scoreDisplay = document.getElementById('current-score');
+        const feedbackText = document.getElementById('feedback-text');
+        const finishBtn = document.getElementById('finish-osi-lab');
+        
+        let score = 0;
+        const correctPlacements = new Set();
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('hover');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('hover');
+            });
+
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('hover');
+                const draggable = document.querySelector('.dragging');
+                const pduType = draggable.getAttribute('data-pdu');
+                const expectedPdu = zone.getAttribute('data-expected');
+                const layerNum = zone.getAttribute('data-layer');
+
+                if (pduType === expectedPdu || (expectedPdu === 'Data' && ['Data'].includes(pduType))) {
+                    if (!correctPlacements.has(layerNum)) {
+                        zone.innerHTML = `<span class="font-bold text-sm text-green-600">${pduType}</span>`;
+                        zone.classList.add('correct');
+                        correctPlacements.add(layerNum);
+                        score++;
+                        scoreDisplay.innerText = score;
+                        showFeedback(layerNum, true);
+                    }
+                } else {
+                    showFeedback(layerNum, false);
+                }
+            });
+        });
+
+        function showFeedback(layerNum, isCorrect) {
+            const layerInfo = {
+                '7': '{% trans "Прикладной уровень: работа с сетевыми службами (HTTP, DNS)." %}',
+                '6': '{% trans "Представительский уровень: кодирование и сжатие данных." %}',
+                '5': '{% trans "Сеансовый уровень: управление сессиями связи." %}',
+                '4': '{% trans "Транспортный уровень: надежная доставка данных (TCP, UDP)." %}',
+                '3': '{% trans "Сетевой уровень: маршрутизация пакетов по IP-адресам." %}',
+                '2': '{% trans "Канальный уровень: передача кадров по физической среде." %}',
+                '1': '{% trans "Физический уровень: передача бит через кабели и сигналы." %}'
+            };
+
+            if (isCorrect) {
+                feedbackText.innerHTML = `<span class="text-green-200 font-bold">{% trans "Правильно!" %}</span> ${layerInfo[layerNum]}`;
+            } else {
+                feedbackText.innerHTML = `<span class="text-red-200 font-bold">{% trans "Неверно." %}</span> {% trans "Попробуйте другой PDU для этого уровня." %}`;
+            }
+        }
+
+        finishBtn.addEventListener('click', () => {
+            const finalScore = Math.round((score / 7) * 100);
+            fetch("{% url 'laboratory:save_progress' lab.id %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    score: finalScore,
+                    completed: score === 7
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('{% trans "Результат сохранен!" %} ' + finalScore + '%');
+                    window.location.href = "{% url 'laboratory:list' %}";
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

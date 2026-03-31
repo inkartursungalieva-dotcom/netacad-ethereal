@@ -1,0 +1,294 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html class="light" lang="{{ LANGUAGE_CODE }}">
+<head>
+    <script>
+        (function() {
+            const darkmode = document.cookie.match(/darkmode=true/);
+            if (darkmode) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            }
+        })();
+    </script>
+    <!-- Meta tags MUST be first in head -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <!-- Title block -->
+    <title>{% block title %}Computer Networks - Обучающий веб-сервис по сетевым технологиям{% endblock %}</title>
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline": "#7e7983",
+                        "on-secondary-fixed-variant": "#61557b",
+                        "tertiary": "#7d516e",
+                        "tertiary-fixed-dim": "#edb7d8",
+                        "surface-container": "#f3ebf5",
+                        "error-dim": "#6b0221",
+                        "on-background": "#35313a",
+                        "outline-variant": "#b6b0bb",
+                        "surface-tint": "#68558d",
+                        "primary": "#68558d",
+                        "on-primary-fixed": "#362459",
+                        "secondary-container": "#eaddff",
+                        "surface-container-low": "#f8f1fa",
+                        "surface-container-highest": "#e7e0ec",
+                        "primary-fixed-dim": "#c7b1f0",
+                        "on-secondary-container": "#574c70",
+                        "on-primary-fixed-variant": "#534178",
+                        "on-tertiary-fixed-variant": "#6f4561",
+                        "on-surface-variant": "#625d67",
+                        "on-error": "#fff7f7",
+                        "inverse-surface": "#0f0d12",
+                        "secondary-fixed": "#eaddff",
+                        "inverse-primary": "#d5bfff",
+                        "on-surface": "#35313a",
+                        "secondary-fixed-dim": "#dccdf9",
+                        "primary-fixed": "#d5bfff",
+                        "inverse-on-surface": "#a09ba1",
+                        "surface": "#fef7fe",
+                        "surface-dim": "#dfd7e3",
+                        "tertiary-dim": "#704662",
+                        "on-primary": "#fef7ff",
+                        "surface-bright": "#fef7fe",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#d5bfff",
+                        "error-container": "#f97386",
+                        "on-secondary-fixed": "#44395d",
+                        "tertiary-fixed": "#fbc4e6",
+                        "secondary": "#65597f",
+                        "on-error-container": "#6e0523",
+                        "surface-container-high": "#ede6f0",
+                        "secondary-dim": "#594d72",
+                        "surface-variant": "#e7e0ec",
+                        "error": "#a8364b",
+                        "on-primary-container": "#4a386e",
+                        "on-tertiary-fixed": "#4f2944",
+                        "background": "#fef7fe",
+                        "on-tertiary-container": "#643c58",
+                        "on-secondary": "#fdf7ff",
+                        "primary-dim": "#5c4981",
+                        "on-tertiary": "#fff7f8",
+                        "tertiary-container": "#fbc4e6"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    
+    <!-- Custom CSS via Django static -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+    <!-- Extra head content block -->
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+    
+    <!-- Header/Navigation -->
+    <header class="bg-[#fef7fe] dark:bg-slate-950 docked full-width top-0 z-50 shadow-[0px_20px_40px_rgba(104,85,141,0.08)] sticky">
+        <nav class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
+            <div class="text-2xl font-bold tracking-tighter text-[#8E7AB5] dark:text-[#d5bfff] font-headline">
+                <a href="{% url 'home' %}">{% trans "Computer Networks" %}</a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body" href="{% url 'home' %}">{% trans "Главная" %}</a>
+                <a class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body" href="{% url 'courses:roadmap' %}">{% trans "План обучения" %}</a>
+                <a class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body" href="{% url 'about' %}">{% trans "О сервисе" %}</a>
+                <a class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body" href="{% url 'courses:list' %}">{% trans "Курсы" %}</a>
+                {% if user.is_authenticated %}
+                <a class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body" href="{% url 'dashboard:index' %}">{% trans "Панель" %}</a>
+                {% endif %}
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <form action="{% url 'accounts:change_language' %}" method="post" class="flex items-center">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                    <div class="flex items-center text-on-surface-variant font-semibold text-sm">
+                        <button name="language" type="submit" value="ru" class="hover:text-primary transition-colors {% if LANGUAGE_CODE == 'ru' %}text-primary{% endif %}">RU</button>
+                        <span class="mx-1">/</span>
+                        <button name="language" type="submit" value="kk" class="hover:text-primary transition-colors {% if LANGUAGE_CODE == 'kk' %}text-primary{% endif %}">KZ</button>
+                    </div>
+                </form>
+                {% if user.is_authenticated %}
+                <a href="{% url 'accounts:profile' %}" class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-2xl text-primary cursor-pointer scale-95 active:scale-90 transition-transform">account_circle</span>
+                    <span class="text-sm font-bold text-on-surface hidden lg:block">{{ user.username }}</span>
+                </a>
+                <form action="{% url 'accounts:logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="text-xs font-bold text-error hover:underline">{% trans "Выход" %}</button>
+                </form>
+                {% else %}
+                <a href="{% url 'accounts:login' %}" class="px-6 py-2 bg-primary text-on-primary rounded-full text-sm font-bold shadow-sm hover:scale-[1.02] transition-transform">
+                    {% trans "Войти" %}
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Block -->
+    <main>
+        {% if messages %}
+        <div class="fixed top-20 right-8 z-[100] space-y-4 max-w-sm">
+            {% for message in messages %}
+            <div class="flex items-center gap-4 p-4 rounded-2xl shadow-2xl border backdrop-blur-md animate-slide-in
+                {% if message.tags == 'success' %}bg-emerald-500/10 border-emerald-500/20 text-emerald-700
+                {% elif message.tags == 'error' %}bg-error-container/10 border-error-container/20 text-error
+                {% else %}bg-primary/10 border-primary/20 text-primary{% endif %}">
+                <span class="material-symbols-outlined">
+                    {% if message.tags == 'success' %}check_circle
+                    {% elif message.tags == 'error' %}error
+                    {% else %}info{% endif %}
+                </span>
+                <p class="text-sm font-bold">{{ message }}</p>
+                <button onclick="this.parentElement.remove()" class="ml-auto text-current opacity-50 hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <style>
+            @keyframes slide-in {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            .animate-slide-in { animation: slide-in 0.3s ease-out; }
+        </style>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#F8F1FA] dark:bg-slate-900 w-full py-16 mt-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-8 max-w-7xl mx-auto">
+            <div>
+                <div class="font-bold text-[#8E7AB5] text-2xl font-headline mb-6">{% trans "Computer Networks" %}</div>
+                <p class="text-slate-500 dark:text-slate-400 font-body text-sm leading-relaxed mb-6">
+                    {% trans "© 2024 Computer Networks. Автор: Инкар Болатовна. Стек: Python/Django, MySQL." %}
+                </p>
+                <div class="flex space-x-4">
+                    <span class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors cursor-pointer" data-icon="language">language</span>
+                    <span class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors cursor-pointer" data-icon="terminal">terminal</span>
+                </div>
+            </div>
+            
+            <div class="flex flex-col space-y-4">
+                <h6 class="font-bold text-on-surface headline-font mb-2">{% trans "Навигация" %}</h6>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'privacy' %}">{% trans "Политика конфиденциальности" %}</a>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'terms' %}">{% trans "Условия использования" %}</a>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'dashboard:support' %}">{% trans "Контакты" %}</a>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'cookies' %}">{% trans "Cookies" %}</a>
+            </div>
+            
+            <div>
+                <h6 class="font-bold text-on-surface headline-font mb-4">{% trans "Настройки системы" %}</h6>
+                <div class="flex flex-col space-y-4">
+                    <div class="flex items-center space-x-3 text-slate-500 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl" data-icon="translate">translate</span>
+                        <form action="{% url 'accounts:change_language' %}" method="post" class="text-sm font-medium">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                            <span>{% trans "Язык:" %} </span>
+                            <button name="language" type="submit" value="ru" class="{% if LANGUAGE_CODE == 'ru' %}text-primary font-bold underline{% else %}hover:text-primary transition-colors{% endif %}">{% trans "Русский" %}</button>
+                            <span class="mx-1">/</span>
+                            <button name="language" type="submit" value="kk" class="{% if LANGUAGE_CODE == 'kk' %}text-primary font-bold underline{% else %}hover:text-primary transition-colors{% endif %}">{% trans "Қазақша" %}</button>
+                        </form>
+                    </div>
+                    <div class="flex items-center space-x-3 text-slate-500 dark:text-slate-400 cursor-pointer hover:text-primary transition-colors" id="globalThemeSwitcher">
+                        <span class="material-symbols-outlined text-xl" id="globalThemeIcon">light_mode</span>
+                        <span class="text-sm font-medium">{% trans "Тема:" %} <span id="globalThemeText">{% trans "Светлая" %}</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-outline-variant/10 text-center">
+            <p class="text-on-surface-variant text-xs font-body opacity-60">
+                {% trans "Разработано с использованием современных практик сетевого администрирования и педагогического дизайна." %}
+            </p>
+        </div>
+    </footer>
+
+    <!-- Global Scripts -->
+    <script>
+        const THEME_LABELS = {
+            dark: "{% trans 'Тёмная' %}",
+            light: "{% trans 'Светлая' %}"
+        };
+
+        function updateThemeUI(isDark) {
+            const icon = document.getElementById('globalThemeIcon');
+            const text = document.getElementById('globalThemeText');
+            if (icon && text) {
+                icon.textContent = isDark ? 'dark_mode' : 'light_mode';
+                text.textContent = isDark ? THEME_LABELS.dark : THEME_LABELS.light;
+            }
+        }
+
+        function setTheme(isDark) {
+            document.cookie = `darkmode=${isDark}; path=/; max-age=31536000`;
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            }
+            updateThemeUI(isDark);
+            
+            // Dispatch event for other listeners (like profile page)
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { isDark } }));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDark = document.cookie.match(/darkmode=true/);
+            updateThemeUI(!!isDark);
+
+            const switcher = document.getElementById('globalThemeSwitcher');
+            if (switcher) {
+                switcher.addEventListener('click', function() {
+                    const currentlyDark = document.documentElement.classList.contains('dark');
+                    setTheme(!currentlyDark);
+                });
+            }
+        });
+    </script>
+
+    <!-- Extra scripts block -->
+    {% block extra_scripts %}{% endblock %}
+    
+</body>
+</html>

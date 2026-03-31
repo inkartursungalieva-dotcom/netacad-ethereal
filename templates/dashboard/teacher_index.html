@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Панель управления преподавателя" %} - {% trans "Computer Networks" %}{% endblock %}
+
+{% block extra_head %}
+<script id="tailwind-config"> 
+    tailwind.config = { 
+        darkMode: "class", 
+        theme: { 
+            extend: { 
+                colors: { 
+                    "on-tertiary-fixed": "#4f2944", 
+                    "secondary": "#65597f", 
+                    "on-primary-container": "#4a386e", 
+                    "outline-variant": "#b6b0bb", 
+                    "surface-container-low": "#f8f1fa", 
+                    "on-primary-fixed-variant": "#534178", 
+                    "on-primary-fixed": "#362459", 
+                    "surface-dim": "#dfd7e3", 
+                    "surface-container-lowest": "#ffffff", 
+                    "error": "#a8364b", 
+                    "surface-tint": "#68558d", 
+                    "on-secondary": "#fdf7ff", 
+                    "error-dim": "#6b0221", 
+                    "tertiary-container": "#fbc4e6", 
+                    "surface-variant": "#e7e0ec", 
+                    "tertiary-dim": "#704662", 
+                    "on-tertiary-container": "#643c58", 
+                    "surface-container": "#f3ebf5", 
+                    "tertiary": "#7d516e", 
+                    "background": "#fef7fe", 
+                    "primary-container": "#d5bfff", 
+                    "on-secondary-container": "#574c70", 
+                    "on-primary": "#fef7ff", 
+                    "inverse-on-surface": "#a09ba1", 
+                    "secondary-fixed": "#eaddff", 
+                    "primary-fixed-dim": "#c7b1f0", 
+                    "primary-dim": "#5c4981", 
+                    "tertiary-fixed": "#fbc4e6", 
+                    "inverse-primary": "#d5bfff", 
+                    "secondary-fixed-dim": "#dccdf9", 
+                    "on-surface": "#35313a", 
+                    "surface-container-high": "#ede6f0", 
+                    "on-secondary-fixed": "#44395d", 
+                    "primary": "#68558d", 
+                    "on-tertiary-fixed-variant": "#6f4561", 
+                    "on-tertiary": "#fff7f8", 
+                    "tertiary-fixed-dim": "#edb7d8", 
+                    "secondary-dim": "#594d72", 
+                    "on-secondary-fixed-variant": "#61557b", 
+                    "secondary-container": "#eaddff", 
+                    "on-error-container": "#6e0523", 
+                    "on-background": "#35313a", 
+                    "inverse-surface": "#0f0d12", 
+                    "primary-fixed": "#d5bfff", 
+                    "surface": "#fef7fe", 
+                    "surface-container-highest": "#e7e0ec", 
+                    "on-surface-variant": "#625d67", 
+                    "on-error": "#fff7f7", 
+                    "error-container": "#f97386", 
+                    "outline": "#7e7983", 
+                    "surface-bright": "#fef7fe" 
+                }, 
+                fontFamily: { 
+                    "headline": ["Plus Jakarta Sans"], 
+                    "body": ["Inter"], 
+                    "label": ["Inter"] 
+                }, 
+                borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, 
+            }, 
+        }, 
+    } 
+</script> 
+<style> 
+    .material-symbols-outlined { 
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; 
+    } 
+    .headline-font { 
+        font-family: 'Plus Jakarta Sans', sans-serif; 
+    } 
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+</style> 
+{% endblock %}
+
+{% block content %}
+<div class="flex pt-16 min-h-screen bg-surface"> 
+    <!-- SideNavBar --> 
+    {% include 'includes/sidebar.html' %}
+
+    <!-- Main Wrapper --> 
+    <main class="lg:ml-64 flex-1 min-h-screen"> 
+        <!-- Content Area --> 
+        <div class="p-8 space-y-8"> 
+            <!-- Welcome Section --> 
+            <section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4"> 
+                <div> 
+                    <h2 class="text-3xl font-extrabold headline-font text-on-surface tracking-tight">{% trans "Аналитика обучения" %}</h2> 
+                    <p class="text-on-surface-variant mt-1 body-md">{% trans "Добро пожаловать обратно" %}, {{ user.get_full_name|default:user.username }}. {% trans "Вот что происходит в NetAcademy сегодня." %}</p> 
+                </div> 
+                <div class="flex gap-3"> 
+                    <button class="px-5 py-2.5 bg-surface-container-highest text-on-primary-container rounded-full font-semibold text-sm hover:shadow-md transition-all flex items-center gap-2"> 
+                        <span class="material-symbols-outlined text-sm">calendar_today</span> 
+                        {% trans "Последние 30 дней" %} 
+                    </button> 
+                    <a href="{% url 'dashboard:export_report' %}" class="px-5 py-2.5 bg-primary text-on-primary rounded-full font-semibold text-sm shadow-lg hover:shadow-xl transition-all flex items-center gap-2"> 
+                        <span class="material-symbols-outlined text-sm">download</span> 
+                        {% trans "Экспорт отчета" %} 
+                    </a> 
+                </div> 
+            </section> 
+
+            <!-- Overview Metrics Bento Grid --> 
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> 
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] hover:shadow-[0px_20px_40px_rgba(104,85,141,0.08)] transition-all border border-transparent hover:border-primary/10"> 
+                    <div class="flex justify-between items-start mb-4"> 
+                        <div class="w-12 h-12 rounded-2xl bg-primary-container/30 flex items-center justify-center"> 
+                            <span class="material-symbols-outlined text-primary">person</span> 
+                        </div> 
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">{% trans "+12%" %}</span> 
+                    </div> 
+                    <p class="text-sm font-medium text-on-surface-variant">{% trans "Всего студентов" %}</p> 
+                    <h3 class="text-3xl font-bold headline-font mt-1">{{ total_students }}</h3> 
+                </div> 
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] hover:shadow-[0px_20px_40px_rgba(104,85,141,0.08)] transition-all border border-transparent hover:border-primary/10"> 
+                    <div class="flex justify-between items-start mb-4"> 
+                        <div class="w-12 h-12 rounded-2xl bg-tertiary-container/30 flex items-center justify-center"> 
+                            <span class="material-symbols-outlined text-tertiary">task_alt</span> 
+                        </div> 
+                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">{% trans "-2%" %}</span> 
+                    </div> 
+                    <p class="text-sm font-medium text-on-surface-variant">{% trans "Средняя завершаемость" %}</p> 
+                    <h3 class="text-3xl font-bold headline-font mt-1">{{ avg_completion }}%</h3> 
+                </div> 
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] hover:shadow-[0px_20px_40px_rgba(104,85,141,0.08)] transition-all border border-transparent hover:border-primary/10"> 
+                    <div class="flex justify-between items-start mb-4"> 
+                        <div class="w-12 h-12 rounded-2xl bg-secondary-container/30 flex items-center justify-center"> 
+                            <span class="material-symbols-outlined text-secondary">bolt</span> 
+                        </div> 
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">{% trans "+5%" %}</span> 
+                    </div> 
+                    <p class="text-sm font-medium text-on-surface-variant">{% trans "Активны сегодня" %}</p> 
+                    <h3 class="text-3xl font-bold headline-font mt-1">{{ active_today }}</h3> 
+                </div> 
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] hover:shadow-[0px_20px_40px_rgba(104,85,141,0.08)] transition-all border border-transparent hover:border-primary/10"> 
+                    <div class="flex justify-between items-start mb-4"> 
+                        <div class="w-12 h-12 rounded-2xl bg-error-container/20 flex items-center justify-center"> 
+                            <span class="material-symbols-outlined text-error">grading</span> 
+                        </div> 
+                        <span class="text-xs font-bold text-primary bg-primary-container/20 px-2 py-1 rounded-full">{% trans "Новое" %}</span> 
+                    </div> 
+                    <p class="text-sm font-medium text-on-surface-variant">{% trans "Заявки Модуля 8" %}</p> 
+                    <h3 class="text-3xl font-bold headline-font mt-1">{{ module_8_submissions }}</h3> 
+                </div> 
+            </section> 
+
+            <!-- Secondary Layout Grid --> 
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> 
+                <!-- Performance Chart & Progress Table --> 
+                <div class="lg:col-span-2 space-y-8"> 
+                    <!-- Module Performance Chart --> 
+                    <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)]"> 
+                        <div class="flex justify-between items-center mb-8"> 
+                            <h4 class="text-lg font-bold headline-font">{% trans "Успеваемость по модулям" %}</h4> 
+                            <div class="flex items-center gap-2"> 
+                                <span class="w-3 h-3 rounded-full bg-primary"></span> 
+                                <span class="text-xs text-on-surface-variant">{% trans "Средний балл теста" %}</span> 
+                            </div> 
+                        </div> 
+                        <div class="h-64 flex items-end justify-between gap-4 px-4"> 
+                            {% for module in module_performance %}
+                            <div class="w-full flex flex-col items-center gap-3"> 
+                                <div class="w-full bg-primary/10 rounded-t-lg relative group h-full"> 
+                                    <div class="absolute inset-x-0 bottom-0 bg-primary/40 rounded-t-lg transition-all group-hover:bg-primary/60" style="height: {{ module.avg_score|floatformat:0|default:0 }}%;">
+                                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                            {{ module.avg_score|floatformat:1|default:0 }}%
+                                        </div>
+                                    </div> 
+                                </div> 
+                                <span class="text-[10px] font-bold text-on-surface-variant" title="{{ module.name }}">{% trans "M" %}{{ module.order }}</span> 
+                            </div> 
+                            {% endfor %}
+                        </div> 
+                    </div> 
+
+                    <!-- Progress Table --> 
+                    <div class="bg-surface-container-lowest rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] overflow-hidden"> 
+                        <div class="px-8 py-6 flex justify-between items-center border-b border-surface-container-low"> 
+                            <h4 class="text-lg font-bold headline-font">{% trans "Прогресс студентов" %}</h4> 
+                            <a href="{% url 'dashboard:students_list' %}" class="text-primary font-semibold text-sm hover:underline">{% trans "Все студенты" %}</a> 
+                        </div> 
+                        <div class="overflow-x-auto"> 
+                            <table class="w-full text-left"> 
+                                <thead class="bg-surface-container-low/50"> 
+                                    <tr> 
+                                        <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Имя" %}</th> 
+                                        <th class="px-4 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Текущий модуль" %}</th> 
+                                        <th class="px-4 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Активность" %}</th> 
+                                        <th class="px-4 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Балл (ср.)" %}</th> 
+                                        <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">{% trans "Действие" %}</th> 
+                                    </tr> 
+                                </thead> 
+                                <tbody class="divide-y divide-surface-container-low"> 
+                                    {% for student in recent_students_progress %}
+                                    <tr class="hover:bg-surface-container-low/30 transition-colors"> 
+                                        <td class="px-8 py-4"> 
+                                            <div class="flex items-center gap-3"> 
+                                                <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-primary text-xs font-bold">
+                                                    {{ student.username|slice:":1"|upper }}
+                                                </div> 
+                                                <span class="font-medium text-sm">{{ student.get_full_name|default:student.username }}</span> 
+                                            </div> 
+                                        </td> 
+                                        <td class="px-4 py-4 text-sm">
+                                            {% with last_p=student.progress.all.last %}
+                                                {% if last_p %}{{ last_p.module.name }}{% else %}{% trans "Нет прогресса" %}{% endif %}
+                                            {% endwith %}
+                                        </td> 
+                                        <td class="px-4 py-4 text-sm text-on-surface-variant">
+                                            {{ student.last_login|timesince }} {% trans "назад" %}
+                                        </td> 
+                                        <td class="px-4 py-4"> 
+                                            <span class="px-2 py-1 {% if student.avg_student_score >= 80 %}bg-emerald-50 text-emerald-700{% elif student.avg_student_score >= 50 %}bg-amber-50 text-amber-700{% else %}bg-error-container/10 text-error{% endif %} text-xs font-bold rounded">
+                                                {{ student.avg_student_score|floatformat:0|default:0 }}%
+                                            </span> 
+                                        </td> 
+                                        <td class="px-8 py-4 text-right"> 
+                                            <a href="{% url 'dashboard:student_detail' student.id %}" class="text-primary hover:text-primary-dim transition-colors inline-block"> 
+                                                <span class="material-symbols-outlined">visibility</span> 
+                                            </a> 
+                                        </td> 
+                                    </tr> 
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="px-8 py-8 text-center text-on-surface-variant italic">
+                                            {% trans "Студентов пока нет" %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody> 
+                            </table> 
+                        </div> 
+                    </div> 
+                </div> 
+
+                <!-- Right Sidebar: Activity & Quick Actions --> 
+                <div class="space-y-8"> 
+                    <!-- Quick Actions --> 
+                    <section class="bg-[#8E7AB5] p-6 rounded-2xl shadow-lg text-white"> 
+                        <h4 class="text-lg font-bold headline-font mb-4">{% trans "Быстрые действия" %}</h4>
+                        <div class="space-y-3">
+                            <a href="{% url 'dashboard:create_module' %}" class="w-full py-3 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold text-sm">
+                                <span class="material-symbols-outlined text-sm">add</span>
+                                {% trans "Создать новый модуль" %}
+                            </a>
+                            <a href="{% url 'dashboard:mail_students' %}" class="w-full py-3 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold text-sm">
+                                <span class="material-symbols-outlined text-sm">mail</span>
+                                {% trans "Рассылка студентам" %}
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Recent Global Activity -->
+                    <section class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)]">
+                        <h4 class="text-lg font-bold headline-font mb-6">{% trans "Последняя активность" %}</h4>
+                        <div class="space-y-6">
+                            {% for progress in recent_progress %}
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary shrink-0">
+                                    <span class="material-symbols-outlined text-sm">check_circle</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-on-surface">{{ progress.user.username }}</p>
+                                    <p class="text-xs text-on-surface-variant">{% trans "Завершил" %} {{ progress.module.name }}</p>
+                                    <p class="text-[10px] text-outline mt-1">{{ progress.completed_at|timesince }} {% trans "назад" %}</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="text-xs text-on-surface-variant italic">{% trans "Активности пока нет" %}</p>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div> 
+            </div> 
+        </div> 
+    </main> 
+</div> 
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ title }} - NetAcad Ethereal{% endblock %}
+
+{% block content %}
+<div class="bg-surface pt-16 min-h-screen">
+    <div class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-8">
+            <a href="{% url 'home' %}" class="hover:text-primary transition-colors">{% trans "Главная" %}</a>
+            <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+            <span class="text-primary">{{ title }}</span>
+        </nav>
+
+        <header class="mb-12 border-b border-outline-variant/30 pb-8">
+            <h1 class="text-4xl md:text-5xl font-black text-on-surface tracking-tight mb-4">{{ title }}</h1>
+            <div class="flex items-center gap-4 text-sm text-on-surface-variant italic">
+                <span class="material-symbols-outlined text-primary text-sm">event</span>
+                {% trans "Последнее обновление: 28 марта 2026 года" %}
+            </div>
+        </header>
+        
+        <div class="prose prose-slate dark:prose-invert max-w-none text-on-surface-variant leading-relaxed space-y-12">
+            
+            {% if page_type == 'privacy' %}
+            <!-- Privacy Policy Content -->
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">1</span>
+                    {% trans "Введение" %}
+                </h2>
+                <p>
+                    {% trans "Настоящая Политика конфиденциальности (далее — «Политика») описывает, как NetAcad Ethereal (далее — «мы», «платформа») собирает, использует, хранит и защищает информацию о пользователях («вы», «студенты», «преподаватели»). Мы придаем первостепенное значение защите ваших персональных данных и стремимся обеспечить полную прозрачность в вопросах их обработки в соответствии с Законом Республики Казахстан «О персональных данных и их защите»." %}
+                </p>
+            </section>
+
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">2</span>
+                    {% trans "Сбор информации" %}
+                </h2>
+                <p>{% trans "Мы собираем следующие категории данных:" %}</p>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li><strong>{% trans "Данные учетной записи:" %}</strong> {% trans "имя пользователя, адрес электронной почты, пароль (в зашифрованном виде), роль в системе." %}</li>
+                    <li><strong>{% trans "Данные профиля:" %}</strong> {% trans "фотография профиля (аватар), биография, предпочтения по языку интерфейса." %}</li>
+                    <li><strong>{% trans "Учебный прогресс:" %}</strong> {% trans "результаты тестов, время, затраченное на модули, количество ошибок, статус прохождения лабораторных работ." %}</li>
+                    <li><strong>{% trans "Технические данные:" %}</strong> {% trans "IP-адрес, тип браузера, информация о сессиях (через cookies) для обеспечения безопасности и стабильности работы." %}</li>
+                </ul>
+            </section>
+
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">3</span>
+                    {% trans "Цели обработки данных" %}
+                </h2>
+                <p>{% trans "Ваша информация используется исключительно для следующих целей:" %}</p>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li>{% trans "Обеспечение функционирования учебного процесса и личного кабинета." %}</li>
+                    <li>{% trans "Анализ успеваемости и предоставление обратной связи (для преподавателей)." %}</li>
+                    <li>{% trans "Персонализация интерфейса (выбор языка, темная/светлая тема)." %}</li>
+                    <li>{% trans "Обеспечение безопасности аккаунта и предотвращение мошенничества." %}</li>
+                    <li>{% trans "Связь с вами по важным вопросам работы платформы." %}</li>
+                </ul>
+            </section>
+
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">4</span>
+                    {% trans "Защита и хранение" %}
+                </h2>
+                <p>
+                    {% trans "Мы используем современные методы шифрования (SSL/TLS) для защиты данных при передаче. Пароли хранятся с использованием надежных алгоритмов хеширования (PBKDF2). Ваши данные хранятся на защищенных серверах с ограниченным доступом." %}
+                </p>
+                <p>
+                    {% trans "Мы никогда не продаем и не передаем ваши персональные данные третьим лицам в маркетинговых целях." %}
+                </p>
+            </section>
+
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">5</span>
+                    {% trans "Ваши права" %}
+                </h2>
+                <p>{% trans "Вы имеете право:" %}</p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>{% trans "Получать доступ к своим данным и изменять их через настройки профиля." %}</li>
+                    <li>{% trans "Запрашивать удаление своего аккаунта и всех связанных данных." %}</li>
+                    <li>{% trans "Отозвать согласие на обработку данных (что может привести к невозможности использования платформы)." %}</li>
+                </ul>
+            </section>
+
+            {% elif page_type == 'terms' %}
+            <!-- Terms of Service Content -->
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">1</span>
+                    {% trans "Правила использования" %}
+                </h2>
+                <p>
+                    {% trans "Используя платформу NetAcad Ethereal, вы соглашаетесь соблюдать правила академической честности. Запрещается использование автоматизированных скриптов для прохождения тестов или попытки взлома системы." %}
+                </p>
+            </section>
+            
+            <section class="space-y-6">
+                <h2 class="text-2xl font-bold text-on-surface flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-sm">2</span>
+                    {% trans "Интеллектуальная собственность" %}
+                </h2>
+                <p>
+                    {% trans "Весь учебный контент, включая текст лекций, изображения, видео и структуру курсов, является интеллектуальной собственностью платформы или ее авторов и защищен законом об авторском праве." %}
+                </p>
+            </section>
+
+            {% else %}
+            <!-- Generic/Fallback Content -->
+            <section class="space-y-4">
+                <h2 class="text-2xl font-bold text-on-surface">{% trans "Общие положения" %}</h2>
+                <p>{% trans "Данный документ описывает правила и условия использования платформы NetAcad Ethereal." %}</p>
+            </section>
+            {% endif %}
+
+            <div class="mt-16 p-8 bg-surface-container-high rounded-3xl border border-outline-variant/30 flex flex-col md:flex-row items-center gap-8 shadow-sm">
+                <div class="w-16 h-16 rounded-2xl bg-primary text-on-primary flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-3xl">contact_support</span>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="text-xl font-bold text-on-surface mb-2">{% trans "Остались вопросы?" %}</h4>
+                    <p class="text-sm text-on-surface-variant">
+                        {% trans "Если вам нужны разъяснения по поводу юридических аспектов работы платформы, наша служба поддержки всегда готова помочь." %}
+                    </p>
+                </div>
+                <a href="{% url 'dashboard:support' %}" class="px-8 py-4 bg-primary text-on-primary rounded-full text-sm font-bold shadow-lg hover:scale-[1.03] transition-all shrink-0">
+                    {% trans "Связаться с нами" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

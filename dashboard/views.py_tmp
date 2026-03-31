@@ -1,0 +1,78 @@
+@login_required
+def grades_view(request):
+    """Страница журнала оценок для студентов и преподавателей"""
+    # Если это преподаватель или админ
+    if request.user.role == 'teacher' or request.user.is_superuser:
+        # Получаем всех студентов с их прогрессом и лабами
+        students = User.objects.filter(role='student').prefetch_related('progress', 'lab_progress')
+        total_modules = Module.objects.count()
+        
+        students_grades = []
+        for student in students:
+            # Получаем все завершенные оценки (тесты и лабы)
+            test_scores = [p.score for p in student.progress.all() if p.is_completed]
+            lab_scores = [p.score for p in student.lab_progress.all() if p.is_completed]
+            all_scores = test_scores + lab_scores
+            
+            # Средняя оценка за выполненные задания (100 баллов = 100%)
+            avg_score = round(sum(all_scores) / len(all_scores)) if all_scores else 0
+            
+            # Общий прогресс курса (сколько заданий выполнено из всех возможных)
+            completed_tests = student.progress.filter(is_completed=True).count()
+            completed_labs = student.lab_progress.filter(is_completed=True).count()
+            
+            # Прогресс в % от всего курса
+            progress_percent = int(((completed_tests + completed_labs) / (total_modules * 2)) * 100) if total_modules > 0 else 0
+            
+            # Последний активный модуль
+            last_p = student.progress.order_by('-completed_at').first()
+            current_module = last_p.module.name if last_p else _("Не начато")
+
+            students_grades.append({
+                'user': student,
+                'avg_score': avg_score, # Это оценка (0-100%)
+                'progress_percent': progress_percent, # Это завершенность курса
+                'current_module': current_module,
+                'needs_attention': avg_score < 60 and (completed_tests > 0 or completed_labs > 0)
+            })
+
+        # Общая аналитика для карточек
+        all_avg_scores = [s['avg_score'] for s in students_grades if s['progress_percent'] > 0]
+        class_avg = round(sum(all_avg_scores) / len(all_avg_scores)) if all_avg_scores else 0
+        needs_attention_count = sum(1 for s in students_grades if s['needs_attention'])
+
+        context = {
+            'is_teacher': True,
+            'students_grades': students_grades,
+            'total_modules_count': total_modules,
+            'class_avg': class_avg,
+            'needs_attention_count': needs_attention_count,
+        }
+    else:
+        # Для студента - его собственные оценки
+        test_progress = UserProgress.objects.filter(user=request.user).select_related('module')
+        lab_progress = LabProgress.objects.filter(user=request.user).select_related('lab', 'lab__module')
+        
+        test_map = {p.module_id: p for p in test_progress}
+        lab_map = {p.lab.module_id: p for p in lab_progress}
+        
+        modules = Module.objects.all().order_by('order')
+        grades = []
+        for module in modules:
+            test = test_map.get(module.id)
+            lab = lab_map.get(module.id)
+            grades.append({
+                'module': module,
+                'test_score': test.score if test else '-',
+                'test_completed': test.is_completed if test else False,
+                'lab_score': lab.score if lab else '-',
+                'lab_completed': lab.is_completed if lab else False,
+            })
+            
+        context = {
+            'is_teacher': False,
+            'grades': grades,
+            **get_course_progress(request.user)
+        }
+        
+    return render(request, 'dashboard/grades.html', context)

@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Симулятор TCP" %} | {% trans "NetAcad Ethereal" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .material-symbols-outlined { 
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; 
+    } 
+    .glass-panel { 
+        background: rgba(254, 247, 254, 0.6); 
+        backdrop-filter: blur(16px); 
+        -webkit-backdrop-filter: blur(16px); 
+    } 
+    .network-line { 
+        background-image: radial-gradient(circle, #b6b0bb 1px, transparent 1px); 
+        background-size: 20px 20px; 
+    }
+    @keyframes packet-slide {
+        0% { left: 10%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { left: 80%; opacity: 0; }
+    }
+    @keyframes packet-slide-reverse {
+        0% { left: 80%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { left: 10%; opacity: 0; }
+    }
+    .anim-forward { animation: packet-slide 2s linear forwards; }
+    .anim-backward { animation: packet-slide-reverse 2s linear forwards; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex min-h-screen bg-surface pt-16"> 
+    <!-- SideNavBar --> 
+    {% include 'includes/sidebar.html' %}
+
+    <!-- Main Content Canvas --> 
+    <main class="flex-1 lg:ml-64 p-8 bg-surface-container-low min-h-screen"> 
+        <div class="max-w-7xl mx-auto"> 
+            <!-- Header & Breadcrumbs --> 
+            <div class="flex justify-between items-end mb-12"> 
+                <div> 
+                    <div class="flex items-center gap-2 text-sm text-outline mb-2"> 
+                        <span>{{ module.name }}</span> 
+                        <span class="material-symbols-outlined text-xs">chevron_right</span> 
+                        <span class="text-primary font-medium">{% trans "TCP Handshake" %}</span> 
+                    </div> 
+                    <h1 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface">{% trans "Анимация 3-стороннего рукопожатия TCP" %}</h1> 
+                    <p class="text-on-surface-variant mt-2 max-w-xl">{% trans "Изучите фундаментальный механизм надежной передачи данных. Симулируйте потоки пакетов, анализируйте переходы заголовков." %}</p> 
+                </div> 
+                <div class="flex gap-4"> 
+                    <div id="lab-score-display" class="px-6 py-2.5 rounded-full bg-primary/10 text-primary font-bold flex items-center gap-2">
+                        {% trans "Прогресс" %}: <span id="current-score">0</span>%
+                    </div>
+                    <button id="start-sim" class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 transition-all"> 
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span> {% trans "Запустить симуляцию" %}
+                    </button> 
+                </div> 
+            </div> 
+
+            <!-- Bento Grid Layout --> 
+            <div class="grid grid-cols-12 gap-6"> 
+                <!-- Main Animation Canvas --> 
+                <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-3xl p-8 shadow-[0px_20px_40px_rgba(104,85,141,0.04)] relative overflow-hidden network-line"> 
+                    <div class="flex justify-between items-center mb-12 relative z-10"> 
+                        <div class="flex items-center gap-4"> 
+                            <div class="bg-secondary-container p-3 rounded-2xl"> 
+                                <span class="material-symbols-outlined text-on-secondary-container">computer</span> 
+                            </div> 
+                            <div> 
+                                <h3 class="font-bold text-lg">Client Node</h3> 
+                                <p class="text-xs text-outline">192.168.1.10</p> 
+                            </div> 
+                        </div> 
+                        <div class="h-[2px] flex-1 mx-8 bg-gradient-to-r from-primary to-tertiary relative"> 
+                            <div id="packet-visual" class="hidden absolute top-1/2 -translate-y-1/2 w-8 h-8 bg-surface-container-lowest border-2 border-primary rounded-lg flex items-center justify-center shadow-md z-20"> 
+                                <span class="material-symbols-outlined text-primary text-sm">mail</span> 
+                            </div> 
+                            <div id="client-state-tag" class="absolute -top-8 left-0 bg-surface px-3 py-1 rounded-full text-[10px] font-bold text-primary border border-primary/20"> 
+                                CLOSED 
+                            </div> 
+                            <div id="server-state-tag" class="absolute -top-8 right-0 bg-surface px-3 py-1 rounded-full text-[10px] font-bold text-tertiary border border-tertiary/20"> 
+                                LISTENING 
+                            </div>
+                        </div> 
+                        <div class="flex items-center gap-4 text-right"> 
+                            <div> 
+                                <h3 class="font-bold text-lg">Server Node</h3> 
+                                <p class="text-xs text-outline">10.0.0.5</p> 
+                            </div> 
+                            <div class="bg-tertiary-container p-3 rounded-2xl"> 
+                                <span class="material-symbols-outlined text-on-tertiary-container">dns</span> 
+                            </div> 
+                        </div> 
+                    </div> 
+
+                    <!-- Visualization Floor --> 
+                    <div class="h-64 flex items-center justify-center relative"> 
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 rounded-3xl"></div> 
+                        <div class="z-10 flex flex-col items-center gap-6"> 
+                            <div class="flex gap-12"> 
+                                <div class="w-1 bg-outline-variant/20 h-48 rounded-full relative"> 
+                                    <div id="client-indicator" class="absolute top-0 -left-1.5 w-4 h-4 rounded-full bg-slate-300 border-4 border-surface transition-all duration-500"></div> 
+                                </div> 
+                                <div class="w-1 bg-outline-variant/20 h-48 rounded-full relative"> 
+                                    <div id="server-indicator" class="absolute top-0 -left-1.5 w-4 h-4 rounded-full bg-slate-300 border-4 border-surface transition-all duration-500"></div> 
+                                </div> 
+                            </div> 
+                            <div class="flex gap-4"> 
+                                <button id="step-btn" class="bg-surface-container-highest px-4 py-2 rounded-xl text-xs font-bold hover:bg-primary hover:text-white transition-all">{% trans "ШАГ ВПЕРЕД" %}</button> 
+                                <button id="reset-btn" class="bg-surface-container-highest px-4 py-2 rounded-xl text-xs font-bold hover:bg-error hover:text-white transition-all">{% trans "СБРОС" %}</button> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+
+                <!-- Simulation Controls --> 
+                <div class="col-span-12 lg:col-span-4 flex flex-col gap-6"> 
+                    <div class="bg-primary text-on-primary rounded-3xl p-6 shadow-xl shadow-primary/20"> 
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"> 
+                            <span class="material-symbols-outlined">tune</span> {% trans "Параметры" %}
+                        </h3> 
+                        <div class="space-y-6"> 
+                            <div> 
+                                <div class="flex justify-between text-xs font-bold mb-2"> 
+                                    <span>{% trans "ЗАДЕРЖКА СЕТИ" %}</span> 
+                                    <span id="latency-val">45ms</span> 
+                                </div> 
+                                <input id="latency-range" class="w-full h-1.5 bg-primary-dim rounded-full appearance-none cursor-pointer accent-primary-fixed" type="range" min="10" max="200" value="45"/> 
+                            </div> 
+                            <div> 
+                                <div class="flex justify-between text-xs font-bold mb-2"> 
+                                    <span>{% trans "ПОТЕРЯ ПАКЕТОВ" %}</span> 
+                                    <span class="text-tertiary-container">0%</span> 
+                                </div> 
+                                <div class="h-1.5 bg-primary-dim rounded-full overflow-hidden"> 
+                                    <div class="h-full w-0 bg-tertiary-container"></div> 
+                                </div> 
+                            </div> 
+                        </div> 
+                    </div> 
+                    <div class="bg-surface-container-highest rounded-3xl p-6"> 
+                        <h3 class="font-bold text-on-surface mb-4 flex items-center gap-2"> 
+                            <span class="material-symbols-outlined">history</span> {% trans "Лог практики" %}
+                        </h3> 
+                        <div id="lab-log" class="space-y-3"> 
+                            <div class="text-xs text-on-surface-variant italic">{% trans "Нажмите 'Запустить' для начала..." %}</div>
+                        </div> 
+                    </div> 
+                </div> 
+
+                <!-- Header Analysis --> 
+                <div class="col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm"> 
+                    <div class="flex items-center justify-between mb-8"> 
+                        <div> 
+                            <h3 class="text-2xl font-bold font-headline">{% trans "Анализ заголовка сегмента TCP" %}</h3> 
+                            <p class="text-on-surface-variant text-sm">{% trans "Инспекция текущего пакета на уровне бит" %}</p> 
+                        </div> 
+                    </div> 
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-1" id="header-grid"> 
+                        <div class="col-span-2 border border-outline-variant/20 p-4 bg-surface-container-low/30"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Source Port</p> 
+                            <p id="h-src-port" class="font-mono text-lg text-primary">-</p> 
+                        </div> 
+                        <div class="col-span-2 border border-outline-variant/20 p-4 bg-surface-container-low/30"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Dest Port</p> 
+                            <p id="h-dst-port" class="font-mono text-lg text-tertiary">-</p> 
+                        </div> 
+                        <div class="col-span-4 border border-outline-variant/20 p-4 bg-primary/5"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Sequence Number</p> 
+                            <p id="h-seq" class="font-mono text-lg">-</p> 
+                        </div> 
+                        <div class="col-span-4 border border-outline-variant/20 p-4 bg-surface-container-low/30"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Acknowledgment Number</p> 
+                            <p id="h-ack" class="font-mono text-lg text-outline">-</p> 
+                        </div> 
+                        <div class="col-span-1 border border-outline-variant/20 p-4 bg-surface-container-low/30"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Offset</p> 
+                            <p class="font-mono text-lg">5</p> 
+                        </div> 
+                        <div id="h-flags-box" class="col-span-1 border border-outline-variant/20 p-4 bg-surface-container-low/30 transition-colors"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Flags</p> 
+                            <p id="h-flags" class="font-mono text-lg font-bold">-</p> 
+                        </div> 
+                        <div class="col-span-2 border border-outline-variant/20 p-4 bg-surface-container-low/30"> 
+                            <p class="text-[10px] font-bold text-outline mb-1 uppercase tracking-tighter">Window Size</p> 
+                            <p class="font-mono text-lg">64240</p> 
+                        </div> 
+                    </div> 
+                    <div class="mt-8 p-6 bg-surface-container-high rounded-2xl flex items-center gap-6"> 
+                        <span class="material-symbols-outlined text-4xl text-primary">info</span> 
+                        <div> 
+                            <h4 class="font-bold">{% trans "Заметка архитектора" %}</h4> 
+                            <p class="text-sm text-on-surface-variant">{% trans "Начальный номер последовательности (ISN) выбирается случайно для защиты от атак. В симуляции мы используем упрощенные значения." %}</p> 
+                        </div> 
+                    </div> 
+                    <button id="finalize-btn" class="w-full mt-8 py-4 bg-primary text-white rounded-2xl font-bold shadow-xl hover:scale-[1.01] transition-all hidden">
+                        {% trans "Завершить практику и сохранить результат" %}
+                    </button>
+                </div> 
+            </div> 
+        </div> 
+    </main> 
+</div> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startBtn = document.getElementById('start-sim');
+        const stepBtn = document.getElementById('step-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const finalizeBtn = document.getElementById('finalize-btn');
+        const packet = document.getElementById('packet-visual');
+        const log = document.getElementById('lab-log');
+        const scoreDisplay = document.getElementById('current-score');
+        
+        const clientTag = document.getElementById('client-state-tag');
+        const serverTag = document.getElementById('server-state-tag');
+        const clientInd = document.getElementById('client-indicator');
+        const serverInd = document.getElementById('server-indicator');
+
+        // Header elements
+        const hSrc = document.getElementById('h-src-port');
+        const hDst = document.getElementById('h-dst-port');
+        const hSeq = document.getElementById('h-seq');
+        const hAck = document.getElementById('h-ack');
+        const hFlags = document.getElementById('h-flags');
+        const hFlagsBox = document.getElementById('h-flags-box');
+
+        let step = 0;
+        let score = 0;
+        let isRunning = false;
+
+        function addLog(msg, colorClass = 'text-on-surface') {
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = `flex gap-3 items-start border-l-2 pl-4 py-1 border-primary/20 ${colorClass}`;
+            div.innerHTML = `<span class="text-[10px] font-mono text-outline mt-1">${time}</span><p class="text-xs">${msg}</p>`;
+            log.prepend(div);
+        }
+
+        function updateHeader(src, dst, seq, ack, flags) {
+            hSrc.innerText = src;
+            hDst.innerText = dst;
+            hSeq.innerText = seq;
+            hAck.innerText = ack;
+            hFlags.innerText = flags;
+            hFlagsBox.className = flags !== '-' ? 'col-span-1 border border-outline-variant/20 p-4 bg-primary text-on-primary' : 'col-span-1 border border-outline-variant/20 p-4 bg-surface-container-low/30';
+        }
+
+        async function nextStep() {
+            if (isRunning) return;
+            isRunning = true;
+            step++;
+
+            if (step === 1) {
+                // SYN
+                clientTag.innerText = 'SYN_SENT';
+                clientInd.style.top = '20%';
+                clientInd.classList.replace('bg-slate-300', 'bg-primary');
+                
+                updateHeader('49152', '80', '100', '0', 'SYN');
+                packet.classList.remove('hidden');
+                packet.classList.add('anim-forward');
+                addLog('{% trans "Клиент отправляет" %} <b>SYN</b> (Seq=100)', 'text-primary');
+                
+                await new Promise(r => setTimeout(r, 2000));
+                packet.classList.add('hidden');
+                packet.classList.remove('anim-forward');
+                serverTag.innerText = 'SYN_RECEIVED';
+                serverInd.style.top = '20%';
+                serverInd.classList.replace('bg-slate-300', 'bg-tertiary');
+                score = 33;
+            } else if (step === 2) {
+                // SYN-ACK
+                updateHeader('80', '49152', '500', '101', 'SYN, ACK');
+                packet.classList.remove('hidden');
+                packet.classList.add('anim-backward');
+                addLog('{% trans "Сервер отвечает" %} <b>SYN-ACK</b> (Seq=500, Ack=101)', 'text-tertiary');
+
+                await new Promise(r => setTimeout(r, 2000));
+                packet.classList.add('hidden');
+                packet.classList.remove('anim-backward');
+                clientInd.style.top = '50%';
+                serverInd.style.top = '50%';
+                score = 66;
+            } else if (step === 3) {
+                // ACK
+                updateHeader('49152', '80', '101', '501', 'ACK');
+                packet.classList.remove('hidden');
+                packet.classList.add('anim-forward');
+                addLog('{% trans "Клиент отправляет" %} <b>ACK</b> (Seq=101, Ack=501)', 'text-primary');
+
+                await new Promise(r => setTimeout(r, 2000));
+                packet.classList.add('hidden');
+                packet.classList.remove('anim-forward');
+                
+                clientTag.innerText = 'ESTABLISHED';
+                serverTag.innerText = 'ESTABLISHED';
+                clientInd.style.top = '90%';
+                serverInd.style.top = '90%';
+                clientInd.classList.replace('bg-primary', 'bg-green-500');
+                serverInd.classList.replace('bg-tertiary', 'bg-green-500');
+                
+                addLog('<b>{% trans "Соединение УСТАНОВЛЕНО" %}</b>', 'text-green-600 font-bold');
+                score = 100;
+                finalizeBtn.classList.remove('hidden');
+                stepBtn.disabled = true;
+                stepBtn.classList.add('opacity-50');
+            }
+
+            scoreDisplay.innerText = score;
+            isRunning = false;
+        }
+
+        startBtn.onclick = () => {
+            if (step === 0) nextStep();
+        };
+
+        stepBtn.onclick = nextStep;
+
+        resetBtn.onclick = () => location.reload();
+
+        finalizeBtn.onclick = () => {
+            fetch("{% url 'laboratory:save_progress' lab.id %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    score: score,
+                    completed: score === 100
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('{% trans "Результат сохранен!" %}');
+                    window.location.href = "{% url 'laboratory:list' %}";
+                }
+            });
+        };
+    });
+</script>
+{% endblock %}

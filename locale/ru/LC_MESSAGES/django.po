@@ -1,0 +1,4696 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-30 02:50+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\accounts\forms.py:24 .\accounts\forms.py:170
+#: .\templates\accounts\login.html:143 .\templates\accounts\profile.html:196
+#: .\templates\accounts\register.html:173
+msgid "Пароль"
+msgstr ""
+
+#: .\accounts\forms.py:34 .\templates\accounts\register.html:193
+msgid "Подтвердите пароль"
+msgstr ""
+
+#: .\accounts\forms.py:44
+msgid "Необходимо принять условия"
+msgstr ""
+
+#: .\accounts\forms.py:68
+msgid "Этот email уже зарегистрирован"
+msgstr ""
+
+#: .\accounts\forms.py:75
+msgid "Необходимо принять условия обслуживания"
+msgstr ""
+
+#: .\accounts\forms.py:98 .\accounts\forms.py:102
+#: .\templates\accounts\profile.html:130
+#: .\templates\dashboard\teacher_index.html:201
+#: .\templates\laboratory\office_lab.html:254
+msgid "Имя"
+msgstr ""
+
+#: .\accounts\forms.py:107 .\accounts\forms.py:111
+#: .\templates\accounts\profile.html:139
+msgid "Фамилия"
+msgstr ""
+
+#: .\accounts\forms.py:116 .\accounts\forms.py:120 .\accounts\models.py:42
+#: .\templates\accounts\profile.html:148
+msgid "О себе"
+msgstr ""
+
+#: .\accounts\forms.py:126 .\accounts\models.py:35
+msgid "Аватар"
+msgstr ""
+
+#: .\accounts\forms.py:141
+msgid "Этот email уже используется."
+msgstr ""
+
+#: .\accounts\forms.py:158 .\templates\accounts\login.html:121
+#: .\templates\accounts\register.html:135
+msgid "Электронная почта"
+msgstr ""
+
+#: .\accounts\forms.py:180 .\accounts\views.py:177
+msgid "Неверный email или пароль."
+msgstr ""
+
+#: .\accounts\forms.py:181
+msgid "Этот аккаунт не активен."
+msgstr ""
+
+#: .\accounts\models.py:8 .\dashboard\views.py:150
+#: .\templates\accounts\login.html:102 .\templates\accounts\register.html:114
+#: .\templates\dashboard\grades.html:99
+#: .\templates\dashboard\students_list.html:29
+msgid "Студент"
+msgstr ""
+
+#: .\accounts\models.py:9 .\templates\accounts\login.html:107
+#: .\templates\accounts\register.html:120
+msgid "Преподаватель"
+msgstr ""
+
+#: .\accounts\models.py:13 .\templates\accounts\profile.html:230
+#: .\templates\base.html:225
+msgid "Русский"
+msgstr ""
+
+#: .\accounts\models.py:14 .\templates\accounts\profile.html:237
+#: .\templates\base.html:227
+msgid "Қазақша"
+msgstr ""
+
+#: .\accounts\models.py:21
+msgid "Роль"
+msgstr ""
+
+#: .\accounts\models.py:28 .\templates\accounts\profile.html:222
+msgid "Язык интерфейса"
+msgstr ""
+
+#: .\accounts\models.py:47
+msgid "Email подтвержден"
+msgstr ""
+
+#: .\accounts\models.py:54
+msgid "Код подтверждения"
+msgstr ""
+
+#: .\accounts\models.py:60
+msgid "Срок действия кода"
+msgstr ""
+
+#: .\accounts\models.py:66
+msgid "Последняя отправка кода"
+msgstr ""
+
+#: .\accounts\models.py:71 .\templates\dashboard\student_detail.html:39
+msgid "Дата регистрации"
+msgstr ""
+
+#: .\accounts\models.py:75 .\accounts\models.py:84 .\courses\models.py:67
+#: .\courses\models.py:95 .\laboratory\models.py:22
+msgid "Пользователь"
+msgstr ""
+
+#: .\accounts\models.py:76
+msgid "Пользователи"
+msgstr ""
+
+#: .\accounts\models.py:85 .\courses\models.py:115 .\laboratory\models.py:8
+msgid "Заголовок"
+msgstr ""
+
+#: .\accounts\models.py:86
+msgid "Сообщение"
+msgstr ""
+
+#: .\accounts\models.py:87
+msgid "Прочитано"
+msgstr ""
+
+#: .\accounts\models.py:88 .\laboratory\models.py:12
+msgid "Дата создания"
+msgstr ""
+
+#: .\accounts\models.py:91
+msgid "Уведомление"
+msgstr ""
+
+#: .\accounts\models.py:92 .\templates\accounts\notifications.html:5
+#: .\templates\accounts\notifications.html:19
+#: .\templates\dashboard\index.html:133 .\templates\includes\sidebar.html:96
+msgid "Уведомления"
+msgstr ""
+
+#: .\accounts\views.py:92
+msgid "Профиль успешно обновлён!"
+msgstr ""
+
+#: .\accounts\views.py:95 .\accounts\views.py:124
+msgid "Пожалуйста, исправьте ошибки в форме."
+msgstr ""
+
+#: .\accounts\views.py:121
+msgid "Регистрация успешна! Теперь вы можете войти."
+msgstr ""
+
+#: .\accounts\views.py:157
+#, python-brace-format
+msgid "Добро пожаловать, {}!"
+msgstr ""
+
+#: .\accounts\views.py:196
+msgid "Email успешно подтверждён!"
+msgstr ""
+
+#: .\accounts\views.py:199
+msgid "Неверный или просроченный код."
+msgstr ""
+
+#: .\accounts\views.py:213
+msgid "Подождите перед повторной отправкой."
+msgstr ""
+
+#: .\accounts\views.py:225
+msgid "Новый код отправлен на ваш email."
+msgstr ""
+
+#: .\core\views.py:13 .\templates\404.html:172 .\templates\500.html:185
+#: .\templates\base.html:210
+msgid "Политика конфиденциальности"
+msgstr ""
+
+#: .\core\views.py:14 .\templates\404.html:173 .\templates\500.html:186
+#: .\templates\base.html:211
+msgid "Условия использования"
+msgstr ""
+
+#: .\core\views.py:15
+msgid "Политика использования cookies"
+msgstr ""
+
+#: .\core\views.py:18
+msgid "Юридическая информация"
+msgstr ""
+
+#: .\courses\forms.py:12
+msgid "Введите название материала..."
+msgstr ""
+
+#: .\courses\forms.py:16
+msgid "Краткое описание содержимого..."
+msgstr ""
+
+#: .\courses\models.py:7 .\templates\dashboard\create_module.html:36
+#: .\templates\dashboard\edit_module.html:36
+msgid "Название модуля"
+msgstr ""
+
+#: .\courses\models.py:8
+msgid "Слаг"
+msgstr ""
+
+#: .\courses\models.py:9 .\templates\dashboard\create_module.html:45
+#: .\templates\dashboard\edit_module.html:45
+msgid "Порядок"
+msgstr ""
+
+#: .\courses\models.py:10 .\courses\models.py:116 .\laboratory\models.py:9
+msgid "Описание"
+msgstr ""
+
+#: .\courses\models.py:11
+msgid "Изображение модуля"
+msgstr ""
+
+#: .\courses\models.py:12
+msgid "Ссылка на видео (YouTube)"
+msgstr ""
+
+#: .\courses\models.py:13 .\templates\dashboard\create_module.html:103
+#: .\templates\dashboard\edit_module.html:102
+msgid "Дополнительный файл"
+msgstr ""
+
+#: .\courses\models.py:14
+msgid "Изменен преподавателем"
+msgstr ""
+
+#: .\courses\models.py:17 .\courses\models.py:37 .\courses\models.py:68
+#: .\dashboard\views.py:152 .\laboratory\models.py:7
+#: .\templates\courses\generic_module.html:20
+#: .\templates\courses\introduction.html:33
+#: .\templates\courses\ip_addressing.html:33 .\templates\courses\lan.html:34
+#: .\templates\courses\osi_model.html:30 .\templates\courses\osi_model.html:31
+#: .\templates\courses\protocols.html:30 .\templates\courses\roadmap.html:75
+#: .\templates\courses\roadmap.html:109
+#: .\templates\courses\test_results.html:72
+#: .\templates\dashboard\grades.html:160
+#: .\templates\dashboard\student_detail.html:59
+#: .\templates\includes\sidebar.html:67
+msgid "Модуль"
+msgstr ""
+
+#: .\courses\models.py:18
+msgid "Модули"
+msgstr ""
+
+#: .\courses\models.py:28 .\courses\translations.py:38
+msgid "Легкий"
+msgstr ""
+
+#: .\courses\models.py:29 .\courses\translations.py:39
+msgid "Средний"
+msgstr ""
+
+#: .\courses\models.py:30 .\courses\translations.py:40
+msgid "Сложный"
+msgstr ""
+
+#: .\courses\models.py:33 .\courses\translations.py:33
+msgid "Концептуальный анализ"
+msgstr ""
+
+#: .\courses\models.py:34 .\courses\translations.py:34
+msgid "Практическое применение"
+msgstr ""
+
+#: .\courses\models.py:35 .\courses\translations.py:35
+msgid "Поиск неисправностей"
+msgstr ""
+
+#: .\courses\models.py:38
+msgid "Текст вопроса"
+msgstr ""
+
+#: .\courses\models.py:39
+msgid "Подсказка"
+msgstr ""
+
+#: .\courses\models.py:40 .\templates\courses\final_project.html:175
+msgid "Сложность"
+msgstr ""
+
+#: .\courses\models.py:41
+msgid "Категория"
+msgstr ""
+
+#: .\courses\models.py:44 .\courses\models.py:53 .\courses\models.py:96
+#: .\templates\courses\module_test.html:166
+msgid "Вопрос"
+msgstr ""
+
+#: .\courses\models.py:45
+msgid "Вопросы"
+msgstr ""
+
+#: .\courses\models.py:54
+msgid "Текст ответа"
+msgstr ""
+
+#: .\courses\models.py:55
+msgid "Верный?"
+msgstr ""
+
+#: .\courses\models.py:58
+msgid "Вариант ответа"
+msgstr ""
+
+#: .\courses\models.py:59
+msgid "Варианты ответа"
+msgstr ""
+
+#: .\courses\models.py:69
+msgid "Завершен?"
+msgstr ""
+
+#: .\courses\models.py:70
+msgid "Баллы за тест"
+msgstr ""
+
+#: .\courses\models.py:71
+msgid "Время (в секундах)"
+msgstr ""
+
+#: .\courses\models.py:72
+msgid "Количество ошибок"
+msgstr ""
+
+#: .\courses\models.py:73 .\dashboard\views.py:156 .\laboratory\models.py:27
+msgid "Дата завершения"
+msgstr ""
+
+#: .\courses\models.py:76
+msgid "Прогресс пользователя"
+msgstr ""
+
+#: .\courses\models.py:77
+msgid "Прогресс пользователей"
+msgstr ""
+
+#: .\courses\models.py:81 .\dashboard\views.py:153
+#: .\templates\dashboard\student_detail.html:77
+msgid "Завершен"
+msgstr ""
+
+#: .\courses\models.py:81 .\templates\courses\list.html:77
+#: .\templates\dashboard\student_detail.html:82
+#: .\templates\laboratory\lab_simulator.html:53
+msgid "В процессе"
+msgstr ""
+
+#: .\courses\models.py:97
+msgid "Выбранный ответ"
+msgstr ""
+
+#: .\courses\models.py:98
+msgid "Верно?"
+msgstr ""
+
+#: .\courses\models.py:101
+msgid "Ответ пользователя"
+msgstr ""
+
+#: .\courses\models.py:102
+msgid "Ответы пользователей"
+msgstr ""
+
+#: .\courses\models.py:109
+msgid "Книга"
+msgstr ""
+
+#: .\courses\models.py:110
+msgid "Документ"
+msgstr ""
+
+#: .\courses\models.py:111
+msgid "Презентация"
+msgstr ""
+
+#: .\courses\models.py:112
+msgid "Другое"
+msgstr ""
+
+#: .\courses\models.py:117
+msgid "Файл"
+msgstr ""
+
+#: .\courses\models.py:118 .\templates\courses\add_resource.html:69
+msgid "Тип ресурса"
+msgstr ""
+
+#: .\courses\models.py:119
+msgid "Загрузил"
+msgstr ""
+
+#: .\courses\models.py:120
+msgid "Дата загрузки"
+msgstr ""
+
+#: .\courses\models.py:123
+msgid "Ресурс"
+msgstr ""
+
+#: .\courses\models.py:124
+msgid "Ресурсы"
+msgstr ""
+
+#: .\courses\translations.py:4 .\templates\core\legal.html:31
+#: .\templates\courses\osi_model.html:193
+msgid "Введение"
+msgstr ""
+
+#: .\courses\translations.py:5 .\templates\accounts\register.html:77
+#: .\templates\courses\introduction.html:232 .\templates\courses\tcp_ip.html:55
+#: .\templates\courses\tcp_ip.html:78
+msgid "Модель OSI"
+msgstr ""
+
+#: .\courses\translations.py:6 .\templates\courses\protocols.html:238
+#: .\templates\courses\tcp_ip.html:101
+msgid "IP-адресация"
+msgstr ""
+
+#: .\courses\translations.py:7
+msgid "Протоколы TCP/IP"
+msgstr ""
+
+#: .\courses\translations.py:8
+msgid "Локальные сети (LAN)"
+msgstr ""
+
+#: .\courses\translations.py:9
+msgid "Сетевая безопасность"
+msgstr ""
+
+#: .\courses\translations.py:10
+msgid "Клиент-серверная архитектура"
+msgstr ""
+
+#: .\courses\translations.py:11 .\templates\courses\lan.html:192
+#: .\templates\courses\routing.html:65
+msgid "Коммутация"
+msgstr ""
+
+#: .\courses\translations.py:12 .\templates\accounts\register.html:82
+#: .\templates\courses\security.html:182 .\templates\courses\switching.html:92
+msgid "Маршрутизация"
+msgstr ""
+
+#: .\courses\translations.py:13 .\templates\courses\osi_model.html:216
+msgid "Стек TCP/IP"
+msgstr ""
+
+#: .\courses\translations.py:14 .\templates\courses\cloud.html:66
+#: .\templates\courses\security.html:207
+msgid "Беспроводные сети"
+msgstr ""
+
+#: .\courses\translations.py:15 .\templates\courses\client_server.html:206
+#: .\templates\courses\wireless.html:104
+msgid "Облачные сети"
+msgstr ""
+
+#: .\courses\translations.py:16
+msgid "Финальный проект"
+msgstr ""
+
+#: .\courses\translations.py:19 .\templates\courses\introduction.html:36
+msgid ""
+"Освойте структурные основы цифрового мира. От битов до глобальных веб-"
+"масштабов, выстройте свое понимание связности."
+msgstr ""
+
+#: .\courses\translations.py:20
+msgid ""
+"Глубокое погружение в 7 уровней эталонной модели OSI. Поймите, как данные "
+"путешествуют от приложения к физическому кабелю."
+msgstr ""
+
+#: .\courses\translations.py:21
+msgid ""
+"Разберитесь в магии чисел: IPv4, IPv6, маски подсети и CIDR. Научитесь "
+"проектировать адресное пространство."
+msgstr ""
+
+#: .\courses\translations.py:22 .\templates\courses\protocols.html:31
+msgid ""
+"Глубокое погружение в логические механизмы, которые управляют интернетом. От "
+"надежности TCP до скорости UDP и структуры DNS."
+msgstr ""
+
+#: .\courses\translations.py:23
+msgid ""
+"Постройте фундамент связности. Узнайте, как устройства общаются внутри одной "
+"сети через Ethernet, Wi-Fi и коммутаторы."
+msgstr ""
+
+#: .\courses\translations.py:24
+msgid ""
+"Защитите свои данные. Изучите принципы шифрования, межсетевые экраны и "
+"методы предотвращения кибератак."
+msgstr ""
+
+#: .\courses\translations.py:25 .\templates\courses\client_server.html:44
+msgid ""
+"Освойте фундаментальный цикл запрос-ответ, принципы RESTful и сложное "
+"взаимодействие между Python-бэкендом и базами данных SQL."
+msgstr ""
+
+#: .\courses\translations.py:26
+msgid ""
+"Узнайте, как данные находят путь внутри локальной сети. Изучите работу "
+"коммутаторов, MAC-адреса и VLAN."
+msgstr ""
+
+#: .\courses\translations.py:27
+msgid ""
+"Освойте принципы передачи данных между сетями. Изучите статическую и "
+"динамическую маршрутизацию, протоколы OSPF и BGP."
+msgstr ""
+
+#: .\courses\translations.py:28 .\templates\courses\final_project.html:46
+msgid ""
+"Синтезируйте свои знания в области маршрутизации, коммутации и безопасности "
+"для проектирования надежной корпоративной инфраструктуры."
+msgstr ""
+
+#: .\courses\translations.py:29 .\templates\courses\cloud.html:37
+msgid ""
+"Облачные технологии меняют ландшафт сетевой инфраструктуры. Мы разберем "
+"модели облаков (IaaS, PaaS, SaaS) и концепцию программно-определяемых сетей "
+"(SDN)."
+msgstr ""
+
+#: .\courses\translations.py:30 .\templates\courses\lan.html:35
+msgid ""
+"Освойте ручную настройку IP-адресов в Windows/Linux, диагностические команды "
+"и новейшие протоколы безопасности WPA3."
+msgstr ""
+
+#: .\courses\views.py:106
+msgid ""
+"Вы не можете получить доступ к этому модулю, пока не завершите предыдущий."
+msgstr ""
+
+#: .\courses\views.py:129
+msgid "Тест недоступен, пока не завершен предыдущий модуль."
+msgstr ""
+
+#: .\courses\views.py:146
+msgid "Тест аннулирован из-за переключения вкладки."
+msgstr ""
+
+#: .\courses\views.py:192
+#, python-brace-format
+msgid "Тест пройден! Ваш результат: {}/{}"
+msgstr ""
+
+#: .\courses\views.py:194
+#, python-brace-format
+msgid "Тест не пройден. Ваш результат: {}/{}. Нужно минимум {}%."
+msgstr ""
+
+#: .\courses\views.py:225 .\courses\views.py:227
+msgid "Средняя"
+msgstr ""
+
+#: .\courses\views.py:263
+msgid "У вас нет прав для добавления материалов."
+msgstr ""
+
+#: .\courses\views.py:272
+msgid "Материал успешно добавлен!"
+msgstr ""
+
+#: .\courses\views.py:287
+msgid "Материал удален."
+msgstr ""
+
+#: .\dashboard\views.py:151 .\templates\dashboard\student_detail.html:31
+#: .\templates\dashboard\students_list.html:30
+msgid "Email"
+msgstr ""
+
+#: .\dashboard\views.py:154 .\laboratory\models.py:25
+#: .\templates\dashboard\test_results.html:60
+msgid "Баллы"
+msgstr ""
+
+#: .\dashboard\views.py:155 .\templates\courses\test_results.html:152
+#: .\templates\dashboard\test_results.html:74
+msgid "Ошибки"
+msgstr ""
+
+#: .\dashboard\views.py:165
+msgid "Да"
+msgstr ""
+
+#: .\dashboard\views.py:165
+msgid "Нет"
+msgstr ""
+
+#: .\dashboard\views.py:230
+#, python-brace-format
+msgid "Модуль '{}' успешно создан."
+msgstr ""
+
+#: .\dashboard\views.py:269
+#, python-brace-format
+msgid "Модуль '{}' успешно обновлен."
+msgstr ""
+
+#: .\dashboard\views.py:293
+#, python-brace-format
+msgid "Модуль '{}' сброшен к исходному состоянию."
+msgstr ""
+
+#: .\dashboard\views.py:304
+#, python-brace-format
+msgid "Модуль '{}' успешно удален."
+msgstr ""
+
+#: .\dashboard\views.py:330
+msgid "Сообщение успешно отправлено всем студентам."
+msgstr ""
+
+#: .\dashboard\views.py:393
+msgid "Не начато"
+msgstr ""
+
+#: .\laboratory\models.py:10 .\templates\laboratory\lab_simulator.html:94
+msgid "Подсказки"
+msgstr ""
+
+#: .\laboratory\models.py:10
+msgid "Подсказки по командам терминала"
+msgstr ""
+
+#: .\laboratory\models.py:11
+msgid "Данные сценария"
+msgstr ""
+
+#: .\laboratory\models.py:11
+msgid "Конфигурация симуляции (узлы, связи, команды)"
+msgstr ""
+
+#: .\laboratory\models.py:15 .\laboratory\models.py:23
+#: .\templates\laboratory\lab_simulator.html:47
+msgid "Лабораторная работа"
+msgstr ""
+
+#: .\laboratory\models.py:16
+msgid "Лабораторные работы"
+msgstr ""
+
+#: .\laboratory\models.py:24
+msgid "Завершено?"
+msgstr ""
+
+#: .\laboratory\models.py:26
+msgid "История команд"
+msgstr ""
+
+#: .\laboratory\models.py:30
+msgid "Прогресс лабы"
+msgstr ""
+
+#: .\laboratory\models.py:31
+msgid "Прогресс лаб"
+msgstr ""
+
+#: .\templates\404.html:7
+msgid "Пакет потерян | 404"
+msgstr ""
+
+#: .\templates\404.html:101 .\templates\500.html:98
+msgid "Язык: RU/KZ"
+msgstr ""
+
+#: .\templates\404.html:138
+msgid "Пакет"
+msgstr ""
+
+#: .\templates\404.html:138
+msgid "потерян"
+msgstr ""
+
+#: .\templates\404.html:141
+msgid ""
+"Запрошенный маршрут не найден в текущей таблице коммутации. Возможно, узел "
+"был временно отключен или адрес был введен с ошибкой."
+msgstr ""
+
+#: .\templates\404.html:146
+msgid "Вернуться в сеть"
+msgstr ""
+
+#: .\templates\404.html:150
+msgid "Диагностика"
+msgstr ""
+
+#: .\templates\404.html:169 .\templates\500.html:182
+msgid "Разработано Inkar Bolatovna. Построено на Python, Django & MySQL."
+msgstr ""
+
+#: .\templates\404.html:174 .\templates\500.html:187
+#: .\templates\dashboard\support.html:5 .\templates\includes\sidebar.html:119
+msgid "Поддержка"
+msgstr ""
+
+#: .\templates\500.html:7
+msgid "Критический сбой узла | 500"
+msgstr ""
+
+#: .\templates\500.html:114
+msgid "Критический сбой узла"
+msgstr ""
+
+#: .\templates\500.html:115
+msgid ""
+"Сервер не отвечает. Поток данных прерван в секторе Aether Mesh. Наши "
+"архитекторы уже занимаются восстановлением структуры."
+msgstr ""
+
+#: .\templates\500.html:120
+msgid "Повторить запрос"
+msgstr ""
+
+#: .\templates\500.html:124
+msgid "На главную"
+msgstr ""
+
+#: .\templates\about.html:5 .\templates\base.html:127
+msgid "О сервисе"
+msgstr ""
+
+#: .\templates\about.html:41
+msgid "Архитектура обучения"
+msgstr ""
+
+#: .\templates\about.html:45
+msgid "Погружение в мир"
+msgstr ""
+
+#: .\templates\about.html:45
+msgid "Сетевых Технологий"
+msgstr ""
+
+#: .\templates\about.html:49
+msgid ""
+"Инновационная образовательная платформа, созданная для тех, кто стремится "
+"освоить архитектуру современных сетей через призму современных технологий "
+"стека Python, Django и MySQL."
+msgstr ""
+
+#: .\templates\about.html:54 .\templates\courses\roadmap.html:93
+#: .\templates\courses\roadmap.html:127 .\templates\home.html:24
+msgid "Начать обучение"
+msgstr ""
+
+#: .\templates\about.html:57 .\templates\home.html:28
+msgid "Программа курса"
+msgstr ""
+
+#: .\templates\about.html:65
+msgid "Абстрактные 3D сетевые узлы и светящиеся соединения"
+msgstr ""
+
+#: .\templates\about.html:81 .\templates\courses\osi_model.html:166
+msgid "База данных"
+msgstr ""
+
+#: .\templates\about.html:89
+msgid "Бэкенд"
+msgstr ""
+
+#: .\templates\about.html:102
+msgid "Трехкомпонентная модель обучения"
+msgstr ""
+
+#: .\templates\about.html:105
+msgid ""
+"Мы разработали систему, которая гарантирует полное усвоение материала через "
+"цикл: знание, действие и проверка."
+msgstr ""
+
+#: .\templates\about.html:115 .\templates\home.html:56
+msgid "Теория"
+msgstr ""
+
+#: .\templates\about.html:117
+msgid ""
+"Глубокое изучение сетевых протоколов, моделей OSI и TCP/IP через "
+"интерактивные лекции и структурированные модули."
+msgstr ""
+
+#: .\templates\about.html:126 .\templates\courses\client_server.html:213
+#: .\templates\courses\cloud.html:73 .\templates\courses\final_project.html:258
+#: .\templates\courses\introduction.html:214
+#: .\templates\courses\ip_addressing.html:246 .\templates\courses\lan.html:175
+#: .\templates\courses\osi_model.html:199
+#: .\templates\courses\protocols.html:245 .\templates\courses\routing.html:71
+#: .\templates\courses\security.html:189 .\templates\courses\switching.html:75
+#: .\templates\courses\tcp_ip.html:84 .\templates\courses\wireless.html:86
+#: .\templates\home.html:67
+msgid "Практика"
+msgstr ""
+
+#: .\templates\about.html:128
+msgid ""
+"Реальные лабораторные работы в виртуальной среде. Настройка маршрутизации и "
+"коммутации в реальном времени."
+msgstr ""
+
+#: .\templates\about.html:137 .\templates\home.html:78
+msgid "Тестирование"
+msgstr ""
+
+#: .\templates\about.html:139
+msgid ""
+"Адаптивные тесты после каждого модуля для закрепления знаний и подготовки к "
+"сертификационным экзаменам."
+msgstr ""
+
+#: .\templates\about.html:153
+msgid "Портрет Инкар Болатовны"
+msgstr ""
+
+#: .\templates\about.html:161
+msgid "Автор Проекта"
+msgstr ""
+
+#: .\templates\about.html:163 .\templates\accounts\register.html:90
+#: .\templates\courses\client_server.html:48
+#: .\templates\courses\final_project.html:53
+#: .\templates\courses\introduction.html:41
+#: .\templates\courses\ip_addressing.html:40 .\templates\courses\lan.html:40
+#: .\templates\courses\list.html:123 .\templates\courses\osi_model.html:156
+#: .\templates\courses\protocols.html:36 .\templates\courses\security.html:40
+msgid "Инкар Болатовна"
+msgstr ""
+
+#: .\templates\about.html:167
+msgid ""
+"Миссия проекта — сделать качественное сетевое образование доступным и "
+"интерактивным."
+msgstr ""
+
+#: .\templates\about.html:173 .\templates\courses\final_project.html:52
+#: .\templates\courses\lan.html:39
+msgid "Автор"
+msgstr ""
+
+#: .\templates\about.html:177
+msgid "Активных студентов"
+msgstr ""
+
+#: .\templates\about.html:193
+msgid "Двуязычная поддержка (RU/KZ)"
+msgstr ""
+
+#: .\templates\about.html:196
+msgid ""
+"Платформа NetAcad Ethereal полностью поддерживает русский и казахский языки, "
+"обеспечивая доступ к знаниям для каждого студента."
+msgstr ""
+
+#: .\templates\about.html:202
+msgid "Русский язык"
+msgstr ""
+
+#: .\templates\about.html:206
+msgid "Қазақ тілі"
+msgstr ""
+
+#: .\templates\accounts\login.html:63
+msgid "Сетевое обучение"
+msgstr ""
+
+#: .\templates\accounts\login.html:66
+msgid "Обучающий"
+msgstr ""
+
+#: .\templates\accounts\login.html:66
+msgid "веб-сервис"
+msgstr ""
+
+#: .\templates\accounts\login.html:66
+msgid "по сетевым технологиям"
+msgstr ""
+
+#: .\templates\accounts\login.html:69
+msgid ""
+"Погрузитесь в архитектуру данных с помощью передовых курсов и интерактивных "
+"лабораторных работ."
+msgstr ""
+
+#: .\templates\accounts\login.html:79
+msgid "Умная система построения сетей"
+msgstr ""
+
+#: .\templates\accounts\login.html:90
+msgid "Добро пожаловать"
+msgstr ""
+
+#: .\templates\accounts\login.html:93
+msgid "Выберите роль и войдите в систему"
+msgstr ""
+
+#: .\templates\accounts\login.html:146
+msgid "Забыли пароль?"
+msgstr ""
+
+#: .\templates\accounts\login.html:167
+msgid "Запомнить меня"
+msgstr ""
+
+#: .\templates\accounts\login.html:184
+msgid "Войти в кабинет"
+msgstr ""
+
+#: .\templates\accounts\login.html:195 .\templates\accounts\register.html:254
+msgid "Или через"
+msgstr ""
+
+#: .\templates\accounts\login.html:202
+msgid "Продолжить через Google"
+msgstr ""
+
+#: .\templates\accounts\login.html:207
+msgid "Нет аккаунта?"
+msgstr ""
+
+#: .\templates\accounts\login.html:209
+msgid "Создать профиль"
+msgstr ""
+
+#: .\templates\accounts\notifications.html:22
+msgid "Важные обновления и сообщения системы."
+msgstr ""
+
+#: .\templates\accounts\notifications.html:60
+msgid "Уведомлений пока нет"
+msgstr ""
+
+#: .\templates\accounts\notifications.html:62
+msgid "Мы сообщим вам, когда появится что-то важное."
+msgstr ""
+
+#: .\templates\accounts\password_change_done.html:4
+#: .\templates\accounts\password_change_done.html:11
+msgid "Пароль изменен"
+msgstr ""
+
+#: .\templates\accounts\password_change_done.html:12
+msgid ""
+"Ваш пароль был успешно изменен. Теперь вы можете использовать новый пароль "
+"для входа."
+msgstr ""
+
+#: .\templates\accounts\password_change_done.html:15
+#: .\templates\accounts\password_change_form.html:37
+msgid "Вернуться в профиль"
+msgstr ""
+
+#: .\templates\accounts\password_change_form.html:4
+#: .\templates\accounts\password_change_form.html:8
+msgid "Смена пароля"
+msgstr ""
+
+#: .\templates\accounts\password_change_form.html:9
+msgid "Введите ваш старый пароль, а затем дважды введите новый пароль."
+msgstr ""
+
+#: .\templates\accounts\password_change_form.html:31
+#: .\templates\accounts\password_reset_confirm.html:15
+msgid "Сменить пароль"
+msgstr ""
+
+#: .\templates\accounts\password_reset_complete.html:4
+msgid "Пароль изменён"
+msgstr ""
+
+#: .\templates\accounts\password_reset_complete.html:8
+msgid "Готово!"
+msgstr ""
+
+#: .\templates\accounts\password_reset_complete.html:9
+msgid "Ваш пароль успешно изменён. Теперь вы можете войти."
+msgstr ""
+
+#: .\templates\accounts\password_reset_complete.html:11
+#: .\templates\accounts\register.html:244 .\templates\base.html:155
+msgid "Войти"
+msgstr ""
+
+#: .\templates\accounts\password_reset_confirm.html:4
+msgid "Новый пароль"
+msgstr ""
+
+#: .\templates\accounts\password_reset_confirm.html:8
+msgid "Придумайте новый пароль"
+msgstr ""
+
+#: .\templates\accounts\password_reset_confirm.html:19
+msgid "Ссылка недействительна или уже использована."
+msgstr ""
+
+#: .\templates\accounts\password_reset_confirm.html:21
+msgid "Запросить новую ссылку"
+msgstr ""
+
+#: .\templates\accounts\password_reset_done.html:4
+msgid "Письмо отправлено"
+msgstr ""
+
+#: .\templates\accounts\password_reset_done.html:8
+msgid "Проверьте почту"
+msgstr ""
+
+#: .\templates\accounts\password_reset_done.html:9
+msgid ""
+"Если аккаунт с таким email существует, вы получите инструкцию по сбросу "
+"пароля."
+msgstr ""
+
+#: .\templates\accounts\password_reset_done.html:11
+#: .\templates\accounts\password_reset_form.html:21
+msgid "Вернуться ко входу"
+msgstr ""
+
+#: .\templates\accounts\password_reset_email.html:2
+#, python-format
+msgid ""
+"Вы получаете это письмо, потому что запросили сброс пароля для аккаунта на "
+"сайте %(site_name)s."
+msgstr ""
+
+#: .\templates\accounts\password_reset_email.html:4
+msgid "Пожалуйста, перейдите по ссылке и выберите новый пароль:"
+msgstr ""
+
+#: .\templates\accounts\password_reset_email.html:9
+msgid "Ваше имя пользователя:"
+msgstr ""
+
+#: .\templates\accounts\password_reset_email.html:11
+msgid "Спасибо, что пользуетесь нашим сайтом!"
+msgstr ""
+
+#: .\templates\accounts\password_reset_email.html:13
+#, python-format
+msgid "Команда %(site_name)s"
+msgstr ""
+
+#: .\templates\accounts\password_reset_form.html:4
+msgid "Сброс пароля"
+msgstr ""
+
+#: .\templates\accounts\password_reset_form.html:8
+msgid "Восстановление пароля"
+msgstr ""
+
+#: .\templates\accounts\password_reset_form.html:9
+msgid "Введите email, и мы отправим инструкцию по сбросу пароля."
+msgstr ""
+
+#: .\templates\accounts\password_reset_form.html:15
+msgid "Отправить ссылку"
+msgstr ""
+
+#: .\templates\accounts\password_reset_subject.txt:1
+msgid "Сброс пароля - NetAcad Ethereal"
+msgstr ""
+
+#: .\templates\accounts\profile.html:5
+#: .\templates\dashboard\test_results.html:81
+msgid "Профиль"
+msgstr ""
+
+#: .\templates\accounts\profile.html:86
+msgid "Настройки профиля"
+msgstr ""
+
+#: .\templates\accounts\profile.html:89
+msgid "Управляйте своими личными данными и предпочтениями аккаунта."
+msgstr ""
+
+#: .\templates\accounts\profile.html:102
+msgid "Личная информация"
+msgstr ""
+
+#: .\templates\accounts\profile.html:113
+msgid "Аватар пользователя"
+msgstr ""
+
+#: .\templates\accounts\profile.html:120
+msgid "Загрузить фото"
+msgstr ""
+
+#: .\templates\accounts\profile.html:169
+msgid "Отменить"
+msgstr ""
+
+#: .\templates\accounts\profile.html:172
+#: .\templates\dashboard\edit_module.html:123
+msgid "Сохранить изменения"
+msgstr ""
+
+#: .\templates\accounts\profile.html:182
+msgid "Безопасность аккаунта"
+msgstr ""
+
+#: .\templates\accounts\profile.html:187
+msgid "Email адрес"
+msgstr ""
+
+#: .\templates\accounts\profile.html:190
+msgid "Изменение email временно недоступно"
+msgstr ""
+
+#: .\templates\accounts\profile.html:191 .\templates\courses\list.html:109
+msgid "Изменить"
+msgstr ""
+
+#: .\templates\accounts\profile.html:197
+msgid "Последнее изменение: 3 месяца назад"
+msgstr ""
+
+#: .\templates\accounts\profile.html:200
+msgid "Сменить"
+msgstr ""
+
+#: .\templates\accounts\profile.html:215
+msgid "Предпочтения"
+msgstr ""
+
+#: .\templates\accounts\profile.html:249
+msgid "Тема оформления"
+msgstr ""
+
+#: .\templates\accounts\profile.html:256 .\templates\base.html:232
+#: .\templates\base.html:249
+msgid "Светлая"
+msgstr ""
+
+#: .\templates\accounts\profile.html:262 .\templates\base.html:248
+msgid "Тёмная"
+msgstr ""
+
+#: .\templates\accounts\profile.html:275 .\templates\accounts\register.html:69
+#: .\templates\accounts\verify_email.html:61
+msgid "Обучающий веб-сервис по сетевым технологиям"
+msgstr ""
+
+#: .\templates\accounts\register.html:6
+msgid "Регистрация"
+msgstr ""
+
+#: .\templates\accounts\register.html:72
+msgid ""
+"Погрузитесь в мир сетевой архитектуры с помощью передовых визуализаций и "
+"практических модулей."
+msgstr ""
+
+#: .\templates\accounts\register.html:78
+msgid "Глубокое погружение в уровни протоколов"
+msgstr ""
+
+#: .\templates\accounts\register.html:83
+msgid "Освоение динамического поиска пути"
+msgstr ""
+
+#: .\templates\accounts\register.html:91 .\templates\includes\sidebar.html:12
+msgid "Сетевой архитектор"
+msgstr ""
+
+#: .\templates\accounts\register.html:101
+msgid "Создать аккаунт"
+msgstr ""
+
+#: .\templates\accounts\register.html:104
+msgid "Начните свой путь в сетевую инженерию"
+msgstr ""
+
+#: .\templates\accounts\register.html:154
+msgid "Имя пользователя"
+msgstr ""
+
+#: .\templates\accounts\register.html:213
+msgid "Я согласен с"
+msgstr ""
+
+#: .\templates\accounts\register.html:215
+msgid "Условиями обслуживания"
+msgstr ""
+
+#: .\templates\accounts\register.html:236 .\templates\home.html:308
+msgid "Зарегистрироваться"
+msgstr ""
+
+#: .\templates\accounts\register.html:242
+msgid "Уже есть аккаунт?"
+msgstr ""
+
+#: .\templates\accounts\register.html:261
+msgid "Зарегистрироваться через Google"
+msgstr ""
+
+#: .\templates\accounts\register.html:274
+msgid "Условия обслуживания"
+msgstr ""
+
+#: .\templates\accounts\register.html:282
+msgid "Общие правила"
+msgstr ""
+
+#: .\templates\accounts\register.html:283
+msgid ""
+"Используя платформу NetAcad Ethereal, вы обязуетесь соблюдать правила "
+"академической честности. Платформа предназначена исключительно для "
+"образовательных целей."
+msgstr ""
+
+#: .\templates\accounts\register.html:286
+msgid "Аккаунт пользователя"
+msgstr ""
+
+#: .\templates\accounts\register.html:287
+msgid ""
+"Вы несете ответственность за безопасность своего пароля. Запрещается "
+"передача данных учетной записи третьим лицам."
+msgstr ""
+
+#: .\templates\accounts\register.html:290
+msgid "Контент"
+msgstr ""
+
+#: .\templates\accounts\register.html:291
+msgid ""
+"Весь учебный контент является интеллектуальной собственностью. Копирование и "
+"распространение материалов без согласия администрации запрещено."
+msgstr ""
+
+#: .\templates\accounts\register.html:294
+msgid "Ответственность"
+msgstr ""
+
+#: .\templates\accounts\register.html:295
+msgid ""
+"Администрация не несет ответственности за временные перебои в работе "
+"сервиса, вызванные техническими работами или проблемами на стороне "
+"провайдеров."
+msgstr ""
+
+#: .\templates\accounts\register.html:301
+msgid "Я понимаю и принимаю условия"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:70
+msgid "Подтвердите вашу почту"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:73
+#, python-format
+msgid ""
+"\n"
+"                        Мы отправили 6-значный код на вашу электронную почту "
+"<strong>%(email)s</strong>. \n"
+"                        Пожалуйста, введите его ниже для активации "
+"аккаунта.\n"
+"                        "
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:119
+msgid "Подтвердить"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:127
+msgid "Не получили код?"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:133
+msgid "Отправить повторно"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:150
+msgid "Вернуться к регистрации"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:235
+msgid "Пожалуйста, введите все 6 цифр кода"
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:287
+msgid "Код отправлен повторно! Проверьте вашу почту."
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:295
+msgid "Ошибка отправки кода. Попробуйте позже."
+msgstr ""
+
+#: .\templates\accounts\verify_email.html:299
+msgid "Ошибка соединения. Проверьте интернет и попробуйте снова."
+msgstr ""
+
+#: .\templates\base.html:121 .\templates\base.html:198
+#: .\templates\courses\generic_module.html:4
+#: .\templates\dashboard\grades.html:5 .\templates\dashboard\grades.html:32
+#: .\templates\dashboard\teacher_index.html:5 .\templates\home.html:4
+msgid "Computer Networks"
+msgstr ""
+
+#: .\templates\base.html:125 .\templates\core\legal.html:11
+#: .\templates\home.html:4
+msgid "Главная"
+msgstr ""
+
+#: .\templates\base.html:126 .\templates\courses\roadmap.html:5
+msgid "План обучения"
+msgstr ""
+
+#: .\templates\base.html:128 .\templates\dashboard\index.html:59
+msgid "Курсы"
+msgstr ""
+
+#: .\templates\base.html:130 .\templates\courses\test_results.html:34
+#: .\templates\dashboard\index.html:5
+msgid "Панель"
+msgstr ""
+
+#: .\templates\base.html:151
+msgid "Выход"
+msgstr ""
+
+#: .\templates\base.html:200
+msgid ""
+"© 2024 Computer Networks. Автор: Инкар Болатовна. Стек: Python/Django, MySQL."
+msgstr ""
+
+#: .\templates\base.html:209
+msgid "Навигация"
+msgstr ""
+
+#: .\templates\base.html:212
+msgid "Контакты"
+msgstr ""
+
+#: .\templates\base.html:213
+msgid "Cookies"
+msgstr ""
+
+#: .\templates\base.html:217
+msgid "Настройки системы"
+msgstr ""
+
+#: .\templates\base.html:224
+msgid "Язык:"
+msgstr ""
+
+#: .\templates\base.html:232
+msgid "Тема:"
+msgstr ""
+
+#: .\templates\base.html:240
+msgid ""
+"Разработано с использованием современных практик сетевого администрирования "
+"и педагогического дизайна."
+msgstr ""
+
+#: .\templates\core\legal.html:20
+msgid "Последнее обновление: 28 марта 2026 года"
+msgstr ""
+
+#: .\templates\core\legal.html:34
+msgid ""
+"Настоящая Политика конфиденциальности (далее — «Политика») описывает, как "
+"NetAcad Ethereal (далее — «мы», «платформа») собирает, использует, хранит и "
+"защищает информацию о пользователях («вы», «студенты», «преподаватели»). Мы "
+"придаем первостепенное значение защите ваших персональных данных и стремимся "
+"обеспечить полную прозрачность в вопросах их обработки в соответствии с "
+"Законом Республики Казахстан «О персональных данных и их защите»."
+msgstr ""
+
+#: .\templates\core\legal.html:41
+msgid "Сбор информации"
+msgstr ""
+
+#: .\templates\core\legal.html:43
+msgid "Мы собираем следующие категории данных:"
+msgstr ""
+
+#: .\templates\core\legal.html:45
+msgid "Данные учетной записи:"
+msgstr ""
+
+#: .\templates\core\legal.html:45
+msgid ""
+"имя пользователя, адрес электронной почты, пароль (в зашифрованном виде), "
+"роль в системе."
+msgstr ""
+
+#: .\templates\core\legal.html:46
+msgid "Данные профиля:"
+msgstr ""
+
+#: .\templates\core\legal.html:46
+msgid ""
+"фотография профиля (аватар), биография, предпочтения по языку интерфейса."
+msgstr ""
+
+#: .\templates\core\legal.html:47
+msgid "Учебный прогресс:"
+msgstr ""
+
+#: .\templates\core\legal.html:47
+msgid ""
+"результаты тестов, время, затраченное на модули, количество ошибок, статус "
+"прохождения лабораторных работ."
+msgstr ""
+
+#: .\templates\core\legal.html:48
+msgid "Технические данные:"
+msgstr ""
+
+#: .\templates\core\legal.html:48
+msgid ""
+"IP-адрес, тип браузера, информация о сессиях (через cookies) для обеспечения "
+"безопасности и стабильности работы."
+msgstr ""
+
+#: .\templates\core\legal.html:55
+msgid "Цели обработки данных"
+msgstr ""
+
+#: .\templates\core\legal.html:57
+msgid "Ваша информация используется исключительно для следующих целей:"
+msgstr ""
+
+#: .\templates\core\legal.html:59
+msgid "Обеспечение функционирования учебного процесса и личного кабинета."
+msgstr ""
+
+#: .\templates\core\legal.html:60
+msgid ""
+"Анализ успеваемости и предоставление обратной связи (для преподавателей)."
+msgstr ""
+
+#: .\templates\core\legal.html:61
+msgid "Персонализация интерфейса (выбор языка, темная/светлая тема)."
+msgstr ""
+
+#: .\templates\core\legal.html:62
+msgid "Обеспечение безопасности аккаунта и предотвращение мошенничества."
+msgstr ""
+
+#: .\templates\core\legal.html:63
+msgid "Связь с вами по важным вопросам работы платформы."
+msgstr ""
+
+#: .\templates\core\legal.html:70
+msgid "Защита и хранение"
+msgstr ""
+
+#: .\templates\core\legal.html:73
+msgid ""
+"Мы используем современные методы шифрования (SSL/TLS) для защиты данных при "
+"передаче. Пароли хранятся с использованием надежных алгоритмов хеширования "
+"(PBKDF2). Ваши данные хранятся на защищенных серверах с ограниченным "
+"доступом."
+msgstr ""
+
+#: .\templates\core\legal.html:76
+msgid ""
+"Мы никогда не продаем и не передаем ваши персональные данные третьим лицам в "
+"маркетинговых целях."
+msgstr ""
+
+#: .\templates\core\legal.html:83
+msgid "Ваши права"
+msgstr ""
+
+#: .\templates\core\legal.html:85
+msgid "Вы имеете право:"
+msgstr ""
+
+#: .\templates\core\legal.html:87
+msgid "Получать доступ к своим данным и изменять их через настройки профиля."
+msgstr ""
+
+#: .\templates\core\legal.html:88
+msgid "Запрашивать удаление своего аккаунта и всех связанных данных."
+msgstr ""
+
+#: .\templates\core\legal.html:89
+msgid ""
+"Отозвать согласие на обработку данных (что может привести к невозможности "
+"использования платформы)."
+msgstr ""
+
+#: .\templates\core\legal.html:98
+msgid "Правила использования"
+msgstr ""
+
+#: .\templates\core\legal.html:101
+msgid ""
+"Используя платформу NetAcad Ethereal, вы соглашаетесь соблюдать правила "
+"академической честности. Запрещается использование автоматизированных "
+"скриптов для прохождения тестов или попытки взлома системы."
+msgstr ""
+
+#: .\templates\core\legal.html:108
+msgid "Интеллектуальная собственность"
+msgstr ""
+
+#: .\templates\core\legal.html:111
+msgid ""
+"Весь учебный контент, включая текст лекций, изображения, видео и структуру "
+"курсов, является интеллектуальной собственностью платформы или ее авторов и "
+"защищен законом об авторском праве."
+msgstr ""
+
+#: .\templates\core\legal.html:118
+msgid "Общие положения"
+msgstr ""
+
+#: .\templates\core\legal.html:119
+msgid ""
+"Данный документ описывает правила и условия использования платформы NetAcad "
+"Ethereal."
+msgstr ""
+
+#: .\templates\core\legal.html:128
+msgid "Остались вопросы?"
+msgstr ""
+
+#: .\templates\core\legal.html:130
+msgid ""
+"Если вам нужны разъяснения по поводу юридических аспектов работы платформы, "
+"наша служба поддержки всегда готова помочь."
+msgstr ""
+
+#: .\templates\core\legal.html:134
+msgid "Связаться с нами"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:5
+#: .\templates\courses\resources.html:29
+msgid "Добавить материал"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:22
+msgid "Добавление материала"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:25
+msgid "Загрузите полезные книги или документы для ваших студентов."
+msgstr ""
+
+#: .\templates\courses\add_resource.html:37
+msgid "Пожалуйста, проверьте правильность заполнения полей."
+msgstr ""
+
+#: .\templates\courses\add_resource.html:46
+msgid "Название материала"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:57
+msgid "Краткое описание"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:80
+msgid "Файл материала"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:86
+msgid "Нажмите или перетащите файл"
+msgstr ""
+
+#: .\templates\courses\add_resource.html:99
+msgid "Сохранить и опубликовать"
+msgstr ""
+
+#: .\templates\courses\client_server.html:5
+msgid "Модуль 12: Клиент-серверная архитектура | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\client_server.html:41
+msgid "Модуль 12: Клиент-серверная архитектура"
+msgstr ""
+
+#: .\templates\courses\client_server.html:43
+msgid "Сердце современного веба"
+msgstr ""
+
+#: .\templates\courses\client_server.html:52
+msgid "Python/Django"
+msgstr ""
+
+#: .\templates\courses\client_server.html:67
+msgid "Роли клиента и сервера"
+msgstr ""
+
+#: .\templates\courses\client_server.html:75
+#: .\templates\courses\client_server.html:177
+#: .\templates\courses\protocols.html:201
+msgid "Клиент"
+msgstr ""
+
+#: .\templates\courses\client_server.html:76
+msgid ""
+"Потребитель ресурсов. Инициирует связь, отправляя запросы на сервер. "
+"Примеры: веб-браузеры, мобильные приложения, инструменты CLI."
+msgstr ""
+
+#: .\templates\courses\client_server.html:82
+#: .\templates\courses\protocols.html:208
+msgid "Сервер"
+msgstr ""
+
+#: .\templates\courses\client_server.html:83
+msgid ""
+"Поставщик ресурсов. Ожидает запросы, обрабатывает их и возвращает данные или "
+"файлы. Запускает постоянные службы, такие как Nginx или Apache."
+msgstr ""
+
+#: .\templates\courses\client_server.html:92
+msgid "Коды состояния HTTP"
+msgstr ""
+
+#: .\templates\courses\client_server.html:97
+msgid "OK - Успех"
+msgstr ""
+
+#: .\templates\courses\client_server.html:101
+msgid "Перемещено навсегда"
+msgstr ""
+
+#: .\templates\courses\client_server.html:105
+msgid "Не найдено"
+msgstr ""
+
+#: .\templates\courses\client_server.html:109
+msgid "Внутренняя ошибка сервера"
+msgstr ""
+
+#: .\templates\courses\client_server.html:116
+msgid "Принципы REST API"
+msgstr ""
+
+#: .\templates\courses\client_server.html:121
+msgid "Отсутствие состояния (Statelessness)"
+msgstr ""
+
+#: .\templates\courses\client_server.html:122
+msgid "Каждый запрос содержит всю информацию, необходимую для его обработки."
+msgstr ""
+
+#: .\templates\courses\client_server.html:128
+msgid "Единообразный интерфейс"
+msgstr ""
+
+#: .\templates\courses\client_server.html:129
+msgid ""
+"Стандартизированные методы (GET, POST, PUT, DELETE) для предсказуемого "
+"взаимодействия."
+msgstr ""
+
+#: .\templates\courses\client_server.html:135
+msgid "Формат JSON"
+msgstr ""
+
+#: .\templates\courses\client_server.html:136
+msgid "Легкий, удобочитаемый формат обмена данными, используемый повсеместно."
+msgstr ""
+
+#: .\templates\courses\client_server.html:144
+msgid "Ядро инфраструктуры"
+msgstr ""
+
+#: .\templates\courses\client_server.html:148
+msgid "MySQL / SQL"
+msgstr ""
+
+#: .\templates\courses\client_server.html:149
+msgid ""
+"Структурированное хранение данных с реляционным отображением и соблюдением "
+"ACID."
+msgstr ""
+
+#: .\templates\courses\client_server.html:153
+msgid "Кэширование"
+msgstr ""
+
+#: .\templates\courses\client_server.html:154
+msgid "Хранение в памяти (Redis/Memcached) для ускорения повторных запросов."
+msgstr ""
+
+#: .\templates\courses\client_server.html:158
+msgid "Apache / Nginx"
+msgstr ""
+
+#: .\templates\courses\client_server.html:159
+msgid ""
+"Программное обеспечение «Главные ворота», обрабатывающее HTTP-запросы и "
+"обратное проксирование."
+msgstr ""
+
+#: .\templates\courses\client_server.html:163
+msgid "Django WSGI"
+msgstr ""
+
+#: .\templates\courses\client_server.html:164
+msgid "Плавное соединение веб-серверов с логикой приложений Python."
+msgstr ""
+
+#: .\templates\courses\client_server.html:172
+msgid "Поток Браузер → Сервер → БД"
+msgstr ""
+
+#: .\templates\courses\client_server.html:178
+msgid "HTTP GET /api/v1/user"
+msgstr ""
+
+#: .\templates\courses\client_server.html:184
+msgid "Nginx / Django"
+msgstr ""
+
+#: .\templates\courses\client_server.html:185
+msgid "Логика и маршрутизация"
+msgstr ""
+
+#: .\templates\courses\client_server.html:191
+msgid "MySQL"
+msgstr ""
+
+#: .\templates\courses\client_server.html:192
+msgid "SELECT * FROM users"
+msgstr ""
+
+#: .\templates\courses\client_server.html:196
+msgid "Начать интерактивную симуляцию"
+msgstr ""
+
+#: .\templates\courses\client_server.html:205 .\templates\courses\cloud.html:65
+#: .\templates\courses\final_project.html:250
+#: .\templates\courses\introduction.html:206 .\templates\courses\lan.html:168
+#: .\templates\courses\osi_model.html:192
+#: .\templates\courses\protocols.html:237 .\templates\courses\routing.html:64
+#: .\templates\courses\security.html:181 .\templates\courses\switching.html:68
+#: .\templates\courses\tcp_ip.html:77 .\templates\courses\wireless.html:78
+msgid "Назад"
+msgstr ""
+
+#: .\templates\courses\client_server.html:214 .\templates\courses\cloud.html:74
+#: .\templates\courses\final_project.html:259
+#: .\templates\courses\introduction.html:215 .\templates\courses\lan.html:176
+#: .\templates\courses\osi_model.html:200
+#: .\templates\courses\protocols.html:246 .\templates\courses\security.html:190
+#: .\templates\courses\tcp_ip.html:85 .\templates\courses\wireless.html:87
+msgid "Запустить симулятор"
+msgstr ""
+
+#: .\templates\courses\client_server.html:222 .\templates\courses\cloud.html:82
+#: .\templates\courses\final_project.html:267
+#: .\templates\courses\introduction.html:223
+#: .\templates\courses\ip_addressing.html:254 .\templates\courses\lan.html:183
+#: .\templates\courses\osi_model.html:207
+#: .\templates\courses\protocols.html:254 .\templates\courses\routing.html:79
+#: .\templates\courses\security.html:198 .\templates\courses\switching.html:83
+#: .\templates\courses\tcp_ip.html:92 .\templates\courses\wireless.html:95
+msgid "Проверка знаний"
+msgstr ""
+
+#: .\templates\courses\client_server.html:223 .\templates\courses\cloud.html:83
+#: .\templates\courses\final_project.html:268
+#: .\templates\courses\generic_module.html:119
+#: .\templates\courses\introduction.html:224
+#: .\templates\courses\ip_addressing.html:255 .\templates\courses\lan.html:184
+#: .\templates\courses\osi_model.html:34 .\templates\courses\osi_model.html:208
+#: .\templates\courses\protocols.html:255 .\templates\courses\routing.html:80
+#: .\templates\courses\security.html:199 .\templates\courses\switching.html:84
+#: .\templates\courses\tcp_ip.html:93 .\templates\courses\wireless.html:96
+#: .\templates\includes\sidebar.html:141
+msgid "Пройти тест"
+msgstr ""
+
+#: .\templates\courses\client_server.html:230 .\templates\courses\cloud.html:90
+#: .\templates\courses\introduction.html:231
+#: .\templates\courses\ip_addressing.html:261 .\templates\courses\lan.html:191
+#: .\templates\courses\osi_model.html:215
+#: .\templates\courses\protocols.html:262 .\templates\courses\routing.html:87
+#: .\templates\courses\security.html:206 .\templates\courses\switching.html:91
+#: .\templates\courses\tcp_ip.html:100 .\templates\courses\wireless.html:103
+#: .\templates\dashboard\index.html:119
+msgid "Далее"
+msgstr ""
+
+#: .\templates\courses\client_server.html:231
+msgid "Итоговый проект"
+msgstr ""
+
+#: .\templates\courses\cloud.html:5
+msgid "Модуль 11: Облачные сети | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\cloud.html:30
+msgid "Модуль 11"
+msgstr ""
+
+#: .\templates\courses\cloud.html:34
+msgid "Облачные вычисления и SDN"
+msgstr ""
+
+#: .\templates\courses\cloud.html:44
+msgid "Инфраструктура"
+msgstr ""
+
+#: .\templates\courses\cloud.html:45
+msgid "Виртуальные серверы, хранилища и сети в аренду"
+msgstr ""
+
+#: .\templates\courses\cloud.html:49
+msgid "Платформа"
+msgstr ""
+
+#: .\templates\courses\cloud.html:50
+msgid "Среда для разработки и развертывания приложений"
+msgstr ""
+
+#: .\templates\courses\cloud.html:54
+msgid "Программное обеспечение"
+msgstr ""
+
+#: .\templates\courses\cloud.html:55
+msgid "Программное обеспечение как услуга через интернет"
+msgstr ""
+
+#: .\templates\courses\cloud.html:91 .\templates\courses\final_project.html:251
+msgid "Клиент-сервер"
+msgstr ""
+
+#: .\templates\courses\final_project.html:5
+msgid "Модуль 13: Финальный проект | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\final_project.html:40
+msgid "Этап дипломного проекта"
+msgstr ""
+
+#: .\templates\courses\final_project.html:43
+msgid "Модуль 13: Финальный проект и оценка"
+msgstr ""
+
+#: .\templates\courses\final_project.html:58
+msgid "Стек"
+msgstr ""
+
+#: .\templates\courses\final_project.html:59
+msgid "Python/Django, MySQL"
+msgstr ""
+
+#: .\templates\courses\final_project.html:64
+#: .\templates\courses\osi_model.html:170
+msgid "Локализация"
+msgstr ""
+
+#: .\templates\courses\final_project.html:78
+msgid "Выберите свой путь"
+msgstr ""
+
+#: .\templates\courses\final_project.html:79
+msgid "Выберите 1 из 3 сценариев"
+msgstr ""
+
+#: .\templates\courses\final_project.html:88
+msgid "Корпоративный масштаб"
+msgstr ""
+
+#: .\templates\courses\final_project.html:89
+msgid "Проектирование университетской сети"
+msgstr ""
+
+#: .\templates\courses\final_project.html:91
+msgid ""
+"Спроектируйте инфраструктуру кампуса из нескольких зданий для более чем 500 "
+"одновременных пользователей. Внедрите маршрутизацию OSPF, уровни ядра/"
+"распределения/доступа и резервирование высокой доступности."
+msgstr ""
+
+#: .\templates\courses\final_project.html:94
+msgid "Емкость 500+ хостов"
+msgstr ""
+
+#: .\templates\courses\final_project.html:95
+msgid "Беспроводная связь в нескольких зданиях"
+msgstr ""
+
+#: .\templates\courses\final_project.html:96
+msgid "Резервирование от края до ядра"
+msgstr ""
+
+#: .\templates\courses\final_project.html:98
+#: .\templates\courses\final_project.html:113
+#: .\templates\courses\final_project.html:124
+msgid "Выбрать миссию"
+msgstr ""
+
+#: .\templates\courses\final_project.html:103
+msgid "Безопасность прежде всего"
+msgstr ""
+
+#: .\templates\courses\final_project.html:104
+msgid "Корпоративная VLAN и межсетевой экран"
+msgstr ""
+
+#: .\templates\courses\final_project.html:106
+msgid ""
+"Спроектируйте защищенный корпоративный филиал, используя сегментацию VLAN и "
+"надежные политики межсетевого экрана с отслеживанием состояния."
+msgstr ""
+
+#: .\templates\courses\final_project.html:118
+msgid "Фундаментальное мастерство"
+msgstr ""
+
+#: .\templates\courses\final_project.html:119
+msgid "Расчет IP и подсетей для офиса"
+msgstr ""
+
+#: .\templates\courses\final_project.html:121
+#, python-format
+msgid ""
+"Выполните точные расчеты VLSM для головного офиса со сложными ограничениями "
+"на уровне отделов. Обеспечьте нулевую потерю IP-адресов, допуская ежегодный "
+"рост на 20%%."
+msgstr ""
+
+#: .\templates\courses\final_project.html:156
+msgid "Финальная проверка знаний"
+msgstr ""
+
+#: .\templates\courses\final_project.html:158
+msgid ""
+"Пройдите комплексную итоговую оценку, состоящую из 20 вопросов в случайной "
+"последовательности, охватывающих всю учебную программу сетевого архитектора."
+msgstr ""
+
+#: .\templates\courses\final_project.html:166
+msgid "Лимит времени"
+msgstr ""
+
+#: .\templates\courses\final_project.html:167
+msgid "45 минут"
+msgstr ""
+
+#: .\templates\courses\final_project.html:176
+msgid "20 вопросов"
+msgstr ""
+
+#: .\templates\courses\final_project.html:180
+msgid "Начать итоговый экзамен"
+msgstr ""
+
+#: .\templates\courses\final_project.html:185
+msgid "Проходной балл"
+msgstr ""
+
+#: .\templates\courses\final_project.html:188
+msgid "Одна"
+msgstr ""
+
+#: .\templates\courses\final_project.html:189
+msgid "Лимит попыток"
+msgstr ""
+
+#: .\templates\courses\final_project.html:193
+msgid "Цифровая награда"
+msgstr ""
+
+#: .\templates\courses\final_project.html:197
+msgid "Аккредитация"
+msgstr ""
+
+#: .\templates\courses\final_project.html:207
+msgid "Портал подачи работ"
+msgstr ""
+
+#: .\templates\courses\final_project.html:214
+msgid "Идентификатор студента"
+msgstr ""
+
+#: .\templates\courses\final_project.html:215
+msgid "ФИО как в паспорте"
+msgstr ""
+
+#: .\templates\courses\final_project.html:218
+msgid "Язык проекта"
+msgstr ""
+
+#: .\templates\courses\final_project.html:220
+msgid "Русский (RU)"
+msgstr ""
+
+#: .\templates\courses\final_project.html:221
+msgid "Казахский (KZ)"
+msgstr ""
+
+#: .\templates\courses\final_project.html:226
+msgid "Описание проекта и обоснование архитектуры"
+msgstr ""
+
+#: .\templates\courses\final_project.html:227
+msgid ""
+"Подробно опишите свои решения по проектированию топологии, меры безопасности "
+"и план IP..."
+msgstr ""
+
+#: .\templates\courses\final_project.html:230
+msgid "Отправить проект"
+msgstr ""
+
+#: .\templates\courses\final_project.html:237
+msgid ""
+"Ваш проект успешно отправлен на проверку преподавателю! Статус будет "
+"обновлен в личном кабинете."
+msgstr ""
+
+#: .\templates\courses\final_project.html:275 .\templates\courses\list.html:127
+msgid "Обзор"
+msgstr ""
+
+#: .\templates\courses\final_project.html:276
+#: .\templates\courses\introduction.html:207
+#: .\templates\courses\test_results.html:84
+#: .\templates\dashboard\index.html:121
+#: .\templates\dashboard\test_results.html:98
+msgid "К списку курсов"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:29
+msgid "Редактировать"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:57
+msgid "Видеоматериал"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:71
+msgid "Ссылка на видео не распознана. Пожалуйста, используйте YouTube."
+msgstr ""
+
+#: .\templates\courses\generic_module.html:86
+msgid "Дополнительные материалы"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:87
+msgid "Скачайте файлы для закрепления темы"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:91
+msgid "Скачать файл"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:101
+msgid "Контент скоро появится"
+msgstr ""
+
+#: .\templates\courses\generic_module.html:103
+msgid ""
+"Данный модуль находится в процессе наполнения материалами. Вы сможете "
+"приступить к изучению в ближайшее время."
+msgstr ""
+
+#: .\templates\courses\generic_module.html:114
+msgid "Назад к курсам"
+msgstr ""
+
+#: .\templates\courses\introduction.html:5
+msgid "Модуль 1: Введение | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\introduction.html:30
+msgid "Модуль 1"
+msgstr ""
+
+#: .\templates\courses\introduction.html:41
+msgid "Автор:"
+msgstr ""
+
+#: .\templates\courses\introduction.html:45
+msgid "Локализация:"
+msgstr ""
+
+#: .\templates\courses\introduction.html:62
+msgid "Что такое компьютерная сеть?"
+msgstr ""
+
+#: .\templates\courses\introduction.html:65
+msgid ""
+"Компьютерная сеть — это совокупность компьютеров и других аппаратных "
+"компонентов, взаимосвязанных каналами связи, которые позволяют обмениваться "
+"ресурсами и информацией."
+msgstr ""
+
+#: .\templates\courses\introduction.html:69
+msgid "Основная цель"
+msgstr ""
+
+#: .\templates\courses\introduction.html:70
+msgid "Обмен ресурсами и отказоустойчивость за счет избыточности."
+msgstr ""
+
+#: .\templates\courses\introduction.html:73
+msgid "Пример из жизни"
+msgstr ""
+
+#: .\templates\courses\introduction.html:74
+msgid "Глобальный интернет, корпоративные интрасети и умные дома."
+msgstr ""
+
+#: .\templates\courses\introduction.html:81
+msgid "Типы сетей"
+msgstr ""
+
+#: .\templates\courses\introduction.html:84
+#: .\templates\laboratory\office_lab.html:258
+msgid "Тип"
+msgstr ""
+
+#: .\templates\courses\introduction.html:85
+msgid "Охват"
+msgstr ""
+
+#: .\templates\courses\introduction.html:89
+msgid "Один офис / Дом"
+msgstr ""
+
+#: .\templates\courses\introduction.html:93
+msgid "В масштабах города"
+msgstr ""
+
+#: .\templates\courses\introduction.html:97
+msgid "Глобальная / Межконтинентальная"
+msgstr ""
+
+#: .\templates\courses\introduction.html:106
+msgid "Сетевые топологии"
+msgstr ""
+
+#: .\templates\courses\introduction.html:107
+msgid ""
+"Физическое или логическое расположение узлов в сети определяет ее "
+"эффективность и устойчивость."
+msgstr ""
+
+#: .\templates\courses\introduction.html:111
+msgid "Топология «Звезда» (обычная)"
+msgstr ""
+
+#: .\templates\courses\introduction.html:115
+msgid "Ячеистая топология (устойчивая)"
+msgstr ""
+
+#: .\templates\courses\introduction.html:119
+msgid "Шинная топология (устаревшая)"
+msgstr ""
+
+#: .\templates\courses\introduction.html:135
+msgid "Модели OSI и TCP/IP"
+msgstr ""
+
+#: .\templates\courses\introduction.html:136
+msgid "Концептуальные основы сетевого взаимодействия."
+msgstr ""
+
+#: .\templates\courses\introduction.html:142
+msgid "7 уровней OSI"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147 .\templates\courses\tcp_ip.html:48
+msgid "Прикладной"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147
+msgid "Представительский"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147
+msgid "Сеансовый"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147 .\templates\courses\tcp_ip.html:49
+msgid "Транспортный"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147
+msgid "Сетевой"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147
+msgid "Канальный"
+msgstr ""
+
+#: .\templates\courses\introduction.html:147
+msgid "Физический"
+msgstr ""
+
+#: .\templates\courses\introduction.html:158
+msgid "Сравнение TCP/IP (4 уровня)"
+msgstr ""
+
+#: .\templates\courses\introduction.html:165
+msgid "Прикладной уровень"
+msgstr ""
+
+#: .\templates\courses\introduction.html:166
+msgid ""
+"Соответствует уровням OSI 5, 6 и 7. Сосредоточен на пользовательском "
+"интерфейсе и форматах данных."
+msgstr ""
+
+#: .\templates\courses\introduction.html:174
+msgid "Транспортный уровень"
+msgstr ""
+
+#: .\templates\courses\introduction.html:175
+msgid "Связь между узлами. Аналогично 4-му уровню OSI."
+msgstr ""
+
+#: .\templates\courses\introduction.html:183
+msgid "Межсетевой уровень"
+msgstr ""
+
+#: .\templates\courses\introduction.html:184
+msgid "Маршрутизация и адресация. Аналогично 3-му уровню OSI."
+msgstr ""
+
+#: .\templates\courses\introduction.html:192
+msgid "Уровень сетевого доступа"
+msgstr ""
+
+#: .\templates\courses\introduction.html:193
+msgid ""
+"Физическое оборудование и среда передачи. Соответствует уровням OSI 1 и 2."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:5
+msgid "Модуль 4: IP-адресация | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:31
+msgid "Основы сетевых технологий"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:41
+msgid "Ведущий сетевой архитектор • RU/KZ Локализация"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:52
+msgid "Эволюция протоколов"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:57
+msgid ""
+"Основа современных сетей. Использует десятично-точечную нотацию и бинарные "
+"структуры для создания около 4,3 миллиардов адресов."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:63
+msgid ""
+"Стандарт будущего. Использует шестнадцатеричную нотацию для предоставления "
+"340 андециллионов уникальных адресов, устраняя необходимость в NAT."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:80
+msgid "Логика распределения"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:84
+msgid "Статическая:"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:84
+msgid "Ручная постоянная настройка."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:88
+msgid "Динамическая:"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:88
+msgid "Автоматическая аренда через DHCP."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:93
+msgid "Основная концепция"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:94
+msgid "Стек протоколов DHCP"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:101
+msgid "Маска подсети и CIDR"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:106
+msgid "Нотация CIDR"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:111
+msgid "ID сети"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:112
+msgid "Первые 24 бита"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:115
+msgid "ID хоста"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:116
+msgid "Последние 8 бит"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:119
+msgid ""
+"Подсети позволяют эффективно сегментировать IP-пространство на более мелкие, "
+"управляемые логические сети."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:125
+msgid "Приватность адресов (NAT)"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:132
+msgid "Приватный IP"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:135
+msgid "ТРАНСЛЯЦИЯ NAT"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:141
+msgid "Публичный IP"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:144
+msgid ""
+"Трансляция сетевых адресов сопоставляет несколько частных адресов одному "
+"публичному IP, предотвращая исчерпание IPv4 и обеспечивая уровень "
+"безопасности."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:151
+msgid "Практическая лаборатория"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:152
+msgid "Расчет и визуализация подсетей в реальном времени"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:158
+msgid "IP-адрес"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:162
+msgid "Маска подсети"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:184
+msgid "Рассчитать сеть"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:188
+msgid "Сеть"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:192
+msgid "Широковещательный"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:196
+msgid "Первый хост"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:200
+msgid "Последний хост"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:205
+msgid "Емкость диапазона хостов"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:206
+#: .\templates\courses\ip_addressing.html:338
+msgid "хостов"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:221
+msgid "Об авторе"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:223
+msgid ""
+"Инкар Болатовна — сертифицированный сетевой специалист Cisco с более чем 8-"
+"летним опытом разработки региональной инфраструктуры. Она специализируется "
+"на локализации высокоуровневого технического образования для рынков RU/KZ, "
+"сокращая разрыв между мировыми стандартами и местной реализацией."
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:227
+#: .\templates\courses\osi_model.html:162
+msgid "Технологический стек"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:241
+msgid "Карта курса"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:247
+msgid "Cisco CLI Симулятор"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:262 .\templates\courses\lan.html:169
+msgid "Протоколы"
+msgstr ""
+
+#: .\templates\courses\ip_addressing.html:305
+msgid "Пожалуйста, введите корректный IPv4 адрес"
+msgstr ""
+
+#: .\templates\courses\lan.html:5
+msgid "Модуль 6: Настройка LAN | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\lan.html:33
+msgid "Учебный трек • Блок 6"
+msgstr ""
+
+#: .\templates\courses\lan.html:54
+msgid "Ручная настройка IP"
+msgstr ""
+
+#: .\templates\courses\lan.html:63
+msgid "Настройки сети и Интернета"
+msgstr ""
+
+#: .\templates\courses\lan.html:64
+msgid "Свойства IPv4: Ручной ввод"
+msgstr ""
+
+#: .\templates\courses\lan.html:65
+msgid "Маска подсети и шлюз по умолчанию"
+msgstr ""
+
+#: .\templates\courses\lan.html:85
+msgid "Wi-Fi WPA3"
+msgstr ""
+
+#: .\templates\courses\lan.html:86
+msgid ""
+"Внедрение одновременной аутентификации равных (SAE) для надежной защиты от "
+"атак методом перебора."
+msgstr ""
+
+#: .\templates\courses\lan.html:88
+msgid "ЛАБОРАТОРИЯ БЕЗОПАСНОСТИ"
+msgstr ""
+
+#: .\templates\courses\lan.html:96
+msgid "Общие ресурсы"
+msgstr ""
+
+#: .\templates\courses\lan.html:97
+msgid ""
+"Настройка SMB/CIFS для файловых серверов и протоколов обнаружения принтеров "
+"в локальных подсетях."
+msgstr ""
+
+#: .\templates\courses\lan.html:113
+msgid "Терминал виртуальной лаборатории"
+msgstr ""
+
+#: .\templates\courses\lan.html:124
+msgid "попробуйте 'tracert ethernetarch.edu'..."
+msgstr ""
+
+#: .\templates\courses\lan.html:136
+msgid "Проверка знаний модуля 5"
+msgstr ""
+
+#: .\templates\courses\lan.html:137
+#, python-format
+msgid ""
+"Проверьте свое понимание конфигурации LAN, диагностических утилит и "
+"безопасности WPA3. 10 вопросов • Требуется 80%% правильных ответов."
+msgstr ""
+
+#: .\templates\courses\lan.html:140
+msgid ""
+"Какая команда используется для отображения полного сетевого пути к "
+"удаленному хосту на компьютере под управлением Windows?"
+msgstr ""
+
+#: .\templates\courses\lan.html:153
+msgid "Начать полный тест"
+msgstr ""
+
+#: .\templates\courses\lan.html:156
+msgid "Последняя попытка: 9/10 (Отлично)"
+msgstr ""
+
+#: .\templates\courses\list.html:5 .\templates\includes\sidebar.html:28
+msgid "Мои курсы"
+msgstr ""
+
+#: .\templates\courses\list.html:43
+msgid "Учебный путь"
+msgstr ""
+
+#: .\templates\courses\list.html:44
+msgid "Основы сетевой архитектуры"
+msgstr ""
+
+#: .\templates\courses\list.html:46
+msgid ""
+"Добро пожаловать в ваше профессиональное путешествие. Завершайте модули "
+"последовательно, чтобы открыть продвинутые концепции сетевой архитектуры."
+msgstr ""
+
+#: .\templates\courses\list.html:52
+msgid "Добавить модуль"
+msgstr ""
+
+#: .\templates\courses\list.html:75 .\templates\courses\roadmap.html:79
+#: .\templates\courses\roadmap.html:113
+#: .\templates\courses\test_results.html:67
+#: .\templates\dashboard\test_results.html:53
+#: .\templates\laboratory\lab_simulator.html:250
+msgid "Завершено"
+msgstr ""
+
+#: .\templates\courses\list.html:80 .\templates\courses\roadmap.html:84
+#: .\templates\courses\roadmap.html:118
+msgid "Заблокировано"
+msgstr ""
+
+#: .\templates\courses\list.html:91
+msgid "Практика выполнена"
+msgstr ""
+
+#: .\templates\courses\list.html:93
+msgid "Lab OK"
+msgstr ""
+
+#: .\templates\courses\list.html:101
+msgid "Освойте основные концепции и протоколы современной сетевой архитектуры."
+msgstr ""
+
+#: .\templates\courses\list.html:127 .\templates\courses\list.html:132
+msgid "Начать"
+msgstr ""
+
+#: .\templates\courses\module_test.html:5
+msgid "NetAcad Ethereal - Тест:"
+msgstr ""
+
+#: .\templates\courses\module_test.html:39
+msgid "Вопрос 1"
+msgstr ""
+
+#: .\templates\courses\module_test.html:44
+#: .\templates\laboratory\lab_simulator.html:56
+#: .\templates\laboratory\osi_lab.html:66
+msgid "Завершить"
+msgstr ""
+
+#: .\templates\courses\module_test.html:52
+msgid "Тестирование по теме:"
+msgstr ""
+
+#: .\templates\courses\module_test.html:62
+msgid ""
+"Внимание: переключение вкладок или сворачивание окна приведет к "
+"аннулированию теста."
+msgstr ""
+
+#: .\templates\courses\module_test.html:76
+msgid "Сложность:"
+msgstr ""
+
+#: .\templates\courses\module_test.html:112
+msgid "Предыдущий вопрос"
+msgstr ""
+
+#: .\templates\courses\module_test.html:120
+msgid "Следующий вопрос"
+msgstr ""
+
+#: .\templates\courses\module_test.html:125
+msgid "Завершить тест"
+msgstr ""
+
+#: .\templates\courses\module_test.html:142
+msgid "Тест аннулирован"
+msgstr ""
+
+#: .\templates\courses\module_test.html:144
+msgid ""
+"Вы переключили вкладку или покинули окно браузера. В целях обеспечения "
+"честности тестирования, ваша попытка была прекращена."
+msgstr ""
+
+#: .\templates\courses\module_test.html:147
+msgid "Вернуться к курсу"
+msgstr ""
+
+#: .\templates\courses\module_test.html:176
+msgid "Пожалуйста, выберите ответ"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:5
+msgid "Модуль 2: Сетевое оборудование | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:32
+msgid ""
+"Освойте физический и логический уровни современных коммуникаций — от таблиц "
+"MAC-адресов до клиент-серверной архитектуры."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:35
+msgid "Список курсов"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:47
+msgid "Текущий трафик"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:62
+msgid "Коммутатор (Уровень 2)"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:63
+msgid ""
+"Узнайте, как таблицы MAC-адресов оптимизируют поток локального трафика и как "
+"устройства уровня 2 управляют коммутацией кадров на скорости канала."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:66
+msgid "Процесс обучения MAC"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:69
+msgid "Логика пересылки кадров"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:78
+msgid "Маршрутизатор (Уровень 3)"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:79
+msgid ""
+"Таблицы маршрутизации, IP-адресация и основа межсетевого взаимодействия."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:85
+msgid "Беспроводная связь"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:86
+msgid ""
+"Типы сигналов модема и режимы Wi-Fi для точек доступа в средах с высокой "
+"плотностью."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:89
+msgid "Изучить радио технологии"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:95
+msgid "Серверная архитектура"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:96
+msgid ""
+"Разбор клиент-серверной модели. Понимание циклов запрос-ответ и "
+"централизованного управления ресурсами."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:109
+msgid "Виртуальная лаборатория"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:110
+msgid ""
+"Перетаскивайте компоненты для сборки функциональной корпоративной подсети."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:131
+msgid "Мини-кейс: 'Сборка офисной сети'"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:132
+msgid "Вопросов"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:135
+msgid ""
+"Стартапу с 15 сотрудниками требуется безопасная масштабируемая локальная "
+"сеть. Им нужен выделенный сервер, три VLAN для разных отделов и гостевой "
+"доступ Wi-Fi."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:138
+msgid "Текущая задача"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:140
+msgid ""
+"Какое устройство вы бы использовали для предотвращения широковещательного "
+"шторма между отделами маркетинга и инжиниринга?"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:142
+msgid "Коммутатор 2 уровня с VLAN"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:143
+msgid "Базовый сетевой концентратор"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:144
+msgid "Автономный модем"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:145
+msgid "Беспроводная точка доступа"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:152
+msgid "Автор курса"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:157
+msgid "Старший сетевой инженер"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:176
+msgid "Готовы к экзамену?"
+msgstr ""
+
+#: .\templates\courses\osi_model.html:177
+msgid ""
+"Завершите все теоретические разделы Модуля 2, чтобы разблокировать итоговый "
+"сертификационный тест."
+msgstr ""
+
+#: .\templates\courses\osi_model.html:181
+#, python-format
+msgid "ПРОГРЕСС МОДУЛЯ: 45%%"
+msgstr ""
+
+#: .\templates\courses\protocols.html:5
+msgid "Модуль 5: Протоколы передачи данных | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\protocols.html:29 .\templates\dashboard\grades.html:100
+#: .\templates\dashboard\teacher_index.html:202
+msgid "Текущий модуль"
+msgstr ""
+
+#: .\templates\courses\protocols.html:37
+msgid "Ведущий сетевой архитектор"
+msgstr ""
+
+#: .\templates\courses\protocols.html:65
+msgid "Динамика передачи"
+msgstr ""
+
+#: .\templates\courses\protocols.html:66
+msgid "Понимание компромисса между надежностью и скоростью."
+msgstr ""
+
+#: .\templates\courses\protocols.html:76
+msgid "Установлено 3-стороннее рукопожатие"
+msgstr ""
+
+#: .\templates\courses\protocols.html:77
+msgid "Надежная доставка данных"
+msgstr ""
+
+#: .\templates\courses\protocols.html:78
+msgid "Механизмы контроля перегрузок"
+msgstr ""
+
+#: .\templates\courses\protocols.html:86
+msgid "Протокол без установления соединения"
+msgstr ""
+
+#: .\templates\courses\protocols.html:87
+msgid "Нулевые накладные расходы, максимальная скорость"
+msgstr ""
+
+#: .\templates\courses\protocols.html:88
+msgid "Доставка только по мере возможности"
+msgstr ""
+
+#: .\templates\courses\protocols.html:97
+msgid "Иерархия DNS"
+msgstr ""
+
+#: .\templates\courses\protocols.html:100
+msgid "Корневой сервер"
+msgstr ""
+
+#: .\templates\courses\protocols.html:108
+msgid "Доверенный DNS"
+msgstr ""
+
+#: .\templates\courses\protocols.html:112
+msgid ""
+"Система доменных имен преобразует удобочитаемые имена хостов в "
+"машиночитаемые IP-адреса."
+msgstr ""
+
+#: .\templates\courses\protocols.html:127
+msgid "Методы (GET, POST)"
+msgstr ""
+
+#: .\templates\courses\protocols.html:129
+msgid "Активен"
+msgstr ""
+
+#: .\templates\courses\protocols.html:134
+msgid "Сертификаты SSL/TLS"
+msgstr ""
+
+#: .\templates\courses\protocols.html:136
+msgid "Безопасно"
+msgstr ""
+
+#: .\templates\courses\protocols.html:141
+msgid "Режимы файлов FTP"
+msgstr ""
+
+#: .\templates\courses\protocols.html:143
+msgid "Устаревший"
+msgstr ""
+
+#: .\templates\courses\protocols.html:152
+msgid "Интерактивная лаборатория"
+msgstr ""
+
+#: .\templates\courses\protocols.html:156
+#: .\templates\courses\protocols.html:189 .\templates\courses\resources.html:79
+msgid "Сохранить"
+msgstr ""
+
+#: .\templates\courses\protocols.html:166
+#: .\templates\courses\protocols.html:284
+msgid "Диагностика: ICMP Ping выполнен успешно."
+msgstr ""
+
+#: .\templates\courses\protocols.html:170
+msgid "Запустить Trace"
+msgstr ""
+
+#: .\templates\courses\protocols.html:171
+msgid "Документация"
+msgstr ""
+
+#: .\templates\courses\protocols.html:179
+msgid "Интерактивная практика"
+msgstr ""
+
+#: .\templates\courses\protocols.html:180
+msgid "3-стороннее рукопожатие TCP"
+msgstr ""
+
+#: .\templates\courses\protocols.html:181
+msgid ""
+"Визуализируйте цикл SYN, SYN-ACK, ACK в реальном времени, чтобы освоить "
+"установку соединения. Настройте переменные потери пакетов, чтобы увидеть, "
+"как TCP поддерживает надежность."
+msgstr ""
+
+#: .\templates\courses\protocols.html:184
+msgid "Запустить лабораторию"
+msgstr ""
+
+#: .\templates\courses\protocols.html:263 .\templates\courses\switching.html:34
+#: .\templates\courses\switching.html:69
+msgid "Локальные сети"
+msgstr ""
+
+#: .\templates\courses\protocols.html:346
+msgid "Прогресс успешно сохранен!"
+msgstr ""
+
+#: .\templates\courses\protocols.html:358
+msgid "Документация по протоколам TCP/IP загружается..."
+msgstr ""
+
+#: .\templates\courses\resources.html:5
+msgid "Учебные материалы"
+msgstr ""
+
+#: .\templates\courses\resources.html:19
+msgid "Библиотека материалов"
+msgstr ""
+
+#: .\templates\courses\resources.html:22
+msgid "Книги, документы и полезные ресурсы для обучения."
+msgstr ""
+
+#: .\templates\courses\resources.html:37
+msgid "Все"
+msgstr ""
+
+#: .\templates\courses\resources.html:61
+msgid "Удалить этот материал?"
+msgstr ""
+
+#: .\templates\courses\resources.html:70
+msgid "Нет описания"
+msgstr ""
+
+#: .\templates\courses\resources.html:89
+msgid "Библиотека пуста"
+msgstr ""
+
+#: .\templates\courses\resources.html:91
+msgid ""
+"Пока нет загруженных материалов. Преподаватели скоро добавят полезные книги "
+"и документы."
+msgstr ""
+
+#: .\templates\courses\roadmap.html:55
+msgid "Путь к"
+msgstr ""
+
+#: .\templates\courses\roadmap.html:55
+msgid "Мастерству"
+msgstr ""
+
+#: .\templates\courses\roadmap.html:55
+msgid "Сетей"
+msgstr ""
+
+#: .\templates\courses\roadmap.html:58
+msgid ""
+"От основ физического уровня до проектирования архитектуры корпоративных "
+"сетей. Пройдите путь инженера под руководством Инкар Болатовны."
+msgstr ""
+
+#: .\templates\courses\roadmap.html:97 .\templates\courses\roadmap.html:131
+msgid "Дождитесь предыдущего"
+msgstr ""
+
+#: .\templates\courses\routing.html:5
+msgid "Модуль 8: Маршрутизация | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\routing.html:30
+msgid "Модуль 8"
+msgstr ""
+
+#: .\templates\courses\routing.html:34
+msgid "Маршрутизация:"
+msgstr ""
+
+#: .\templates\courses\routing.html:34
+msgid "Поиск пути"
+msgstr ""
+
+#: .\templates\courses\routing.html:37
+msgid ""
+"Маршрутизация — это процесс выбора оптимального пути в сети для передачи "
+"данных. Мы разберем принципы работы маршрутизаторов, таблицы маршрутизации и "
+"ключевые протоколы."
+msgstr ""
+
+#: .\templates\courses\routing.html:44
+msgid "Сетевой уровень"
+msgstr ""
+
+#: .\templates\courses\routing.html:45
+msgid "Маршрутизация работает на 3 уровне модели OSI"
+msgstr ""
+
+#: .\templates\courses\routing.html:49
+msgid "Адресация"
+msgstr ""
+
+#: .\templates\courses\routing.html:50
+msgid "Основано на IP-адресации и масках подсетей"
+msgstr ""
+
+#: .\templates\courses\routing.html:54
+msgid "Таблицы маршрутизации"
+msgstr ""
+
+#: .\templates\courses\routing.html:55
+msgid "Каждое устройство хранит таблицу доступных сетей"
+msgstr ""
+
+#: .\templates\courses\routing.html:72 .\templates\courses\switching.html:76
+msgid "Cisco CLI"
+msgstr ""
+
+#: .\templates\courses\routing.html:88 .\templates\courses\wireless.html:79
+msgid "Безопасность"
+msgstr ""
+
+#: .\templates\courses\security.html:5
+msgid "Модуль 9: Сетевая безопасность | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\security.html:32
+msgid "Модуль 9"
+msgstr ""
+
+#: .\templates\courses\security.html:33
+msgid "Архитектура сетевой безопасности"
+msgstr ""
+
+#: .\templates\courses\security.html:35
+msgid ""
+"Овладейте щитом. Изучите сложные уровни защиты, от логики межсетевого экрана "
+"до криптографических основ SSL/TLS."
+msgstr ""
+
+#: .\templates\courses\security.html:44
+msgid "Python/Django • MySQL"
+msgstr ""
+
+#: .\templates\courses\security.html:66
+msgid "Логика и типы межсетевых экранов"
+msgstr ""
+
+#: .\templates\courses\security.html:70
+msgid "Фильтрация пакетов"
+msgstr ""
+
+#: .\templates\courses\security.html:71
+msgid ""
+"Работает на 3 и 4 уровнях, проверяя IP-адреса и номера портов на "
+"соответствие заданным наборам правил."
+msgstr ""
+
+#: .\templates\courses\security.html:74
+msgid "Проверка состояния (Stateful Inspection)"
+msgstr ""
+
+#: .\templates\courses\security.html:75
+msgid ""
+"Отслеживает состояние активных соединений и принимает решения на основе "
+"контекста потока трафика."
+msgstr ""
+
+#: .\templates\courses\security.html:85
+msgid "Триада CIA"
+msgstr ""
+
+#: .\templates\courses\security.html:86
+msgid "Основа всех политик кибербезопасности и архитектурных решений."
+msgstr ""
+
+#: .\templates\courses\security.html:91
+msgid "Конфиденциальность"
+msgstr ""
+
+#: .\templates\courses\security.html:92
+msgid "Только авторизованный доступ."
+msgstr ""
+
+#: .\templates\courses\security.html:98
+msgid "Целостность"
+msgstr ""
+
+#: .\templates\courses\security.html:99
+msgid "Данные остаются неизменными."
+msgstr ""
+
+#: .\templates\courses\security.html:105
+msgid "Доступность"
+msgstr ""
+
+#: .\templates\courses\security.html:106
+msgid "Доступен при необходимости."
+msgstr ""
+
+#: .\templates\courses\security.html:117
+msgid "VPN и шифрование"
+msgstr ""
+
+#: .\templates\courses\security.html:118
+msgid ""
+"Понимание рукопожатий SSL/TLS и различий между симметричными и "
+"асимметричными ключами жизненно важно для безопасного туннелирования."
+msgstr ""
+
+#: .\templates\courses\security.html:126
+msgid "Симметричное шифрование"
+msgstr ""
+
+#: .\templates\courses\security.html:127
+msgid ""
+"Один и тот же ключ как для шифрования, так и для дешифрования. Быстро, "
+"эффективно, но требует безопасного обмена ключами."
+msgstr ""
+
+#: .\templates\courses\security.html:130
+msgid "Асимметричное шифрование"
+msgstr ""
+
+#: .\templates\courses\security.html:131
+msgid ""
+"Пары открытых и закрытых ключей. Основа современных цифровых подписей и "
+"сертификатов SSL."
+msgstr ""
+
+#: .\templates\courses\security.html:134
+msgid "Протоколы туннелирования"
+msgstr ""
+
+#: .\templates\courses\security.html:135
+msgid ""
+"Инкапсуляция пакетов данных в другой протокол для безопасного прохождения "
+"через общедоступные сети (IPsec, OpenVPN)."
+msgstr ""
+
+#: .\templates\courses\security.html:138
+msgid "Уязвимость MitM"
+msgstr ""
+
+#: .\templates\courses\security.html:139
+msgid ""
+"Как слабое шифрование позволяет злоумышленникам перехватывать и "
+"ретранслировать сообщения между двумя сторонами."
+msgstr ""
+
+#: .\templates\courses\security.html:150
+msgid "Интерактивная лаборатория: «Определите угрозу»"
+msgstr ""
+
+#: .\templates\courses\security.html:152
+msgid ""
+"Попробуйте себя в роли инженера SecOps. Анализируйте журналы трафика, "
+"заголовки электронных писем и скачки активности сервера для диагностики "
+"активных атак."
+msgstr ""
+
+#: .\templates\courses\security.html:157
+msgid "DoS-атака"
+msgstr ""
+
+#: .\templates\courses\security.html:161
+msgid "Фишинг"
+msgstr ""
+
+#: .\templates\courses\security.html:165
+msgid "MITM"
+msgstr ""
+
+#: .\templates\courses\security.html:168 .\templates\laboratory\tcp_lab.html:62
+msgid "Запустить симуляцию"
+msgstr ""
+
+#: .\templates\courses\switching.html:5
+msgid "Модуль 7: Коммутация | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\switching.html:30
+msgid "Модуль 7"
+msgstr ""
+
+#: .\templates\courses\switching.html:34
+msgid "Коммутация:"
+msgstr ""
+
+#: .\templates\courses\switching.html:37
+msgid ""
+"Коммутация обеспечивает передачу данных внутри локальной сети (LAN). Мы "
+"изучим работу коммутаторов, таблицы MAC-адресов и технологии VLAN."
+msgstr ""
+
+#: .\templates\courses\switching.html:43
+msgid "MAC-адресация"
+msgstr ""
+
+#: .\templates\courses\switching.html:45
+msgid ""
+"Коммутаторы работают на 2 уровне (Data Link) модели OSI и используют MAC-"
+"адреса для пересылки кадров только нужному получателю."
+msgstr ""
+
+#: .\templates\courses\switching.html:52
+msgid "VLAN технологии"
+msgstr ""
+
+#: .\templates\courses\switching.html:54
+msgid ""
+"Виртуальные локальные сети позволяют разделять физическую сеть на логические "
+"сегменты для повышения безопасности и производительности."
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:5
+msgid "Модуль 3: Стек TCP/IP | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:30
+msgid "Модуль 3"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:34
+msgid "Стек TCP/IP:"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:34
+msgid "Основа интернета"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:37
+msgid ""
+"TCP/IP — это стек протоколов, который фактически управляет современным "
+"интернетом. Мы изучим его четырехуровневую архитектуру и ключевые протоколы "
+"каждого уровня."
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:43
+msgid "Сравнение моделей"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:46
+msgid "Модель TCP/IP"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:50
+msgid "Межсетевой"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:51
+msgid "Сетевой доступ"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:56
+msgid ""
+"7 уровней (Прикладной, Представительский, Сеансовый, Транспортный, Сетевой, "
+"Канальный, Физический)"
+msgstr ""
+
+#: .\templates\courses\tcp_ip.html:61
+msgid "Ключевые протоколы"
+msgstr ""
+
+#: .\templates\courses\test_results.html:5
+#: .\templates\courses\test_results.html:71
+msgid "Результаты Теста"
+msgstr ""
+
+#: .\templates\courses\test_results.html:29
+msgid "Архитектор Ethereal"
+msgstr ""
+
+#: .\templates\courses\test_results.html:38
+msgid "Мои Курсы"
+msgstr ""
+
+#: .\templates\courses\test_results.html:42
+msgid "Результаты Тестов"
+msgstr ""
+
+#: .\templates\courses\test_results.html:46
+#: .\templates\includes\sidebar.html:114
+msgid "Настройки"
+msgstr ""
+
+#: .\templates\courses\test_results.html:67
+msgid "Не пройдено"
+msgstr ""
+
+#: .\templates\courses\test_results.html:69
+msgid "Итоговый отчет"
+msgstr ""
+
+#: .\templates\courses\test_results.html:76
+msgid "Пересдать тест"
+msgstr ""
+
+#: .\templates\courses\test_results.html:80
+msgid "Следующий модуль"
+msgstr ""
+
+#: .\templates\courses\test_results.html:103
+msgid "Общий балл"
+msgstr ""
+
+#: .\templates\courses\test_results.html:107
+msgid "Отличный результат!"
+msgstr ""
+
+#: .\templates\courses\test_results.html:107
+msgid "Попробуйте еще раз!"
+msgstr ""
+
+#: .\templates\courses\test_results.html:108
+msgid "Вы успешно освоили материал модуля."
+msgstr ""
+
+#: .\templates\courses\test_results.html:108
+#, python-format
+msgid "Вам нужно набрать минимум 70%% для прохождения."
+msgstr ""
+
+#: .\templates\courses\test_results.html:119
+msgid "Итоговая оценка"
+msgstr ""
+
+#: .\templates\courses\test_results.html:134
+msgid "Правильных ответов"
+msgstr ""
+
+#: .\templates\courses\test_results.html:143
+msgid "Затрачено времени"
+msgstr ""
+
+#: .\templates\courses\test_results.html:161
+msgid "Сложность модуля"
+msgstr ""
+
+#: .\templates\courses\test_results.html:170
+msgid "Разбор вопросов"
+msgstr ""
+
+#: .\templates\courses\test_results.html:182
+msgid "Правильно"
+msgstr ""
+
+#: .\templates\courses\test_results.html:182
+msgid "Ошибка"
+msgstr ""
+
+#: .\templates\courses\test_results.html:193
+msgid "Ваш ответ:"
+msgstr ""
+
+#: .\templates\courses\test_results.html:198
+msgid "Верный ответ:"
+msgstr ""
+
+#: .\templates\courses\test_results.html:219
+msgid "Готовы двигаться дальше?"
+msgstr ""
+
+#: .\templates\courses\test_results.html:222
+msgid "Вы успешно завершили этот модуль. Впереди еще много интересного!"
+msgstr ""
+
+#: .\templates\courses\test_results.html:224
+msgid "Рекомендуем еще раз изучить материал модуля и пересдать тест."
+msgstr ""
+
+#: .\templates\courses\test_results.html:231
+msgid "Начать Модуль"
+msgstr ""
+
+#: .\templates\courses\test_results.html:237
+msgid "Попробовать снова"
+msgstr ""
+
+#: .\templates\courses\test_results.html:242
+msgid "Вернуться к списку"
+msgstr ""
+
+#: .\templates\courses\wireless.html:5
+msgid "Модуль 10: Беспроводные сети | EthernetArch"
+msgstr ""
+
+#: .\templates\courses\wireless.html:30
+msgid "Модуль 10"
+msgstr ""
+
+#: .\templates\courses\wireless.html:34
+msgid "Wi-Fi и Беспроводные сети"
+msgstr ""
+
+#: .\templates\courses\wireless.html:37
+msgid ""
+"Беспроводные сети стали неотъемлемой частью нашей жизни. Мы изучим стандарты "
+"802.11 (Wi-Fi), принципы работы точек доступа и методы защиты беспроводных "
+"соединений."
+msgstr ""
+
+#: .\templates\courses\wireless.html:43
+msgid "Стандарты 802.11"
+msgstr ""
+
+#: .\templates\courses\wireless.html:49
+msgid "Высокая плотность и скорость"
+msgstr ""
+
+#: .\templates\courses\wireless.html:56
+msgid "Только 5 ГГц, гигабитные скорости"
+msgstr ""
+
+#: .\templates\courses\wireless.html:62
+msgid "Безопасность Wi-Fi"
+msgstr ""
+
+#: .\templates\courses\wireless.html:64
+msgid ""
+"Защита беспроводных сетей критически важна, так как сигнал доступен любому в "
+"радиусе действия. Мы изучим WPA2 и новый стандарт WPA3."
+msgstr ""
+
+#: .\templates\courses\wireless.html:68
+msgid "WEP и WPA устарели и небезопасны!"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:4
+#: .\templates\dashboard\create_module.html:17
+#: .\templates\dashboard\teacher_index.html:259
+msgid "Создать новый модуль"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:18
+msgid "Наполните ваш курс качественным контентом"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:30
+#: .\templates\dashboard\edit_module.html:30
+msgid "Основная информация"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:40
+#: .\templates\dashboard\edit_module.html:40
+msgid "Например: Основы маршрутизации"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:54
+#: .\templates\dashboard\edit_module.html:54
+msgid "Описание и контент"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:58
+msgid ""
+"Подробное описание того, что студенты изучат в этом модуле. Вы можете "
+"использовать HTML теги для форматирования."
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:66
+#: .\templates\dashboard\edit_module.html:66
+msgid "Медиа и файлы"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:71
+#: .\templates\dashboard\edit_module.html:71
+msgid "Видео YouTube"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:79
+msgid "Вставьте полную ссылку на видео для встраивания в урок"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:86
+#: .\templates\dashboard\edit_module.html:85
+msgid "Обложка модуля"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:93
+#: .\templates\dashboard\edit_module.html:92
+msgid "Выбрать изображение"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:110
+#: .\templates\dashboard\edit_module.html:110
+msgid "Загрузить документ"
+msgstr ""
+
+#: .\templates\dashboard\create_module.html:122
+msgid "Опубликовать модуль"
+msgstr ""
+
+#: .\templates\dashboard\delete_module_confirm.html:4
+#: .\templates\dashboard\edit_module.html:135
+msgid "Удалить модуль"
+msgstr ""
+
+#: .\templates\dashboard\delete_module_confirm.html:17
+msgid "Удалить модуль?"
+msgstr ""
+
+#: .\templates\dashboard\delete_module_confirm.html:19
+#, python-format
+msgid ""
+"Вы уверены, что хотите удалить модуль <strong>\"%(name)s\"</strong>? Это "
+"действие нельзя отменить, и все данные о прогрессе студентов по этому модулю "
+"будут потеряны."
+msgstr ""
+
+#: .\templates\dashboard\delete_module_confirm.html:25
+msgid "Отмена"
+msgstr ""
+
+#: .\templates\dashboard\delete_module_confirm.html:28
+msgid "Да, удалить"
+msgstr ""
+
+#: .\templates\dashboard\edit_module.html:4
+#: .\templates\dashboard\edit_module.html:17
+msgid "Изменить модуль"
+msgstr ""
+
+#: .\templates\dashboard\edit_module.html:18
+msgid "Обновите содержание вашего учебного модуля"
+msgstr ""
+
+#: .\templates\dashboard\edit_module.html:58
+msgid "Подробное описание того, что студенты изучат в этом модуле..."
+msgstr ""
+
+#: .\templates\dashboard\edit_module.html:127
+msgid ""
+"Вы уверены, что хотите сбросить модуль к исходному состоянию? Все внесенные "
+"изменения будут удалены."
+msgstr ""
+
+#: .\templates\dashboard\edit_module.html:129
+msgid "Вернуть старый модуль"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:5 .\templates\dashboard\grades.html:53
+msgid "Журнал успеваемости"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:5
+msgid "Моя успеваемость"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:36
+msgid "RU"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:40
+msgid "KZ"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:54
+msgid ""
+"Управление прогрессом студентов группы. Анализ производительности и оценка "
+"лабораторных работ."
+msgstr ""
+
+#: .\templates\dashboard\grades.html:64
+#: .\templates\dashboard\teacher_index.html:127
+msgid "Всего студентов"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:67
+msgid "Активные пользователи"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:75
+#: .\templates\dashboard\students_list.html:32
+msgid "Средний балл"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:78
+msgid "Общая успеваемость"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:86
+msgid "Низкая успеваемость"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:89
+msgid "Требуют поддержки"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:101
+msgid "Ср. Оценка"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:102
+msgid "Прогресс курса"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:103
+#: .\templates\dashboard\students_list.html:34
+#: .\templates\dashboard\teacher_index.html:205
+msgid "Действие"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:126
+msgid "Успеваемость"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:140
+msgid "Посмотреть детали"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:152
+msgid "Мои успехи"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:153
+msgid "Ваши результаты тестирования и практических работ."
+msgstr ""
+
+#: .\templates\dashboard\grades.html:161
+msgid "Тест (баллы)"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:162
+msgid "Лабораторная"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:163
+#: .\templates\dashboard\student_detail.html:72
+#: .\templates\laboratory\lab_simulator.html:53
+#: .\templates\laboratory\office_lab.html:145
+msgid "Статус"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:200
+msgid "Условные обозначения"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:204
+msgid "Т - Оценка за тест"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:208
+msgid "Л - Оценка за лабораторную"
+msgstr ""
+
+#: .\templates\dashboard\grades.html:212
+msgid "Модуль полностью пройден"
+msgstr ""
+
+#: .\templates\dashboard\index.html:44
+msgid "Добро пожаловать,"
+msgstr ""
+
+#: .\templates\dashboard\index.html:47
+msgid "Ваш прогресс в обучении и актуальные задачи."
+msgstr ""
+
+#: .\templates\dashboard\index.html:63
+msgid "Активный курс в процессе"
+msgstr ""
+
+#: .\templates\dashboard\index.html:72 .\templates\laboratory\ip_lab.html:43
+#: .\templates\laboratory\office_lab.html:59
+#: .\templates\laboratory\osi_lab.html:63
+#: .\templates\laboratory\switching_lab.html:47
+#: .\templates\laboratory\tcp_lab.html:59
+msgid "Прогресс"
+msgstr ""
+
+#: .\templates\dashboard\index.html:76
+msgid "Завершено модулей: "
+msgstr ""
+
+#: .\templates\dashboard\index.html:85
+#: .\templates\dashboard\test_results.html:68
+msgid "Время"
+msgstr ""
+
+#: .\templates\dashboard\index.html:86
+msgid "ч"
+msgstr ""
+
+#: .\templates\dashboard\index.html:89
+msgid "Проведено за обучением"
+msgstr ""
+
+#: .\templates\dashboard\index.html:99
+msgid "Продолжить обучение"
+msgstr ""
+
+#: .\templates\dashboard\index.html:110
+msgid "Курс завершен"
+msgstr ""
+
+#: .\templates\dashboard\index.html:143
+#: .\templates\dashboard\students_list.html:62
+#: .\templates\dashboard\teacher_index.html:225
+#: .\templates\dashboard\teacher_index.html:280
+msgid "назад"
+msgstr ""
+
+#: .\templates\dashboard\index.html:146
+msgid "У вас нет новых уведомлений."
+msgstr ""
+
+#: .\templates\dashboard\mail_students.html:4
+#: .\templates\dashboard\mail_students.html:16
+#: .\templates\dashboard\teacher_index.html:263
+msgid "Рассылка студентам"
+msgstr ""
+
+#: .\templates\dashboard\mail_students.html:25
+msgid "Тема сообщения"
+msgstr ""
+
+#: .\templates\dashboard\mail_students.html:29
+msgid "Например: Обновление материалов курса"
+msgstr ""
+
+#: .\templates\dashboard\mail_students.html:34
+msgid "Текст сообщения"
+msgstr ""
+
+#: .\templates\dashboard\mail_students.html:38
+msgid "Введите текст сообщения для всех студентов..."
+msgstr ""
+
+#: .\templates\dashboard\mail_students.html:44
+msgid "Отправить всем студентам"
+msgstr ""
+
+#: .\templates\dashboard\student_detail.html:4
+#: .\templates\dashboard\student_detail.html:16
+msgid "Прогресс студента"
+msgstr ""
+
+#: .\templates\dashboard\student_detail.html:35
+#: .\templates\dashboard\students_list.html:33
+msgid "Последний вход"
+msgstr ""
+
+#: .\templates\dashboard\student_detail.html:48
+msgid "Прохождение модулей"
+msgstr ""
+
+#: .\templates\dashboard\student_detail.html:65
+msgid "Балл"
+msgstr ""
+
+#: .\templates\dashboard\student_detail.html:91
+msgid "Студент еще не начал обучение."
+msgstr ""
+
+#: .\templates\dashboard\students_list.html:4
+msgid "Список студентов"
+msgstr ""
+
+#: .\templates\dashboard\students_list.html:16
+#: .\templates\dashboard\teacher_index.html:195
+#: .\templates\includes\sidebar.html:83
+msgid "Все студенты"
+msgstr ""
+
+#: .\templates\dashboard\students_list.html:20
+msgid "Экспорт всех данных"
+msgstr ""
+
+#: .\templates\dashboard\students_list.html:31
+msgid "Пройдено модулей"
+msgstr ""
+
+#: .\templates\dashboard\students_list.html:72
+msgid "Студенты пока не зарегистрированы."
+msgstr ""
+
+#: .\templates\dashboard\support.html:17
+msgid "Центр поддержки"
+msgstr ""
+
+#: .\templates\dashboard\support.html:20
+msgid ""
+"Мы здесь, чтобы помочь вам с любыми техническими или учебными вопросами."
+msgstr ""
+
+#: .\templates\dashboard\support.html:30
+msgid "Свяжитесь с нами"
+msgstr ""
+
+#: .\templates\dashboard\support.html:32
+msgid "Напишите нам на почту, и мы ответим в течение 24 часов."
+msgstr ""
+
+#: .\templates\dashboard\support.html:44
+msgid "Сообщество"
+msgstr ""
+
+#: .\templates\dashboard\support.html:46
+msgid "Присоединяйтесь к нашему каналу в Telegram для быстрого обсуждения."
+msgstr ""
+
+#: .\templates\dashboard\support.html:57
+msgid "Часто задаваемые вопросы"
+msgstr ""
+
+#: .\templates\dashboard\support.html:61
+msgid "Как открыть следующий модуль?"
+msgstr ""
+
+#: .\templates\dashboard\support.html:65
+#, python-format
+msgid ""
+"Чтобы открыть следующий модуль, необходимо успешно пройти тест в текущем "
+"модуле (набрать 70%% или более)."
+msgstr ""
+
+#: .\templates\dashboard\support.html:71
+msgid "Что делать, если тест аннулирован?"
+msgstr ""
+
+#: .\templates\dashboard\support.html:75
+msgid ""
+"Если вы переключили вкладку браузера во время теста, система безопасности "
+"может аннулировать результат. В этом случае просто пересдайте тест заново, "
+"не отвлекаясь от страницы."
+msgstr ""
+
+#: .\templates\dashboard\support.html:81
+msgid "Как получить сертификат?"
+msgstr ""
+
+#: .\templates\dashboard\support.html:85
+msgid ""
+"Сертификат о прохождении курса будет доступен в разделе 'Достижения' после "
+"успешной сдачи всех 13 модулей и защиты финального проекта."
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:5
+msgid "Панель управления преподавателя"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:103
+msgid "Аналитика обучения"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:104
+msgid "Добро пожаловать обратно"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:104
+msgid "Вот что происходит в NetAcademy сегодня."
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:109
+msgid "Последние 30 дней"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:113
+msgid "Экспорт отчета"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:125
+#, python-format
+msgid "+12%%"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:135
+#, python-format
+msgid "-2%%"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:137
+msgid "Средняя завершаемость"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:145
+#, python-format
+msgid "+5%%"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:147
+msgid "Активны сегодня"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:155
+msgid "Новое"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:157
+msgid "Заявки Модуля 8"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:169
+msgid "Успеваемость по модулям"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:172
+msgid "Средний балл теста"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:185
+msgid "M"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:194
+msgid "Прогресс студентов"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:203
+msgid "Активность"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:204
+msgid "Балл (ср.)"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:221
+msgid "Нет прогресса"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:241
+msgid "Студентов пока нет"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:255
+msgid "Быстрые действия"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:270
+msgid "Последняя активность"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:279
+msgid "Завершил"
+msgstr ""
+
+#: .\templates\dashboard\teacher_index.html:284
+msgid "Активности пока нет"
+msgstr ""
+
+#: .\templates\dashboard\test_results.html:5
+#: .\templates\dashboard\test_results.html:17
+#: .\templates\includes\sidebar.html:104
+msgid "Результаты тестов"
+msgstr ""
+
+#: .\templates\dashboard\test_results.html:21
+msgid "Общая история прохождения тестов всеми студентами системы."
+msgstr ""
+
+#: .\templates\dashboard\test_results.html:23
+msgid "Ваша история прохождения модульных тестов и текущие достижения."
+msgstr ""
+
+#: .\templates\dashboard\test_results.html:85
+msgid "Пересдать"
+msgstr ""
+
+#: .\templates\dashboard\test_results.html:95
+msgid "Тесты еще не пройдены"
+msgstr ""
+
+#: .\templates\dashboard\test_results.html:96
+msgid "Начните обучение и пройдите первый тест, чтобы увидеть результаты."
+msgstr ""
+
+#: .\templates\home.html:12
+msgid "Обучающий веб-сервис по"
+msgstr ""
+
+#: .\templates\home.html:12
+msgid "сетевым технологиям"
+msgstr ""
+
+#: .\templates\home.html:15
+msgid ""
+"Освойте сетевую инженерию шаг за шагом: от базовых принципов до "
+"проектирования современных сетей."
+msgstr ""
+
+#: .\templates\home.html:20
+msgid "Перейти в панель"
+msgstr ""
+
+#: .\templates\home.html:35
+msgid "3D Сетевая инфраструктура"
+msgstr ""
+
+#: .\templates\home.html:46
+msgid "Комплексный подход"
+msgstr ""
+
+#: .\templates\home.html:58
+msgid ""
+"Глубокое изучение сетевых протоколов, архитектур и стандартов. Интерактивные "
+"лекции с визуализацией данных."
+msgstr ""
+
+#: .\templates\home.html:69
+msgid ""
+"Лабораторные работы в изолированной виртуальной среде. Настройка реального "
+"оборудования в симуляторе."
+msgstr ""
+
+#: .\templates\home.html:80
+msgid ""
+"Адаптивные тесты с мгновенной обратной связью. Анализ ошибок и персональные "
+"рекомендации по обучению."
+msgstr ""
+
+#: .\templates\home.html:89
+msgid "Программа обучения: 13 шагов к успеху"
+msgstr ""
+
+#: .\templates\home.html:96
+msgid "1. Введение"
+msgstr ""
+
+#: .\templates\home.html:97
+msgid "Основы сетей и мир данных."
+msgstr ""
+
+#: .\templates\home.html:99 .\templates\home.html:109 .\templates\home.html:119
+#: .\templates\home.html:129 .\templates\home.html:143
+#: .\templates\home.html:153 .\templates\home.html:165
+#: .\templates\home.html:175 .\templates\home.html:185
+#: .\templates\home.html:197 .\templates\home.html:207
+#: .\templates\home.html:217
+msgid "Перейти →"
+msgstr ""
+
+#: .\templates\home.html:106
+msgid "2. Модель OSI"
+msgstr ""
+
+#: .\templates\home.html:107
+msgid "7 уровней взаимодействия."
+msgstr ""
+
+#: .\templates\home.html:116
+msgid "3. Стек TCP/IP"
+msgstr ""
+
+#: .\templates\home.html:117
+msgid "Главные протоколы интернета."
+msgstr ""
+
+#: .\templates\home.html:126
+msgid "4. IP-адресация"
+msgstr ""
+
+#: .\templates\home.html:127
+msgid "IPv4, IPv6 и маски подсетей."
+msgstr ""
+
+#: .\templates\home.html:137
+msgid "5. Протоколы"
+msgstr ""
+
+#: .\templates\home.html:138
+msgid "HTTP, DNS, DHCP в деталях."
+msgstr ""
+
+#: .\templates\home.html:150
+msgid "6. Настройка LAN"
+msgstr ""
+
+#: .\templates\home.html:151
+msgid "Создание локальных сетей."
+msgstr ""
+
+#: .\templates\home.html:162
+msgid "7. Коммутация"
+msgstr ""
+
+#: .\templates\home.html:163
+msgid "L2 и таблицы MAC."
+msgstr ""
+
+#: .\templates\home.html:172
+msgid "8. Маршрутизация"
+msgstr ""
+
+#: .\templates\home.html:173
+msgid "L3 и выбор пути данных."
+msgstr ""
+
+#: .\templates\home.html:182
+msgid "9. Безопасность"
+msgstr ""
+
+#: .\templates\home.html:183
+msgid "Защита от сетевых атак."
+msgstr ""
+
+#: .\templates\home.html:194
+msgid "10. Wi-Fi сети"
+msgstr ""
+
+#: .\templates\home.html:195
+msgid "802.11 и точки доступа."
+msgstr ""
+
+#: .\templates\home.html:204
+msgid "11. Облака и SDN"
+msgstr ""
+
+#: .\templates\home.html:205
+msgid "Виртуализация сетей."
+msgstr ""
+
+#: .\templates\home.html:214
+msgid "12. Клиент-сервер"
+msgstr ""
+
+#: .\templates\home.html:215
+msgid "REST API и SQL."
+msgstr ""
+
+#: .\templates\home.html:224
+msgid "13. Диплом"
+msgstr ""
+
+#: .\templates\home.html:225
+msgid "Итоговая аттестация."
+msgstr ""
+
+#: .\templates\home.html:227
+msgid "Завершить обучение →"
+msgstr ""
+
+#: .\templates\home.html:242
+msgid "Двухъязычная поддержка (RU/KZ)"
+msgstr ""
+
+#: .\templates\home.html:243
+msgid ""
+"Изучайте сложные термины на родном языке. Полная локализация всех материалов "
+"и тестов."
+msgstr ""
+
+#: .\templates\home.html:252
+msgid "Пошаговая блокировка"
+msgstr ""
+
+#: .\templates\home.html:253
+msgid ""
+"Структурированный путь. Следующий модуль открывается только после успешного "
+"прохождения текущего."
+msgstr ""
+
+#: .\templates\home.html:262
+msgid "Визуализация трафика"
+msgstr ""
+
+#: .\templates\home.html:263
+msgid ""
+"Наблюдайте за перемещением пакетов в реальном времени через интерактивные "
+"схемы."
+msgstr ""
+
+#: .\templates\home.html:271
+msgid "Создано для глубокого понимания"
+msgstr ""
+
+#: .\templates\home.html:272
+msgid ""
+"Мы не просто даем теорию, мы визуализируем каждый байт информации, "
+"проходящий через сеть."
+msgstr ""
+
+#: .\templates\home.html:276
+msgid "Трассировка пакетов в реальном времени"
+msgstr ""
+
+#: .\templates\home.html:303
+msgid "Готовы стать сетевым инженером?"
+msgstr ""
+
+#: .\templates\home.html:305
+msgid ""
+"Присоединяйтесь к сообществу студентов и начните свой путь в IT уже сегодня. "
+"Все инструменты обучения доступны бесплатно после регистрации."
+msgstr ""
+
+#: .\templates\includes\sidebar.html:12
+msgid "Старший архитектор"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:23
+msgid "Панель управления"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:33
+msgid "Библиотека"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:38
+msgid "Лаборатория"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:45
+msgid "Модули курса"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:78
+msgid "Управление"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:87
+msgid "Редактировать курсы"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:109
+msgid "Журнал оценок"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:128
+msgid "Ваш прогресс"
+msgstr ""
+
+#: .\templates\includes\sidebar.html:130
+msgid "Модулей"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:5
+msgid "Симулятор IP"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:5
+#: .\templates\laboratory\office_lab.html:5
+#: .\templates\laboratory\osi_lab.html:6
+#: .\templates\laboratory\switching_lab.html:5
+#: .\templates\laboratory\tcp_lab.html:5
+msgid "NetAcad Ethereal"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:36
+msgid "Subnetting"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:38
+msgid "Мастер подсетей IPv4"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:39
+msgid "Рассчитайте параметры сети на основе заданного IP-адреса и маски CIDR."
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:60
+msgid "Заданный адрес"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:68
+msgid "МАСКА ПОДСЕТИ (Dotted Decimal)"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:74
+msgid "КОЛИЧЕСТВО ХОСТОВ (Доступных)"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:80
+msgid "АДРЕС СЛЕДУЮЩЕЙ ПОДСЕТИ"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:86
+msgid "BROADCAST АДРЕС"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:94
+msgid "ПРОВЕРИТЬ ОТВЕТЫ"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:97
+msgid "НОВОЕ ЗАДАНИЕ"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:108
+#: .\templates\laboratory\switching_lab.html:122
+msgid "Завершить и сохранить результат"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:193
+msgid "Превосходно!"
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:193
+msgid "Все расчеты верны. Вы готовы к работе с реальными сетями."
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:197
+msgid "Есть ошибки."
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:197
+msgid "Проверьте выделенные поля и попробуйте снова."
+msgstr ""
+
+#: .\templates\laboratory\ip_lab.html:216
+#: .\templates\laboratory\osi_lab.html:237
+#: .\templates\laboratory\switching_lab.html:189
+#: .\templates\laboratory\tcp_lab.html:342
+msgid "Результат сохранен!"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:5
+msgid "Практические работы"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:27
+msgid "Лабораторная база"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:28
+msgid "Практические симуляции Cisco"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:30
+msgid ""
+"Здесь собраны все доступные интерактивные задания. Отрабатывайте навыки "
+"настройки сетевого оборудования в реальном времени."
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:44
+msgid "Выполнено"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:47
+msgid "Доступно"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:62
+msgid "Последний балл"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:64
+msgid "0 команд выполнено"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:68
+msgid "Повторить"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:68
+msgid "Запустить"
+msgstr ""
+
+#: .\templates\laboratory\lab_list.html:76
+msgid "Лабораторные работы в процессе разработки."
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:5
+msgid "Симулятор сети"
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:82
+msgid "Задание"
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:109
+#: .\templates\laboratory\lab_simulator.html:173
+#: .\templates\laboratory\lab_simulator.html:232
+msgid "Консоль"
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:115
+msgid "--- Нажмите ENTER для начала работы ---"
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:179
+msgid "Соединение установлено с"
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:278
+msgid "Практическая работа завершена! Результат сохранен."
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:281
+msgid "Ошибка при сохранении результата."
+msgstr ""
+
+#: .\templates\laboratory\lab_simulator.html:285
+msgid "Сетевая ошибка при сохранении."
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:5
+msgid "Симулятор офиса"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:48
+msgid "Сборка офисной сети"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:63
+msgid "Завершить сборку"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:74
+msgid "Оборудование"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:97
+msgid "Требования"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:102
+msgid "Разместить устройства"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:103
+msgid "Минимум 3 устройства в сети."
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:109
+msgid "Центральный сервер"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:110
+msgid "Добавьте сервер в топологию."
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:125
+msgid "Выбрать"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:128
+msgid "Соединить"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:132
+msgid "Очистить"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:148
+msgid "Готов к работе"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:151
+msgid "Перетащите оборудование из меню слева"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:158
+msgid "Конфигурация устройства"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:160
+msgid "Выберите устройство на холсте..."
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:164
+msgid "Журнал событий"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:166
+msgid "Система инициализирована"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:218
+msgid "Добавлено устройство"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:250
+msgid "ID"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:300
+msgid "Холст очищен"
+msgstr ""
+
+#: .\templates\laboratory\office_lab.html:317
+msgid "Практика завершена!"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:6
+msgid "Визуализатор OSI"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:50
+msgid "Практическое задание"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:52
+msgid "Визуализация OSI"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:90
+msgid "Перетащите сюда"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:104
+msgid "Доступные PDU"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:135
+msgid "Подсказки уровней"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:137
+msgid ""
+"Выберите уровень или перетащите PDU, чтобы увидеть подробные функции "
+"архитектуры."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:207
+msgid "Прикладной уровень: работа с сетевыми службами (HTTP, DNS)."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:208
+msgid "Представительский уровень: кодирование и сжатие данных."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:209
+msgid "Сеансовый уровень: управление сессиями связи."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:210
+msgid "Транспортный уровень: надежная доставка данных (TCP, UDP)."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:211
+msgid "Сетевой уровень: маршрутизация пакетов по IP-адресам."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:212
+msgid "Канальный уровень: передача кадров по физической среде."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:213
+msgid "Физический уровень: передача бит через кабели и сигналы."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:217
+msgid "Правильно!"
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:219
+msgid "Неверно."
+msgstr ""
+
+#: .\templates\laboratory\osi_lab.html:219
+msgid "Попробуйте другой PDU для этого уровня."
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:5
+msgid "Симулятор коммутации"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:40
+msgid "Switching"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:42
+msgid "Конфигурация коммутатора L2"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:43
+msgid ""
+"Изучите работу таблицы MAC-адресов и базовую настройку портов коммутатора."
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:79
+msgid "Выберите порт для анализа трафика"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:88
+msgid "Таблица MAC-адресов"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:110
+msgid "Задание модуля"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:112
+msgid "Найдите порт, к которому подключен PC_Admin с MAC-адресом"
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:114
+msgid "Нажмите на соответствующий порт на панели коммутатора."
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:166
+msgid "Верно! PC_Admin обнаружен на порту Fa0/5."
+msgstr ""
+
+#: .\templates\laboratory\switching_lab.html:171
+msgid "На этом порту другое устройство. Сверьтесь с таблицей MAC."
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:5
+msgid "Симулятор TCP"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:52
+msgid "TCP Handshake"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:54
+msgid "Анимация 3-стороннего рукопожатия TCP"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:55
+msgid ""
+"Изучите фундаментальный механизм надежной передачи данных. Симулируйте "
+"потоки пакетов, анализируйте переходы заголовков."
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:116
+msgid "ШАГ ВПЕРЕД"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:117
+msgid "СБРОС"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:127
+msgid "Параметры"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:132
+msgid "ЗАДЕРЖКА СЕТИ"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:139
+msgid "ПОТЕРЯ ПАКЕТОВ"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:150
+msgid "Лог практики"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:153
+msgid "Нажмите 'Запустить' для начала..."
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:162
+msgid "Анализ заголовка сегмента TCP"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:163
+msgid "Инспекция текущего пакета на уровне бит"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:199
+msgid "Заметка архитектора"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:200
+msgid ""
+"Начальный номер последовательности (ISN) выбирается случайно для защиты от "
+"атак. В симуляции мы используем упрощенные значения."
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:204
+msgid "Завершить практику и сохранить результат"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:270
+#: .\templates\laboratory\tcp_lab.html:297
+msgid "Клиент отправляет"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:284
+msgid "Сервер отвечает"
+msgstr ""
+
+#: .\templates\laboratory\tcp_lab.html:310
+msgid "Соединение УСТАНОВЛЕНО"
+msgstr ""

@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Панель" %} - NetAcad Ethereal{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBar = document.getElementById('course-progress-bar');
+        if (progressBar) {
+            const progress = progressBar.dataset.progress || 0;
+            progressBar.style.width = progress + '%';
+        }
+    });
+</script>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        transition: box-shadow 0.3s ease;
+    }
+    .glass-panel:hover {
+        box-shadow: 0px 25px 50px rgba(104, 85, 141, 0.12) !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex pt-16 min-h-screen bg-surface">
+    
+    <!-- Unified Sidebar -->
+    {% include 'includes/sidebar.html' %}
+    
+    <!-- Main Content -->
+    <main class="lg:ml-64 flex-grow p-6 md:p-10 bg-surface">
+        <div class="max-w-6xl mx-auto">
+            <header class="mb-10">
+                <h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
+                    {% trans "Добро пожаловать," %} {{ user.username }}!
+                </h1>
+                <p class="text-on-surface-variant body-md">
+                    {% trans "Ваш прогресс в обучении и актуальные задачи." %}
+                </p>
+            </header>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="glass-panel rounded-3xl p-6 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-primary-container rounded-2xl flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined text-2xl">school</span>
+                        </div>
+                        <div>
+                            <div class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">{% trans "Курсы" %}</div>
+                            <div class="text-2xl font-black text-on-surface">1</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-on-surface-variant">{% trans "Активный курс в процессе" %}</div>
+                </div>
+                
+                <div class="glass-panel rounded-3xl p-6 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-secondary-container rounded-2xl flex items-center justify-center text-secondary">
+                            <span class="material-symbols-outlined text-2xl">verified</span>
+                        </div>
+                        <div>
+                            <div class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">{% trans "Прогресс" %}</div>
+                            <div class="text-2xl font-black text-on-surface">{{ completed_count }}/{{ total_count }}</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-on-surface-variant">{% trans "Завершено модулей: " %}{{ completed_modules }}</div>
+                </div>
+                
+                <div class="glass-panel rounded-3xl p-6 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-tertiary-container rounded-2xl flex items-center justify-center text-tertiary">
+                            <span class="material-symbols-outlined text-2xl">timer</span>
+                        </div>
+                        <div>
+                            <div class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">{% trans "Время" %}</div>
+                            <div class="text-2xl font-black text-on-surface">{{ total_time_hours }}{% trans "ч" %}</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-on-surface-variant">{% trans "Проведено за обучением" %}</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Activity Area -->
+                <div class="lg:col-span-2 space-y-8">
+                    <section class="glass-panel rounded-3xl p-8">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">rocket_launch</span>
+                            {% trans "Продолжить обучение" %}
+                        </h2>
+                        
+                        <div class="flex flex-col md:flex-row items-center gap-8">
+                            <div class="w-full md:w-48 h-48 bg-surface-container-high rounded-3xl flex items-center justify-center relative overflow-hidden group">
+                                <span class="material-symbols-outlined text-6xl text-primary/20 group-hover:scale-110 transition-transform duration-500">hub</span>
+                                <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                            
+                            <div class="flex-1 space-y-4">
+                                <div>
+                                    <h3 class="text-2xl font-black text-on-surface mb-1">{% if next_module %}{{ next_module.name }}{% else %}{% trans "Курс завершен" %}{% endif %}</h3>
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden">
+                                            <div class="h-full bg-primary transition-all duration-700" {{ progress_percent|default:0 }}%></div>
+                                        </div>
+                                        <span class="text-xs font-bold text-primary">{{ progress_percent|default:0 }}%</span>
+                                    </div>
+                                </div>
+                                {% if next_module %}
+                                <a href="{% url 'courses:module_detail' next_module.slug %}" class="px-4 py-2 bg-primary text-on-primary rounded-xl text-sm font-bold inline-block">{% trans "Далее" %}</a>
+                                {% else %}
+                                <a href="{% url 'courses:list' %}" class="px-4 py-2 bg-primary text-on-primary rounded-xl text-sm font-bold inline-block">{% trans "К списку курсов" %}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar Activity Area -->
+                <div class="space-y-8">
+                    <section class="glass-panel rounded-3xl p-8">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">notifications</span>
+                            {% trans "Уведомления" %}
+                        </h2>
+                        <div class="space-y-4">
+                            {% for notification in notifications %}
+                            <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/10 relative">
+                                {% if not notification.is_read %}
+                                <span class="absolute top-4 right-4 w-2 h-2 bg-primary rounded-full"></span>
+                                {% endif %}
+                                <h3 class="text-sm font-bold text-on-surface mb-1">{{ notification.title }}</h3>
+                                <p class="text-xs text-on-surface-variant line-clamp-2 mb-2">{{ notification.message }}</p>
+                                <span class="text-[10px] text-outline">{{ notification.created_at|timesince }} {% trans "назад" %}</span>
+                            </div>
+                            {% empty %}
+                            <p class="text-sm text-on-surface-variant">{% trans "У вас нет новых уведомлений." %}</p>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
