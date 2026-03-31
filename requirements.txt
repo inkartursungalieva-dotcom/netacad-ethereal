@@ -3,6 +3,7 @@ django-allauth[socialaccount]==65.15.0
 requests==2.32.3
 PyJWT==2.10.1
 cryptography==44.0.1
+Pillow==11.1.0
 gunicorn==23.0.0
 whitenoise==6.9.0
 python-dotenv==1.2.2
