@@ -12,11 +12,11 @@ from django.core.management import call_command
 
 def setup():
     # 1. Применяем миграции
-    print("🛠 Применение миграций...")
+    print("Applying migrations...")
     call_command('migrate', no_input=True)
 
     # 2. Настраиваем Site ID
-    print("🛠 Настройка Site ID...")
+    print("Setting up Site ID...")
     domain = os.getenv('RENDER_EXTERNAL_HOSTNAME') or 'netacad-ethereal-inkar.onrender.com'
     site, _ = Site.objects.get_or_create(id=1, defaults={'domain': domain, 'name': 'NetAcad Ethereal'})
     site.domain = domain
@@ -25,7 +25,7 @@ def setup():
     # 3. Наполняем контентом (только если модулей еще нет)
     from courses.models import Module
     if not Module.objects.exists():
-        print("🛠 Наполнение базы данных контентом (это займет ~30 сек)...")
+        print("Filling database with content (takes ~30s)...")
         try:
             import init_db
             import add_labs
@@ -36,19 +36,19 @@ def setup():
             add_labs.create_labs()
             add_questions.run()
         except Exception as e:
-            print(f"⚠️ Ошибка при наполнении базы: {e}")
+            print(f"Warning: Error filling database: {e}")
     else:
-        print("✅ База данных уже содержит данные, пропускаем наполнение.")
+        print("Database already contains data, skipping.")
 
     # 4. Создаем дефолтного админа (для тестов на защите)
     User = get_user_model()
     if not User.objects.filter(is_superuser=True).exists():
-        print("🛠 Создание суперпользователя (admin/admin123)...")
+        print("Creating superuser (admin/admin123)...")
         User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
 
     # 5. Настройка Google OAuth (пустышка, чтобы Allauth не падал)
     if not SocialApp.objects.filter(provider='google').exists():
-        print("🛠 Настройка заглушки Google OAuth...")
+        print("Setting up Google OAuth placeholder...")
         app = SocialApp.objects.create(
             provider='google',
             name='Google',
@@ -57,7 +57,7 @@ def setup():
         )
         app.sites.add(site)
 
-    print("✅ Настройка завершена успешно!")
+    print("Setup completed successfully!")
 
 if __name__ == "__main__":
     setup()
