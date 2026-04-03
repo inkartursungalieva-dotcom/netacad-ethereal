@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "План обучения" %} | Computer Networks{% endblock %}
+
+{% block extra_head %}
+<!-- Дополнительные стили для roadmap (если нужны) -->
+<style>
+    /* Анимации для карточек модулей */
+    .module-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .module-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 25px 50px rgba(104, 85, 141, 0.12) !important;
+    }
+    
+    /* Центральная линия для десктопа */
+    @media (min-width: 768px) {
+        .roadmap-connector {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(126, 121, 131, 0.2);
+            transform: translateX(-50%);
+        }
+        .connector-line {
+            position: absolute;
+            top: 50%;
+            width: 64px;
+            height: 1px;
+            background: rgba(126, 121, 131, 0.2);
+        }
+        .connector-line.left { right: -64px; }
+        .connector-line.right { left: -64px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="relative min-h-screen">
+    <!-- Aether Mesh Decorative Background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary-container/20 blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-tertiary-container/20 blur-[120px]"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-8 py-16">
+        <!-- Hero Header -->
+        <div class="mb-20 text-center md:text-left">
+            <h1 class="font-headline text-5xl md:text-6xl font-extrabold text-on-surface tracking-tight leading-tight mb-6">
+                {% trans "Путь к" %} <span class="text-primary italic">{% trans "Мастерству" %}</span> {% trans "Сетей" %}
+            </h1>
+            <p class="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
+                {% trans "От основ физического уровня до проектирования архитектуры корпоративных сетей. Пройдите путь инженера под руководством Инкар Болатовны." %}
+            </p>
+        </div>
+        
+        <!-- Roadmap Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 relative">
+            <!-- Central Connector (Desktop) -->
+            <div class="hidden md:block roadmap-connector"></div>
+            
+            {% for module in modules %}
+            {% if forloop.counter|divisibleby:2 %}
+            <!-- Right Module -->
+            <div class="md:col-span-5"></div>
+            <div class="md:col-span-2"></div>
+            <div class="md:col-span-5 relative">
+                <div class="glass-card p-8 rounded-xl shadow-[0px_20px_40px_rgba(104,85,141,0.08)] border border-outline-variant/15 module-card {% if not module.is_accessible %}opacity-60 grayscale{% endif %}">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-primary">{% trans "Модуль" %} {{ module.order|stringformat:"02d" }}</span>
+                        {% if module.is_completed %}
+                        <span class="flex items-center gap-1 text-xs font-bold text-emerald-600">
+                            <span class="material-symbols-outlined text-sm">check_circle</span> 
+                            {% trans "Завершено" %}
+                        </span>
+                        {% elif not module.is_accessible %}
+                        <span class="flex items-center gap-1 text-xs font-bold text-slate-400">
+                            <span class="material-symbols-outlined text-sm">lock</span> 
+                            {% trans "Заблокировано" %}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <h3 class="font-headline text-2xl font-bold mb-3">{% translate module.name %}</h3>
+                    <p class="text-sm text-on-surface-variant mb-6">{% translate module.description %}</p>
+                    <div class="flex items-center gap-4">
+                        {% if module.is_accessible and module.slug %}
+                        <a href="{% url 'courses:module_detail' module.slug %}" class="inline-flex items-center gap-1 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-full hover:bg-primary-dim transition-colors">
+                            {% trans "Начать обучение" %}
+                        </a>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1 px-4 py-2 bg-surface-variant text-on-surface-variant text-xs font-bold rounded-full cursor-not-allowed">
+                            {% trans "Дождитесь предыдущего" %}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="hidden md:block connector-line right"></div>
+            </div>
+            {% else %}
+            <!-- Left Module -->
+            <div class="md:col-span-5 relative">
+                <div class="glass-card p-8 rounded-xl shadow-[0px_20px_40px_rgba(104,85,141,0.08)] border border-outline-variant/15 module-card {% if not module.is_accessible %}opacity-60 grayscale{% endif %}">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-primary">{% trans "Модуль" %} {{ module.order|stringformat:"02d" }}</span>
+                        {% if module.is_completed %}
+                        <span class="flex items-center gap-1 text-xs font-bold text-emerald-600">
+                            <span class="material-symbols-outlined text-sm">check_circle</span> 
+                            {% trans "Завершено" %}
+                        </span>
+                        {% elif not module.is_accessible %}
+                        <span class="flex items-center gap-1 text-xs font-bold text-slate-400">
+                            <span class="material-symbols-outlined text-sm">lock</span> 
+                            {% trans "Заблокировано" %}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <h3 class="font-headline text-2xl font-bold mb-3">{% translate module.name %}</h3>
+                    <p class="text-sm text-on-surface-variant mb-6">{% translate module.description %}</p>
+                    <div class="flex items-center gap-4">
+                        {% if module.is_accessible %}
+                        <a href="{% url 'courses:module_detail' module.slug %}" class="inline-flex items-center gap-1 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-full hover:bg-primary-dim transition-colors">
+                            {% trans "Начать обучение" %}
+                        </a>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1 px-4 py-2 bg-surface-variant text-on-surface-variant text-xs font-bold rounded-full cursor-not-allowed">
+                            {% trans "Дождитесь предыдущего" %}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="hidden md:block connector-line left"></div>
+            </div>
+            <div class="md:col-span-2"></div>
+            <div class="md:col-span-5"></div>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Дополнительные скрипты для roadmap (если нужны) -->
+<script>
+    // Пример: плавная прокрутка к модулям
+    document.querySelectorAll('.module-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (!e.target.closest('a')) {
+                // Можно добавить логику перехода к модулю
+                console.log('Module clicked');
+            }
+        });
+    });
+</script>
+{% endblock %}

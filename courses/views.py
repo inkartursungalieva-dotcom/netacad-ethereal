@@ -10,7 +10,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import io
 import os
-from .models import Module, Question, Choice, UserAnswer, UserProgress, Resource, UsabilityTest
+from .models import Module, Question, Choice, UserProgress, UserAnswer, Resource, UsabilityTest
 from .forms import ResourceForm
 from laboratory.models import LabProgress
 import json

@@ -1,0 +1,163 @@
+{% load i18n %}
+<aside class="bg-[#F8F1FA] dark:bg-[#2b2930] h-[calc(100vh-64px)] w-64 fixed left-0 top-16 hidden lg:flex flex-col py-6 border-r border-[#b6b0bb]/15 z-30">
+    <!-- User Profile Section -->
+    <div class="px-6 mb-8">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">{% if module %}architecture{% else %}person{% endif %}</span>
+            </div>
+            <div>
+                <div class="font-headline text-sm font-bold text-[#8E7AB5]">{{ user.get_full_name|default:user.username }}</div>
+                <div class="text-[10px] text-on-surface-variant">
+                    {% if user.role == 'teacher' or user.is_superuser %}{% trans "Старший архитектор" %}{% else %}{% trans "Сетевой архитектор" %}{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+        <!-- Main Dashboard Links (Always Visible) -->
+        <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'index' and request.resolver_match.app_name == 'dashboard' or request.resolver_match.url_name == 'teacher_index' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% if user.role == 'teacher' or user.is_superuser %}{% url 'dashboard:teacher_index' %}{% else %}{% url 'dashboard:index' %}{% endif %}">
+            <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'index' or request.resolver_match.url_name == 'teacher_index' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>dashboard</span>
+            <span class="text-sm">{% trans "Панель управления" %}</span>
+        </a>
+        
+        <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'list' and request.resolver_match.app_name == 'courses' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'courses:list' %}">
+            <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'list' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>menu_book</span>
+            <span class="text-sm">{% trans "Мои курсы" %}</span>
+        </a>
+
+        <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'resource_list' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'courses:resource_list' %}">
+            <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'resource_list' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>library_books</span>
+            <span class="text-sm">{% trans "Библиотека" %}</span>
+        </a>
+
+        <a class="flex items-center gap-3 {% if request.resolver_match.app_name == 'laboratory' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'laboratory:list' %}">
+            <span class="material-symbols-outlined" {% if request.resolver_match.app_name == 'laboratory' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>terminal</span>
+            <span class="text-sm">{% trans "Лаборатория" %}</span>
+        </a>
+
+        <!-- Module List (Visible only when inside a course or on courses list) - Only for Students -->
+        {% if user.role == 'student' %}
+            {% if module or request.resolver_match.url_name == 'list' %}
+                <div class="pt-4 pb-2 px-6">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{% trans "Модули курса" %}</div>
+                </div>
+                <div class="space-y-1">
+                    {% for m in sidebar_modules %}
+                    {% if m.slug %}
+                    <a href="{% url 'courses:module_detail' m.slug %}" class="{% if module.slug == m.slug %}bg-[#d5bfff] dark:bg-[#49454f] text-[#21005d] dark:text-[#eaddff] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
+                        <span class="material-symbols-outlined text-sm" {% if module.slug == m.slug %}style="font-variation-settings: 'FILL' 1;"{% endif %}>
+                            {% if m.slug == 'introduction' %}hub
+                            {% elif m.slug == 'osi_model' %}account_tree
+                            {% elif m.slug == 'tcp_ip' %}router
+                            {% elif m.slug == 'ip_addressing' %}router
+                            {% elif m.slug == 'protocols' %}settings_input_component
+                            {% elif m.slug == 'lan' %}lan
+                            {% elif m.slug == 'switching' %}settings_ethernet
+                            {% elif m.slug == 'routing' %}alt_route
+                            {% elif m.slug == 'security' %}verified_user
+                            {% elif m.slug == 'wireless' %}wifi
+                            {% elif m.slug == 'cloud' %}cloud
+                            {% elif m.slug == 'client_server' %}dns
+                            {% elif m.slug == 'final_project' %}emoji_events
+                            {% else %}school{% endif %}
+                        </span> 
+                        <span>{% trans "Модуль" %} {{ m.order }}: {{ m.name }}</span>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <!-- Teacher Links -->
+        {% if user.role == 'teacher' or user.is_superuser %}
+            <div class="pt-4 pb-2 px-6">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{% trans "Управление" %}</div>
+            </div>
+            <div class="space-y-1">
+                <a href="{% url 'dashboard:students_list' %}" class="{% if request.resolver_match.url_name == 'students_list' or request.resolver_match.url_name == 'student_detail' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
+                    <span class="material-symbols-outlined text-sm">group</span> 
+                    <span>{% trans "Все студенты" %}</span>
+                </a>
+                <a href="{% url 'dashboard:create_module' %}" class="{% if request.resolver_match.url_name == 'create_module' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
+                    <span class="material-symbols-outlined text-sm">edit_note</span> 
+                    <span>{% trans "Редактировать курсы" %}</span>
+                </a>
+            </div>
+        {% endif %}
+
+        <!-- Secondary Links -->
+        <div class="pt-4 space-y-1 border-t border-[#b6b0bb]/10">
+            <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'notifications' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'accounts:notifications' %}">
+                <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'notifications' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>notifications</span>
+                <span class="text-sm">{% trans "Уведомления" %}</span>
+                {% if unread_notifications_count %}
+                <span class="ml-auto bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">{{ unread_notifications_count }}</span>
+                {% endif %}
+            </a>
+
+            <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'test_results_list' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'dashboard:test_results_list' %}">
+                <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'test_results_list' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>assessment</span>
+                <span class="text-sm">{% trans "Результаты тестов" %}</span>
+            </a>
+
+            <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'grades' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'dashboard:grades' %}">
+                <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'grades' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>grid_view</span>
+                <span class="text-sm">{% trans "Журнал оценок" %}</span>
+            </a>
+            
+            <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'profile' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'accounts:profile' %}">
+                <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'profile' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span>
+                <span class="text-sm">{% trans "Настройки" %}</span>
+            </a>
+
+            <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'support' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'dashboard:support' %}">
+                <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'support' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>help</span>
+                <span class="text-sm">{% trans "Поддержка" %}</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Progress Section (Only for Students) -->
+    {% if user.role == 'student' %}
+    <div class="mt-auto px-6 py-4">
+        <div class="p-4 bg-surface-container-highest rounded-2xl">
+            <div class="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">{% trans "Ваш прогресс" %}</div>
+            <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-on-surface">{{ completed_count|default:0 }}/{{ total_count|default:0 }} {% trans "Модулей" %}</span>
+                <span class="text-xs font-bold text-primary">{{ progress_percent|default:0 }}%</span>
+            </div>
+            <div class="w-full h-1.5 bg-outline-variant/20 rounded-full overflow-hidden">
+                <div id="course-progress-bar" class="h-full bg-primary transition-all duration-500" data-progress="{{ progress_percent|default:0 }}"></div>
+            </div>
+        </div>
+        
+        {% if module and module.slug %}
+        <div class="mt-4">
+            <a href="{% url 'courses:module_test' module.slug %}" class="w-full bg-primary text-on-primary py-3 rounded-full font-bold shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 text-xs">
+                <span class="material-symbols-outlined text-sm">quiz</span> {% trans "Пройти тест" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</aside>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e7e0ec;
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #d5bfff;
+    }
+</style>

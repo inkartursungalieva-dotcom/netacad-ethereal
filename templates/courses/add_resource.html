@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Добавить материал" %} | NetAcad Ethereal{% endblock %}
+
+{% block content %}
+<div class="flex pt-16 min-h-screen bg-surface">
+    
+    <!-- Unified Sidebar -->
+    {% include 'includes/sidebar.html' %}
+    
+    <!-- Main Content -->
+    <main class="lg:ml-64 flex-grow p-6 md:p-10 bg-surface">
+        <div class="max-w-3xl mx-auto">
+            <header class="mb-10 flex items-center gap-6">
+                <a href="{% url 'courses:resource_list' %}" class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:bg-surface-variant transition-all">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+                <div>
+                    <h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
+                        {% trans "Добавление материала" %}
+                    </h1>
+                    <p class="text-on-surface-variant body-md">
+                        {% trans "Загрузите полезные книги или документы для ваших студентов." %}
+                    </p>
+                </div>
+            </header>
+
+            <form method="POST" enctype="multipart/form-data" class="bg-white dark:bg-[#2b2930] rounded-[3rem] p-8 md:p-12 shadow-sm border border-[#b6b0bb]/10">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="bg-error-container text-on-error-container p-4 rounded-2xl mb-8 flex items-center gap-3">
+                    <span class="material-symbols-outlined text-error">error</span>
+                    <div class="text-sm font-medium">
+                        {% trans "Пожалуйста, проверьте правильность заполнения полей." %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="space-y-8">
+                    <!-- Title -->
+                    <div class="space-y-2">
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-bold text-on-surface ml-1">
+                            {% trans "Название материала" %}
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <p class="text-error text-xs ml-1 mt-1">{{ form.title.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="space-y-2">
+                        <label for="{{ form.description.id_for_label }}" class="block text-sm font-bold text-on-surface ml-1">
+                            {% trans "Краткое описание" %}
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <p class="text-error text-xs ml-1 mt-1">{{ form.description.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Resource Type -->
+                        <div class="space-y-2">
+                            <label for="{{ form.resource_type.id_for_label }}" class="block text-sm font-bold text-on-surface ml-1">
+                                {% trans "Тип ресурса" %}
+                            </label>
+                            {{ form.resource_type }}
+                            {% if form.resource_type.errors %}
+                            <p class="text-error text-xs ml-1 mt-1">{{ form.resource_type.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-on-surface ml-1">
+                                {% trans "Файл материала" %}
+                            </label>
+                            <div class="relative h-32">
+                                {{ form.file }}
+                                <div id="drop-zone" class="w-full h-full rounded-xl border-2 border-dashed border-outline-variant hover:border-primary/50 bg-surface-container-lowest flex flex-col items-center justify-center transition-all pointer-events-none group">
+                                    <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform mb-2">cloud_upload</span>
+                                    <span class="text-sm text-on-surface-variant" id="file-name">{% trans "Нажмите или перетащите файл" %}</span>
+                                    <span class="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">PDF, DOCX, ZIP, PPTX</span>
+                                </div>
+                            </div>
+                            {% if form.file.errors %}
+                            <p class="text-error text-xs ml-1 mt-1">{{ form.file.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <button type="submit" class="w-full bg-primary text-on-primary py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:opacity-95 transition-all active:scale-[0.98] flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined">save</span>
+                            {% trans "Сохранить и опубликовать" %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    const fileInput = document.getElementById('resource-file-input');
+    const dropZone = document.getElementById('drop-zone');
+    const fileNameDisplay = document.getElementById('file-name');
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            fileNameDisplay.innerText = e.target.files[0].name;
+            dropZone.classList.add('border-primary', 'bg-primary-container/10');
+            dropZone.classList.remove('border-outline-variant');
+        }
+    });
+
+    // Handle drag/drop on the parent container which contains the transparent file input
+    const container = fileInput.parentElement;
+    
+    container.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-primary', 'bg-primary-container/20');
+        dropZone.classList.remove('border-outline-variant');
+    });
+
+    container.addEventListener('dragleave', () => {
+        if (fileInput.files.length === 0) {
+            dropZone.classList.remove('border-primary', 'bg-primary-container/20');
+            dropZone.classList.add('border-outline-variant');
+        }
+    });
+
+    container.addEventListener('drop', () => {
+        dropZone.classList.remove('border-primary', 'bg-primary-container/20');
+        // No need to manually assign files as the browser does it automatically for a file input
+    });
+</script>
+
+<style>
+    .bg-surface { background-color: #fef7ff; }
+    .dark .bg-surface { background-color: #141218; }
+    .text-on-surface { color: #1d1b20; }
+    .dark .text-on-surface { color: #e6e1e5; }
+    .text-on-surface-variant { color: #49454f; }
+    .dark .text-on-surface-variant { color: #cac4d0; }
+    .text-primary { color: #6750a4; }
+    .dark .text-primary { color: #d0bcff; }
+    .text-error { color: #b3261e; }
+    .dark .text-error { color: #f2b8b5; }
+</style>
+{% endblock %}

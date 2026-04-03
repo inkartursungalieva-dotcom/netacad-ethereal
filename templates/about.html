@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "О сервисе" %} | Computer Networks{% endblock %}
+
+{% block extra_head %}
+<!-- Дополнительные стили для страницы "О сервисе" -->
+<style>
+    .hero-glow {
+        background: radial-gradient(circle, rgba(104, 85, 141, 0.08) 0%, rgba(254, 247, 254, 0) 70%);
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(182, 176, 187, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 25px 50px rgba(104, 85, 141, 0.12) !important;
+    }
+    .feature-card {
+        transition: transform 0.3s ease;
+    }
+    .feature-card:hover {
+        transform: translateY(-8px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="relative overflow-hidden">
+    <!-- Hero Section with Aether Mesh Style -->
+    <section class="relative pt-20 pb-32 px-8 max-w-7xl mx-auto">
+        <div class="absolute top-0 right-0 -z-10 w-[600px] h-[600px] hero-glow rounded-full blur-3xl"></div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-container/30 text-primary font-semibold text-xs tracking-widest uppercase">
+                    {% trans "Архитектура обучения" %}
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl font-headline font-extrabold text-on-surface leading-tight tracking-tighter">
+                    {% trans "Погружение в мир" %} <span class="text-primary italic">{% trans "Сетевых Технологий" %}</span>
+                </h1>
+                
+                <p class="text-lg text-on-surface-variant font-body leading-relaxed max-w-xl">
+                    {% trans "Инновационная образовательная платформа, созданная для тех, кто стремится освоить архитектуру современных сетей через призму современных технологий стека Python, Django и MySQL." %}
+                </p>
+                
+                <div class="flex gap-4 pt-4">
+                    <a href="{% url 'courses:list' %}" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold shadow-lg hover:shadow-primary/20 transition-all scale-100 active:scale-95 inline-block text-center">
+                        {% trans "Начать обучение" %}
+                    </a>
+                    <a href="{% url 'courses:roadmap' %}" class="px-8 py-4 bg-surface-container-highest text-on-primary-container rounded-full font-bold hover:bg-surface-variant transition-all inline-block text-center">
+                        {% trans "Программа курса" %}
+                    </a>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="aspect-square glass-card rounded-3xl overflow-hidden shadow-2xl relative group">
+                    <img class="w-full h-full object-cover mix-blend-overlay opacity-40 group-hover:scale-110 transition-transform duration-700" 
+                         alt="{% trans 'Абстрактные 3D сетевые узлы и светящиеся соединения' %}" 
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1AE9yCFaLDcbyb8Dk4GBjAnMvF1Is1IEBrcbioQlKTE5pvZqZ2jOxbFcugim3HIvAAtA3A3780BF1lA7Gng0Y4w0eT0YjnXZ63-W4ZUUM-0zd726yk1P1YN9UAs5C931DAwV3o7wBQGgeswjRpAe1YOQhy1WaUsRlI0mxZbHn8IS8OtfiY1EggKB5UcbpAb4LZlNEUnPCdDwz_3ZA3Tih7aDuN8D_q86CGbrrWL1u6X-udXQU4mtQQ8-DLBhk9He5xbiZpoonDPw"/>
+                    
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-64 h-64 border-2 border-primary/20 rounded-full animate-pulse flex items-center justify-center">
+                            <div class="w-48 h-48 border border-primary/40 rounded-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-6xl" style="font-variation-settings: 'FILL' 1;">hub</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Tech Badges -->
+                <div class="absolute -top-6 -right-6 p-6 glass-card rounded-2xl shadow-xl flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">storage</span>
+                    <div>
+                        <p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{% trans "База данных" %}</p>
+                        <p class="font-bold text-primary">MySQL</p>
+                    </div>
+                </div>
+                
+                <div class="absolute -bottom-6 -left-6 p-6 glass-card rounded-2xl shadow-xl flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">code</span>
+                    <div>
+                        <p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">{% trans "Бэкенд" %}</p>
+                        <p class="font-bold text-primary">Python/Django</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 3-Component Model (Bento Grid) -->
+    <section class="py-24 bg-surface-container-low">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="mb-16 text-center">
+                <h2 class="text-3xl font-headline font-bold text-on-surface mb-4">
+                    {% trans "Трехкомпонентная модель обучения" %}
+                </h2>
+                <p class="text-on-surface-variant max-w-2xl mx-auto">
+                    {% trans "Мы разработали систему, которая гарантирует полное усвоение материала через цикл: знание, действие и проверка." %}
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Theory -->
+                <div class="p-8 bg-surface-container-lowest rounded-3xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] border border-outline-variant/10 feature-card">
+                    <div class="w-14 h-14 bg-primary-container/30 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined text-3xl">menu_book</span>
+                    </div>
+                    <h3 class="text-xl font-headline font-bold mb-3">{% trans "Теория" %}</h3>
+                    <p class="text-on-surface-variant leading-relaxed">
+                        {% trans "Глубокое изучение сетевых протоколов, моделей OSI и TCP/IP через интерактивные лекции и структурированные модули." %}
+                    </p>
+                </div>
+                
+                <!-- Practice -->
+                <div class="p-8 bg-surface-container-lowest rounded-3xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] border border-outline-variant/10 feature-card">
+                    <div class="w-14 h-14 bg-primary-container/30 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined text-3xl">terminal</span>
+                    </div>
+                    <h3 class="text-xl font-headline font-bold mb-3">{% trans "Практика" %}</h3>
+                    <p class="text-on-surface-variant leading-relaxed">
+                        {% trans "Реальные лабораторные работы в виртуальной среде. Настройка маршрутизации и коммутации в реальном времени." %}
+                    </p>
+                </div>
+                
+                <!-- Tests -->
+                <div class="p-8 bg-surface-container-lowest rounded-3xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] border border-outline-variant/10 feature-card">
+                    <div class="w-14 h-14 bg-primary-container/30 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined text-3xl">quiz</span>
+                    </div>
+                    <h3 class="text-xl font-headline font-bold mb-3">{% trans "Тестирование" %}</h3>
+                    <p class="text-on-surface-variant leading-relaxed">
+                        {% trans "Адаптивные тесты после каждого модуля для закрепления знаний и подготовки к сертификационным экзаменам." %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Section (Editorial Style) -->
+    <section class="py-24 px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2">
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-primary/10 rounded-[40px] rotate-3 -z-10"></div>
+                    <img class="w-full h-[500px] object-cover rounded-[32px] shadow-2xl" 
+                         alt="{% trans 'Портрет Инкар Болатовны' %}" 
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1DOsne9X-J-XIM6LLIp0cTdcYPnYX-jXr80HFFv-6N1QTLw3CGZUUhP5jbB8nYbi1E14QUKKHCIw5vNvVz5prtsl_3HHdWdGcbSWr5Eqvb-aeC5oJgc1dWPJPLkhmGLObbORcCwd2OBoZnXg9m-fKRt4S4ukmLhgAJ_NebhHPLtwPyCYJCFjmXuWPmcJbD3XvPypccvR3KeE2aA9xWCbbZm0oRMMlKVcgM0OofKkJc-LTCvlVUd81FZphDMX8ISfmf1G-CwDjLGY"/>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-1/2 space-y-8">
+                <div>
+                    <h2 class="text-sm font-bold tracking-[0.2em] text-primary uppercase mb-2">
+                        {% trans "Автор Проекта" %}
+                    </h2>
+                    <h3 class="text-4xl font-headline font-extrabold text-on-surface">{% trans "Инкар Болатовна" %}</h3>
+            </div>
+            
+            <p class="text-lg text-on-surface-variant font-body leading-relaxed italic border-l-4 border-primary/30 pl-6">
+                "{% trans "Миссия проекта — сделать качественное сетевое образование доступным и интерактивным." %}"
+            </p>
+            
+            <div class="grid grid-cols-2 gap-8 pt-4">
+                <div>
+                    <p class="text-3xl font-headline font-extrabold text-primary">+</p>
+                    <p class="text-sm text-on-surface-variant">{% trans "Автор" %}</p>
+                </div>
+                    <div>
+                        <p class="text-3xl font-headline font-extrabold text-primary">1</p>
+                        <p class="text-sm text-on-surface-variant">{% trans "Активных студентов" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bilingual Support Section -->
+    <section class="py-24 px-8">
+        <div class="max-w-7xl mx-auto p-12 glass-card rounded-[48px] bg-gradient-to-br from-white/40 to-primary/5 border border-primary/10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10">
+                <span class="material-symbols-outlined text-[12rem]">language</span>
+            </div>
+            
+            <div class="relative z-10 max-w-2xl">
+                <h2 class="text-3xl font-headline font-bold mb-6">
+                    {% trans "Двуязычная поддержка (RU/KZ)" %}
+                </h2>
+                <p class="text-lg text-on-surface-variant mb-8 leading-relaxed">
+                    {% trans "Платформа NetAcad Ethereal полностью поддерживает русский и казахский языки, обеспечивая доступ к знаниям для каждого студента." %}
+                </p>
+                
+                <div class="flex flex-wrap gap-6">
+                    <div class="flex items-center gap-3 px-6 py-4 bg-surface-container-lowest rounded-2xl shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">RU</div>
+                        <span class="font-bold">{% trans "Русский язык" %}</span>
+                    </div>
+                    <div class="flex items-center gap-3 px-6 py-4 bg-surface-container-lowest rounded-2xl shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 font-bold">KZ</div>
+                        <span class="font-bold">{% trans "Қазақ тілі" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Дополнительные скрипты для страницы "О сервисе" (если нужны) -->
+<script>
+    // Пример: плавная прокрутка к секциям
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+</script>
+{% endblock %}
