@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load osi_extras %}
 
 {% block title %}{% trans "NetAcad Ethereal - Тест:" %} {% translate module.name %}{% endblock %}
 
@@ -76,31 +77,81 @@
                         <span class="text-on-surface-variant text-sm font-medium">{% trans "Сложность:" %} {% translate question.difficulty %}</span>
                     </div>
                     
-                    <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface mb-4 leading-tight">
-                        {% translate question.text %}
+                    {% if question.section %}
+                    <div class="mb-6 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 inline-block">
+                        <span class="text-primary font-bold text-sm uppercase tracking-wider">{% trans "Раздел:" %} {{ question.section }}</span>
+                    </div>
+                    {% endif %}
+
+                    <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface mb-4 leading-tight prose prose-invert max-w-none">
+                        {% translate question.text as question_text %}
+                        {{ question_text|markdown }}
                     </h2>
                     
                     {% if question.hint %}
-                    <p class="text-on-surface-variant leading-relaxed mb-8">
-                        {% translate question.hint %}
-                    </p>
+                    <div class="text-on-surface-variant leading-relaxed mb-8 prose prose-sm prose-invert max-w-none">
+                        {% translate question.hint as hint_text %}
+                        {{ hint_text|markdown }}
+                    </div>
                     {% endif %}
 
-                    <!-- Options Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {% for choice in question.choices.all %}
-                        <label class="option-btn group relative flex items-center gap-4 p-6 rounded-2xl bg-surface-container-low hover:bg-white border-2 border-transparent hover:border-primary/20 transition-all text-left shadow-sm cursor-pointer">
-                            <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}" class="hidden quiz-input" required>
-                            <div class="circle-indicator w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold shadow-sm group-hover:bg-primary group-hover:text-white transition-colors">
-                                {% if forloop.counter == 1 %}A
-                                {% elif forloop.counter == 2 %}B
-                                {% elif forloop.counter == 3 %}C
-                                {% elif forloop.counter == 4 %}D
-                                {% else %}{{ forloop.counter }}{% endif %}
+                    <!-- Options Content based on Question Type -->
+                    <div class="options-container">
+                        {% if question.type == 'multiple_choice' %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {% for choice in question.choices.all %}
+                                <label class="option-btn group relative flex items-center gap-4 p-6 rounded-2xl bg-surface-container-low hover:bg-white border-2 border-transparent hover:border-primary/20 transition-all text-left shadow-sm cursor-pointer">
+                                    <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}" class="hidden quiz-input" required>
+                                    <div class="circle-indicator w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold shadow-sm group-hover:bg-primary group-hover:text-white transition-colors">
+                                        {% if forloop.counter == 1 %}A
+                                        {% elif forloop.counter == 2 %}B
+                                        {% elif forloop.counter == 3 %}C
+                                        {% elif forloop.counter == 4 %}D
+                                        {% else %}{{ forloop.counter }}{% endif %}
+                                    </div>
+                                    <span class="text-on-surface font-semibold">{% translate choice.text %}</span>
+                                </label>
+                                {% endfor %}
                             </div>
-                            <span class="text-on-surface font-semibold">{% translate choice.text %}</span>
-                        </label>
-                        {% endfor %}
+                        {% elif question.type == 'sorting' %}
+                            <div class="space-y-3 max-w-xl mx-auto">
+                                <p class="text-sm text-on-surface-variant mb-4 italic">{% trans "Расставьте элементы в правильном порядке (1 - первый, 2 - второй и т.д.):" %}</p>
+                                {% for choice in question.choices.all %}
+                                <div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                    <input type="number" name="sort_{{ question.id }}_{{ choice.id }}" min="1" max="{{ question.choices.count }}" class="w-16 px-3 py-2 rounded-lg bg-white border border-outline-variant text-center font-bold text-primary focus:ring-2 focus:ring-primary/20 outline-none" required>
+                                    <span class="text-on-surface font-medium">{% translate choice.text %}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% elif question.type == 'matching' %}
+                            <div class="space-y-4 max-w-2xl mx-auto">
+                                <p class="text-sm text-on-surface-variant mb-4 italic">{% trans "Подберите правильную пару для каждого элемента:" %}</p>
+                                {% for choice in question.choices.all %}
+                                <div class="flex flex-col md:flex-row md:items-center gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                    <div class="flex-1 font-bold text-on-surface">{% translate choice.text %}</div>
+                                    <div class="hidden md:block text-outline-variant">
+                                        <span class="material-symbols-outlined">trending_flat</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <select name="match_{{ question.id }}_{{ choice.id }}" class="w-full px-4 py-2 rounded-lg bg-white border border-outline-variant text-on-surface focus:ring-2 focus:ring-primary/20 outline-none" required>
+                                            <option value="">{% trans "Выберите пару..." %}</option>
+                                            {% for other in question.choices.all %}
+                                                <option value="{{ other.pair_text }}">{% translate other.pair_text %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% elif question.type == 'text_input' %}
+                            <div class="max-w-xl mx-auto">
+                                <p class="text-sm text-on-surface-variant mb-4 italic">{% trans "Введите правильный ответ:" %}</p>
+                                <div class="relative">
+                                    <input type="text" name="text_{{ question.id }}" class="w-full px-6 py-4 rounded-2xl bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:bg-white text-on-surface font-semibold outline-none transition-all shadow-sm" placeholder="{% trans 'Ваш ответ...' %}" required>
+                                    <span class="material-symbols-outlined absolute right-5 top-4 text-outline-variant">edit_note</span>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -168,12 +219,26 @@
 
         document.querySelectorAll('.next-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const currentInputs = steps[currentStep-1].querySelectorAll('input:checked');
-                if (currentInputs.length > 0) {
+                const currentStepEl = steps[currentStep-1];
+                const requiredInputs = currentStepEl.querySelectorAll('input[required], select[required]');
+                let allFilled = true;
+                
+                requiredInputs.forEach(input => {
+                    if (input.type === 'radio') {
+                        const name = input.name;
+                        if (!currentStepEl.querySelector(`input[name="${name}"]:checked`)) {
+                            allFilled = false;
+                        }
+                    } else if (!input.value.trim()) {
+                        allFilled = false;
+                    }
+                });
+
+                if (allFilled) {
                     currentStep++;
                     updateUI();
                 } else {
-                    alert('{% trans "Пожалуйста, выберите ответ" %}');
+                    alert('{% trans "Пожалуйста, ответьте на все части вопроса" %}');
                 }
             });
         });
@@ -199,15 +264,33 @@
         });
 
         // Timer
+        let totalSeconds = {{ module.test_duration_minutes }} * 60;
         let seconds = 0;
         const timerElement = document.getElementById('timer');
         const timeSpentInput = document.getElementById('time-spent-input');
-        setInterval(() => {
+        
+        const timerInterval = setInterval(() => {
             seconds++;
             timeSpentInput.value = seconds;
-            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
-            const secs = (seconds % 60).toString().padStart(2, '0');
+            
+            let remainingSeconds = totalSeconds - seconds;
+            if (remainingSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerElement.innerText = "00:00";
+                timerElement.classList.add('text-error', 'animate-pulse');
+                alert('{% trans "Время вышло! Ваш тест будет автоматически отправлен." %}');
+                document.getElementById('quiz-form').submit();
+                return;
+            }
+
+            const mins = Math.floor(remainingSeconds / 60).toString().padStart(2, '0');
+            const secs = (remainingSeconds % 60).toString().padStart(2, '0');
             timerElement.innerText = `${mins}:${secs}`;
+            
+            // Визуальное предупреждение, если осталось меньше 1 минуты
+            if (remainingSeconds < 60) {
+                timerElement.classList.add('text-error');
+            }
         }, 1000);
 
         // Anti-cheat logic

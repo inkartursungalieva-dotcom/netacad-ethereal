@@ -145,6 +145,12 @@
         let history = [];
         let configMode = false;
         let score = 0;
+        let runningConfig = {
+            hostname: activeDevice.name,
+            interfaces: {
+                'GigabitEthernet0/0': { ip: 'unassigned', status: 'up' }
+            }
+        };
 
         // Auto-focus terminal on click anywhere in the terminal area
         document.querySelector('.w-\\[450px\\]').addEventListener('click', () => {
@@ -195,6 +201,7 @@
 
         function handleCommand(cmd) {
             const originalCmd = cmd;
+            const parts = cmd.trim().split(' ');
             cmd = cmd.trim().toLowerCase();
             
             // Clear initial message
@@ -212,7 +219,7 @@
             history.push({device: activeDevice.name, cmd: originalCmd});
             printToTerminal(originalCmd, true);
 
-            // Simple Logic for Cisco Commands
+            // Cisco Command Logic
             if (cmd === 'enable' || cmd === 'en') {
                 terminalPrompt.innerText = `${activeDevice.name}#`;
             } else if (cmd === 'conf t' || cmd === 'configure terminal') {
@@ -228,12 +235,40 @@
             } else if (cmd.startsWith('hostname ')) {
                 const newName = originalCmd.split(' ')[1];
                 activeDevice.name = newName;
+                runningConfig.hostname = newName;
                 terminalPrompt.innerText = configMode ? `${newName}(config)#` : `${newName}#`;
                 deviceNameDisplay.innerText = `{% trans "Консоль" %}: ${newName}`;
                 checkTasks();
+            } else if (cmd === 'show running-config' || cmd === 'sh run') {
+                printToTerminal("Building configuration...");
+                printToTerminal("Current configuration : 1024 bytes");
+                printToTerminal("!");
+                printToTerminal(`hostname ${runningConfig.hostname}`);
+                printToTerminal("!");
+                for (let intf in runningConfig.interfaces) {
+                    printToTerminal(`interface ${intf}`);
+                    printToTerminal(` ip address ${runningConfig.interfaces[intf].ip}`);
+                }
+                printToTerminal("!");
+                printToTerminal("end");
+            } else if (cmd === 'copy running-config startup-config' || cmd === 'copy run start') {
+                printToTerminal("Destination filename [startup-config]?");
+                printToTerminal("Building configuration...");
+                printToTerminal("[OK]");
+            } else if (cmd === 'show version' || cmd === 'sh ver') {
+                printToTerminal("Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.4(3)M3");
+                printToTerminal("Technical Support: http://www.cisco.com/techsupport");
+                printToTerminal("Compiled Wed 25-Feb-15 11:32 by prod_rel_team");
+                printToTerminal(`\n${activeDevice.name} uptime is 15 minutes`);
+            } else if (cmd === 'show history' || cmd === 'sh hist') {
+                history.slice(-10).forEach((h, i) => {
+                    printToTerminal(`  ${i+1}  ${h.cmd}`);
+                });
             } else if (cmd === 'show ip int br' || cmd === 'sh ip int br') {
                 printToTerminal("Interface              IP-Address      OK? Method Status                Protocol");
-                printToTerminal("GigabitEthernet0/0     unassigned      YES unset  up                    up");
+                for (let intf in runningConfig.interfaces) {
+                    printToTerminal(`${intf.padEnd(23)} ${runningConfig.interfaces[intf].ip.padEnd(15)} YES unset  up                    up`);
+                }
             } else if (cmd === 'show interfaces' || cmd === 'sh int') {
                 printToTerminal("GigabitEthernet0/0 is up, line protocol is up");
                 printToTerminal("  Hardware is MV96340 Ethernet, address is 0011.92a7.1b01");

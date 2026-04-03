@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load osi_extras %}
 
 {% block title %}{% trans "Результаты Теста" %} - {% translate module.name %}{% endblock %}
 
@@ -69,13 +70,24 @@
                             <span class="text-on-surface-variant text-sm font-bold uppercase tracking-widest">{% trans "Итоговый отчет" %}</span>
                         </div>
                         <h1 class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight text-on-surface mb-2">{% trans "Результаты Теста" %}</h1>
-                        <p class="text-on-surface-variant text-lg">{% trans "Модуль" %} {{ module.order }}: {% translate module.name %}</p>
+                        <p class="text-on-surface-variant text-lg">{% trans "Студент:" %} {{ progress.user.get_full_name|default:progress.user.username }} | {% trans "Модуль" %} {{ module.order }}: {% translate module.name %}</p>
                     </div>
                     <div class="flex items-center justify-center lg:justify-end gap-3">
+                        {% if not is_shared_view %}
+                        <a href="{% url 'courses:export_pdf' module.slug %}" class="px-6 py-3 rounded-full bg-surface-container-highest text-on-primary-container font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                            {% trans "Скачать PDF" %}
+                        </a>
+                        <button onclick="copyShareLink()" class="px-6 py-3 rounded-full bg-surface-container-highest text-on-primary-container font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">share</span>
+                            {% trans "Поделиться" %}
+                        </button>
                         <a href="{% url 'courses:module_test' module.slug %}" class="px-6 py-3 rounded-full bg-surface-container-highest text-on-primary-container font-semibold hover:shadow-lg transition-all">
                             {% trans "Пересдать тест" %}
                         </a>
-                        {% if next_module and score_percent >= 70 %}
+                        {% endif %}
+                        
+                        {% if next_module and score_percent >= 70 and not is_shared_view %}
                         <a href="{% url 'courses:module_detail' next_module.slug %}" class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-semibold shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2">
                             {% trans "Следующий модуль" %} <span class="material-symbols-outlined">arrow_forward</span>
                         </a>
@@ -169,17 +181,20 @@
             <section class="space-y-6">
                 <h2 class="text-2xl font-bold font-headline text-on-surface px-2">{% trans "Разбор вопросов" %}</h2>
                 
-                {% for answer in user_answers %}
+                {% for item in grouped_answers %}
                 <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm border border-surface-container dark:border-slate-700">
                     <button class="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden')">
                         <div class="flex items-center gap-6">
-                            <div class="w-8 h-8 rounded-full {% if answer.is_correct %}bg-primary-container text-primary{% else %}bg-error-container/20 text-error{% endif %} flex items-center justify-center font-bold">
+                            <div class="w-8 h-8 rounded-full {% if item.is_correct %}bg-primary-container text-primary{% else %}bg-error-container/20 text-error{% endif %} flex items-center justify-center font-bold">
                                 {{ forloop.counter }}
                             </div>
                             <div>
-                                <p class="font-semibold text-on-surface dark:text-white">{{ answer.question.text }}</p>
-                                <span class="text-xs font-bold {% if answer.is_correct %}text-primary{% else %}text-error{% endif %} uppercase mt-1 inline-block">
-                                    {% if answer.is_correct %}{% trans "Правильно" %}{% else %}{% trans "Ошибка" %}{% endif %}
+                                <div class="font-semibold text-on-surface dark:text-white prose prose-sm prose-invert max-w-none">
+                                    {% translate item.question.text as q_text %}
+                                    {{ q_text|markdown }}
+                                </div>
+                                <span class="text-xs font-bold {% if item.is_correct %}text-primary{% else %}text-error{% endif %} uppercase mt-1 inline-block">
+                                    {% if item.is_correct %}{% trans "Правильно" %}{% else %}{% trans "Ошибка" %}{% endif %}
                                 </span>
                             </div>
                         </div>
@@ -187,23 +202,65 @@
                     </button>
                     <div class="px-8 pb-8 pt-0 hidden">
                         <div class="space-y-4">
-                            {% if not answer.is_correct %}
-                            <div class="flex items-center gap-3 p-4 border border-error-container/30 bg-error-container/5 rounded-xl">
-                                <span class="material-symbols-outlined text-error">close</span>
-                                <span class="text-on-surface dark:text-slate-300">{% trans "Ваш ответ:" %} {{ answer.choice.text }}</span>
-                            </div>
+                            {% if item.question.type == 'multiple_choice' %}
+                                {% with ans=item.answers.0 %}
+                                    {% if not ans.is_correct %}
+                                    <div class="flex items-center gap-3 p-4 border border-error-container/30 bg-error-container/5 rounded-xl">
+                                        <span class="material-symbols-outlined text-error">close</span>
+                                        <span class="text-on-surface dark:text-slate-300">{% trans "Ваш ответ:" %} {{ ans.choice.text }}</span>
+                                    </div>
+                                    {% endif %}
+                                    <div class="flex items-center gap-3 p-4 bg-primary-container/10 border border-primary-container/30 rounded-xl">
+                                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        <span class="text-on-surface dark:text-slate-200 font-semibold">{% trans "Верный ответ:" %} 
+                                            {% for choice in item.question.choices.all %}{% if choice.is_correct %}{{ choice.text }}{% endif %}{% endfor %}
+                                        </span>
+                                    </div>
+                                {% endwith %}
+                            {% elif item.question.type == 'sorting' %}
+                                <div class="space-y-2">
+                                    <p class="text-sm font-bold text-on-surface-variant">{% trans "Ваш порядок:" %}</p>
+                                    {% for ans in item.answers %}
+                                        <div class="flex items-center gap-3 p-2 rounded-lg {% if ans.is_correct %}bg-emerald-50 text-emerald-700{% else %}bg-error-container/10 text-error{% endif %}">
+                                            <span class="w-6 h-6 flex items-center justify-center rounded-full bg-white font-bold">{{ ans.user_order }}</span>
+                                            <span>{{ ans.choice.text }}</span>
+                                            {% if not ans.is_correct %}
+                                                <span class="text-xs italic ml-auto">({% trans "Правильно:" %} {{ ans.choice.order }})</span>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% elif item.question.type == 'matching' %}
+                                <div class="space-y-2">
+                                    <p class="text-sm font-bold text-on-surface-variant">{% trans "Ваши пары:" %}</p>
+                                    {% for ans in item.answers %}
+                                        <div class="flex items-center gap-3 p-2 rounded-lg {% if ans.is_correct %}bg-emerald-50 text-emerald-700{% else %}bg-error-container/10 text-error{% endif %}">
+                                            <span class="font-bold">{{ ans.choice.text }}</span>
+                                            <span class="material-symbols-outlined text-sm">trending_flat</span>
+                                            <span>{{ ans.matched_text }}</span>
+                                            {% if not ans.is_correct %}
+                                                <span class="text-xs italic ml-auto">({% trans "Правильно:" %} {{ ans.choice.pair_text }})</span>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% elif item.question.type == 'text_input' %}
+                                {% with ans=item.answers.0 %}
+                                    <div class="p-4 rounded-xl {% if ans.is_correct %}bg-emerald-50 text-emerald-700{% else %}bg-error-container/10 text-error{% endif %}">
+                                        <p><strong>{% trans "Ваш ответ:" %}</strong> {{ ans.user_input }}</p>
+                                        {% if not ans.is_correct %}
+                                            <p class="mt-2"><strong>{% trans "Верные варианты:" %}</strong> 
+                                                {% for choice in item.question.choices.all %}{% if choice.is_correct %}{{ choice.text }}{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                {% endwith %}
                             {% endif %}
-                            <div class="flex items-center gap-3 p-4 bg-primary-container/10 border border-primary-container/30 rounded-xl">
-                                <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                                <span class="text-on-surface dark:text-slate-200 font-semibold">{% trans "Верный ответ:" %} 
-                                    {% for choice in answer.question.choices.all %}{% if choice.is_correct %}{{ choice.text }}{% endif %}{% endfor %}
-                                </span>
-                            </div>
-                            {% if answer.question.hint %}
-                            <div class="p-4 bg-surface-container-low dark:bg-slate-900/50 rounded-xl">
-                                <p class="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">
-                                    {{ answer.question.hint }}
-                                </p>
+
+                            {% if item.question.hint %}
+                            <div class="p-4 bg-surface-container-low dark:bg-slate-900/50 rounded-xl prose prose-sm prose-invert max-w-none">
+                                {% translate item.question.hint as h_text %}
+                                {{ h_text|markdown }}
                             </div>
                             {% endif %}
                         </div>
