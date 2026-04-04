@@ -1,7 +1,3 @@
-databases:
-  - name: netacad-db
-    plan: free
-
 services:
   - type: web
     name: netacad-ethereal-inkar
@@ -10,10 +6,6 @@ services:
     buildCommand: "./build.sh"
     startCommand: "python setup_cloud.py && gunicorn config.wsgi:application"
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: netacad-db
-          property: connectionString
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY
