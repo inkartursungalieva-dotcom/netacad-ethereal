@@ -6,8 +6,8 @@ services:
   - type: web
     name: netacad-ethereal-inkar
     plan: free
-    runtime: python
-    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    env: python
+    buildCommand: "./build.sh"
     startCommand: "python setup_cloud.py && gunicorn config.wsgi:application"
     envVars:
       - key: DATABASE_URL
