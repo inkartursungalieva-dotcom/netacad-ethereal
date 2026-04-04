@@ -83,7 +83,7 @@ class Choice(models.Model):
 
 class UserProgress(models.Model):
     """Модель прогресса пользователя в модуле"""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='progress', verbose_name=_("Пользователь"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='userprogress', verbose_name=_("Пользователь"))
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='user_progress', verbose_name=_("Модуль"))
     score = models.PositiveIntegerField(default=0, verbose_name=_("Баллы"))
     time_spent = models.PositiveIntegerField(default=0, verbose_name=_("Затраченное время (сек)"))

@@ -114,8 +114,8 @@ def teacher_dashboard_index(request):
     
     # Прогресс студентов для таблицы
     students_progress = User.objects.filter(role='student').annotate(
-        current_module=Count('progress'), # Упрощенно
-        avg_score=Avg('progress__score')
+        current_module=Count('userprogress'), # Упрощенно
+        avg_score=Avg('userprogress__score')
     )[:5]
     
     # Последняя активность
@@ -123,8 +123,8 @@ def teacher_dashboard_index(request):
     
     # Прогресс студентов для таблицы (переименовываем для соответствия шаблону)
     recent_students_progress = User.objects.filter(role='student').annotate(
-        current_module=Count('progress'),
-        avg_student_score=Avg('progress__score')
+        current_module=Count('userprogress'),
+        avg_student_score=Avg('userprogress__score')
     ).order_by('-last_login')[:5]
     
     context = {
@@ -175,8 +175,8 @@ def export_report(request):
 def students_list(request):
     """Список всех студентов для преподавателя"""
     students = User.objects.filter(role='student').annotate(
-        completed_count=Count('progress', filter=Q(progress__is_completed=True)),
-        avg_score=Avg('progress__score')
+        completed_count=Count('userprogress', filter=Q(userprogress__is_completed=True)),
+        avg_score=Avg('userprogress__score')
     ).order_by('username')
     
     total_modules = Module.objects.count()
