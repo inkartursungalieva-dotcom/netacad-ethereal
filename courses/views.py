@@ -30,10 +30,31 @@ def get_user_course_progress(user):
     lab_progress_map = {p.lab.module_id: p for p in LabProgress.objects.filter(user=user).select_related('lab')}
 
     # Определяем доступность
-    for module in modules:
-        module.is_completed = module.id in completed_module_ids
-        module.lab_completed = lab_progress_map.get(module.id).is_completed if lab_progress_map.get(module.id) else False
-        module.is_accessible = True # Всегда доступно для защиты
+    is_teacher = (hasattr(user, 'role') and user.role == 'teacher') or user.is_staff
+    
+    # Сначала сбрасываем доступность для всех модулей
+    for m in modules:
+        m.is_accessible = False
+        m.is_completed = m.id in completed_module_ids
+        m.lab_completed = lab_progress_map.get(m.id).is_completed if lab_progress_map.get(m.id) else False
+
+    # Теперь вычисляем доступность по порядку
+    for i, module in enumerate(modules):
+        # Логика доступности:
+        # 1. Преподавателю доступно всё.
+        # 2. Первый модуль доступен всем.
+        # 3. Следующий модуль доступен, если ПРЕДЫДУЩИЙ завершен.
+        if is_teacher:
+            module.is_accessible = True
+        elif i == 0:
+            module.is_accessible = True
+        else:
+            prev_module = modules[i-1]
+            module.is_accessible = prev_module.id in completed_module_ids
+            
+        # Если текущий модуль не доступен, то и все последующие тоже (они уже False)
+        if not module.is_accessible:
+            break
 
     completed_count = len(completed_module_ids)
     total_count = modules.count()
@@ -46,12 +67,27 @@ def roadmap_view(request):
     modules = Module.objects.all().order_by('order')
     
     if request.user.is_authenticated:
-        user_progress = {p.module_id: p for p in UserProgress.objects.filter(user=request.user)}
-        completed_modules = {mid for mid, p in user_progress.items() if p.is_completed}
+        is_teacher = (hasattr(request.user, 'role') and request.user.role == 'teacher') or request.user.is_staff
+        user_progress_map = {p.module_id: p for p in UserProgress.objects.filter(user=request.user)}
+        completed_module_ids = {mid for mid, p in user_progress_map.items() if p.is_completed}
         
-        for module in modules:
-            module.is_completed = module.id in completed_modules
-            module.is_accessible = True # Для защиты
+        # Сначала сбрасываем доступность
+        for m in modules:
+            m.is_accessible = False
+            m.is_completed = m.id in completed_module_ids
+            
+        # Теперь вычисляем доступность по порядку
+        for i, module in enumerate(modules):
+            if is_teacher:
+                module.is_accessible = True
+            elif i == 0:
+                module.is_accessible = True
+            else:
+                prev_module = modules[i-1]
+                module.is_accessible = prev_module.id in completed_module_ids
+                
+            if not module.is_accessible:
+                break
     else:
         # Для анонимных пользователей доступен только первый модуль
         for i, module in enumerate(modules):
@@ -63,24 +99,29 @@ def roadmap_view(request):
 
 def can_access_module(user, module):
     """Проверка: может ли пользователь получить доступ к модулю"""
-    # Для демонстрации на защите разрешаем доступ ко всем модулям любому пользователю
-    # Если нужно вернуть строгую последовательность, закомментируйте 'return True'
-    return True
-    
+    # Для преподавателей и админов доступ всегда открыт
     if user.is_staff or (hasattr(user, 'role') and user.role == 'teacher'):
         return True
     
-    # Если это первый модуль, он всегда доступен
+    # Если это первый модуль (order=1), он всегда доступен
     if module.order == 1:
         return True
     
-    # Иначе, проверяем завершен ли предыдущий модуль
+    # Проверяем, завершен ли ЛЮБОЙ из предыдущих модулей (или самый последний из них)
+    # Для строгой последовательности проверяем именно предыдущий по порядку
     previous_module = Module.objects.filter(order__lt=module.order).order_by('-order').first()
+    
     if not previous_module:
         return True
         
-    progress = UserProgress.objects.filter(user=user, module=previous_module, is_completed=True).exists()
-    return progress
+    # Модуль считается пройденным, если есть запись в UserProgress с is_completed=True
+    is_prev_completed = UserProgress.objects.filter(
+        user=user, 
+        module=previous_module, 
+        is_completed=True
+    ).exists()
+    
+    return is_prev_completed
 
 @login_required
 def usability_test_view(request):
@@ -204,7 +245,7 @@ def module_test_view(request, slug):
     module = get_object_or_404(Module, slug=slug)
     
     if not can_access_module(request.user, module):
-        messages.error(request, _("Тест недоступен, пока не завершен предыдущий модуль."))
+        messages.error(request, _("Вы не можете получить доступ к этому модулю, пока не завершите предыдущий."))
         return redirect('courses:list')
         
     questions = module.questions.all().prefetch_related('choices')
