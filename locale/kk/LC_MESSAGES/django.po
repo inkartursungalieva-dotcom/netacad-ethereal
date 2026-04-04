@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-30 02:52+0500\n"
+"POT-Creation-Date: 2026-04-05 02:58+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,7 @@ msgstr "Бұл аккаунт белсенді емес."
 
 #: .\accounts\models.py:8 .\dashboard\views.py:150
 #: .\templates\accounts\login.html:102 .\templates\accounts\register.html:114
-#: .\templates\dashboard\grades.html:99
+#: .\templates\dashboard\grades.html:101
 #: .\templates\dashboard\students_list.html:29
 msgid "Студент"
 msgstr "Студент"
@@ -90,12 +90,12 @@ msgid "Преподаватель"
 msgstr "Оқытушы"
 
 #: .\accounts\models.py:13 .\templates\accounts\profile.html:230
-#: .\templates\base.html:225
+#: .\templates\base.html:226
 msgid "Русский"
 msgstr "Орысша"
 
 #: .\accounts\models.py:14 .\templates\accounts\profile.html:237
-#: .\templates\base.html:227
+#: .\templates\base.html:228
 msgid "Қазақша"
 msgstr "Қазақша"
 
@@ -127,8 +127,8 @@ msgstr "Кодтың соңғы жіберілуі"
 msgid "Дата регистрации"
 msgstr "Тіркелген күні"
 
-#: .\accounts\models.py:75 .\accounts\models.py:84 .\courses\models.py:67
-#: .\courses\models.py:95 .\laboratory\models.py:22
+#: .\accounts\models.py:75 .\accounts\models.py:84 .\courses\models.py:86
+#: .\courses\models.py:102 .\courses\models.py:116 .\laboratory\models.py:22
 msgid "Пользователь"
 msgstr "Пайдаланушы"
 
@@ -136,7 +136,7 @@ msgstr "Пайдаланушы"
 msgid "Пользователи"
 msgstr "Пайдаланушылар"
 
-#: .\accounts\models.py:85 .\courses\models.py:115 .\laboratory\models.py:8
+#: .\accounts\models.py:85 .\courses\models.py:149 .\laboratory\models.py:8
 msgid "Заголовок"
 msgstr "Тақырып"
 
@@ -158,7 +158,8 @@ msgstr "Хабарландыру"
 
 #: .\accounts\models.py:92 .\templates\accounts\notifications.html:5
 #: .\templates\accounts\notifications.html:19
-#: .\templates\dashboard\index.html:133 .\templates\includes\sidebar.html:96
+#: .\templates\dashboard\grades.html:47 .\templates\dashboard\index.html:133
+#: .\templates\includes\sidebar.html:96
 msgid "Уведомления"
 msgstr "Хабарламалар"
 
@@ -221,217 +222,360 @@ msgstr "Мысалы: Маршрутизация негіздері"
 msgid "Краткое описание содержимого..."
 msgstr "Студенттер осы модульде не үйренетіні туралы қысқаша сипаттама"
 
-#: .\courses\models.py:7 .\templates\dashboard\create_module.html:36
+#: .\courses\models.py:8 .\templates\dashboard\create_module.html:36
 #: .\templates\dashboard\edit_module.html:36
 msgid "Название модуля"
 msgstr "Модуль атауы"
 
-#: .\courses\models.py:8
-msgid "Слаг"
-msgstr "Слаг"
+#: .\courses\models.py:9
+msgid "URL слаг"
+msgstr ""
 
-#: .\courses\models.py:9 .\templates\dashboard\create_module.html:45
-#: .\templates\dashboard\edit_module.html:45
-msgid "Порядок"
-msgstr "Реті"
-
-#: .\courses\models.py:10 .\courses\models.py:116 .\laboratory\models.py:9
+#: .\courses\models.py:10 .\courses\models.py:152 .\laboratory\models.py:9
 msgid "Описание"
 msgstr "Сипаттамасы"
 
 #: .\courses\models.py:11
-msgid "Изображение модуля"
+#, fuzzy
+#| msgid "Изображение модуля"
+msgid "Изображение"
 msgstr "Модуль суреті"
 
-#: .\courses\models.py:12
+#: .\courses\models.py:13
 msgid "Ссылка на видео (YouTube)"
 msgstr "Бейне сілтемесі (YouTube)"
 
-#: .\courses\models.py:13 .\templates\dashboard\create_module.html:103
+#: .\courses\models.py:16 .\templates\dashboard\create_module.html:103
 #: .\templates\dashboard\edit_module.html:102
 msgid "Дополнительный файл"
 msgstr "Қосымша файл"
 
-#: .\courses\models.py:14
-msgid "Изменен преподавателем"
+#: .\courses\models.py:18 .\templates\dashboard\create_module.html:45
+#: .\templates\dashboard\edit_module.html:45
+msgid "Порядок"
+msgstr "Реті"
+
+#: .\courses\models.py:19
+#, fuzzy
+#| msgid "Активен"
+msgid "Активен?"
+msgstr "Белсенді"
+
+#: .\courses\models.py:20
+#, fuzzy
+#| msgid "Изменен преподавателем"
+msgid "Изменён преподавателем"
 msgstr "Оқытушымен өзгертілген"
 
-#: .\courses\models.py:17 .\courses\models.py:37 .\courses\models.py:68
-#: .\dashboard\views.py:152 .\laboratory\models.py:7
+#: .\courses\models.py:23 .\courses\models.py:53 .\courses\models.py:87
+#: .\courses\models.py:148 .\dashboard\views.py:152 .\laboratory\models.py:7
 #: .\templates\courses\generic_module.html:20
 #: .\templates\courses\introduction.html:33
 #: .\templates\courses\ip_addressing.html:33 .\templates\courses\lan.html:34
 #: .\templates\courses\osi_model.html:30 .\templates\courses\osi_model.html:31
 #: .\templates\courses\protocols.html:30 .\templates\courses\roadmap.html:75
 #: .\templates\courses\roadmap.html:109
-#: .\templates\courses\test_results.html:72
-#: .\templates\dashboard\grades.html:160
+#: .\templates\courses\test_results.html:73
+#: .\templates\dashboard\grades.html:162
 #: .\templates\dashboard\student_detail.html:59
 #: .\templates\includes\sidebar.html:67
 msgid "Модуль"
 msgstr "Модуль"
 
-#: .\courses\models.py:18
+#: .\courses\models.py:24
 msgid "Модули"
 msgstr "Модульдер"
 
-#: .\courses\models.py:28 .\courses\translations.py:38
+#: .\courses\models.py:38 .\courses\translations.py:38
 msgid "Легкий"
 msgstr "Жеңіл"
 
-#: .\courses\models.py:29 .\courses\translations.py:39
+#: .\courses\models.py:39 .\courses\translations.py:39
 msgid "Средний"
 msgstr "Орташа"
 
-#: .\courses\models.py:30 .\courses\translations.py:40
+#: .\courses\models.py:40 .\courses\translations.py:40
 msgid "Сложный"
 msgstr "Күрделі"
 
-#: .\courses\models.py:33 .\courses\translations.py:33
+#: .\courses\models.py:43 .\courses\translations.py:33
 msgid "Концептуальный анализ"
 msgstr "Концептуалды талдау"
 
-#: .\courses\models.py:34 .\courses\translations.py:34
+#: .\courses\models.py:44 .\courses\translations.py:34
 msgid "Практическое применение"
 msgstr "Практикалық қолдану"
 
-#: .\courses\models.py:35 .\courses\translations.py:35
+#: .\courses\models.py:45 .\courses\translations.py:35
 msgid "Поиск неисправностей"
 msgstr "Ақауларды іздеу"
 
-#: .\courses\models.py:38
+#: .\courses\models.py:48
+#, fuzzy
+#| msgid "Сбор информации"
+msgid "Выбор варианта"
+msgstr "Жеке ақпарат"
+
+#: .\courses\models.py:49
+#, fuzzy
+#| msgid "Тестирование"
+msgid "Сортировка"
+msgstr "Тестілеу"
+
+#: .\courses\models.py:50
+#, fuzzy
+#| msgid "Управление"
+msgid "Сопоставление"
+msgstr "Басқару"
+
+#: .\courses\models.py:51
+msgid "Ввод текста"
+msgstr ""
+
+#: .\courses\models.py:54
 msgid "Текст вопроса"
 msgstr "Сұрақ мәтіні"
 
-#: .\courses\models.py:39
+#: .\courses\models.py:55
 msgid "Подсказка"
 msgstr "Көмекші құрал"
 
-#: .\courses\models.py:40 .\templates\courses\final_project.html:175
+#: .\courses\models.py:56 .\templates\courses\final_project.html:175
 msgid "Сложность"
 msgstr "Күрделілігі"
 
-#: .\courses\models.py:41
+#: .\courses\models.py:57
 msgid "Категория"
 msgstr "Санаты"
 
-#: .\courses\models.py:44 .\courses\models.py:53 .\courses\models.py:96
-#: .\templates\courses\module_test.html:166
+#: .\courses\models.py:58
+#, fuzzy
+#| msgid "Текст вопроса"
+msgid "Тип вопроса"
+msgstr "Сұрақ мәтіні"
+
+#: .\courses\models.py:59
+msgid "Секция (блок)"
+msgstr ""
+
+#: .\courses\models.py:62 .\courses\models.py:70 .\courses\models.py:103
+#: .\templates\courses\module_test.html:217
 msgid "Вопрос"
 msgstr "Сұрақ"
 
-#: .\courses\models.py:45
+#: .\courses\models.py:63
 msgid "Вопросы"
 msgstr "Сұрақтар"
 
-#: .\courses\models.py:54
+#: .\courses\models.py:71
 msgid "Текст ответа"
 msgstr "Жауап мәтіні"
 
-#: .\courses\models.py:55
+#: .\courses\models.py:72
 msgid "Верный?"
 msgstr "Дұрыс па?"
 
-#: .\courses\models.py:58
+#: .\courses\models.py:73
+#, fuzzy
+#| msgid "Порядок отображения"
+msgid "Порядок (для сортировки)"
+msgstr "Көрсету реті"
+
+#: .\courses\models.py:74
+#, fuzzy
+#| msgid "Панель управления"
+msgid "Пара (для сопоставления)"
+msgstr "Басқару панелі"
+
+#: .\courses\models.py:77
 msgid "Вариант ответа"
 msgstr "Жауап нұсқасы"
 
-#: .\courses\models.py:59
+#: .\courses\models.py:78
 msgid "Варианты ответа"
 msgstr "Жауап нұсқалары"
 
-#: .\courses\models.py:69
-msgid "Завершен?"
-msgstr "Аяқталды ма?"
+#: .\courses\models.py:88 .\dashboard\views.py:154 .\laboratory\models.py:25
+#: .\templates\dashboard\test_results.html:60
+msgid "Баллы"
+msgstr "Баллдар"
 
-#: .\courses\models.py:70
-msgid "Баллы за тест"
-msgstr "Тест балдары"
+#: .\courses\models.py:89
+#, fuzzy
+#| msgid "Затрачено времени"
+msgid "Затраченное время (сек)"
+msgstr "Жұмсалған уақыт"
 
-#: .\courses\models.py:71
-msgid "Время (в секундах)"
-msgstr "Уақыт (секундпен)"
-
-#: .\courses\models.py:72
+#: .\courses\models.py:90
 msgid "Количество ошибок"
 msgstr "Қателер саны"
 
-#: .\courses\models.py:73 .\dashboard\views.py:156 .\laboratory\models.py:27
+#: .\courses\models.py:91 .\dashboard\views.py:156 .\laboratory\models.py:27
 msgid "Дата завершения"
 msgstr "Аяқталған күні"
 
-#: .\courses\models.py:76
+#: .\courses\models.py:92
+msgid "Завершен?"
+msgstr "Аяқталды ма?"
+
+#: .\courses\models.py:93
+#, fuzzy
+#| msgid "Сетевой доступ"
+msgid "Токен доступа"
+msgstr "Желілік қолжетімділік"
+
+#: .\courses\models.py:96
 msgid "Прогресс пользователя"
 msgstr "Пайдаланушы прогресі"
 
-#: .\courses\models.py:77
+#: .\courses\models.py:97
 msgid "Прогресс пользователей"
 msgstr "Пайдаланушылар прогресі"
 
-#: .\courses\models.py:81 .\dashboard\views.py:153
-#: .\templates\dashboard\student_detail.html:77
-msgid "Завершен"
-msgstr "Аяқталды"
-
-#: .\courses\models.py:81 .\templates\courses\list.html:77
-#: .\templates\dashboard\student_detail.html:82
-#: .\templates\laboratory\lab_simulator.html:53
-msgid "В процессе"
-msgstr "Орындалуда"
-
-#: .\courses\models.py:97
+#: .\courses\models.py:104
 msgid "Выбранный ответ"
 msgstr "Таңдалған жауап"
 
-#: .\courses\models.py:98
+#: .\courses\models.py:105
+#, fuzzy
+#| msgid "Аватар пользователя"
+msgid "Ввод пользователя"
+msgstr "Пайдаланушы аватару"
+
+#: .\courses\models.py:106
+#, fuzzy
+#| msgid "Имя пользователя"
+msgid "Порядок пользователя"
+msgstr "Пайдаланушы аты"
+
+#: .\courses\models.py:107
+#, fuzzy
+#| msgid "Начать полный тест"
+msgid "Сопоставленный текст"
+msgstr "Оқуды бастау"
+
+#: .\courses\models.py:108
 msgid "Верно?"
 msgstr "Дұрыс па?"
 
-#: .\courses\models.py:101
+#: .\courses\models.py:111
 msgid "Ответ пользователя"
 msgstr "Пайдаланушы жауабы"
 
-#: .\courses\models.py:102
+#: .\courses\models.py:112
 msgid "Ответы пользователей"
 msgstr "Пайдаланушылар жауаптары"
 
-#: .\courses\models.py:109
-msgid "Книга"
-msgstr "Кітап"
+#: .\courses\models.py:117 .\courses\views.py:152
+msgid "Я думаю, что я хотел бы часто использовать эту систему"
+msgstr ""
 
-#: .\courses\models.py:110
-msgid "Документ"
+#: .\courses\models.py:118 .\courses\views.py:153
+msgid "Я нашел систему излишне сложной"
+msgstr ""
+
+#: .\courses\models.py:119 .\courses\views.py:154
+#, fuzzy
+#| msgid "Ссылка недействительна или уже использована."
+msgid "Я думаю, что система была легкой в использовании"
+msgstr "Сілтеме жарамсыз немесе қазірдің өзінде пайдаланылған."
+
+#: .\courses\models.py:120 .\courses\views.py:155
+msgid ""
+"Я думаю, что мне понадобится помощь технического специалиста, чтобы "
+"пользоваться этой системой"
+msgstr ""
+
+#: .\courses\models.py:121 .\courses\views.py:156
+msgid "Я нашел, что различные функции в этой системе были хорошо интегрированы"
+msgstr ""
+
+#: .\courses\models.py:122 .\courses\views.py:157
+msgid "Я думаю, что в этой системе было слишком много несогласованности"
+msgstr ""
+
+#: .\courses\models.py:123 .\courses\views.py:158
+msgid ""
+"Я бы вообразил, что большинство людей научатся пользоваться этой системой "
+"очень быстро"
+msgstr ""
+
+#: .\courses\models.py:124 .\courses\views.py:159
+msgid "Я нашел систему очень громоздкой в использовании"
+msgstr ""
+
+#: .\courses\models.py:125 .\courses\views.py:160
+msgid "Я чувствовал себя очень уверенно, пользуясь системой"
+msgstr ""
+
+#: .\courses\models.py:126 .\courses\views.py:161
+msgid ""
+"Мне нужно было узнать много вещей, прежде чем я смог приступить к работе с "
+"этой системой"
+msgstr ""
+
+#: .\courses\models.py:127
+#, fuzzy
+#| msgid "Документация"
+msgid "Комментарии"
+msgstr "Құжаттама"
+
+#: .\courses\models.py:137 .\templates\base.html:213
+#: .\templates\courses\usability_test.html:11
+#, fuzzy
+#| msgid "Т - Оценка за тест"
+msgid "Оценка юзабилити"
+msgstr "Тест балдары"
+
+#: .\courses\models.py:138
+#, fuzzy
+#| msgid "Т - Оценка за тест"
+msgid "Оценки юзабилити"
+msgstr "Тест балдары"
+
+#: .\courses\models.py:143
+msgid "Видео"
+msgstr ""
+
+#: .\courses\models.py:144
+#, fuzzy
+#| msgid "Документ"
+msgid "PDF документ"
 msgstr "Құжат"
 
-#: .\courses\models.py:111
-msgid "Презентация"
-msgstr "Презентация"
+#: .\courses\models.py:145
+msgid "Внешняя ссылка"
+msgstr ""
 
-#: .\courses\models.py:112
+#: .\courses\models.py:146
 msgid "Другое"
 msgstr "Басқа"
 
-#: .\courses\models.py:117
+#: .\courses\models.py:150
 msgid "Файл"
 msgstr "Файл"
 
-#: .\courses\models.py:118 .\templates\courses\add_resource.html:69
+#: .\courses\models.py:151
+msgid "Ссылка"
+msgstr ""
+
+#: .\courses\models.py:153 .\templates\courses\add_resource.html:69
 msgid "Тип ресурса"
 msgstr "Ресурс түрі"
 
-#: .\courses\models.py:119
+#: .\courses\models.py:154
 msgid "Загрузил"
 msgstr "Жүктеген"
 
-#: .\courses\models.py:120
+#: .\courses\models.py:155
 msgid "Дата загрузки"
 msgstr "Жүктелген күні"
 
-#: .\courses\models.py:123
+#: .\courses\models.py:160
 msgid "Ресурс"
 msgstr "Ресурс"
 
-#: .\courses\models.py:124
+#: .\courses\models.py:161
 msgid "Ресурсы"
 msgstr "Ресурстар"
 
@@ -593,42 +737,41 @@ msgstr ""
 "Windows/Linux жүйесінде IP-мекенжайларды қолмен баптауды, диагностикалық "
 "командаларды және ең жаңа WPA3 қауіпсіздік хаттамаларын меңгеріңіз."
 
-#: .\courses\views.py:106
+#: .\courses\views.py:226 .\courses\views.py:253
 msgid ""
 "Вы не можете получить доступ к этому модулю, пока не завершите предыдущий."
 msgstr "Алдыңғы модульді аяқтамайынша, бұл модульге кіре алмайсыз."
 
-#: .\courses\views.py:129
-msgid "Тест недоступен, пока не завершен предыдущий модуль."
-msgstr "Алдыңғы модуль аяқталмайынша, тест қолжетімсіз."
-
-#: .\courses\views.py:146
+#: .\courses\views.py:270
 msgid "Тест аннулирован из-за переключения вкладки."
 msgstr "Қойынды ауыстыруға байланысты тест жойылды."
 
-#: .\courses\views.py:192
-#, python-brace-format
-msgid "Тест пройден! Ваш результат: {}/{}"
+#: .\courses\views.py:351
+#, fuzzy, python-brace-format
+#| msgid "Тест пройден! Ваш результат: {}/{}"
+msgid "Тест пройден! Ваш результат: {score}/{total}"
 msgstr "Тест өтті! Сіздің нәтижеңіз: {}/{}"
 
-#: .\courses\views.py:194
-#, python-brace-format
-msgid "Тест не пройден. Ваш результат: {}/{}. Нужно минимум {}%."
+#: .\courses\views.py:353
+#, fuzzy, python-brace-format
+#| msgid "Тест не пройден. Ваш результат: {}/{}. Нужно минимум {}%."
+msgid ""
+"Тест не пройден. Ваш результат: {score}/{total}. Нужно минимум {percent}%."
 msgstr "Тест өтпеді. Сіздің нәтижеңіз: {}/{}. Кем дегенде {}% қажет."
 
-#: .\courses\views.py:225 .\courses\views.py:227
+#: .\courses\views.py:397
 msgid "Средняя"
 msgstr "Орташа"
 
-#: .\courses\views.py:263
+#: .\courses\views.py:473
 msgid "У вас нет прав для добавления материалов."
 msgstr "Материалдарды қосуға құқығыңыз жоқ."
 
-#: .\courses\views.py:272
+#: .\courses\views.py:482
 msgid "Материал успешно добавлен!"
 msgstr "Материал сәтті қосылды!"
 
-#: .\courses\views.py:287
+#: .\courses\views.py:497
 msgid "Материал удален."
 msgstr "Материал жойылды."
 
@@ -637,12 +780,11 @@ msgstr "Материал жойылды."
 msgid "Email"
 msgstr "Email"
 
-#: .\dashboard\views.py:154 .\laboratory\models.py:25
-#: .\templates\dashboard\test_results.html:60
-msgid "Баллы"
-msgstr "Баллдар"
+#: .\dashboard\views.py:153 .\templates\dashboard\student_detail.html:77
+msgid "Завершен"
+msgstr "Аяқталды"
 
-#: .\dashboard\views.py:155 .\templates\courses\test_results.html:152
+#: .\dashboard\views.py:155 .\templates\courses\test_results.html:164
 #: .\templates\dashboard\test_results.html:74
 msgid "Ошибки"
 msgstr "Қателер"
@@ -758,8 +900,9 @@ msgstr "Диагностика"
 
 #: .\templates\404.html:169 .\templates\500.html:182
 msgid "Разработано Inkar Bolatovna. Построено на Python, Django & MySQL."
-msgstr "Inkar Bolatovna әзірлеген. Python, Django және MySQL негізінде жасалған."
+msgstr ""
 "Inkar Bolatovna әзірлеген. Python, Django және MySQL негізінде "
+"жасалған.Inkar Bolatovna әзірлеген. Python, Django және MySQL негізінде "
 "жасалған.Inkar Bolatovna әзірлеген. Python, Django және MySQL негізінде "
 "жасалған."
 
@@ -1223,12 +1366,12 @@ msgstr "Таңдаулар"
 msgid "Тема оформления"
 msgstr "Безендіру тақырыбы"
 
-#: .\templates\accounts\profile.html:256 .\templates\base.html:232
-#: .\templates\base.html:249
+#: .\templates\accounts\profile.html:256 .\templates\base.html:233
+#: .\templates\base.html:250
 msgid "Светлая"
 msgstr "Жарық"
 
-#: .\templates\accounts\profile.html:262 .\templates\base.html:248
+#: .\templates\accounts\profile.html:262 .\templates\base.html:249
 msgid "Тёмная"
 msgstr "Қараңғы"
 
@@ -1416,7 +1559,7 @@ msgstr "Оқу жоспары"
 msgid "Курсы"
 msgstr "Курстар"
 
-#: .\templates\base.html:130 .\templates\courses\test_results.html:34
+#: .\templates\base.html:130 .\templates\courses\test_results.html:35
 #: .\templates\dashboard\index.html:5
 msgid "Панель"
 msgstr "Панель"
@@ -1440,23 +1583,23 @@ msgstr "Навигация"
 msgid "Контакты"
 msgstr "Контактілер"
 
-#: .\templates\base.html:213
+#: .\templates\base.html:214
 msgid "Cookies"
 msgstr "Cookies"
 
-#: .\templates\base.html:217
+#: .\templates\base.html:218
 msgid "Настройки системы"
 msgstr "Жүйе параметрлері"
 
-#: .\templates\base.html:224
+#: .\templates\base.html:225
 msgid "Язык:"
 msgstr "Тіл:"
 
-#: .\templates\base.html:232
+#: .\templates\base.html:233
 msgid "Тема:"
 msgstr "Тақырып:"
 
-#: .\templates\base.html:240
+#: .\templates\base.html:241
 msgid ""
 "Разработано с использованием современных практик сетевого администрирования "
 "и педагогического дизайна."
@@ -2159,7 +2302,7 @@ msgstr "Шолу"
 
 #: .\templates\courses\final_project.html:276
 #: .\templates\courses\introduction.html:207
-#: .\templates\courses\test_results.html:84
+#: .\templates\courses\test_results.html:96
 #: .\templates\dashboard\index.html:121
 #: .\templates\dashboard\test_results.html:98
 msgid "К списку курсов"
@@ -2678,11 +2821,17 @@ msgstr "Модуль жасау"
 
 #: .\templates\courses\list.html:75 .\templates\courses\roadmap.html:79
 #: .\templates\courses\roadmap.html:113
-#: .\templates\courses\test_results.html:67
+#: .\templates\courses\test_results.html:68
 #: .\templates\dashboard\test_results.html:53
-#: .\templates\laboratory\lab_simulator.html:250
+#: .\templates\laboratory\lab_simulator.html:285
 msgid "Завершено"
 msgstr ""
+
+#: .\templates\courses\list.html:77
+#: .\templates\dashboard\student_detail.html:82
+#: .\templates\laboratory\lab_simulator.html:53
+msgid "В процессе"
+msgstr "Орындалуда"
 
 #: .\templates\courses\list.html:80 .\templates\courses\roadmap.html:84
 #: .\templates\courses\roadmap.html:118
@@ -2705,63 +2854,102 @@ msgstr ""
 msgid "Начать"
 msgstr ""
 
-#: .\templates\courses\module_test.html:5
+#: .\templates\courses\module_test.html:6
 msgid "NetAcad Ethereal - Тест:"
 msgstr ""
 
-#: .\templates\courses\module_test.html:39
+#: .\templates\courses\module_test.html:40
 msgid "Вопрос 1"
 msgstr ""
 
-#: .\templates\courses\module_test.html:44
+#: .\templates\courses\module_test.html:45
 #: .\templates\laboratory\lab_simulator.html:56
 #: .\templates\laboratory\osi_lab.html:66
 msgid "Завершить"
 msgstr ""
 
-#: .\templates\courses\module_test.html:52
+#: .\templates\courses\module_test.html:53
 msgid "Тестирование по теме:"
 msgstr "Тестілеу"
 
-#: .\templates\courses\module_test.html:62
+#: .\templates\courses\module_test.html:63
 msgid ""
 "Внимание: переключение вкладок или сворачивание окна приведет к "
 "аннулированию теста."
 msgstr ""
 
-#: .\templates\courses\module_test.html:76
+#: .\templates\courses\module_test.html:77
 msgid "Сложность:"
 msgstr ""
 
-#: .\templates\courses\module_test.html:112
+#: .\templates\courses\module_test.html:82
+msgid "Раздел:"
+msgstr ""
+
+#: .\templates\courses\module_test.html:118
+msgid ""
+"Расставьте элементы в правильном порядке (1 - первый, 2 - второй и т.д.):"
+msgstr ""
+
+#: .\templates\courses\module_test.html:128
+msgid "Подберите правильную пару для каждого элемента:"
+msgstr ""
+
+#: .\templates\courses\module_test.html:137
+#, fuzzy
+#| msgid "Выберите свой путь"
+msgid "Выберите пару..."
+msgstr "Өз жолыңызды таңдаңыз"
+
+#: .\templates\courses\module_test.html:148
+#, fuzzy
+#| msgid "Выбранный ответ"
+msgid "Введите правильный ответ:"
+msgstr "Таңдалған жауап"
+
+#: .\templates\courses\module_test.html:150
+#, fuzzy
+#| msgid "Ваш ответ:"
+msgid "Ваш ответ..."
+msgstr "Сіздің жауабыңыз:"
+
+#: .\templates\courses\module_test.html:163
 msgid "Предыдущий вопрос"
 msgstr ""
 
-#: .\templates\courses\module_test.html:120
+#: .\templates\courses\module_test.html:171
 msgid "Следующий вопрос"
 msgstr ""
 
-#: .\templates\courses\module_test.html:125
+#: .\templates\courses\module_test.html:176
 msgid "Завершить тест"
 msgstr ""
 
-#: .\templates\courses\module_test.html:142
+#: .\templates\courses\module_test.html:193
 msgid "Тест аннулирован"
 msgstr ""
 
-#: .\templates\courses\module_test.html:144
+#: .\templates\courses\module_test.html:195
 msgid ""
 "Вы переключили вкладку или покинули окно браузера. В целях обеспечения "
 "честности тестирования, ваша попытка была прекращена."
 msgstr ""
 
-#: .\templates\courses\module_test.html:147
+#: .\templates\courses\module_test.html:198
 msgid "Вернуться к курсу"
 msgstr ""
 
-#: .\templates\courses\module_test.html:176
-msgid "Пожалуйста, выберите ответ"
-msgstr ""
+#: .\templates\courses\module_test.html:241
+#, fuzzy
+#| msgid "Пожалуйста, введите все 6 цифр кода"
+msgid "Пожалуйста, ответьте на все части вопроса"
+msgstr "Кодтың барлық 6 цифрын енгізіңіз"
+
+#: .\templates\courses\module_test.html:281
+#, fuzzy
+#| msgid "Ваши результаты тестирования и практических работ."
+msgid "Время вышло! Ваш тест будет автоматически отправлен."
+msgstr "Тестілеу және практикалық жұмыстардың нәтижелері."
 
 #: .\templates\courses\osi_model.html:5
 msgid "Модуль 2: Сетевое оборудование | EthernetArch"
@@ -2911,7 +3099,7 @@ msgstr "МОДУЛЬ ПРОГРЕСІ: 45%%"
 msgid "Модуль 5: Протоколы передачи данных | EthernetArch"
 msgstr "5-модуль: Деректерді тасымалдау хаттамалары | NetAcad Ethereal"
 
-#: .\templates\courses\protocols.html:29 .\templates\dashboard\grades.html:100
+#: .\templates\courses\protocols.html:29 .\templates\dashboard\grades.html:102
 #: .\templates\dashboard\teacher_index.html:202
 msgid "Текущий модуль"
 msgstr "Ағымдағы модуль"
@@ -3001,7 +3189,7 @@ msgid "Интерактивная лаборатория"
 msgstr "Интерактивті зертхана"
 
 #: .\templates\courses\protocols.html:156
-#: .\templates\courses\protocols.html:189 .\templates\courses\resources.html:79
+#: .\templates\courses\protocols.html:189
 msgid "Сохранить"
 msgstr "Сақтау"
 
@@ -3077,11 +3265,21 @@ msgstr "Бұл материалды жою керек пе?"
 msgid "Нет описания"
 msgstr "Сипаттама жоқ"
 
-#: .\templates\courses\resources.html:89
+#: .\templates\courses\resources.html:80
+#, fuzzy
+#| msgid "Скачать файл"
+msgid "Скачать"
+msgstr "Файлды жүктеу"
+
+#: .\templates\courses\resources.html:85
+msgid "Открыть"
+msgstr ""
+
+#: .\templates\courses\resources.html:96
 msgid "Библиотека пуста"
 msgstr "Кітапхана бос"
 
-#: .\templates\courses\resources.html:91
+#: .\templates\courses\resources.html:98
 msgid ""
 "Пока нет загруженных материалов. Преподаватели скоро добавят полезные книги "
 "и документы."
@@ -3423,125 +3621,226 @@ msgstr ""
 msgid "Ключевые протоколы"
 msgstr "Негізгі хаттамалар"
 
-#: .\templates\courses\test_results.html:5
-#: .\templates\courses\test_results.html:71
+#: .\templates\courses\test_results.html:6
+#: .\templates\courses\test_results.html:72
 msgid "Результаты Теста"
 msgstr "Тест нәтижелері"
 
-#: .\templates\courses\test_results.html:29
+#: .\templates\courses\test_results.html:30
 msgid "Архитектор Ethereal"
 msgstr "Ethereal архитекторы"
 
-#: .\templates\courses\test_results.html:38
+#: .\templates\courses\test_results.html:39
 msgid "Мои Курсы"
 msgstr "Менің курстарым"
 
-#: .\templates\courses\test_results.html:42
+#: .\templates\courses\test_results.html:43
 msgid "Результаты Тестов"
 msgstr "Тест нәтижелері"
 
-#: .\templates\courses\test_results.html:46
-#: .\templates\includes\sidebar.html:114
+#: .\templates\courses\test_results.html:47
+#: .\templates\dashboard\grades.html:48 .\templates\includes\sidebar.html:114
 msgid "Настройки"
 msgstr "Баптаулар"
 
-#: .\templates\courses\test_results.html:67
+#: .\templates\courses\test_results.html:68
 msgid "Не пройдено"
 msgstr "Өтілген жоқ"
 
-#: .\templates\courses\test_results.html:69
+#: .\templates\courses\test_results.html:70
 msgid "Итоговый отчет"
 msgstr "Қорытынды жоба"
 
-#: .\templates\courses\test_results.html:76
+#: .\templates\courses\test_results.html:73
+#, fuzzy
+#| msgid "Студент"
+msgid "Студент:"
+msgstr "Студент"
+
+#: .\templates\courses\test_results.html:79
+#, fuzzy
+#| msgid "Скачать файл"
+msgid "Скачать PDF"
+msgstr "Файлды жүктеу"
+
+#: .\templates\courses\test_results.html:83
+#, fuzzy
+#| msgid "Модель OSI"
+msgid "Поделиться"
+msgstr "OSI моделі"
+
+#: .\templates\courses\test_results.html:86
 msgid "Пересдать тест"
 msgstr "Тестті қайта тапсыру"
 
-#: .\templates\courses\test_results.html:80
+#: .\templates\courses\test_results.html:92
 msgid "Следующий модуль"
 msgstr "Келесі модуль"
 
-#: .\templates\courses\test_results.html:103
+#: .\templates\courses\test_results.html:115
 msgid "Общий балл"
 msgstr "Жалпы балл"
 
-#: .\templates\courses\test_results.html:107
+#: .\templates\courses\test_results.html:119
 msgid "Отличный результат!"
 msgstr "Тамаша нәтиже!"
 
-#: .\templates\courses\test_results.html:107
+#: .\templates\courses\test_results.html:119
 msgid "Попробуйте еще раз!"
 msgstr "Қайтадан байқап көріңіз!"
 
-#: .\templates\courses\test_results.html:108
+#: .\templates\courses\test_results.html:120
 msgid "Вы успешно освоили материал модуля."
 msgstr "Сіз модуль материалын сәтті меңгердіңіз."
 
-#: .\templates\courses\test_results.html:108
+#: .\templates\courses\test_results.html:120
 #, python-format
 msgid "Вам нужно набрать минимум 70%% для прохождения."
 msgstr "Өту үшін кемінде 70%% жинау керек."
 
-#: .\templates\courses\test_results.html:119
+#: .\templates\courses\test_results.html:131
 msgid "Итоговая оценка"
 msgstr "Қорытынды баға"
 
-#: .\templates\courses\test_results.html:134
+#: .\templates\courses\test_results.html:146
 msgid "Правильных ответов"
 msgstr "Дұрыс жауаптар"
 
-#: .\templates\courses\test_results.html:143
+#: .\templates\courses\test_results.html:155
 msgid "Затрачено времени"
 msgstr "Жұмсалған уақыт"
 
-#: .\templates\courses\test_results.html:161
+#: .\templates\courses\test_results.html:173
 msgid "Сложность модуля"
 msgstr "Модульдің күрделілігі"
 
-#: .\templates\courses\test_results.html:170
+#: .\templates\courses\test_results.html:182
 msgid "Разбор вопросов"
 msgstr "Сұрақтарды талдау"
 
-#: .\templates\courses\test_results.html:182
+#: .\templates\courses\test_results.html:197
 msgid "Правильно"
 msgstr "Дұрыс"
 
-#: .\templates\courses\test_results.html:182
+#: .\templates\courses\test_results.html:197
 msgid "Ошибка"
 msgstr "Қате"
 
-#: .\templates\courses\test_results.html:193
+#: .\templates\courses\test_results.html:210
+#: .\templates\courses\test_results.html:250
 msgid "Ваш ответ:"
 msgstr "Сіздің жауабыңыз:"
 
-#: .\templates\courses\test_results.html:198
+#: .\templates\courses\test_results.html:215
 msgid "Верный ответ:"
 msgstr "Дұрыс жауап:"
 
-#: .\templates\courses\test_results.html:219
+#: .\templates\courses\test_results.html:222
+#, fuzzy
+#| msgid "Порядок"
+msgid "Ваш порядок:"
+msgstr "Реті"
+
+#: .\templates\courses\test_results.html:228
+#: .\templates\courses\test_results.html:242
+#, fuzzy
+#| msgid "Правильно"
+msgid "Правильно:"
+msgstr "Дұрыс"
+
+#: .\templates\courses\test_results.html:235
+#, fuzzy
+#| msgid "Забыли пароль?"
+msgid "Ваши пары:"
+msgstr "Құпия сөзді ұмыттыңыз ба?"
+
+#: .\templates\courses\test_results.html:252
+#, fuzzy
+#| msgid "Верный ответ:"
+msgid "Верные варианты:"
+msgstr "Дұрыс жауап:"
+
+#: .\templates\courses\test_results.html:276
 msgid "Готовы двигаться дальше?"
 msgstr "Әрі қарай жылжуға дайынсыз ба?"
 
-#: .\templates\courses\test_results.html:222
+#: .\templates\courses\test_results.html:279
 msgid "Вы успешно завершили этот модуль. Впереди еще много интересного!"
 msgstr ""
 "Сіз бұл модульді сәтті аяқтадыңыз. Алда әлі көптеген қызықты нәрселер бар!"
 
-#: .\templates\courses\test_results.html:224
+#: .\templates\courses\test_results.html:281
 msgid "Рекомендуем еще раз изучить материал модуля и пересдать тест."
 msgstr "Модуль материалын қайта оқып, тестті қайта тапсыруды ұсынамыз."
 
-#: .\templates\courses\test_results.html:231
+#: .\templates\courses\test_results.html:288
 msgid "Начать Модуль"
 msgstr "Модульді бастау"
 
-#: .\templates\courses\test_results.html:237
+#: .\templates\courses\test_results.html:294
 msgid "Попробовать снова"
 msgstr "Қайта көру"
 
-#: .\templates\courses\test_results.html:242
+#: .\templates\courses\test_results.html:299
 msgid "Вернуться к списку"
 msgstr "Тізімге оралу"
+
+#: .\templates\courses\usability_test.html:4
+msgid "Оценка юзабилити (SUS)"
+msgstr ""
+
+#: .\templates\courses\usability_test.html:12
+msgid ""
+"Пожалуйста, ответьте на 10 вопросов ниже, чтобы помочь нам улучшить систему. "
+"Оцените каждое утверждение по шкале от 1 (полностью не согласен) до 5 "
+"(полностью согласен)."
+msgstr ""
+
+#: .\templates\courses\usability_test.html:22
+#, fuzzy
+#| msgid "Я согласен с"
+msgid "Не согласен"
+msgstr "Мен келесімен келісемін:"
+
+#: .\templates\courses\usability_test.html:31
+#, fuzzy
+#| msgid "Я согласен с"
+msgid "Согласен"
+msgstr "Мен келесімен келісемін:"
+
+#: .\templates\courses\usability_test.html:38
+msgid "Ваши комментарии или предложения (необязательно):"
+msgstr ""
+
+#: .\templates\courses\usability_test.html:39
+msgid "Напишите здесь..."
+msgstr ""
+
+#: .\templates\courses\usability_test.html:44
+#, fuzzy
+#| msgid "Отправить проект"
+msgid "Отправить оценку"
+msgstr "Жобаны жіберу"
+
+#: .\templates\courses\usability_thanks.html:4
+msgid "Спасибо за отзыв!"
+msgstr ""
+
+#: .\templates\courses\usability_thanks.html:12
+msgid "Спасибо!"
+msgstr ""
+
+#: .\templates\courses\usability_thanks.html:13
+msgid ""
+"Ваш отзыв успешно отправлен. Мы ценим ваш вклад в улучшение системы NetAcad "
+"Ethereal."
+msgstr ""
+
+#: .\templates\courses\usability_thanks.html:15
+#, fuzzy
+#| msgid "Вернуться ко входу"
+msgid "Вернуться к обучению"
+msgstr "Кіруге оралу"
 
 #: .\templates\courses\wireless.html:5
 msgid "Модуль 10: Беспроводные сети | EthernetArch"
@@ -3700,7 +3999,7 @@ msgstr ""
 msgid "Вернуть старый модуль"
 msgstr "Кіруге оралу"
 
-#: .\templates\dashboard\grades.html:5 .\templates\dashboard\grades.html:53
+#: .\templates\dashboard\grades.html:5 .\templates\dashboard\grades.html:55
 msgid "Журнал успеваемости"
 msgstr "Орташа аяқталу көрсеткіші"
 
@@ -3708,104 +4007,104 @@ msgstr "Орташа аяқталу көрсеткіші"
 msgid "Моя успеваемость"
 msgstr "Күрделілігі"
 
-#: .\templates\dashboard\grades.html:36
+#: .\templates\dashboard\grades.html:38
 msgid "RU"
 msgstr ""
 
-#: .\templates\dashboard\grades.html:40
+#: .\templates\dashboard\grades.html:42
 msgid "KZ"
 msgstr ""
 
-#: .\templates\dashboard\grades.html:54
+#: .\templates\dashboard\grades.html:56
 msgid ""
 "Управление прогрессом студентов группы. Анализ производительности и оценка "
 "лабораторных работ."
 msgstr ""
 
-#: .\templates\dashboard\grades.html:64
+#: .\templates\dashboard\grades.html:66
 #: .\templates\dashboard\teacher_index.html:127
 msgid "Всего студентов"
 msgstr "Барлық студенттер"
 
-#: .\templates\dashboard\grades.html:67
+#: .\templates\dashboard\grades.html:69
 msgid "Активные пользователи"
 msgstr "Пайдаланушылар жауаптары"
 
-#: .\templates\dashboard\grades.html:75
+#: .\templates\dashboard\grades.html:77
 #: .\templates\dashboard\students_list.html:32
 msgid "Средний балл"
 msgstr "Орташа балл"
 
-#: .\templates\dashboard\grades.html:78
+#: .\templates\dashboard\grades.html:80
 msgid "Общая успеваемость"
 msgstr "Орташа аяқталу көрсеткіші"
 
-#: .\templates\dashboard\grades.html:86
+#: .\templates\dashboard\grades.html:88
 msgid "Низкая успеваемость"
 msgstr "Орташа аяқталу көрсеткіші"
 
-#: .\templates\dashboard\grades.html:89
+#: .\templates\dashboard\grades.html:91
 msgid "Требуют поддержки"
 msgstr "Растау коды"
 
-#: .\templates\dashboard\grades.html:101
+#: .\templates\dashboard\grades.html:103
 msgid "Ср. Оценка"
 msgstr "Орт. Баға"
 
-#: .\templates\dashboard\grades.html:102
+#: .\templates\dashboard\grades.html:104
 msgid "Прогресс курса"
 msgstr "Курс прогресі"
 
-#: .\templates\dashboard\grades.html:103
+#: .\templates\dashboard\grades.html:105
 #: .\templates\dashboard\students_list.html:34
 #: .\templates\dashboard\teacher_index.html:205
 msgid "Действие"
 msgstr "Әрекет"
 
-#: .\templates\dashboard\grades.html:126
+#: .\templates\dashboard\grades.html:128
 msgid "Успеваемость"
 msgstr "Үлгерім"
 
-#: .\templates\dashboard\grades.html:140
+#: .\templates\dashboard\grades.html:142
 msgid "Посмотреть детали"
 msgstr "Мәліметтерді көру"
 
-#: .\templates\dashboard\grades.html:152
+#: .\templates\dashboard\grades.html:154
 msgid "Мои успехи"
 msgstr "Менің жетістіктерім"
 
-#: .\templates\dashboard\grades.html:153
+#: .\templates\dashboard\grades.html:155
 msgid "Ваши результаты тестирования и практических работ."
 msgstr "Тестілеу және практикалық жұмыстардың нәтижелері."
 
-#: .\templates\dashboard\grades.html:161
+#: .\templates\dashboard\grades.html:163
 msgid "Тест (баллы)"
 msgstr "Тест (ұпайлар)"
 
-#: .\templates\dashboard\grades.html:162
+#: .\templates\dashboard\grades.html:164
 msgid "Лабораторная"
 msgstr "Зертханалық"
 
-#: .\templates\dashboard\grades.html:163
+#: .\templates\dashboard\grades.html:165
 #: .\templates\dashboard\student_detail.html:72
 #: .\templates\laboratory\lab_simulator.html:53
 #: .\templates\laboratory\office_lab.html:145
 msgid "Статус"
 msgstr "Статус"
 
-#: .\templates\dashboard\grades.html:200
+#: .\templates\dashboard\grades.html:202
 msgid "Условные обозначения"
 msgstr "Қызмет көрсету шарттары"
 
-#: .\templates\dashboard\grades.html:204
+#: .\templates\dashboard\grades.html:206
 msgid "Т - Оценка за тест"
 msgstr "Тест балдары"
 
-#: .\templates\dashboard\grades.html:208
+#: .\templates\dashboard\grades.html:210
 msgid "Л - Оценка за лабораторную"
 msgstr "Жеке ақпарат"
 
-#: .\templates\dashboard\grades.html:212
+#: .\templates\dashboard\grades.html:214
 msgid "Модуль полностью пройден"
 msgstr "Желілік қауіпсіздік"
 
@@ -4533,8 +4832,8 @@ msgid "Задание"
 msgstr "Тапсырма"
 
 #: .\templates\laboratory\lab_simulator.html:109
-#: .\templates\laboratory\lab_simulator.html:173
-#: .\templates\laboratory\lab_simulator.html:232
+#: .\templates\laboratory\lab_simulator.html:179
+#: .\templates\laboratory\lab_simulator.html:240
 msgid "Консоль"
 msgstr "Консоль"
 
@@ -4542,19 +4841,19 @@ msgstr "Консоль"
 msgid "--- Нажмите ENTER для начала работы ---"
 msgstr "--- Жұмысты бастау үшін ENTER түймесін басыңыз ---"
 
-#: .\templates\laboratory\lab_simulator.html:179
+#: .\templates\laboratory\lab_simulator.html:185
 msgid "Соединение установлено с"
 msgstr "Байланыс орнатылды:"
 
-#: .\templates\laboratory\lab_simulator.html:278
+#: .\templates\laboratory\lab_simulator.html:313
 msgid "Практическая работа завершена! Результат сохранен."
 msgstr "Практикалық жұмыс аяқталды! Нәтиже сақталды."
 
-#: .\templates\laboratory\lab_simulator.html:281
+#: .\templates\laboratory\lab_simulator.html:316
 msgid "Ошибка при сохранении результата."
 msgstr "Нәтижені сақтау кезінде қате кетті."
 
-#: .\templates\laboratory\lab_simulator.html:285
+#: .\templates\laboratory\lab_simulator.html:320
 msgid "Сетевая ошибка при сохранении."
 msgstr "Сақтау кезінде желілік қате кетті."
 
@@ -4842,6 +5141,1254 @@ msgstr "Жауап нұсқасы"
 msgid "Соединение УСТАНОВЛЕНО"
 msgstr ""
 
+#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\venv\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:70
+msgid "Enter a valid domain name."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:153
+#: .\venv\Lib\site-packages\django\forms\fields.py:775
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:200
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:211
+#, fuzzy
+#| msgid "Email address"
+msgid "Enter a valid email address."
+msgstr "IP-мекенжай"
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\venv\Lib\site-packages\django\core\validators.py:289
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:297
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:309
+#: .\venv\Lib\site-packages\django\core\validators.py:318
+#: .\venv\Lib\site-packages\django\core\validators.py:332
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2220
+#, python-format
+msgid "Enter a valid %(protocol)s address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:311
+msgid "IPv4"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:320
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:43
+msgid "IPv6"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:334
+msgid "IPv4 or IPv6"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:375
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:381
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:416
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:425
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:434
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:441
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:473
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:491
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:514
+#: .\venv\Lib\site-packages\django\forms\fields.py:366
+#: .\venv\Lib\site-packages\django\forms\fields.py:405
+msgid "Enter a number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:516
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:521
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:526
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:597
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:659
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1600
+#: .\venv\Lib\site-packages\django\forms\models.py:908
+msgid "and"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1602
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\constraints.py:22
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:137
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:141
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:180
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1162
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1163
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1165
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1215
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1217
+msgid "String (unlimited)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1326
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1427
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1431
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1566
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1435
+msgid "Date (without time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1562
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1570
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1575
+msgid "Date (with time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1702
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1704
+msgid "Decimal number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1864
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1868
+msgid "Duration"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1920
+msgid "Email address"
+msgstr "IP-мекенжай"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1945
+msgid "File path"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2023
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2025
+msgid "Floating point number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2065
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2067
+msgid "Integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2163
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2180
+msgid "Small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2188
+msgid "IPv4 address"
+msgstr "IP-мекенжай"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2219
+msgid "IP address"
+msgstr "IP-мекенжай"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2310
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2311
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2313
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2364
+msgid "Positive big integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2379
+msgid "Positive integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2394
+msgid "Positive small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2410
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2446
+msgid "Text"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2526
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2530
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2534
+msgid "Time"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2642
+msgid "URL"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2666
+msgid "Raw binary data"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2731
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2733
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:244
+msgid "File"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:420
+msgid "Image"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:24
+msgid "A JSON object"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:978
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:981
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1275
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1332
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1334
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1382
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:315
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:486
+#: .\venv\Lib\site-packages\django\forms\fields.py:1267
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:509
+#: .\venv\Lib\site-packages\django\forms\fields.py:1268
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:536
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:570
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:571
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:640
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:641
+msgid "No file was submitted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:642
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:644
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:649
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:717
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:889
+#: .\venv\Lib\site-packages\django\forms\fields.py:975
+#: .\venv\Lib\site-packages\django\forms\models.py:1592
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:977
+#: .\venv\Lib\site-packages\django\forms\fields.py:1096
+#: .\venv\Lib\site-packages\django\forms\models.py:1590
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1097
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1339
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1369
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\venv\Lib\site-packages\django\forms\forms.py:97
+msgid ":"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\forms.py:239
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:484
+#: .\venv\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:901
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:906
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:913
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:922
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1359
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1450
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1594
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\utils.py:229
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:527
+msgid "Clear"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:528
+msgid "Currently"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:529
+msgid "Change"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:866
+msgid "Unknown"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:867
+msgid "Yes"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:868
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:873
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:903
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:920
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
+msgid "p.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
+msgid "a.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+#, fuzzy
+#| msgid "M"
+msgid "PM"
+msgstr "М"
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
+#, fuzzy
+#| msgid "M"
+msgid "AM"
+msgstr "М"
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
+msgid "midnight"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
+msgid "noon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr "Бастау"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:20
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:67
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:278
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\venv\Lib\site-packages\django\utils\text.py:297
+#: .\venv\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:353
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:384
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:680
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:720
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:173
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:49
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:51
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:68
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:204
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:208
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:217
+msgid "Django Documentation"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:218
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:226
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:227
+msgid "Get started with Django"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:235
+msgid "Django Community"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#~ msgid "Слаг"
+#~ msgstr "Слаг"
+
+#~ msgid "Баллы за тест"
+#~ msgstr "Тест балдары"
+
+#~ msgid "Время (в секундах)"
+#~ msgstr "Уақыт (секундпен)"
+
+#~ msgid "Книга"
+#~ msgstr "Кітап"
+
+#~ msgid "Презентация"
+#~ msgstr "Презентация"
+
+#~ msgid "Тест недоступен, пока не завершен предыдущий модуль."
+#~ msgstr "Алдыңғы модуль аяқталмайынша, тест қолжетімсіз."
+
 #~| msgid "Выбрать миссию"
 #~ msgid "Моя миссия "
 #~ msgstr "Менің миссиям "
@@ -4901,9 +6448,6 @@ msgstr ""
 #~ "күрделі құпия сөздерді және екі факторлы аутентификацияны пайдалануды "
 #~ "ұсынамыз."
 
-#~ msgid "Порядок отображения"
-#~ msgstr "Көрсету реті"
-
 #~ msgid "Определяет позицию модуля в списке курсов"
 #~ msgstr "Модульдің курстар тізіміндегі орнын анықтайды"
 
@@ -4956,22 +6500,6 @@ msgstr ""
 #~| msgid "Модуль"
 #~ msgid "Модуль 8: Финал"
 #~ msgstr "Модуль"
-
-#~| msgid "IP Address"
-#~ msgid "Email address"
-#~ msgstr "IP-мекенжай"
-
-#~| msgid "IP Address"
-#~ msgid "IPv4 address"
-#~ msgstr "IP-мекенжай"
-
-#~| msgid "IP Address"
-#~ msgid "IP address"
-#~ msgstr "IP-мекенжай"
-
-#~| msgid "Start"
-#~ msgid "Sat"
-#~ msgstr "Бастау"
 
 #~ msgid "OSI Model"
 #~ msgstr "OSI моделі"

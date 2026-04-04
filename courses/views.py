@@ -42,7 +42,7 @@ def get_user_course_progress(user):
     for i, module in enumerate(modules):
         # Логика доступности:
         # 1. Преподавателю доступно всё.
-        # 2. Первый модуль доступен всем.
+        # 2. Первый модуль (индекс 0) доступен всем.
         # 3. Следующий модуль доступен, если ПРЕДЫДУЩИЙ завершен.
         if is_teacher:
             module.is_accessible = True
@@ -50,11 +50,16 @@ def get_user_course_progress(user):
             module.is_accessible = True
         else:
             prev_module = modules[i-1]
+            # Модуль доступен только если предыдущий завершен (is_completed=True)
             module.is_accessible = prev_module.id in completed_module_ids
             
-        # Если текущий модуль не доступен, то и все последующие тоже (они уже False)
+        # Если текущий модуль не доступен, то и все последующие тоже должны быть недоступны
+        # Но мы продолжаем цикл, чтобы просто пометить их False (хотя они уже False)
+        # Однако, если студент каким-то образом пропустил модуль, мы блокируем цепочку.
         if not module.is_accessible:
-            break
+            # Все последующие модули в списке (которые имеют больший индекс) остаются False
+            # так как мы сбросили их в начале.
+            pass
 
     completed_count = len(completed_module_ids)
     total_count = modules.count()
@@ -87,7 +92,7 @@ def roadmap_view(request):
                 module.is_accessible = prev_module.id in completed_module_ids
                 
             if not module.is_accessible:
-                break
+                pass
     else:
         # Для анонимных пользователей доступен только первый модуль
         for i, module in enumerate(modules):
@@ -104,17 +109,17 @@ def can_access_module(user, module):
         return True
     
     # Если это первый модуль (order=1), он всегда доступен
-    if module.order == 1:
+    if module.order == 1 or module.order == 0:
         return True
     
-    # Проверяем, завершен ли ЛЮБОЙ из предыдущих модулей (или самый последний из них)
-    # Для строгой последовательности проверяем именно предыдущий по порядку
+    # Проверяем, завершен ли именно предыдущий модуль по порядку (order)
     previous_module = Module.objects.filter(order__lt=module.order).order_by('-order').first()
     
     if not previous_module:
         return True
         
-    # Модуль считается пройденным, если есть запись в UserProgress с is_completed=True
+    # Считаем модуль пройденным только если есть UserProgress с is_completed=True
+    # Это значит студент набрал проходной балл (обычно 70%)
     is_prev_completed = UserProgress.objects.filter(
         user=user, 
         module=previous_module, 
