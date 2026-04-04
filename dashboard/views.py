@@ -32,8 +32,8 @@ def student_required(view_func):
 def get_course_progress(user):
     """Вспомогательная функция для получения прогресса курса"""
     modules = Module.objects.all().order_by('order')
-    user_progress = UserProgress.objects.filter(user=user)
-    completed_modules = [p.module.id for p in user_progress if p.is_completed]
+    user_progress_list = UserProgress.objects.filter(user=user)
+    completed_modules = [p.module.id for p in user_progress_list if p.is_completed]
     
     completed_count = 0
     for module in modules:
@@ -109,13 +109,13 @@ def teacher_dashboard_index(request):
     
     # Успеваемость по модулям для графика
     module_performance = Module.objects.annotate(
-        avg_score=Avg('user_progress__score')
+        avg_score=Avg('module_progress__score')
     ).order_by('order')
     
     # Прогресс студентов для таблицы
     students_progress = User.objects.filter(role='student').annotate(
-        current_module=Count('userprogress'), # Упрощенно
-        avg_score=Avg('userprogress__score')
+        current_module_count=Count('user_progress'), # Упрощенно
+        avg_score_val=Avg('user_progress__score')
     )[:5]
     
     # Последняя активность
@@ -123,8 +123,8 @@ def teacher_dashboard_index(request):
     
     # Прогресс студентов для таблицы (переименовываем для соответствия шаблону)
     recent_students_progress = User.objects.filter(role='student').annotate(
-        current_module=Count('userprogress'),
-        avg_student_score=Avg('userprogress__score')
+        current_module_count=Count('user_progress'),
+        avg_student_score=Avg('user_progress__score')
     ).order_by('-last_login')[:5]
     
     context = {
@@ -175,8 +175,8 @@ def export_report(request):
 def students_list(request):
     """Список всех студентов для преподавателя"""
     students = User.objects.filter(role='student').annotate(
-        completed_count=Count('userprogress', filter=Q(userprogress__is_completed=True)),
-        avg_score=Avg('userprogress__score')
+        completed_count=Count('user_progress', filter=Q(user_progress__is_completed=True)),
+        avg_score=Avg('user_progress__score')
     ).order_by('username')
     
     total_modules = Module.objects.count()

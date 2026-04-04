@@ -217,7 +217,7 @@
                                             </div> 
                                         </td> 
                                         <td class="px-4 py-4 text-sm">
-                                            {% with last_p=student.progress.all.last %}
+                                            {% with last_p=student.user_progress.all.last %}
                                                 {% if last_p %}{{ last_p.module.name }}{% else %}{% trans "Нет прогресса" %}{% endif %}
                                             {% endwith %}
                                         </td> 
@@ -269,15 +269,15 @@
                     <section class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)]">
                         <h4 class="text-lg font-bold headline-font mb-6">{% trans "Последняя активность" %}</h4>
                         <div class="space-y-6">
-                            {% for progress in recent_progress %}
+                            {% for progress_item in recent_progress %}
                             <div class="flex gap-4">
                                 <div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary shrink-0">
                                     <span class="material-symbols-outlined text-sm">check_circle</span>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-on-surface">{{ progress.user.username }}</p>
-                                    <p class="text-xs text-on-surface-variant">{% trans "Завершил" %} {{ progress.module.name }}</p>
-                                    <p class="text-[10px] text-outline mt-1">{{ progress.completed_at|timesince }} {% trans "назад" %}</p>
+                                    <p class="text-sm font-bold text-on-surface">{{ progress_item.user.username }}</p>
+                                    <p class="text-xs text-on-surface-variant">{% trans "Завершил" %} {{ progress_item.module.name }}</p>
+                                    <p class="text-[10px] text-outline mt-1">{{ progress_item.completed_at|timesince }} {% trans "назад" %}</p>
                                 </div>
                             </div>
                             {% empty %}
