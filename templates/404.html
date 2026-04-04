@@ -141,7 +141,7 @@
                      {% trans "Запрошенный маршрут не найден в текущей таблице коммутации. Возможно, узел был временно отключен или адрес был введен с ошибкой." %}
                  </p> 
  <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"> 
- <a class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary font-headline font-bold rounded-full shadow-[0px_20px_40px_rgba(104,85,141,0.08)] hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2" href="/"> 
+ <a class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary font-headline font-bold rounded-full shadow-[0px_20px_40px_rgba(104,85,141,0.08)] hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2" href="{% url 'home' %}"> 
  <span class="material-symbols-outlined text-xl" data-icon="settings_backup_restore">settings_backup_restore</span> 
                          {% trans "Вернуться в сеть" %}
                      </a> 
@@ -169,9 +169,9 @@
                  © 2024 Computer Networks. {% trans "Разработано Inkar Bolatovna. Построено на Python, Django & MySQL." %}
              </div> 
  <div class="flex gap-6 text-xs text-slate-400 font-['Inter']"> 
- <a class="hover:text-slate-600 transition-colors" href="#">{% trans "Политика конфиденциальности" %}</a> 
- <a class="hover:text-slate-600 transition-colors" href="#">{% trans "Условия использования" %}</a> 
- <a class="hover:text-slate-600 transition-colors" href="{% url 'dashboard:support' %}">{% trans "Поддержка" %}</a> 
+ <a class="hover:text-slate-600 transition-colors" href="{% url 'legal' 'privacy' %}">{% trans "Политика конфиденциальности" %}</a> 
+ <a class="hover:text-slate-600 transition-colors" href="{% url 'legal' 'terms' %}">{% trans "Условия использования" %}</a> 
+ <a class="hover:text-slate-600 transition-colors" href="{% url 'about' %}">{% trans "Поддержка" %}</a> 
  </div> 
  </div> 
  </footer> 

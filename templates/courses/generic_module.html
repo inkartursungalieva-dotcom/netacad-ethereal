@@ -36,7 +36,7 @@
             <div class="space-y-8">
                 
                 <!-- Module Image (if exists) -->
-                {% if module.image %}
+                {% if module.image and module.image.url %}
                 <div class="w-full h-64 md:h-96 rounded-[3rem] overflow-hidden shadow-2xl border border-outline-variant/10">
                     <img src="{{ module.image.url }}" alt="{{ module.name }}" class="w-full h-full object-cover">
                 </div>
@@ -76,7 +76,7 @@
                         {% endif %}
 
                         <!-- Attached File -->
-                        {% if module.file %}
+                        {% if module.file and module.file.url %}
                         <div class="mt-12 p-8 bg-surface-container-low rounded-3xl border border-outline-variant/20 flex flex-col md:flex-row items-center justify-between gap-6">
                             <div class="flex items-center gap-6">
                                 <div class="w-16 h-16 rounded-2xl bg-tertiary/10 text-tertiary flex items-center justify-center shadow-inner">

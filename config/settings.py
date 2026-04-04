@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv # pyright: ignore[reportMissingImports]
 
@@ -22,12 +23,28 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*'] # Для отладки в облаке разрешаем всё
+_extra_hosts = os.getenv('ALLOWED_HOSTS', '')
+if _extra_hosts:
+    ALLOWED_HOSTS.extend([h.strip() for h in _extra_hosts.split(',') if h.strip()])
 
 # Доверяем доменам для CSRF (нужно для работы форм входа)
 CSRF_TRUSTED_ORIGINS = [
     'https://*.pythonanywhere.com',
     'https://*.onrender.com',
 ]
+_extra_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+if _extra_csrf:
+    CSRF_TRUSTED_ORIGINS.extend(
+        [x.strip() for x in _extra_csrf.split(',') if x.strip()]
+    )
+
+# HTTPS за обратным прокси (Render и др.)
+if os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    if not DEBUG:
+        SESSION_COOKIE_SECURE = True
+        CSRF_COOKIE_SECURE = True
 
 
 # Application definition
@@ -95,51 +112,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Параметры из .env
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
-DB_PORT = os.getenv('DB_PORT', '3306')
+# Приоритет: DATABASE_URL (стандарт для Render), затем MySQL из .env, затем SQLite
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-# На бесплатном тарифе Render или PythonAnywhere используем SQLite (надежно и бесплатно)
-if os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
+if DATABASE_URL:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
 else:
-    # Попытка подключения к MySQL, если нет - используем SQLite (для портативности на защите)
-    USE_SQLITE = False
-    if not DB_NAME:
-        USE_SQLITE = True
-    else:
-        try:
-            # Пытаемся подключиться к MySQL через MySQLdb (который теперь pymysql)
-            import MySQLdb
-            # Быстрая проверка доступности MySQL
-            conn = MySQLdb.connect(
-                host=DB_HOST,
-                user=DB_USER,
-                passwd=DB_PASSWORD,
-                port=int(DB_PORT),
-                connect_timeout=2
-            )
-            conn.close()
-        except (ImportError, Exception):
-            print("⚠️ [WARNING] MySQL недоступен или библиотека не установлена. Используем SQLite.")
-            USE_SQLITE = True
+    # Параметры из .env для MySQL (если нет DATABASE_URL)
+    DB_NAME = os.getenv('DB_NAME')
+    DB_USER = os.getenv('DB_USER')
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
+    DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+    DB_PORT = os.getenv('DB_PORT', '3306')
 
-    if USE_SQLITE:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
-    else:
+    if DB_NAME:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
@@ -152,6 +144,15 @@ else:
                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
                     'charset': 'utf8mb4',
                 },
+            }
+        }
+    else:
+        # Fallback to SQLite (Локально или если база не настроена на Render)
+        # ВНИМАНИЕ: На Render SQLite не сохраняет данные после перезапуска!
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
 
@@ -221,9 +222,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-# ← ВСТАВЬТЕ СЮДА ВАШ ДАННЫЕ:
-EMAIL_HOST_USER = 'inkartursungalieva@gmail.com'  # Ваш полный Gmail
-EMAIL_HOST_PASSWORD = 'hoighjzrmrekxgov'  # App Password (16 символов, БЕЗ ПРОБЕЛОВ!)
+# Почта: пароль только через переменные окружения (.env локально, Dashboard на Render)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'inkartursungalieva@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
@@ -280,6 +281,7 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
+LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'dashboard:index'
 LOGOUT_REDIRECT_URL = 'home'
 

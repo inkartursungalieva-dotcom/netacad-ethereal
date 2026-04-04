@@ -15,6 +15,18 @@ def open_browser():
     print(f"🌍 Открываем браузер: {url}")
     webbrowser.open(url)
 
+def fix_site_domain():
+    """Исправляет домен сайта в базе данных для корректной работы ссылок локально"""
+    try:
+        from django.contrib.sites.models import Site
+        site = Site.objects.get_or_create(id=1)[0]
+        site.domain = "127.0.0.1:8000"
+        site.name = "NetAcad Ethereal (Local)"
+        site.save()
+        print("✅ Домен сайта настроен на 127.0.0.1:8000")
+    except Exception as e:
+        print(f"⚠️ Не удалось обновить домен сайта: {e}")
+
 def run_django():
     """Запуск Django сервера"""
     try:
@@ -22,14 +34,20 @@ def run_django():
         print("🛠 Проверка базы данных...")
         execute_from_command_line([sys.argv[0], 'migrate', '--noinput'])
         
-        # Создание суперпользователя по умолчанию, если нужно (необязательно)
-        # execute_from_command_line([sys.argv[0], 'shell', '-c', "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin')"])
+        # Исправляем домен сайта для Allauth и ссылок
+        fix_site_domain()
 
         print("🚀 Запуск сервера NetAcad Ethereal...")
-        execute_from_command_line([sys.argv[0], 'runserver', '127.0.0.1:8000', '--noreload'])
+        print("💡 Если вы видите ошибку 'отказано в подключении', убедитесь, что порт 8000 не занят.")
+        # Используем 0.0.0.0 чтобы работало и через localhost и через 127.0.0.1
+        execute_from_command_line([sys.argv[0], 'runserver', '0.0.0.0:8000', '--noreload'])
     except Exception as e:
         print(f"❌ Ошибка при запуске: {e}")
-        input("Нажмите Enter, чтобы закрыть...")
+        print("\nВозможные причины:")
+        print("1. Порт 8000 уже занят другой программой.")
+        print("2. База данных MySQL не запущена (если используется MySQL).")
+        print("3. Ошибка в коде (см. текст выше).")
+        input("\nНажмите Enter, чтобы закрыть...")
 
 if __name__ == "__main__":
     # Запуск открытия браузера в отдельном потоке

@@ -29,21 +29,23 @@
             {% if is_teacher %}
             <nav class="bg-[#fef7fe] dark:bg-slate-950 flex justify-between items-center w-full px-6 py-3 docked full-width top-0 z-50 shadow-[0px_20px_40px_rgba(104,85,141,0.08)] fixed">
                 <div class="flex items-center gap-8">
-                    <span class="text-xl font-extrabold text-[#8E7AB5] dark:text-[#d5bfff] tracking-tighter">{% trans "Computer Networks" %}</span>
-                    <div class="flex gap-4">
-                        <a href="?lang=ru" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if request.GET.lang == 'ru' or not request.GET.lang %}text-primary border-primary{% endif %}">
+                    <a href="{% url 'home' %}" class="text-xl font-extrabold text-[#8E7AB5] dark:text-[#d5bfff] tracking-tighter">{% trans "Computer Networks" %}</a>
+                    <form action="{% url 'set_language' %}" method="post" class="flex gap-2 items-center">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                        <button name="language" type="submit" value="ru" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if LANGUAGE_CODE == 'ru' %}text-primary border-primary{% endif %}">
                             <span class="material-symbols-outlined text-sm">language</span>
                             {% trans "RU" %}
-                        </a>
-                        <a href="?lang=kk" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if request.GET.lang == 'kk' %}text-primary border-primary{% endif %}">
+                        </button>
+                        <button name="language" type="submit" value="kk" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if LANGUAGE_CODE == 'kk' %}text-primary border-primary{% endif %}">
                             <span class="material-symbols-outlined text-sm">language</span>
                             {% trans "KZ" %}
-                        </a>
-                    </div>
+                        </button>
+                    </form>
                 </div> 
                 <div class="flex items-center gap-4"> 
-                    <button class="material-symbols-outlined text-[#8E7AB5] hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-95">notifications</button> 
-                    <button class="material-symbols-outlined text-[#8E7AB5] hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-95">settings</button> 
+                    <a href="{% url 'accounts:notifications' %}" class="material-symbols-outlined text-[#8E7AB5] hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-95" title="{% trans 'Уведомления' %}">notifications</a> 
+                    <a href="{% url 'accounts:profile' %}" class="material-symbols-outlined text-[#8E7AB5] hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-95" title="{% trans 'Настройки' %}">settings</a> 
                     <div class="h-8 w-8 rounded-full overflow-hidden border-2 border-primary-container"> 
                         <img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjGz8BfxW0P4rpY-Qh8YhmUew_kMhTFykM5CRrbKAjGRlo4KcK9Jky-B96jtEdk0tig3xLpkVCEJW5cMXWTW-tMU4MKGc5K2N-42C-Qg9SVEHjCR3y8tORAbv1zRpau8JpHcOZoBrhQPL4BdwazdFI2-xW1tObrdCLNX-dIQD1finjp7ikS0viygLM5zKHUrpwJdfdaJd0S2JXbeZpSHipL3Erf2dW1FIaHjtav4Mqm_2rrB7ScEKRVxVu-RZcAWFLAFZyy6cnEbg"/> 
                     </div> 
@@ -127,7 +129,7 @@
                                         <span>{{ item.avg_score }}%</span>
                                     </div>
                                     <div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
-                                        <div class="h-full bg-primary rounded-full"  {{ item.avg_score }}%></div>
+                                        <div class="h-full bg-primary rounded-full" style="width: {{ item.avg_score }}%;"></div>
                                     </div>
                                 </div>
                             </td>

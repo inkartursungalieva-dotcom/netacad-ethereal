@@ -1,6 +1,6 @@
 import os
 import django
-import random
+from urllib.parse import urlparse
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
@@ -15,9 +15,17 @@ def setup():
     print("Applying migrations...")
     call_command('migrate', no_input=True)
 
-    # 2. Настраиваем Site ID
+    # 2. Настраиваем Site ID (для allauth, абсолютных ссылок в письмах)
     print("Setting up Site ID...")
-    domain = os.getenv('RENDER_EXTERNAL_HOSTNAME') or 'netacad-ethereal-inkar.onrender.com'
+    domain = os.getenv('SITE_DOMAIN', '').strip()
+    if not domain:
+        ext_url = os.getenv('RENDER_EXTERNAL_URL', '').strip()
+        if ext_url:
+            domain = urlparse(ext_url).netloc
+    if not domain:
+        domain = os.getenv('RENDER_EXTERNAL_HOSTNAME', '').strip()
+    if not domain:
+        domain = 'netacad-ethereal-inkar.onrender.com'
     site, _ = Site.objects.get_or_create(id=1, defaults={'domain': domain, 'name': 'NetAcad Ethereal'})
     site.domain = domain
     site.save()

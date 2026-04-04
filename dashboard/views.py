@@ -109,7 +109,7 @@ def teacher_dashboard_index(request):
     
     # Успеваемость по модулям для графика
     module_performance = Module.objects.annotate(
-        avg_score=Avg('userprogress__score')
+        avg_score=Avg('user_progress__score')
     ).order_by('order')
     
     # Прогресс студентов для таблицы

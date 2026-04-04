@@ -9,8 +9,15 @@ class Module(models.Model):
     slug = models.SlugField(unique=True, verbose_name=_("URL слаг"))
     description = models.TextField(verbose_name=_("Описание"))
     image = models.ImageField(upload_to='modules/', blank=True, null=True, verbose_name=_("Изображение"))
+    video_url = models.URLField(
+        max_length=500, blank=True, null=True, verbose_name=_("Ссылка на видео (YouTube)")
+    )
+    file = models.FileField(
+        upload_to='modules/files/', blank=True, null=True, verbose_name=_("Дополнительный файл")
+    )
     order = models.PositiveIntegerField(default=0, verbose_name=_("Порядок"))
     is_active = models.BooleanField(default=True, verbose_name=_("Активен?"))
+    is_custom = models.BooleanField(default=False, verbose_name=_("Изменён преподавателем"))
 
     class Meta:
         verbose_name = _("Модуль")
@@ -76,12 +83,12 @@ class Choice(models.Model):
 
 class UserProgress(models.Model):
     """Модель прогресса пользователя в модуле"""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь"))
-    module = models.ForeignKey(Module, on_delete=models.CASCADE, verbose_name=_("Модуль"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='progress', verbose_name=_("Пользователь"))
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='user_progress', verbose_name=_("Модуль"))
     score = models.PositiveIntegerField(default=0, verbose_name=_("Баллы"))
     time_spent = models.PositiveIntegerField(default=0, verbose_name=_("Затраченное время (сек)"))
     errors_count = models.PositiveIntegerField(default=0, verbose_name=_("Количество ошибок"))
-    completed_at = models.DateTimeField(auto_now=True, verbose_name=_("Дата завершения"))
+    completed_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата завершения"))
     is_completed = models.BooleanField(default=False, verbose_name=_("Завершен?"))
     share_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True, verbose_name=_("Токен доступа"))
     
@@ -146,6 +153,8 @@ class Resource(models.Model):
     resource_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='Other', verbose_name=_("Тип ресурса"))
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name=_("Загрузил"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата загрузки"))
+
+    RESOURCE_TYPES = TYPE_CHOICES
 
     class Meta:
         verbose_name = _("Ресурс")

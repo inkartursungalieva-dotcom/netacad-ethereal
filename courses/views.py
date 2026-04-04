@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse, FileResponse
@@ -29,13 +30,10 @@ def get_user_course_progress(user):
     lab_progress_map = {p.lab.module_id: p for p in LabProgress.objects.filter(user=user).select_related('lab')}
 
     # Определяем доступность
-    unlocked = True
     for module in modules:
         module.is_completed = module.id in completed_module_ids
         module.lab_completed = lab_progress_map.get(module.id).is_completed if lab_progress_map.get(module.id) else False
-        module.is_accessible = unlocked
-        if not module.is_completed:
-            unlocked = False
+        module.is_accessible = True # Всегда доступно для защиты
 
     completed_count = len(completed_module_ids)
     total_count = modules.count()
@@ -51,12 +49,9 @@ def roadmap_view(request):
         user_progress = {p.module_id: p for p in UserProgress.objects.filter(user=request.user)}
         completed_modules = {mid for mid, p in user_progress.items() if p.is_completed}
         
-        unlocked = True
         for module in modules:
             module.is_completed = module.id in completed_modules
-            module.is_accessible = unlocked
-            if not module.is_completed:
-                unlocked = False # Следующие модули будут заблокированы
+            module.is_accessible = True # Для защиты
     else:
         # Для анонимных пользователей доступен только первый модуль
         for i, module in enumerate(modules):
@@ -68,6 +63,10 @@ def roadmap_view(request):
 
 def can_access_module(user, module):
     """Проверка: может ли пользователь получить доступ к модулю"""
+    # Для демонстрации на защите разрешаем доступ ко всем модулям любому пользователю
+    # Если нужно вернуть строгую последовательность, закомментируйте 'return True'
+    return True
+    
     if user.is_staff or (hasattr(user, 'role') and user.role == 'teacher'):
         return True
     
@@ -184,7 +183,11 @@ def module_detail_view(request, slug):
     # Если преподаватель добавил специальный контент (видео, фото, файлы), 
     # используем универсальный красивый шаблон. 
     # Иначе пытаемся найти специфичный статический шаблон.
-    if module.video_url or module.image or module.file:
+    has_video = getattr(module, 'video_url', None)
+    has_image = getattr(module, 'image', None)
+    has_file = getattr(module, 'file', None)
+    
+    if has_video or has_image or has_file:
         template_name = 'courses/generic_module.html'
     else:
         template_name = f'courses/{slug.replace("-", "_")}.html'
@@ -299,9 +302,9 @@ def module_test_view(request, slug):
         )
             
         if is_completed:
-            messages.success(request, _("Тест пройден! Ваш результат: {}/{}").format(score, total_questions))
+            messages.success(request, _("Тест пройден! Ваш результат: {score}/{total}").format(score=score, total=total_questions))
         else:
-            messages.error(request, _("Тест не пройден. Ваш результат: {}/{}. Нужно минимум {}%.").format(score, total_questions, pass_percentage))
+            messages.error(request, _("Тест не пройден. Ваш результат: {score}/{total}. Нужно минимум {percent}%.").format(score=score, total=total_questions, percent=pass_percentage))
         
         return redirect('courses:test_results', slug=slug)
 
@@ -406,7 +409,7 @@ def resource_list_view(request):
     
     # Фильтрация по типу, если передано в GET
     res_type = request.GET.get('type')
-    if res_type in dict(Resource.RESOURCE_TYPES):
+    if res_type in dict(Resource.TYPE_CHOICES):
         resources = resources.filter(resource_type=res_type)
         
     context = {
