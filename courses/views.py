@@ -14,7 +14,34 @@ import os
 from .models import Module, Question, Choice, UserProgress, UserAnswer, Resource, UsabilityTest
 from .forms import ResourceForm
 from laboratory.models import LabProgress
+from core.models import AuditLog
 import json
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def log_test_action(request, slug):
+    """API для логирования действий студента во время теста"""
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Only POST allowed'}, status=405)
+    
+    try:
+        module = get_object_or_404(Module, slug=slug)
+        data = json.loads(request.body)
+        action = data.get('action')
+        details = data.get('details', '')
+        
+        AuditLog.objects.create(
+            user=request.user,
+            module=module,
+            action=action,
+            details=details
+        )
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        logger.error(f"Error logging test action: {e}")
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 def get_user_course_progress(user):
     """Возвращает информацию о прогрессе пользователя по всем модулям"""
@@ -460,7 +487,7 @@ def resource_list_view(request):
         
     context = {
         'resources': resources,
-        'resource_types': Resource.RESOURCE_TYPES,
+        'resource_types': Resource.TYPE_CHOICES,
         'current_type': res_type
     }
     return render(request, 'courses/resources.html', context)

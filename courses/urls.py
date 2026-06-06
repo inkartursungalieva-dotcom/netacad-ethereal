@@ -18,6 +18,7 @@ urlpatterns = [
     
     # Тесты модулей
     path('test/<str:slug>/', views.module_test_view, name='module_test'),
+    path('test/<str:slug>/log-action/', views.log_test_action, name='log_test_action'),
     path('test/<str:slug>/results/', views.test_results_view, name='test_results'),
     path('test/<str:slug>/pdf/', views.export_pdf_view, name='export_pdf'),
     path('results/share/<str:token>/', views.shared_results_view, name='shared_results'),

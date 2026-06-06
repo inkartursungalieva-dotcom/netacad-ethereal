@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}EthernetArch | {% trans "Мои курсы" %}{% endblock %}
+{% block title %}Computer Networks | {% trans "Мои курсы" %}{% endblock %}
 
 {% block extra_scripts %}
 <script>
@@ -12,6 +12,25 @@
             const progress = progressBar.dataset.progress || 0;
             progressBar.style.width = progress + '%';
         }
+
+        // Module Search Logic
+        const searchInput = document.getElementById('module-search');
+        const moduleCards = document.querySelectorAll('.module-card');
+
+        searchInput.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            
+            moduleCards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                
+                if (name.includes(term) || desc.includes(term)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
@@ -39,12 +58,19 @@
     <!-- Main Content -->
     <main class="lg:ml-64 flex-1 p-8 bg-surface">
         <header class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-            <div>
+            <div class="flex-1">
                 <span class="text-primary font-bold tracking-widest uppercase text-sm mb-2 block">{% trans "Учебный путь" %}</span>
                 <h1 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-4">{% trans "Основы сетевой архитектуры" %}</h1>
-                <p class="text-on-surface-variant max-w-2xl leading-relaxed">
+                <p class="text-on-surface-variant max-w-2xl leading-relaxed mb-6">
                     {% trans "Добро пожаловать в ваше профессиональное путешествие. Завершайте модули последовательно, чтобы открыть продвинутые концепции сетевой архитектуры." %}
                 </p>
+                
+                <!-- Search Bar -->
+                <div class="relative max-w-md group">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant transition-colors group-focus-within:text-primary">search</span>
+                    <input type="text" id="module-search" placeholder="{% trans "Поиск по материалам курса..." %}" 
+                        class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant/30 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none shadow-sm">
+                </div>
             </div>
             {% if user.role == 'teacher' or user.is_superuser %}
             <a href="{% url 'dashboard:create_module' %}" class="px-6 py-3 bg-primary text-on-primary rounded-2xl font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center gap-2">
@@ -85,7 +111,7 @@
                 <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
                         <h3 class="font-headline text-xl font-bold text-on-surface">
-                            {% translate module.name %}
+                            {% trans module.name %}
                         </h3>
                         {% if module.lab_completed %}
                         <div class="flex items-center gap-1 px-2 py-0.5 bg-primary/10 text-primary rounded-md border border-primary/20" title="{% trans 'Практика выполнена' %}">
@@ -96,7 +122,7 @@
                     </div>
                     <p class="text-sm text-on-surface-variant line-clamp-2 mb-4">
                         {% if module.description %}
-                            {% translate module.description %}
+                            {% trans module.description %}
                         {% else %}
                             {% trans "Освойте основные концепции и протоколы современной сетевой архитектуры." %}
                         {% endif %}

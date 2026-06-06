@@ -26,7 +26,7 @@ def setup():
         domain = os.getenv('RENDER_EXTERNAL_HOSTNAME', '').strip()
     if not domain:
         domain = 'netacad-ethereal-inkar.onrender.com'
-    site, _ = Site.objects.get_or_create(id=1, defaults={'domain': domain, 'name': 'NetAcad Ethereal'})
+    site, _ = Site.objects.get_or_create(id=1, defaults={'domain': domain, 'name': 'Computer Networks'})
     site.domain = domain
     site.save()
 

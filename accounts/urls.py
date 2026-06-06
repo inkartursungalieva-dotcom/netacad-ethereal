@@ -16,6 +16,7 @@ urlpatterns = [
     
     # Подтверждение email
     path('verify-email/', views.verify_email_view, name='verify_email'),
+    path('verify-2fa/', views.verify_2fa_view, name='verify_2fa'),
     path('resend-verification/', views.resend_verification_view, name='resend_verification'),
     
     # Смена пароля

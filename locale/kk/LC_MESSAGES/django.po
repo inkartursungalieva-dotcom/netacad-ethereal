@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-05 02:58+0500\n"
+"POT-Creation-Date: 2026-05-27 21:36+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: .\templates\accounts\profile.html:115
+msgid "Статистика обучения"
+msgstr "Оқу статистикасы"
+
+#: .\templates\accounts\profile.html:121
+msgid "Прогресс по модулям"
+msgstr "Модульдер бойынша прогресс"
 
 #: .\accounts\forms.py:24 .\accounts\forms.py:170
 #: .\templates\accounts\login.html:143 .\templates\accounts\profile.html:196
@@ -62,7 +70,7 @@ msgstr "Аватар"
 
 #: .\accounts\forms.py:141
 msgid "Этот email уже используется."
-msgstr "Бұл email қазірдің өзінде қолданыста."
+msgstr "Бұл email  қолданыста."
 
 #: .\accounts\forms.py:158 .\templates\accounts\login.html:121
 #: .\templates\accounts\register.html:135
@@ -77,7 +85,7 @@ msgstr "Email немесе құпия сөз қате."
 msgid "Этот аккаунт не активен."
 msgstr "Бұл аккаунт белсенді емес."
 
-#: .\accounts\models.py:8 .\dashboard\views.py:150
+#: .\accounts\models.py:8 .\dashboard\views.py:153
 #: .\templates\accounts\login.html:102 .\templates\accounts\register.html:114
 #: .\templates\dashboard\grades.html:101
 #: .\templates\dashboard\students_list.html:29
@@ -127,8 +135,8 @@ msgstr "Кодтың соңғы жіберілуі"
 msgid "Дата регистрации"
 msgstr "Тіркелген күні"
 
-#: .\accounts\models.py:75 .\accounts\models.py:84 .\courses\models.py:86
-#: .\courses\models.py:102 .\courses\models.py:116 .\laboratory\models.py:22
+#: .\accounts\models.py:75 .\accounts\models.py:84 .\courses\models.py:82
+#: .\courses\models.py:98 .\courses\models.py:112 .\laboratory\models.py:22
 msgid "Пользователь"
 msgstr "Пайдаланушы"
 
@@ -136,7 +144,8 @@ msgstr "Пайдаланушы"
 msgid "Пользователи"
 msgstr "Пайдаланушылар"
 
-#: .\accounts\models.py:85 .\courses\models.py:149 .\laboratory\models.py:8
+#: .\accounts\models.py:85 .\courses\models.py:145 .\laboratory\models.py:8
+#: .\templates\dashboard\labs_list.html:30
 msgid "Заголовок"
 msgstr "Тақырып"
 
@@ -149,6 +158,7 @@ msgid "Прочитано"
 msgstr "Оқылды"
 
 #: .\accounts\models.py:88 .\laboratory\models.py:12
+#: .\templates\dashboard\labs_list.html:31
 msgid "Дата создания"
 msgstr "Жасалған күні"
 
@@ -159,7 +169,7 @@ msgstr "Хабарландыру"
 #: .\accounts\models.py:92 .\templates\accounts\notifications.html:5
 #: .\templates\accounts\notifications.html:19
 #: .\templates\dashboard\grades.html:47 .\templates\dashboard\index.html:133
-#: .\templates\includes\sidebar.html:96
+#: .\templates\includes\sidebar.html:109
 msgid "Уведомления"
 msgstr "Хабарламалар"
 
@@ -222,6 +232,10 @@ msgstr "Мысалы: Маршрутизация негіздері"
 msgid "Краткое описание содержимого..."
 msgstr "Студенттер осы модульде не үйренетіні туралы қысқаша сипаттама"
 
+#: .\courses\forms.py:21
+msgid "https://example.com/..."
+msgstr ""
+
 #: .\courses\models.py:8 .\templates\dashboard\create_module.html:36
 #: .\templates\dashboard\edit_module.html:36
 msgid "Название модуля"
@@ -229,9 +243,10 @@ msgstr "Модуль атауы"
 
 #: .\courses\models.py:9
 msgid "URL слаг"
-msgstr ""
+msgstr "URL слаг"
 
-#: .\courses\models.py:10 .\courses\models.py:152 .\laboratory\models.py:9
+#: .\courses\models.py:10 .\courses\models.py:148 .\laboratory\models.py:9
+#: .\templates\laboratory\network_designer.html:120
 msgid "Описание"
 msgstr "Сипаттамасы"
 
@@ -241,34 +256,38 @@ msgstr "Сипаттамасы"
 msgid "Изображение"
 msgstr "Модуль суреті"
 
-#: .\courses\models.py:13
-msgid "Ссылка на видео (YouTube)"
+#: .\courses\models.py:12
+#, fuzzy
+#| msgid "Ссылка на видео (YouTube)"
+msgid "Ссылка на видео"
 msgstr "Бейне сілтемесі (YouTube)"
 
-#: .\courses\models.py:16 .\templates\dashboard\create_module.html:103
-#: .\templates\dashboard\edit_module.html:102
-msgid "Дополнительный файл"
-msgstr "Қосымша файл"
+#: .\courses\models.py:13
+#, fuzzy
+#| msgid "Задание модуля"
+msgid "Файл модуля"
+msgstr "Модуль атауы"
 
-#: .\courses\models.py:18 .\templates\dashboard\create_module.html:45
+#: .\courses\models.py:14 .\templates\dashboard\create_module.html:45
+#: .\templates\dashboard\create_question.html:74
 #: .\templates\dashboard\edit_module.html:45
 msgid "Порядок"
 msgstr "Реті"
 
-#: .\courses\models.py:19
+#: .\courses\models.py:15
 #, fuzzy
 #| msgid "Активен"
 msgid "Активен?"
 msgstr "Белсенді"
 
-#: .\courses\models.py:20
+#: .\courses\models.py:16
 #, fuzzy
 #| msgid "Изменен преподавателем"
-msgid "Изменён преподавателем"
+msgid "Изменен преподавателем"
 msgstr "Оқытушымен өзгертілген"
 
-#: .\courses\models.py:23 .\courses\models.py:53 .\courses\models.py:87
-#: .\courses\models.py:148 .\dashboard\views.py:152 .\laboratory\models.py:7
+#: .\courses\models.py:19 .\courses\models.py:49 .\courses\models.py:83
+#: .\courses\models.py:144 .\dashboard\views.py:155 .\laboratory\models.py:7
 #: .\templates\courses\generic_module.html:20
 #: .\templates\courses\introduction.html:33
 #: .\templates\courses\ip_addressing.html:33 .\templates\courses\lan.html:34
@@ -277,305 +296,307 @@ msgstr "Оқытушымен өзгертілген"
 #: .\templates\courses\roadmap.html:109
 #: .\templates\courses\test_results.html:73
 #: .\templates\dashboard\grades.html:162
+#: .\templates\dashboard\labs_list.html:29
+#: .\templates\dashboard\questions_list.html:37
 #: .\templates\dashboard\student_detail.html:59
-#: .\templates\includes\sidebar.html:67
+#: .\templates\includes\sidebar.html:72
 msgid "Модуль"
 msgstr "Модуль"
 
-#: .\courses\models.py:24
+#: .\courses\models.py:20
 msgid "Модули"
 msgstr "Модульдер"
 
-#: .\courses\models.py:38 .\courses\translations.py:38
+#: .\courses\models.py:34 .\courses\translations.py:38
 msgid "Легкий"
 msgstr "Жеңіл"
 
-#: .\courses\models.py:39 .\courses\translations.py:39
+#: .\courses\models.py:35 .\courses\translations.py:39
 msgid "Средний"
 msgstr "Орташа"
 
-#: .\courses\models.py:40 .\courses\translations.py:40
+#: .\courses\models.py:36 .\courses\translations.py:40
 msgid "Сложный"
 msgstr "Күрделі"
 
-#: .\courses\models.py:43 .\courses\translations.py:33
+#: .\courses\models.py:39 .\courses\translations.py:33
 msgid "Концептуальный анализ"
 msgstr "Концептуалды талдау"
 
-#: .\courses\models.py:44 .\courses\translations.py:34
+#: .\courses\models.py:40 .\courses\translations.py:34
 msgid "Практическое применение"
 msgstr "Практикалық қолдану"
 
-#: .\courses\models.py:45 .\courses\translations.py:35
+#: .\courses\models.py:41 .\courses\translations.py:35
 msgid "Поиск неисправностей"
 msgstr "Ақауларды іздеу"
 
-#: .\courses\models.py:48
+#: .\courses\models.py:44
 #, fuzzy
 #| msgid "Сбор информации"
 msgid "Выбор варианта"
 msgstr "Жеке ақпарат"
 
-#: .\courses\models.py:49
+#: .\courses\models.py:45
 #, fuzzy
 #| msgid "Тестирование"
 msgid "Сортировка"
 msgstr "Тестілеу"
 
-#: .\courses\models.py:50
+#: .\courses\models.py:46
 #, fuzzy
 #| msgid "Управление"
 msgid "Сопоставление"
 msgstr "Басқару"
 
-#: .\courses\models.py:51
+#: .\courses\models.py:47
 msgid "Ввод текста"
 msgstr ""
 
-#: .\courses\models.py:54
+#: .\courses\models.py:50 .\templates\dashboard\questions_list.html:38
 msgid "Текст вопроса"
 msgstr "Сұрақ мәтіні"
 
-#: .\courses\models.py:55
+#: .\courses\models.py:51
 msgid "Подсказка"
 msgstr "Көмекші құрал"
 
-#: .\courses\models.py:56 .\templates\courses\final_project.html:175
+#: .\courses\models.py:52 .\templates\courses\final_project.html:175
 msgid "Сложность"
 msgstr "Күрделілігі"
 
-#: .\courses\models.py:57
+#: .\courses\models.py:53
 msgid "Категория"
 msgstr "Санаты"
 
-#: .\courses\models.py:58
+#: .\courses\models.py:54
 #, fuzzy
 #| msgid "Текст вопроса"
 msgid "Тип вопроса"
 msgstr "Сұрақ мәтіні"
 
-#: .\courses\models.py:59
+#: .\courses\models.py:55
 msgid "Секция (блок)"
 msgstr ""
 
-#: .\courses\models.py:62 .\courses\models.py:70 .\courses\models.py:103
+#: .\courses\models.py:58 .\courses\models.py:66 .\courses\models.py:99
 #: .\templates\courses\module_test.html:217
 msgid "Вопрос"
 msgstr "Сұрақ"
 
-#: .\courses\models.py:63
+#: .\courses\models.py:59
 msgid "Вопросы"
 msgstr "Сұрақтар"
 
-#: .\courses\models.py:71
+#: .\courses\models.py:67 .\templates\dashboard\create_question.html:64
 msgid "Текст ответа"
 msgstr "Жауап мәтіні"
 
-#: .\courses\models.py:72
+#: .\courses\models.py:68 .\templates\dashboard\create_question.html:68
 msgid "Верный?"
 msgstr "Дұрыс па?"
 
-#: .\courses\models.py:73
+#: .\courses\models.py:69
 #, fuzzy
 #| msgid "Порядок отображения"
 msgid "Порядок (для сортировки)"
 msgstr "Көрсету реті"
 
-#: .\courses\models.py:74
+#: .\courses\models.py:70 .\templates\dashboard\create_question.html:86
 #, fuzzy
 #| msgid "Панель управления"
 msgid "Пара (для сопоставления)"
 msgstr "Басқару панелі"
 
-#: .\courses\models.py:77
+#: .\courses\models.py:73
 msgid "Вариант ответа"
 msgstr "Жауап нұсқасы"
 
-#: .\courses\models.py:78
+#: .\courses\models.py:74
 msgid "Варианты ответа"
 msgstr "Жауап нұсқалары"
 
-#: .\courses\models.py:88 .\dashboard\views.py:154 .\laboratory\models.py:25
+#: .\courses\models.py:84 .\dashboard\views.py:157 .\laboratory\models.py:25
 #: .\templates\dashboard\test_results.html:60
 msgid "Баллы"
 msgstr "Баллдар"
 
-#: .\courses\models.py:89
+#: .\courses\models.py:85
 #, fuzzy
 #| msgid "Затрачено времени"
 msgid "Затраченное время (сек)"
 msgstr "Жұмсалған уақыт"
 
-#: .\courses\models.py:90
+#: .\courses\models.py:86
 msgid "Количество ошибок"
 msgstr "Қателер саны"
 
-#: .\courses\models.py:91 .\dashboard\views.py:156 .\laboratory\models.py:27
+#: .\courses\models.py:87 .\dashboard\views.py:159 .\laboratory\models.py:27
 msgid "Дата завершения"
 msgstr "Аяқталған күні"
 
-#: .\courses\models.py:92
+#: .\courses\models.py:88
 msgid "Завершен?"
 msgstr "Аяқталды ма?"
 
-#: .\courses\models.py:93
+#: .\courses\models.py:89
 #, fuzzy
 #| msgid "Сетевой доступ"
 msgid "Токен доступа"
 msgstr "Желілік қолжетімділік"
 
-#: .\courses\models.py:96
+#: .\courses\models.py:92
 msgid "Прогресс пользователя"
 msgstr "Пайдаланушы прогресі"
 
-#: .\courses\models.py:97
+#: .\courses\models.py:93
 msgid "Прогресс пользователей"
 msgstr "Пайдаланушылар прогресі"
 
-#: .\courses\models.py:104
+#: .\courses\models.py:100
 msgid "Выбранный ответ"
 msgstr "Таңдалған жауап"
 
-#: .\courses\models.py:105
+#: .\courses\models.py:101
 #, fuzzy
 #| msgid "Аватар пользователя"
 msgid "Ввод пользователя"
 msgstr "Пайдаланушы аватару"
 
-#: .\courses\models.py:106
+#: .\courses\models.py:102
 #, fuzzy
 #| msgid "Имя пользователя"
 msgid "Порядок пользователя"
 msgstr "Пайдаланушы аты"
 
-#: .\courses\models.py:107
+#: .\courses\models.py:103
 #, fuzzy
 #| msgid "Начать полный тест"
 msgid "Сопоставленный текст"
 msgstr "Оқуды бастау"
 
-#: .\courses\models.py:108
+#: .\courses\models.py:104
 msgid "Верно?"
 msgstr "Дұрыс па?"
 
-#: .\courses\models.py:111
+#: .\courses\models.py:107
 msgid "Ответ пользователя"
 msgstr "Пайдаланушы жауабы"
 
-#: .\courses\models.py:112
+#: .\courses\models.py:108
 msgid "Ответы пользователей"
 msgstr "Пайдаланушылар жауаптары"
 
-#: .\courses\models.py:117 .\courses\views.py:152
+#: .\courses\models.py:113 .\courses\views.py:152
 msgid "Я думаю, что я хотел бы часто использовать эту систему"
 msgstr ""
 
-#: .\courses\models.py:118 .\courses\views.py:153
+#: .\courses\models.py:114 .\courses\views.py:153
 msgid "Я нашел систему излишне сложной"
 msgstr ""
 
-#: .\courses\models.py:119 .\courses\views.py:154
+#: .\courses\models.py:115 .\courses\views.py:154
 #, fuzzy
 #| msgid "Ссылка недействительна или уже использована."
 msgid "Я думаю, что система была легкой в использовании"
 msgstr "Сілтеме жарамсыз немесе қазірдің өзінде пайдаланылған."
 
-#: .\courses\models.py:120 .\courses\views.py:155
+#: .\courses\models.py:116 .\courses\views.py:155
 msgid ""
 "Я думаю, что мне понадобится помощь технического специалиста, чтобы "
 "пользоваться этой системой"
 msgstr ""
 
-#: .\courses\models.py:121 .\courses\views.py:156
+#: .\courses\models.py:117 .\courses\views.py:156
 msgid "Я нашел, что различные функции в этой системе были хорошо интегрированы"
 msgstr ""
 
-#: .\courses\models.py:122 .\courses\views.py:157
+#: .\courses\models.py:118 .\courses\views.py:157
 msgid "Я думаю, что в этой системе было слишком много несогласованности"
 msgstr ""
 
-#: .\courses\models.py:123 .\courses\views.py:158
+#: .\courses\models.py:119 .\courses\views.py:158
 msgid ""
 "Я бы вообразил, что большинство людей научатся пользоваться этой системой "
 "очень быстро"
 msgstr ""
 
-#: .\courses\models.py:124 .\courses\views.py:159
+#: .\courses\models.py:120 .\courses\views.py:159
 msgid "Я нашел систему очень громоздкой в использовании"
 msgstr ""
 
-#: .\courses\models.py:125 .\courses\views.py:160
+#: .\courses\models.py:121 .\courses\views.py:160
 msgid "Я чувствовал себя очень уверенно, пользуясь системой"
 msgstr ""
 
-#: .\courses\models.py:126 .\courses\views.py:161
+#: .\courses\models.py:122 .\courses\views.py:161
 msgid ""
 "Мне нужно было узнать много вещей, прежде чем я смог приступить к работе с "
 "этой системой"
 msgstr ""
 
-#: .\courses\models.py:127
+#: .\courses\models.py:123
 #, fuzzy
 #| msgid "Документация"
 msgid "Комментарии"
 msgstr "Құжаттама"
 
-#: .\courses\models.py:137 .\templates\base.html:213
+#: .\courses\models.py:133 .\templates\base.html:213
 #: .\templates\courses\usability_test.html:11
 #, fuzzy
 #| msgid "Т - Оценка за тест"
 msgid "Оценка юзабилити"
 msgstr "Тест балдары"
 
-#: .\courses\models.py:138
+#: .\courses\models.py:134
 #, fuzzy
 #| msgid "Т - Оценка за тест"
 msgid "Оценки юзабилити"
 msgstr "Тест балдары"
 
-#: .\courses\models.py:143
+#: .\courses\models.py:139
 msgid "Видео"
 msgstr ""
 
-#: .\courses\models.py:144
+#: .\courses\models.py:140
 #, fuzzy
 #| msgid "Документ"
 msgid "PDF документ"
 msgstr "Құжат"
 
-#: .\courses\models.py:145
+#: .\courses\models.py:141
 msgid "Внешняя ссылка"
 msgstr ""
 
-#: .\courses\models.py:146
+#: .\courses\models.py:142
 msgid "Другое"
 msgstr "Басқа"
 
-#: .\courses\models.py:150
+#: .\courses\models.py:146
 msgid "Файл"
 msgstr "Файл"
 
-#: .\courses\models.py:151
+#: .\courses\models.py:147
 msgid "Ссылка"
 msgstr ""
 
-#: .\courses\models.py:153 .\templates\courses\add_resource.html:69
+#: .\courses\models.py:149 .\templates\courses\add_resource.html:69
 msgid "Тип ресурса"
 msgstr "Ресурс түрі"
 
-#: .\courses\models.py:154
+#: .\courses\models.py:150
 msgid "Загрузил"
 msgstr "Жүктеген"
 
-#: .\courses\models.py:155
+#: .\courses\models.py:151
 msgid "Дата загрузки"
 msgstr "Жүктелген күні"
 
-#: .\courses\models.py:160
+#: .\courses\models.py:154
 msgid "Ресурс"
 msgstr "Ресурс"
 
-#: .\courses\models.py:161
+#: .\courses\models.py:155
 msgid "Ресурсы"
 msgstr "Ресурстар"
 
@@ -775,55 +796,91 @@ msgstr "Материал сәтті қосылды!"
 msgid "Материал удален."
 msgstr "Материал жойылды."
 
-#: .\dashboard\views.py:151 .\templates\dashboard\student_detail.html:31
+#: .\dashboard\views.py:154 .\templates\dashboard\student_detail.html:31
 #: .\templates\dashboard\students_list.html:30
 msgid "Email"
 msgstr "Email"
 
-#: .\dashboard\views.py:153 .\templates\dashboard\student_detail.html:77
+#: .\dashboard\views.py:156 .\templates\dashboard\student_detail.html:77
 msgid "Завершен"
 msgstr "Аяқталды"
 
-#: .\dashboard\views.py:155 .\templates\courses\test_results.html:164
+#: .\dashboard\views.py:158 .\templates\courses\test_results.html:164
 #: .\templates\dashboard\test_results.html:74
 msgid "Ошибки"
 msgstr "Қателер"
 
-#: .\dashboard\views.py:165
+#: .\dashboard\views.py:168
 msgid "Да"
 msgstr "Иә"
 
-#: .\dashboard\views.py:165
+#: .\dashboard\views.py:168
 msgid "Нет"
 msgstr "Жоқ"
 
-#: .\dashboard\views.py:230
+#: .\dashboard\views.py:234
 #, python-brace-format
 msgid "Модуль '{}' успешно создан."
 msgstr "Модуль '{}' сәтті жасалды."
 
-#: .\dashboard\views.py:269
+#: .\dashboard\views.py:274
 #, python-brace-format
 msgid "Модуль '{}' успешно обновлен."
 msgstr "Модуль '{}' сәтті жаңартылды."
 
-#: .\dashboard\views.py:293
+#: .\dashboard\views.py:298
 #, python-brace-format
 msgid "Модуль '{}' сброшен к исходному состоянию."
 msgstr "Модуль '{}' бастапқы күйіне қайтарылды."
 
-#: .\dashboard\views.py:304
+#: .\dashboard\views.py:309
 #, python-brace-format
 msgid "Модуль '{}' успешно удален."
 msgstr "Модуль '{}' сәтті жойылды."
 
-#: .\dashboard\views.py:330
+#: .\dashboard\views.py:335
 msgid "Сообщение успешно отправлено всем студентам."
 msgstr "Хабарлама барлық студенттерге сәтті жіберілді."
 
-#: .\dashboard\views.py:393
+#: .\dashboard\views.py:398
 msgid "Не начато"
 msgstr "Басталған жоқ"
+
+#: .\dashboard\views.py:466
+#, fuzzy
+#| msgid "Лабораторная работа"
+msgid "Лабораторная работа успешно создана."
+msgstr "Зертханалық жұмыс"
+
+#: .\dashboard\views.py:484
+#, fuzzy
+#| msgid "Лабораторная работа"
+msgid "Лабораторная работа успешно обновлена."
+msgstr "Зертханалық жұмыс"
+
+#: .\dashboard\views.py:498
+#, fuzzy, python-brace-format
+#| msgid "Лабораторная работа"
+msgid "Лабораторная работа '{}' удалена."
+msgstr "Зертханалық жұмыс"
+
+#: .\dashboard\views.py:523
+#, fuzzy
+#| msgid "Модуль '{}' успешно создан."
+msgid "Вопрос успешно создан."
+msgstr "Модуль '{}' сәтті жасалды."
+
+#: .\dashboard\views.py:545
+#, fuzzy
+#| msgid "Модуль '{}' успешно обновлен."
+msgid "Вопрос успешно обновлен."
+msgstr "Модуль '{}' сәтті жаңартылды."
+
+#: .\dashboard\views.py:559
+#, fuzzy
+#| msgid "Материал удален."
+msgid "Вопрос удален."
+msgstr "Материал жойылды."
 
 #: .\laboratory\models.py:10 .\templates\laboratory\lab_simulator.html:94
 msgid "Подсказки"
@@ -846,7 +903,8 @@ msgstr "Симуляция конфигурациясы (түйіндер, ба�
 msgid "Лабораторная работа"
 msgstr "Зертханалық жұмыс"
 
-#: .\laboratory\models.py:16
+#: .\laboratory\models.py:16 .\templates\dashboard\edit_module.html:132
+#: .\templates\dashboard\labs_list.html:15
 msgid "Лабораторные работы"
 msgstr "Зертханалық жұмыстар"
 
@@ -907,7 +965,7 @@ msgstr ""
 "жасалған."
 
 #: .\templates\404.html:174 .\templates\500.html:187
-#: .\templates\dashboard\support.html:5 .\templates\includes\sidebar.html:119
+#: .\templates\dashboard\support.html:5 .\templates\includes\sidebar.html:132
 msgid "Поддержка"
 msgstr "Қолдау"
 
@@ -1016,7 +1074,7 @@ msgstr ""
 #: .\templates\courses\tcp_ip.html:84 .\templates\courses\wireless.html:86
 #: .\templates\home.html:67
 msgid "Практика"
-msgstr "Практика"
+msgstr "Тәжірибе"
 
 #: .\templates\about.html:128
 msgid ""
@@ -1061,6 +1119,8 @@ msgid ""
 "Миссия проекта — сделать качественное сетевое образование доступным и "
 "интерактивным."
 msgstr ""
+"Жобаның миссиясы-сапалы желілік білім беруді қол жетімді және интерактивті "
+"ету."
 
 #: .\templates\about.html:173 .\templates\courses\final_project.html:52
 #: .\templates\courses\lan.html:39
@@ -1080,6 +1140,8 @@ msgid ""
 "Платформа NetAcad Ethereal полностью поддерживает русский и казахский языки, "
 "обеспечивая доступ к знаниям для каждого студента."
 msgstr ""
+"NetAcad ethereal платформасы әрбір студент үшін білімге қол жеткізуді "
+"қамтамасыз ете отырып, орыс және қазақ тілдерін толық қолдайды."
 
 #: .\templates\about.html:202
 msgid "Русский язык"
@@ -1330,7 +1392,8 @@ msgid "Отменить"
 msgstr "Болдырмау"
 
 #: .\templates\accounts\profile.html:172
-#: .\templates\dashboard\edit_module.html:123
+#: .\templates\dashboard\create_lab.html:44
+#: .\templates\dashboard\edit_module.html:173
 msgid "Сохранить изменения"
 msgstr "Өзгерістерді сақтау"
 
@@ -1394,11 +1457,11 @@ msgstr ""
 
 #: .\templates\accounts\register.html:78
 msgid "Глубокое погружение в уровни протоколов"
-msgstr ""
+msgstr "Хаттама деңгейлеріне терең оқыту"
 
 #: .\templates\accounts\register.html:83
 msgid "Освоение динамического поиска пути"
-msgstr ""
+msgstr "Динамикалық жолды іздеуді игеру"
 
 #: .\templates\accounts\register.html:91 .\templates\includes\sidebar.html:12
 msgid "Сетевой архитектор"
@@ -1418,7 +1481,7 @@ msgstr "Пайдаланушы аты"
 
 #: .\templates\accounts\register.html:213
 msgid "Я согласен с"
-msgstr "Мен келесімен келісемін:"
+msgstr "Мен келесімен:"
 
 #: .\templates\accounts\register.html:215
 msgid "Условиями обслуживания"
@@ -1442,7 +1505,7 @@ msgstr "Қызмет көрсету шарттары"
 
 #: .\templates\accounts\register.html:282
 msgid "Общие правила"
-msgstr "1. Жалпы ережелер"
+msgstr "Жалпы ережелер"
 
 #: .\templates\accounts\register.html:283
 msgid ""
@@ -1450,6 +1513,9 @@ msgid ""
 "академической честности. Платформа предназначена исключительно для "
 "образовательных целей."
 msgstr ""
+"NetAcad Ethereal платформасын пайдалану арқылы сіз академиялық адалдық "
+"ережелерін сақтауға міндеттісіз. Платформа тек білім беру мақсаттарына "
+"арналған."
 
 #: .\templates\accounts\register.html:286
 msgid "Аккаунт пользователя"
@@ -1460,20 +1526,24 @@ msgid ""
 "Вы несете ответственность за безопасность своего пароля. Запрещается "
 "передача данных учетной записи третьим лицам."
 msgstr ""
+"Сіз парольдің қауіпсіздігіне жауап бересіз. Есептік жазбаның деректерін "
+"үшінші тұлғаларға беруге тыйым салынады."
 
 #: .\templates\accounts\register.html:290
 msgid "Контент"
-msgstr "Контактілер"
+msgstr "Мазмұны"
 
 #: .\templates\accounts\register.html:291
 msgid ""
 "Весь учебный контент является интеллектуальной собственностью. Копирование и "
 "распространение материалов без согласия администрации запрещено."
 msgstr ""
+"Барлық оқу мазмұны зияткерлік меншік болып табылады. Әкімшіліктің "
+"келісімінсіз материалдарды көшіруге және таратуға тыйым салынады."
 
 #: .\templates\accounts\register.html:294
 msgid "Ответственность"
-msgstr "3. Жауапкершілік"
+msgstr "Жауапкершілік"
 
 #: .\templates\accounts\register.html:295
 msgid ""
@@ -1481,10 +1551,12 @@ msgid ""
 "сервиса, вызванные техническими работами или проблемами на стороне "
 "провайдеров."
 msgstr ""
+"Әкімшілік уақытша үзілістер үшін жауап бермейді техникалық жұмыстардан "
+"немесе тараптағы проблемалардан туындаған қызметтер провайдерлер."
 
 #: .\templates\accounts\register.html:301
 msgid "Я понимаю и принимаю условия"
-msgstr ""
+msgstr "Мен шарттарды түсінемін және қабылдаймын"
 
 #: .\templates\accounts\verify_email.html:70
 msgid "Подтвердите вашу почту"
@@ -1607,6 +1679,73 @@ msgstr ""
 "Желілік әкімшілендірудің және педагогикалық дизайнның заманауи тәжірибелерін "
 "қолдана отырып әзірленген."
 
+#: .\templates\base.html:309
+msgid "Онлайн"
+msgstr "Онлайн"
+
+#: .\templates\base.html:320
+msgid ""
+"Привет! Я твой гид по Computer Networks. Я могу рассказать о курсах, помочь "
+"с лабами или объяснить теорию. О чем хочешь узнать?"
+msgstr ""
+"Сәлем! Мен сіздің Computer Networks нұсқаулығысыз. Мен курстар туралы айта "
+"аламын, лабаларға көмектесе аламын немесе теорияны түсіндіре аламын. Сіз не "
+"туралы білгіңіз келеді"
+
+#: .\templates\base.html:326
+#, fuzzy
+#| msgid "Ваш ответ:"
+msgid "Ваш вопрос..."
+msgstr "Сіздің жауабыңыз:"
+
+#: .\templates\base.html:370
+msgid ""
+"У нас есть курсы по основам сетей, IP-адресации, маршрутизации и "
+"безопасности. Посмотреть все можно в разделе Курсы."
+msgstr ""
+"Бізде желі негіздері, IP мекенжайы, маршруттау және қауіпсіздік бойынша "
+"курстар бар. Барлығын курстар бөлімінен көруге болады."
+
+#: .\templates\base.html:371
+msgid ""
+"В разделе Лаборатория ты можешь практиковаться на симуляторах. Также "
+"доступен Сетевой конструктор для своих схем."
+msgstr ""
+"Бөлімінде зертхана Сен тренажерларда жаттығуға болады. Сондай-ақ желілік "
+"конструктор оның схемалары үшін қол жетімді."
+
+#: .\templates\base.html:372
+msgid ""
+"В профиле ты можешь увидеть свой прогресс, полученные сертификаты и изменить "
+"настройки."
+msgstr ""
+"Профильде сіз өзіңіздің жетістіктеріңізді, алған сертификаттарыңызды көре "
+"аласыз және параметрлерді өзгерте аласыз."
+
+#: .\templates\base.html:373
+msgid ""
+"Автор этого проекта — Инкар Болатовна. Проект разработан как обучающий "
+"сервис по сетевым технологиям."
+msgstr ""
+"Бұл жобаның авторы-Инкар Болатқызы. Жоба желілік технологиялар бойынша оқыту "
+"қызметі ретінде әзірленген."
+
+#: .\templates\base.html:374
+msgid ""
+"Начни с Плана обучения — там расписан путь от новичка до профи. Или попробуй "
+"пройти первый урок в Курсах."
+msgstr ""
+"Оқу жоспарынан бастаңыз-бастаушыдан кәсіпқойға дейінгі жол бар. Немесе "
+"бірінші курстан өтуге тырысыңыз."
+
+#: .\templates\base.html:375
+msgid ""
+"Хороший вопрос! Если хочешь узнать больше, загляни в раздел О сервисе или "
+"попробуй поработать в нашем Сетевом конструкторе."
+msgstr ""
+"Жақсы сұрақ! Егер сіз көбірек білгіңіз келсе, қызмет туралы бөлімді қараңыз "
+"немесе біздің желілік конструкторда жұмыс істеуге тырысыңыз."
+
 #: .\templates\core\legal.html:20
 msgid "Последнее обновление: 28 марта 2026 года"
 msgstr "Соңғы жаңарту: 2026 жылғы 23 наурыз"
@@ -1620,6 +1759,12 @@ msgid ""
 "обеспечить полную прозрачность в вопросах их обработки в соответствии с "
 "Законом Республики Казахстан «О персональных данных и их защите»."
 msgstr ""
+"Осы Құпиялылық саясаты (бұдан әрі — «саясат») NetAcad Ethereal (бұдан әрі — "
+"«біз», «платформа») жинайды, пайдаланады, сақтайды және пайдаланушылар "
+"туралы ақпаратты қорғайды («сіз», «студенттер», «оқытушылар»). Біз біз "
+"сіздің жеке деректеріңізді қорғауға басымдық береміз және ұмтыламыз сәйкес "
+"оларды өңдеу мәселелерінде толық ашықтықты қамтамасыз ету «Дербес деректер "
+"және оларды қорғау туралы» Қазақстан Республикасының Заңымен."
 
 #: .\templates\core\legal.html:41
 msgid "Сбор информации"
@@ -1627,17 +1772,19 @@ msgstr "Жеке ақпарат"
 
 #: .\templates\core\legal.html:43
 msgid "Мы собираем следующие категории данных:"
-msgstr ""
+msgstr "Біз келесі деректер санаттарын жинаймыз:"
 
 #: .\templates\core\legal.html:45
 msgid "Данные учетной записи:"
-msgstr ""
+msgstr "Тіркелгі деректері:"
 
 #: .\templates\core\legal.html:45
 msgid ""
 "имя пользователя, адрес электронной почты, пароль (в зашифрованном виде), "
 "роль в системе."
 msgstr ""
+"пайдаланушы аты, электрондық пошта мекенжайы, пароль (шифрланған түрде), "
+"жүйедегі рөл."
 
 #: .\templates\core\legal.html:46
 msgid "Данные профиля:"
@@ -1647,6 +1794,7 @@ msgstr "Профиль параметрлері"
 msgid ""
 "фотография профиля (аватар), биография, предпочтения по языку интерфейса."
 msgstr ""
+"профиль фотосуреті (аватар), өмірбаяны, интерфейс тілінің артықшылықтары."
 
 #: .\templates\core\legal.html:47
 msgid "Учебный прогресс:"
@@ -1657,6 +1805,8 @@ msgid ""
 "результаты тестов, время, затраченное на модули, количество ошибок, статус "
 "прохождения лабораторных работ."
 msgstr ""
+"тест нәтижелері, модульдерге жұмсалған уақыт, қателер саны, күй зертханалық "
+"жұмыстардан өту."
 
 #: .\templates\core\legal.html:48
 msgid "Технические данные:"
@@ -1667,6 +1817,8 @@ msgid ""
 "IP-адрес, тип браузера, информация о сессиях (через cookies) для обеспечения "
 "безопасности и стабильности работы."
 msgstr ""
+"IP мекенжайы, шолғыш түрі, қамтамасыз ету үшін сессиялар туралы ақпарат "
+"(cookies арқылы)жұмыстың қауіпсіздігі мен тұрақтылығы."
 
 #: .\templates\core\legal.html:55
 msgid "Цели обработки данных"
@@ -1674,28 +1826,29 @@ msgstr "Кодтың соңғы жіберілуі"
 
 #: .\templates\core\legal.html:57
 msgid "Ваша информация используется исключительно для следующих целей:"
-msgstr ""
+msgstr "Сіздің ақпаратыңыз тек келесі мақсаттарда қолданылады:"
 
 #: .\templates\core\legal.html:59
 msgid "Обеспечение функционирования учебного процесса и личного кабинета."
-msgstr ""
+msgstr "Оқу процесінің және жеке кабинеттің жұмыс істеуін қамтамасыз ету."
 
 #: .\templates\core\legal.html:60
 msgid ""
 "Анализ успеваемости и предоставление обратной связи (для преподавателей)."
-msgstr ""
+msgstr "Үлгерімді талдау және кері байланыс беру (оқытушылар үшін)."
 
 #: .\templates\core\legal.html:61
 msgid "Персонализация интерфейса (выбор языка, темная/светлая тема)."
-msgstr ""
+msgstr "Интерфейсті жекелендіру (Тілді таңдау, қараңғы/Ашық тақырып)."
 
 #: .\templates\core\legal.html:62
 msgid "Обеспечение безопасности аккаунта и предотвращение мошенничества."
 msgstr ""
+"Есептік жазбаның қауіпсіздігін қамтамасыз ету және алаяқтықтың алдын алу."
 
 #: .\templates\core\legal.html:63
 msgid "Связь с вами по важным вопросам работы платформы."
-msgstr ""
+msgstr "Платформа жұмысының маңызды мәселелері бойынша сізбен байланыс."
 
 #: .\templates\core\legal.html:70
 msgid "Защита и хранение"
@@ -1708,16 +1861,22 @@ msgid ""
 "(PBKDF2). Ваши данные хранятся на защищенных серверах с ограниченным "
 "доступом."
 msgstr ""
+"Біз деректерді қорғау үшін заманауи шифрлау әдістерін (SSL/TLS) "
+"қолданамызберу. Құпия сөздер сенімді хэштеу алгоритмдерін қолдана отырып "
+"сақталады (PBKDF2). Сіздің деректеріңіз шектеулі қорғалған серверлерде "
+"сақталады кіру арқылы."
 
 #: .\templates\core\legal.html:76
 msgid ""
 "Мы никогда не продаем и не передаем ваши персональные данные третьим лицам в "
 "маркетинговых целях."
 msgstr ""
+"Біз сіздің жеке деректеріңізді ешқашан үшінші тұлғаларға сатпаймыз немесе "
+"бермейміз маркетингтік мақсаттар."
 
 #: .\templates\core\legal.html:83
 msgid "Ваши права"
-msgstr ""
+msgstr "Сіздің құқықтарыңыз"
 
 #: .\templates\core\legal.html:85
 msgid "Вы имеете право:"
@@ -1726,16 +1885,19 @@ msgstr "Хат жіберілді"
 #: .\templates\core\legal.html:87
 msgid "Получать доступ к своим данным и изменять их через настройки профиля."
 msgstr ""
+"Деректерге қол жеткізіңіз және оларды профиль параметрлері арқылы өзгертіңіз."
 
 #: .\templates\core\legal.html:88
 msgid "Запрашивать удаление своего аккаунта и всех связанных данных."
-msgstr ""
+msgstr "Есептік жазбаңызды және барлық байланысты деректерді жоюды сұраңыз."
 
 #: .\templates\core\legal.html:89
 msgid ""
 "Отозвать согласие на обработку данных (что может привести к невозможности "
 "использования платформы)."
 msgstr ""
+"Деректерді өңдеуге келісімді қайтарып алу (бұл мүмкін кстікке әкелуі мүмкін "
+"платформаны пайдалану)."
 
 #: .\templates\core\legal.html:98
 msgid "Правила использования"
@@ -1747,10 +1909,13 @@ msgid ""
 "академической честности. Запрещается использование автоматизированных "
 "скриптов для прохождения тестов или попытки взлома системы."
 msgstr ""
+"Netacad Ethereal платформасын пайдалану арқылы сіз ережелерді сақтауға "
+"келісесіз Академиялық адалдық. Автоматтандырылған пайдалануға тыйым салынады "
+"тест тапсыруға немесе жүйені бұзуға тырысатын сценарийлер."
 
 #: .\templates\core\legal.html:108
 msgid "Интеллектуальная собственность"
-msgstr "3. Жауапкершілік"
+msgstr "Жауапкершілік"
 
 #: .\templates\core\legal.html:111
 msgid ""
@@ -1758,10 +1923,13 @@ msgid ""
 "курсов, является интеллектуальной собственностью платформы или ее авторов и "
 "защищен законом об авторском праве."
 msgstr ""
+"Дәріс мәтінін, суреттерді, бейнелерді және құрылымды қоса алғанда, барлық "
+"оқу мазмұны курстар, платформаның немесе оның авторларының зияткерлік "
+"меншігі және авторлық құқық туралы заңмен қорғалған."
 
 #: .\templates\core\legal.html:118
 msgid "Общие положения"
-msgstr "1. Жалпы ережелер"
+msgstr "Жалпы ережелер"
 
 #: .\templates\core\legal.html:119
 msgid ""
@@ -1799,15 +1967,17 @@ msgstr "Мысалы: Маршрутизация негіздері"
 
 #: .\templates\courses\add_resource.html:25
 msgid "Загрузите полезные книги или документы для ваших студентов."
-msgstr ""
+msgstr "Студенттерге пайдалы кітаптар немесе құжаттар жүктеңіз."
 
 #: .\templates\courses\add_resource.html:37
 msgid "Пожалуйста, проверьте правильность заполнения полей."
 msgstr "Пішіндегі қателерді түзетіңіз."
 
 #: .\templates\courses\add_resource.html:46
+#, fuzzy
+#| msgid "Добавление материала"
 msgid "Название материала"
-msgstr "Модуль атауы"
+msgstr "Мысалы: Маршрутизация негіздері"
 
 #: .\templates\courses\add_resource.html:57
 msgid "Краткое описание"
@@ -1815,11 +1985,11 @@ msgstr "Пайдалану шарттары"
 
 #: .\templates\courses\add_resource.html:80
 msgid "Файл материала"
-msgstr ""
+msgstr "Материал файлы"
 
 #: .\templates\courses\add_resource.html:86
 msgid "Нажмите или перетащите файл"
-msgstr ""
+msgstr "Файлды басыңыз немесе сүйреңіз"
 
 #: .\templates\courses\add_resource.html:99
 msgid "Сохранить и опубликовать"
@@ -1861,6 +2031,7 @@ msgstr ""
 
 #: .\templates\courses\client_server.html:82
 #: .\templates\courses\protocols.html:208
+#: .\templates\laboratory\network_designer.html:174
 msgid "Сервер"
 msgstr "Сервер"
 
@@ -2037,7 +2208,7 @@ msgstr "Білімді тексеру"
 #: .\templates\courses\protocols.html:255 .\templates\courses\routing.html:80
 #: .\templates\courses\security.html:199 .\templates\courses\switching.html:84
 #: .\templates\courses\tcp_ip.html:93 .\templates\courses\wireless.html:96
-#: .\templates\includes\sidebar.html:141
+#: .\templates\includes\sidebar.html:154
 msgid "Пройти тест"
 msgstr "Тест тапсыру"
 
@@ -2309,6 +2480,8 @@ msgid "К списку курсов"
 msgstr "Курстар тізіміне"
 
 #: .\templates\courses\generic_module.html:29
+#: .\templates\dashboard\labs_list.html:52
+#: .\templates\dashboard\questions_list.html:75
 msgid "Редактировать"
 msgstr "Өңдеу"
 
@@ -2417,7 +2590,7 @@ msgstr "Қала ауқымында"
 
 #: .\templates\courses\introduction.html:97
 msgid "Глобальная / Межконтинентальная"
-msgstr "Жаһандық / Континентаралық"
+msgstr "Жаһандық / Құрлықаралық"
 
 #: .\templates\courses\introduction.html:106
 msgid "Сетевые топологии"
@@ -2457,31 +2630,31 @@ msgstr "OSI-дің 7 деңгейі"
 
 #: .\templates\courses\introduction.html:147 .\templates\courses\tcp_ip.html:48
 msgid "Прикладной"
-msgstr ""
+msgstr "Қолданбалы"
 
 #: .\templates\courses\introduction.html:147
 msgid "Представительский"
-msgstr "Оқытушы"
+msgstr "Өкілдік"
 
 #: .\templates\courses\introduction.html:147
 msgid "Сеансовый"
-msgstr ""
+msgstr "Сеанстық"
 
 #: .\templates\courses\introduction.html:147 .\templates\courses\tcp_ip.html:49
 msgid "Транспортный"
-msgstr ""
+msgstr "Транспортық"
 
 #: .\templates\courses\introduction.html:147
 msgid "Сетевой"
-msgstr "Желілік қауіпсіздік"
+msgstr "Желілік"
 
 #: .\templates\courses\introduction.html:147
 msgid "Канальный"
-msgstr "Таңдалған жауап"
+msgstr "Арналық"
 
 #: .\templates\courses\introduction.html:147
 msgid "Физический"
-msgstr "Динамикалық:"
+msgstr "Физикалық"
 
 #: .\templates\courses\introduction.html:158
 msgid "Сравнение TCP/IP (4 уровня)"
@@ -2501,7 +2674,7 @@ msgstr ""
 
 #: .\templates\courses\introduction.html:174
 msgid "Транспортный уровень"
-msgstr "Көліктік деңгей"
+msgstr "Транспортық деңгей"
 
 #: .\templates\courses\introduction.html:175
 msgid "Связь между узлами. Аналогично 4-му уровню OSI."
@@ -2599,37 +2772,39 @@ msgstr "Желі ID-і"
 
 #: .\templates\courses\ip_addressing.html:112
 msgid "Первые 24 бита"
-msgstr ""
+msgstr "Алғашқы 24 бит"
 
 #: .\templates\courses\ip_addressing.html:115
 msgid "ID хоста"
-msgstr ""
+msgstr "Хост ID"
 
 #: .\templates\courses\ip_addressing.html:116
 msgid "Последние 8 бит"
-msgstr "Әлемге ену"
+msgstr "Соңғы 8 бит"
 
 #: .\templates\courses\ip_addressing.html:119
 msgid ""
 "Подсети позволяют эффективно сегментировать IP-пространство на более мелкие, "
 "управляемые логические сети."
 msgstr ""
+"Ішкі желілер IP кеңістігін кішірек кеңістіктерге тиімді бөлуге мүмкіндік "
+"береді, басқарылатын логикалық желілер."
 
 #: .\templates\courses\ip_addressing.html:125
 msgid "Приватность адресов (NAT)"
-msgstr ""
+msgstr "Мекен-жайдың құпиялылығы (NAT)"
 
 #: .\templates\courses\ip_addressing.html:132
 msgid "Приватный IP"
-msgstr ""
+msgstr "Жеке IP"
 
 #: .\templates\courses\ip_addressing.html:135
 msgid "ТРАНСЛЯЦИЯ NAT"
-msgstr ""
+msgstr "NAT ТРАНСЛЯЦИЯСЫ"
 
 #: .\templates\courses\ip_addressing.html:141
 msgid "Публичный IP"
-msgstr ""
+msgstr "Жалпыға ортақ IP"
 
 #: .\templates\courses\ip_addressing.html:144
 msgid ""
@@ -2637,51 +2812,57 @@ msgid ""
 "публичному IP, предотвращая исчерпание IPv4 и обеспечивая уровень "
 "безопасности."
 msgstr ""
+"Желілік мекен-жайларды тарату бірнеше жеке мекен-жайларды бір мекен-жайға "
+"сәйкестендіредіжалпыға ортақ IP, IPv4 сарқылуын болдырмайды және деңгейді "
+"қамтамасыз етеді қауіпсіздік."
 
 #: .\templates\courses\ip_addressing.html:151
 msgid "Практическая лаборатория"
-msgstr ""
+msgstr "Тәжірибелік зертхана"
 
 #: .\templates\courses\ip_addressing.html:152
 msgid "Расчет и визуализация подсетей в реальном времени"
-msgstr ""
+msgstr "Нақты уақыттағы ішкі желілерді есептеу және визуализациялауы"
 
 #: .\templates\courses\ip_addressing.html:158
+#: .\templates\laboratory\network_designer.html:205
 msgid "IP-адрес"
-msgstr "Email мекенжайы"
+msgstr "IP-мекенжай"
 
 #: .\templates\courses\ip_addressing.html:162
 msgid "Маска подсети"
 msgstr "Бұлттық желілер"
 
 #: .\templates\courses\ip_addressing.html:184
+#, fuzzy
+#| msgid "Пересдать тест"
 msgid "Рассчитать сеть"
-msgstr ""
+msgstr "Тестті қайта тапсыру"
 
 #: .\templates\courses\ip_addressing.html:188
 msgid "Сеть"
-msgstr ""
+msgstr "Желі"
 
 #: .\templates\courses\ip_addressing.html:192
 msgid "Широковещательный"
-msgstr "Оқытушы"
+msgstr "Хабар тарату"
 
 #: .\templates\courses\ip_addressing.html:196
 msgid "Первый хост"
-msgstr ""
+msgstr "Бірінші хост"
 
 #: .\templates\courses\ip_addressing.html:200
 msgid "Последний хост"
-msgstr ""
+msgstr "Соңғы хост"
 
 #: .\templates\courses\ip_addressing.html:205
 msgid "Емкость диапазона хостов"
-msgstr ""
+msgstr "Хост ауқымының сыйымдылығы"
 
 #: .\templates\courses\ip_addressing.html:206
 #: .\templates\courses\ip_addressing.html:338
 msgid "хостов"
-msgstr ""
+msgstr "хосттар"
 
 #: .\templates\courses\ip_addressing.html:221
 msgid "Об авторе"
@@ -2694,6 +2875,11 @@ msgid ""
 "на локализации высокоуровневого технического образования для рынков RU/KZ, "
 "сокращая разрыв между мировыми стандартами и местной реализацией."
 msgstr ""
+"Инкар Болатовна-Cisco компаниясының 8-ден астам сертификатталған желілік "
+"маманы -аймақтық инфрақұрылымды дамытудың жазғы тәжірибесі. Ол "
+"мамандандырылған RU/KZ нарықтары үшін жоғары деңгейлі техникалық білім "
+"беруді оқшаулаудаәлемдік стандарттар мен жергілікті іске асыру арасындағы "
+"алшақтықты азайту."
 
 #: .\templates\courses\ip_addressing.html:227
 #: .\templates\courses\osi_model.html:162
@@ -2714,67 +2900,71 @@ msgstr "Хаттамалар"
 
 #: .\templates\courses\ip_addressing.html:305
 msgid "Пожалуйста, введите корректный IPv4 адрес"
-msgstr "Кодтың барлық 6 цифрын енгізіңіз"
+msgstr "Дұрыс IPv4 мекенжайын енгізіңіз"
 
 #: .\templates\courses\lan.html:5
 msgid "Модуль 6: Настройка LAN | EthernetArch"
-msgstr "Желілік қауіпсіздік"
+msgstr "6-Модуль: LAN | EthernetArch орнатук"
 
 #: .\templates\courses\lan.html:33
 msgid "Учебный трек • Блок 6"
-msgstr ""
+msgstr "Оқу жолы • 6-бөлім"
 
 #: .\templates\courses\lan.html:54
 msgid "Ручная настройка IP"
-msgstr ""
+msgstr "Қолмен IP орнату"
 
 #: .\templates\courses\lan.html:63
 msgid "Настройки сети и Интернета"
-msgstr "Жүйе параметрлері"
+msgstr "Желі және Интернет параметрлері"
 
 #: .\templates\courses\lan.html:64
 msgid "Свойства IPv4: Ручной ввод"
-msgstr ""
+msgstr "IPv4 қасиеттері: қолмен енгізу"
 
 #: .\templates\courses\lan.html:65
 msgid "Маска подсети и шлюз по умолчанию"
-msgstr ""
+msgstr "Ішкі желі маскасы және әдепкі шлюз"
 
 #: .\templates\courses\lan.html:85
 msgid "Wi-Fi WPA3"
-msgstr ""
+msgstr "Wi-Fi WPA3"
 
 #: .\templates\courses\lan.html:86
 msgid ""
 "Внедрение одновременной аутентификации равных (SAE) для надежной защиты от "
 "атак методом перебора."
 msgstr ""
+"Сенімді қорғаныс үшін тең аутентификацияны (SAE) енгізу шамадан тыс "
+"шабуылдар."
 
 #: .\templates\courses\lan.html:88
 msgid "ЛАБОРАТОРИЯ БЕЗОПАСНОСТИ"
-msgstr ""
+msgstr "ҚАУІПСІЗДІК ЗЕРТХАНАСЫ"
 
 #: .\templates\courses\lan.html:96
 msgid "Общие ресурсы"
-msgstr ""
+msgstr "Жалпы ресурстар"
 
 #: .\templates\courses\lan.html:97
 msgid ""
 "Настройка SMB/CIFS для файловых серверов и протоколов обнаружения принтеров "
 "в локальных подсетях."
 msgstr ""
+"Файл серверлері мен принтерді анықтау протоколдары үшін SMB/CIFS орнату "
+"жергілікті ішкі желілерде."
 
 #: .\templates\courses\lan.html:113
 msgid "Терминал виртуальной лаборатории"
-msgstr ""
+msgstr "Виртуалды зертхана терминалы"
 
 #: .\templates\courses\lan.html:124
 msgid "попробуйте 'tracert ethernetarch.edu'..."
-msgstr ""
+msgstr "tracert қолданып көріңіз ethernetarch.edu'..."
 
 #: .\templates\courses\lan.html:136
 msgid "Проверка знаний модуля 5"
-msgstr "Модуль атауы"
+msgstr "5 модульдің білімін тексеру"
 
 #: .\templates\courses\lan.html:137
 #, python-format
@@ -2782,20 +2972,25 @@ msgid ""
 "Проверьте свое понимание конфигурации LAN, диагностических утилит и "
 "безопасности WPA3. 10 вопросов • Требуется 80%% правильных ответов."
 msgstr ""
+"LAN конфигурациясы, диагностикалық утилиталар және т. б. туралы "
+"түсінігіңізді тексеріңізwpa3 қауіпсіздігі. 10 сұрақ • 80% дұрыс жауаптар "
+"қажет."
 
 #: .\templates\courses\lan.html:140
 msgid ""
 "Какая команда используется для отображения полного сетевого пути к "
 "удаленному хосту на компьютере под управлением Windows?"
 msgstr ""
+"Толық желілік жолды көрсету үшін қандай команда қолданыладыWindows "
+"компьютеріндегі қашықтағы хост?"
 
 #: .\templates\courses\lan.html:153
 msgid "Начать полный тест"
-msgstr "Оқуды бастау"
+msgstr "Толық тестті бастаңыз"
 
 #: .\templates\courses\lan.html:156
 msgid "Последняя попытка: 9/10 (Отлично)"
-msgstr "Кодтың соңғы жіберілуі"
+msgstr "Соңғы әрекет: 9/10 (керемет)"
 
 #: .\templates\courses\list.html:5 .\templates\includes\sidebar.html:28
 msgid "Мои курсы"
@@ -2803,21 +2998,23 @@ msgstr "Курстар"
 
 #: .\templates\courses\list.html:43
 msgid "Учебный путь"
-msgstr ""
+msgstr "Оқу жолы"
 
 #: .\templates\courses\list.html:44
 msgid "Основы сетевой архитектуры"
-msgstr ""
+msgstr "Желілік архитектураның негіздері"
 
 #: .\templates\courses\list.html:46
 msgid ""
 "Добро пожаловать в ваше профессиональное путешествие. Завершайте модули "
 "последовательно, чтобы открыть продвинутые концепции сетевой архитектуры."
 msgstr ""
+"Сіздің кәсіби сапарыңызға қош келдіңіз. Модульдерді аяқтаңыз желілік "
+"архитектураның жетілдірілген тұжырымдамаларын ашу үшін дәйекті түрде."
 
 #: .\templates\courses\list.html:52
 msgid "Добавить модуль"
-msgstr "Модуль жасау"
+msgstr "Модуль қосу"
 
 #: .\templates\courses\list.html:75 .\templates\courses\roadmap.html:79
 #: .\templates\courses\roadmap.html:113
@@ -2825,7 +3022,7 @@ msgstr "Модуль жасау"
 #: .\templates\dashboard\test_results.html:53
 #: .\templates\laboratory\lab_simulator.html:285
 msgid "Завершено"
-msgstr ""
+msgstr "Аяқталды"
 
 #: .\templates\courses\list.html:77
 #: .\templates\dashboard\student_detail.html:82
@@ -2836,11 +3033,11 @@ msgstr "Орындалуда"
 #: .\templates\courses\list.html:80 .\templates\courses\roadmap.html:84
 #: .\templates\courses\roadmap.html:118
 msgid "Заблокировано"
-msgstr "Тестілеу"
+msgstr "Бұғатталды"
 
 #: .\templates\courses\list.html:91
 msgid "Практика выполнена"
-msgstr "Практика"
+msgstr "Тәжірибе аяқталды"
 
 #: .\templates\courses\list.html:93
 msgid "Lab OK"
@@ -2849,51 +3046,56 @@ msgstr ""
 #: .\templates\courses\list.html:101
 msgid "Освойте основные концепции и протоколы современной сетевой архитектуры."
 msgstr ""
+"Заманауи желілік архитектураның негізгі тұжырымдамалары мен хаттамаларын "
+"игеріңіз."
 
 #: .\templates\courses\list.html:127 .\templates\courses\list.html:132
 msgid "Начать"
-msgstr ""
+msgstr "Бастау"
 
 #: .\templates\courses\module_test.html:6
 msgid "NetAcad Ethereal - Тест:"
-msgstr ""
+msgstr "NetAcad Ethereal - Тест:"
 
 #: .\templates\courses\module_test.html:40
 msgid "Вопрос 1"
-msgstr ""
+msgstr "Сұрақ 1"
 
 #: .\templates\courses\module_test.html:45
 #: .\templates\laboratory\lab_simulator.html:56
 #: .\templates\laboratory\osi_lab.html:66
 msgid "Завершить"
-msgstr ""
+msgstr "Аяқтау"
 
 #: .\templates\courses\module_test.html:53
 msgid "Тестирование по теме:"
-msgstr "Тестілеу"
+msgstr "Тақырып бойынша тестілеу:"
 
 #: .\templates\courses\module_test.html:63
 msgid ""
 "Внимание: переключение вкладок или сворачивание окна приведет к "
 "аннулированию теста."
 msgstr ""
+"Назар аударыңыз: қойындыларды ауыстыру немесе терезені кішірейту тесттің "
+"күшін жою."
 
 #: .\templates\courses\module_test.html:77
 msgid "Сложность:"
-msgstr ""
+msgstr "Күрделілігі:"
 
 #: .\templates\courses\module_test.html:82
 msgid "Раздел:"
-msgstr ""
+msgstr "Бөлім:"
 
 #: .\templates\courses\module_test.html:118
 msgid ""
 "Расставьте элементы в правильном порядке (1 - первый, 2 - второй и т.д.):"
 msgstr ""
+"Элементтерді дұрыс ретпен орналастырыңыз (1-бірінші, 2-екінші және т. б.):"
 
 #: .\templates\courses\module_test.html:128
 msgid "Подберите правильную пару для каждого элемента:"
-msgstr ""
+msgstr "Әр элемент үшін дұрыс жұпты таңдаңыз:"
 
 #: .\templates\courses\module_test.html:137
 #, fuzzy
@@ -2914,30 +3116,36 @@ msgid "Ваш ответ..."
 msgstr "Сіздің жауабыңыз:"
 
 #: .\templates\courses\module_test.html:163
+#, fuzzy
+#| msgid "Предыдущий вопрос"
 msgid "Предыдущий вопрос"
-msgstr ""
+msgstr "Алдыңғы сұрақ"
 
 #: .\templates\courses\module_test.html:171
+#, fuzzy
+#| msgid "Следующий модуль"
 msgid "Следующий вопрос"
-msgstr ""
+msgstr "Келесі модуль"
 
 #: .\templates\courses\module_test.html:176
 msgid "Завершить тест"
-msgstr ""
+msgstr "Тестті аяқтау"
 
 #: .\templates\courses\module_test.html:193
 msgid "Тест аннулирован"
-msgstr ""
+msgstr "Тест жойылды"
 
 #: .\templates\courses\module_test.html:195
 msgid ""
 "Вы переключили вкладку или покинули окно браузера. В целях обеспечения "
 "честности тестирования, ваша попытка была прекращена."
 msgstr ""
+"Сіз қойындыны ауыстырдыңыз немесе шолғыш терезесінен шықтыңыз. Қамтамасыз "
+"ету мақсатында тестілеудің адалдығы, сіздің әрекетіңіз тоқтатылды."
 
 #: .\templates\courses\module_test.html:198
 msgid "Вернуться к курсу"
-msgstr ""
+msgstr "Курсқа оралу"
 
 #: .\templates\courses\module_test.html:241
 #, fuzzy
@@ -2953,31 +3161,36 @@ msgstr "Тестілеу және практикалық жұмыстардың 
 
 #: .\templates\courses\osi_model.html:5
 msgid "Модуль 2: Сетевое оборудование | EthernetArch"
-msgstr "Желілік қауіпсіздік"
+msgstr "2-Модуль: желілік жабдық / EthernetArch"
 
 #: .\templates\courses\osi_model.html:32
 msgid ""
 "Освойте физический и логический уровни современных коммуникаций — от таблиц "
 "MAC-адресов до клиент-серверной архитектуры."
 msgstr ""
+"Заманауи коммуникациялардың физикалық және логикалық деңгейлерін — "
+"кестелерден игеріңізКлиент-сервер архитектурасына дейінгі MAC мекенжайлары."
 
 #: .\templates\courses\osi_model.html:35
 msgid "Список курсов"
-msgstr ""
+msgstr "Курстар тізімі"
 
 #: .\templates\courses\osi_model.html:47
 msgid "Текущий трафик"
-msgstr ""
+msgstr "Ағымдағы трафик"
 
 #: .\templates\courses\osi_model.html:62
 msgid "Коммутатор (Уровень 2)"
-msgstr ""
+msgstr "Коммутатор (2 Деңгей)"
 
 #: .\templates\courses\osi_model.html:63
 msgid ""
 "Узнайте, как таблицы MAC-адресов оптимизируют поток локального трафика и как "
 "устройства уровня 2 управляют коммутацией кадров на скорости канала."
 msgstr ""
+"MAC мекенжай кестелері жергілікті трафик ағынын қалай оңтайландыратынын және "
+"қалай екенін біліңіз2-деңгейдегі құрылғылар арна жылдамдығында кадрдың "
+"ауысуын басқарады."
 
 #: .\templates\courses\osi_model.html:66
 msgid "Процесс обучения MAC"
@@ -2985,16 +3198,16 @@ msgstr "Оқу жоспары"
 
 #: .\templates\courses\osi_model.html:69
 msgid "Логика пересылки кадров"
-msgstr ""
+msgstr "Кадрларды жіберу логикасы"
 
 #: .\templates\courses\osi_model.html:78
 msgid "Маршрутизатор (Уровень 3)"
-msgstr ""
+msgstr "Маршрутизатор (3 Деңгей)"
 
 #: .\templates\courses\osi_model.html:79
 msgid ""
 "Таблицы маршрутизации, IP-адресация и основа межсетевого взаимодействия."
-msgstr ""
+msgstr "Маршруттау кестелері, IP мекенжайы және желіаралық байланыс негізі."
 
 #: .\templates\courses\osi_model.html:85
 msgid "Беспроводная связь"
@@ -3005,6 +3218,8 @@ msgid ""
 "Типы сигналов модема и режимы Wi-Fi для точек доступа в средах с высокой "
 "плотностью."
 msgstr ""
+"Модем сигналдарының түрлері және жоғары ортадағы кіру нүктелеріне арналған "
+"Wi-Fi режимдерітығыздық."
 
 #: .\templates\courses\osi_model.html:89
 msgid "Изучить радио технологии"
@@ -3012,13 +3227,15 @@ msgstr "Сымсыз технологиялар"
 
 #: .\templates\courses\osi_model.html:95
 msgid "Серверная архитектура"
-msgstr ""
+msgstr "Сервер архитектурасы"
 
 #: .\templates\courses\osi_model.html:96
 msgid ""
 "Разбор клиент-серверной модели. Понимание циклов запрос-ответ и "
 "централизованного управления ресурсами."
 msgstr ""
+"Клиент-сервер моделін талдау. Сұрау-Жауап циклдерін түсіну және ресурстарды "
+"орталықтандырылған басқару."
 
 #: .\templates\courses\osi_model.html:109
 msgid "Виртуальная лаборатория"
@@ -3027,7 +3244,7 @@ msgstr "Виртуалды зертхана"
 #: .\templates\courses\osi_model.html:110
 msgid ""
 "Перетаскивайте компоненты для сборки функциональной корпоративной подсети."
-msgstr ""
+msgstr "Функционалды кәсіпорын ішкі желісін құру үшін компоненттерді сүйреңіз."
 
 #: .\templates\courses\osi_model.html:131
 msgid "Мини-кейс: 'Сборка офисной сети'"
@@ -3035,7 +3252,7 @@ msgstr "Мини-кейс: 'Офистік желіні құру'"
 
 #: .\templates\courses\osi_model.html:132
 msgid "Вопросов"
-msgstr "Сұрақ"
+msgstr "Сұрақтар"
 
 #: .\templates\courses\osi_model.html:135
 msgid ""
@@ -3043,6 +3260,9 @@ msgid ""
 "сеть. Им нужен выделенный сервер, три VLAN для разных отделов и гостевой "
 "доступ Wi-Fi."
 msgstr ""
+"15 қызметкері бар Стартап қауіпсіз, масштабталатын жергілікті қажет желі. "
+"Оларға арнайы сервер, әртүрлі бөлімдер үшін үш VLAN және қонақ қажет Wi-Fi "
+"қол жетімділігі."
 
 #: .\templates\courses\osi_model.html:138
 msgid "Текущая задача"
@@ -3053,14 +3273,16 @@ msgid ""
 "Какое устройство вы бы использовали для предотвращения широковещательного "
 "шторма между отделами маркетинга и инжиниринга?"
 msgstr ""
+"Хабар таратудың алдын алу үшін қандай Құрылғыны қолданар едіңіз маркетинг "
+"және инжиниринг бөлімдері арасындағы дауыл?"
 
 #: .\templates\courses\osi_model.html:142
 msgid "Коммутатор 2 уровня с VLAN"
-msgstr ""
+msgstr "VLAN бар 2 деңгейлі қосқыш"
 
 #: .\templates\courses\osi_model.html:143
 msgid "Базовый сетевой концентратор"
-msgstr ""
+msgstr "Негізгі желілік хаб"
 
 #: .\templates\courses\osi_model.html:144
 msgid "Автономный модем"
@@ -3076,7 +3298,7 @@ msgstr "Жоба авторы"
 
 #: .\templates\courses\osi_model.html:157
 msgid "Старший сетевой инженер"
-msgstr "Желілік инженерияға жолыңызды бастаңыз"
+msgstr "Аға желілік инженер"
 
 #: .\templates\courses\osi_model.html:176
 msgid "Готовы к экзамену?"
@@ -3273,7 +3495,7 @@ msgstr "Файлды жүктеу"
 
 #: .\templates\courses\resources.html:85
 msgid "Открыть"
-msgstr ""
+msgstr "Ашу"
 
 #: .\templates\courses\resources.html:96
 msgid "Библиотека пуста"
@@ -3339,19 +3561,19 @@ msgstr ""
 
 #: .\templates\courses\routing.html:44
 msgid "Сетевой уровень"
-msgstr ""
+msgstr "Желілік деңгей"
 
 #: .\templates\courses\routing.html:45
 msgid "Маршрутизация работает на 3 уровне модели OSI"
-msgstr ""
+msgstr "Маршруттау OSI моделінің 3 деңгейінде жұмыс істейді"
 
 #: .\templates\courses\routing.html:49
 msgid "Адресация"
-msgstr "Коммутация"
+msgstr "Адрестеу"
 
 #: .\templates\courses\routing.html:50
 msgid "Основано на IP-адресации и масках подсетей"
-msgstr ""
+msgstr "IP мекенжайы мен ішкі желі маскаларына негізделген"
 
 #: .\templates\courses\routing.html:54
 msgid "Таблицы маршрутизации"
@@ -3359,7 +3581,7 @@ msgstr "Маршруттау негіздері"
 
 #: .\templates\courses\routing.html:55
 msgid "Каждое устройство хранит таблицу доступных сетей"
-msgstr ""
+msgstr "Әрбір құрылғы қол жетімді желілер кестесін сақтайды"
 
 #: .\templates\courses\routing.html:72 .\templates\courses\switching.html:76
 msgid "Cisco CLI"
@@ -3367,7 +3589,7 @@ msgstr ""
 
 #: .\templates\courses\routing.html:88 .\templates\courses\wireless.html:79
 msgid "Безопасность"
-msgstr ""
+msgstr "Қауіпсіздік"
 
 #: .\templates\courses\security.html:5
 msgid "Модуль 9: Сетевая безопасность | EthernetArch"
@@ -3390,32 +3612,38 @@ msgstr ""
 "негіздеріне дейінгі күрделі қорғаныс деңгейлерін үйреніңіз."
 
 #: .\templates\courses\security.html:44
+#, fuzzy
+#| msgid "Python/Django, MySQL"
 msgid "Python/Django • MySQL"
-msgstr ""
+msgstr "Python/Django, MySQL"
 
 #: .\templates\courses\security.html:66
 msgid "Логика и типы межсетевых экранов"
-msgstr "Межсетевой экрандардың логикасы мен түрлері"
+msgstr "Брандмауэрлердің логикасы мен түрлері"
 
 #: .\templates\courses\security.html:70
 msgid "Фильтрация пакетов"
-msgstr ""
+msgstr "Пакеттерді сүзу"
 
 #: .\templates\courses\security.html:71
 msgid ""
 "Работает на 3 и 4 уровнях, проверяя IP-адреса и номера портов на "
 "соответствие заданным наборам правил."
 msgstr ""
+"IP мекенжайлары мен порт нөмірлерін тексеру арқылы 3 және 4 деңгейлерде "
+"жұмыс істейдіберілген ережелер жиынтығына сәйкестік."
 
 #: .\templates\courses\security.html:74
 msgid "Проверка состояния (Stateful Inspection)"
-msgstr ""
+msgstr "Күйді тексеру (Stateful Inspection)"
 
 #: .\templates\courses\security.html:75
 msgid ""
 "Отслеживает состояние активных соединений и принимает решения на основе "
 "контекста потока трафика."
 msgstr ""
+"Белсенді қосылыстардың күйін бақылайды және оған негізделген шешімдер "
+"қабылдайды трафик ағынының контексті."
 
 #: .\templates\courses\security.html:85
 msgid "Триада CIA"
@@ -3432,7 +3660,7 @@ msgstr "Құпиялылық"
 
 #: .\templates\courses\security.html:92
 msgid "Только авторизованный доступ."
-msgstr ""
+msgstr "Тек рұқсат етілген қол жетімділік."
 
 #: .\templates\courses\security.html:98
 msgid "Целостность"
@@ -3440,7 +3668,7 @@ msgstr "Тұтастық"
 
 #: .\templates\courses\security.html:99
 msgid "Данные остаются неизменными."
-msgstr ""
+msgstr "Деректер өзгеріссіз қалады."
 
 #: .\templates\courses\security.html:105
 msgid "Доступность"
@@ -3448,7 +3676,7 @@ msgstr "Қолжетімділік"
 
 #: .\templates\courses\security.html:106
 msgid "Доступен при необходимости."
-msgstr ""
+msgstr "Қажет болса қол жетімді."
 
 #: .\templates\courses\security.html:117
 msgid "VPN и шифрование"
@@ -3459,26 +3687,32 @@ msgid ""
 "Понимание рукопожатий SSL/TLS и различий между симметричными и "
 "асимметричными ключами жизненно важно для безопасного туннелирования."
 msgstr ""
+"SSL/TLS қол алысуларын және симметриялы мен арасындағы айырмашылықтарды "
+"түсінуасимметриялық кілттермен қауіпсіз туннельдеу үшін өте маңызды."
 
 #: .\templates\courses\security.html:126
 msgid "Симметричное шифрование"
-msgstr "Тестілеу"
+msgstr "Симметриялық шифрлау"
 
 #: .\templates\courses\security.html:127
 msgid ""
 "Один и тот же ключ как для шифрования, так и для дешифрования. Быстро, "
 "эффективно, но требует безопасного обмена ключами."
 msgstr ""
+"Шифрлау үшін де, шифрды ашу үшін де бірдей кілт. Жылдам, тиімді, бірақ "
+"қауіпсіз кілттермен алмасуды қажет етеді."
 
 #: .\templates\courses\security.html:130
 msgid "Асимметричное шифрование"
-msgstr "Пайдалану шарттары"
+msgstr "Асимметриялық шифрлау"
 
 #: .\templates\courses\security.html:131
 msgid ""
 "Пары открытых и закрытых ключей. Основа современных цифровых подписей и "
 "сертификатов SSL."
 msgstr ""
+"Ашық және жеке кілттердің жұптары. Заманауи цифрлық қолтаңбалардың негізі "
+"және SSL сертификаттары."
 
 #: .\templates\courses\security.html:134
 msgid "Протоколы туннелирования"
@@ -3489,20 +3723,24 @@ msgid ""
 "Инкапсуляция пакетов данных в другой протокол для безопасного прохождения "
 "через общедоступные сети (IPsec, OpenVPN)."
 msgstr ""
+"Қауіпсіз өту үшін деректер пакеттерін басқа хаттамаға инкапсуляциялау "
+"жалпыға қол жетімді желілер арқылы (IPsec, OpenVPN)."
 
 #: .\templates\courses\security.html:138
 msgid "Уязвимость MitM"
-msgstr "Күрделілігі"
+msgstr "MitM Осалдығы"
 
 #: .\templates\courses\security.html:139
 msgid ""
 "Как слабое шифрование позволяет злоумышленникам перехватывать и "
 "ретранслировать сообщения между двумя сторонами."
 msgstr ""
+"Қалай әлсіз шифрлау шабуылдаушыларға ұстап алуға мүмкіндік береді "
+"жәнехабарламаларды екі тарап арасында қайта жіберіңіз."
 
 #: .\templates\courses\security.html:150
 msgid "Интерактивная лаборатория: «Определите угрозу»"
-msgstr ""
+msgstr "Интерактивті зертхана: «қауіпті анықтаңыз»"
 
 #: .\templates\courses\security.html:152
 msgid ""
@@ -3510,10 +3748,13 @@ msgid ""
 "заголовки электронных писем и скачки активности сервера для диагностики "
 "активных атак."
 msgstr ""
+"Өзіңізді secops инженері ретінде көріңіз. Трафик журналдарын "
+"талдаңыз,электрондық пошта тақырыптары және диагностикаға арналған сервер "
+"белсенділігінің секірістерібелсенді шабуылдар."
 
 #: .\templates\courses\security.html:157
 msgid "DoS-атака"
-msgstr ""
+msgstr "DoS шабуылы"
 
 #: .\templates\courses\security.html:161
 msgid "Фишинг"
@@ -3557,16 +3798,20 @@ msgid ""
 "Коммутаторы работают на 2 уровне (Data Link) модели OSI и используют MAC-"
 "адреса для пересылки кадров только нужному получателю."
 msgstr ""
+"Коммутаторлар OSI моделінің 2 деңгейінде (Data Link) жұмыс істейді және Mac "
+"қолданады-кадрларды тек қажетті алушыға жіберуге арналған мекенжайлар."
 
 #: .\templates\courses\switching.html:52
 msgid "VLAN технологии"
-msgstr ""
+msgstr "VLAN технологиясы"
 
 #: .\templates\courses\switching.html:54
 msgid ""
 "Виртуальные локальные сети позволяют разделять физическую сеть на логические "
 "сегменты для повышения безопасности и производительности."
 msgstr ""
+"Виртуалды жергілікті желілер физикалық желіні логикалық желіге бөлуге "
+"мүмкіндік береді қауіпсіздік пен өнімділікті арттыруға арналған сегменттер."
 
 #: .\templates\courses\tcp_ip.html:5
 msgid "Модуль 3: Стек TCP/IP | EthernetArch"
@@ -3639,7 +3884,7 @@ msgid "Результаты Тестов"
 msgstr "Тест нәтижелері"
 
 #: .\templates\courses\test_results.html:47
-#: .\templates\dashboard\grades.html:48 .\templates\includes\sidebar.html:114
+#: .\templates\dashboard\grades.html:48 .\templates\includes\sidebar.html:127
 msgid "Настройки"
 msgstr "Баптаулар"
 
@@ -3787,7 +4032,7 @@ msgstr "Тізімге оралу"
 
 #: .\templates\courses\usability_test.html:4
 msgid "Оценка юзабилити (SUS)"
-msgstr ""
+msgstr "Қолайлылықты бағалау (SUS)"
 
 #: .\templates\courses\usability_test.html:12
 msgid ""
@@ -3795,6 +4040,9 @@ msgid ""
 "Оцените каждое утверждение по шкале от 1 (полностью не согласен) до 5 "
 "(полностью согласен)."
 msgstr ""
+"Жүйені жақсартуға көмектесу үшін төмендегі 10 сұраққа жауап беріңіз. Әрбір "
+"мәлімдемені 1-ден (толық келіспеймін) 5-ке дейінгі шкала бойынша бағалаңыз "
+"(толық келісемін)."
 
 #: .\templates\courses\usability_test.html:22
 #, fuzzy
@@ -3810,11 +4058,11 @@ msgstr "Мен келесімен келісемін:"
 
 #: .\templates\courses\usability_test.html:38
 msgid "Ваши комментарии или предложения (необязательно):"
-msgstr ""
+msgstr "Сіздің пікірлеріңіз немесе ұсыныстарыңыз (міндетті емес):"
 
 #: .\templates\courses\usability_test.html:39
 msgid "Напишите здесь..."
-msgstr ""
+msgstr "Мұнда жазыңыз..."
 
 #: .\templates\courses\usability_test.html:44
 #, fuzzy
@@ -3824,17 +4072,19 @@ msgstr "Жобаны жіберу"
 
 #: .\templates\courses\usability_thanks.html:4
 msgid "Спасибо за отзыв!"
-msgstr ""
+msgstr "Пікіріңіз үшін рахмет!"
 
 #: .\templates\courses\usability_thanks.html:12
 msgid "Спасибо!"
-msgstr ""
+msgstr "Рахмет!"
 
 #: .\templates\courses\usability_thanks.html:13
 msgid ""
 "Ваш отзыв успешно отправлен. Мы ценим ваш вклад в улучшение системы NetAcad "
 "Ethereal."
 msgstr ""
+"Сіздің пікіріңіз сәтті жіберілді. Біз сіздің NetAcad жүйесін жақсартуға "
+"қосқан үлесіңізді бағалаймыз Ethereal."
 
 #: .\templates\courses\usability_thanks.html:15
 #, fuzzy
@@ -3844,15 +4094,15 @@ msgstr "Кіруге оралу"
 
 #: .\templates\courses\wireless.html:5
 msgid "Модуль 10: Беспроводные сети | EthernetArch"
-msgstr "Желілік қауіпсіздік"
+msgstr "Модуль 10: сымсыз желілер / EthernetArch"
 
 #: .\templates\courses\wireless.html:30
 msgid "Модуль 10"
-msgstr "Модуль"
+msgstr "Модуль 10"
 
 #: .\templates\courses\wireless.html:34
 msgid "Wi-Fi и Беспроводные сети"
-msgstr ""
+msgstr "Wi-Fi және сымсыз желілер"
 
 #: .\templates\courses\wireless.html:37
 msgid ""
@@ -3860,32 +4110,58 @@ msgid ""
 "802.11 (Wi-Fi), принципы работы точек доступа и методы защиты беспроводных "
 "соединений."
 msgstr ""
+"Сымсыз желілер біздің өміріміздің ажырамас бөлігіне айналды. Біз "
+"стандарттарды зерттейміз 802.11 (Wi-Fi), кіру нүктелерінің жұмыс принциптері "
+"және сымсыз қорғау әдістері қосылыстар."
 
 #: .\templates\courses\wireless.html:43
 msgid "Стандарты 802.11"
-msgstr ""
+msgstr "802.11 стандарттары"
 
 #: .\templates\courses\wireless.html:49
 msgid "Высокая плотность и скорость"
-msgstr ""
+msgstr "Жоғары тығыздық және жылдамдық"
 
 #: .\templates\courses\wireless.html:56
 msgid "Только 5 ГГц, гигабитные скорости"
-msgstr ""
+msgstr "Тек 5 ГГц, Гигабит жылдамдығы"
 
 #: .\templates\courses\wireless.html:62
 msgid "Безопасность Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi Қауіпсіздігі"
 
 #: .\templates\courses\wireless.html:64
 msgid ""
 "Защита беспроводных сетей критически важна, так как сигнал доступен любому в "
 "радиусе действия. Мы изучим WPA2 и новый стандарт WPA3."
 msgstr ""
+"Сымсыз желілерді қорғау өте маңызды, өйткені сигнал кез келген адамға қол "
+"жетімді әрекет ету радиусы. Біз WPA2 және жаңа wpa3 стандартын үйренеміз."
 
 #: .\templates\courses\wireless.html:68
 msgid "WEP и WPA устарели и небезопасны!"
-msgstr ""
+msgstr "WEP және WPA ескірген және қауіпті!"
+
+#: .\templates\dashboard\create_lab.html:4
+#: .\templates\dashboard\create_lab.html:17
+#, fuzzy
+#| msgid "Редактировать"
+msgid "Редактировать лабу"
+msgstr "Өңдеу"
+
+#: .\templates\dashboard\create_lab.html:4
+#: .\templates\dashboard\create_lab.html:17
+#: .\templates\dashboard\create_lab.html:44
+#, fuzzy
+#| msgid "Создать модуль"
+msgid "Создать лабу"
+msgstr "Модуль жасау"
+
+#: .\templates\dashboard\create_lab.html:18
+#, fuzzy
+#| msgid "Практическое задание"
+msgid "Настройте практическое задание для студентов"
+msgstr "Пайдалану шарттары"
 
 #: .\templates\dashboard\create_module.html:4
 #: .\templates\dashboard\create_module.html:17
@@ -3895,7 +4171,7 @@ msgstr "Жаңа модуль жасау"
 
 #: .\templates\dashboard\create_module.html:18
 msgid "Наполните ваш курс качественным контентом"
-msgstr ""
+msgstr "Курсыңызды сапалы мазмұнмен толтырыңыз"
 
 #: .\templates\dashboard\create_module.html:30
 #: .\templates\dashboard\edit_module.html:30
@@ -3910,7 +4186,7 @@ msgstr "Мысалы: Маршрутизация негіздері"
 #: .\templates\dashboard\create_module.html:54
 #: .\templates\dashboard\edit_module.html:54
 msgid "Описание и контент"
-msgstr "Сипаттамасы"
+msgstr "Сипаттама және мазмұн"
 
 #: .\templates\dashboard\create_module.html:58
 msgid ""
@@ -3921,16 +4197,18 @@ msgstr "Студенттер осы модульде не үйренетіні �
 #: .\templates\dashboard\create_module.html:66
 #: .\templates\dashboard\edit_module.html:66
 msgid "Медиа и файлы"
-msgstr ""
+msgstr "Медиа және файлдар"
 
 #: .\templates\dashboard\create_module.html:71
 #: .\templates\dashboard\edit_module.html:71
 msgid "Видео YouTube"
-msgstr ""
+msgstr "YouTube Бейнесі"
 
 #: .\templates\dashboard\create_module.html:79
+#, fuzzy
+#| msgid "Вставьте полную ссылку на video для встраивания в урок"
 msgid "Вставьте полную ссылку на видео для встраивания в урок"
-msgstr ""
+msgstr "Сабаққа ендіру үшін толық бейне сілтемесін қойыңыз"
 
 #: .\templates\dashboard\create_module.html:86
 #: .\templates\dashboard\edit_module.html:85
@@ -3942,6 +4220,11 @@ msgstr "Модуль атауы"
 msgid "Выбрать изображение"
 msgstr "Оқуды бастау"
 
+#: .\templates\dashboard\create_module.html:103
+#: .\templates\dashboard\edit_module.html:102
+msgid "Дополнительный файл"
+msgstr "Қосымша файл"
+
 #: .\templates\dashboard\create_module.html:110
 #: .\templates\dashboard\edit_module.html:110
 msgid "Загрузить документ"
@@ -3951,14 +4234,94 @@ msgstr "Фото жүктеу"
 msgid "Опубликовать модуль"
 msgstr "Модуль жасау"
 
-#: .\templates\dashboard\delete_module_confirm.html:4
-#: .\templates\dashboard\edit_module.html:135
-msgid "Удалить модуль"
+#: .\templates\dashboard\create_question.html:4
+#: .\templates\dashboard\create_question.html:17
+#, fuzzy
+#| msgid "Редактировать курсы"
+msgid "Редактировать вопрос"
+msgstr "Курстарды редакциялау"
+
+#: .\templates\dashboard\create_question.html:4
+#: .\templates\dashboard\create_question.html:17
+#: .\templates\dashboard\create_question.html:98
+#, fuzzy
+#| msgid "Создать модуль"
+msgid "Создать вопрос"
 msgstr "Модуль жасау"
+
+#: .\templates\dashboard\create_question.html:18
+msgid "Добавьте вопрос и варианты ответов для теста"
+msgstr ""
+
+#: .\templates\dashboard\create_question.html:28
+#, fuzzy
+#| msgid "Разбор вопросов"
+msgid "Параметры вопроса"
+msgstr "Сұрақтарды талдау"
+
+#: .\templates\dashboard\create_question.html:53
+#, fuzzy
+#| msgid "Варианты ответа"
+msgid "Варианты ответов"
+msgstr "Жауап нұсқалары"
+
+#: .\templates\dashboard\create_question.html:79
+#: .\templates\dashboard\labs_list.html:55
+#: .\templates\dashboard\questions_list.html:78
+#, fuzzy
+#| msgid "Модель OSI"
+msgid "Удалить"
+msgstr "OSI моделі"
+
+#: .\templates\dashboard\create_question.html:98
+#, fuzzy
+#| msgid "Остались вопросы?"
+msgid "Сохранить вопрос"
+msgstr "Сұрақ мәтіні"
+
+#: .\templates\dashboard\delete_lab_confirm.html:4
+#, fuzzy
+#| msgid "Удалить модуль"
+msgid "Удалить лабу"
+msgstr "Модульді жою"
+
+#: .\templates\dashboard\delete_lab_confirm.html:16
+#, fuzzy
+#| msgid "Удалить модуль?"
+msgid "Удалить лабу?"
+msgstr "Модульді жою"
+
+#: .\templates\dashboard\delete_lab_confirm.html:18
+msgid "Вы уверены, что хотите удалить лабораторную работу"
+msgstr "Сіз зертханалық жұмысты жойғыңыз келетініне сенімдісіз"
+
+#: .\templates\dashboard\delete_lab_confirm.html:19
+msgid ""
+"Это действие необратимо и удалит весь прогресс студентов по этой работе."
+msgstr ""
+"Бұл әрекет қайтымсыз және студенттердің осы жұмыстағы барлық жетістіктерін "
+"жояды."
+
+#: .\templates\dashboard\delete_lab_confirm.html:25
+#, fuzzy
+#| msgid "Удалить модуль"
+msgid "Да, удалить лабу"
+msgstr "Иә, алып тастаңыз"
+
+#: .\templates\dashboard\delete_lab_confirm.html:28
+#: .\templates\dashboard\delete_module_confirm.html:25
+#: .\templates\dashboard\delete_question_confirm.html:32
+msgid "Отмена"
+msgstr "Болдырмау"
+
+#: .\templates\dashboard\delete_module_confirm.html:4
+#: .\templates\dashboard\edit_module.html:185
+msgid "Удалить модуль"
+msgstr "Модульді жою"
 
 #: .\templates\dashboard\delete_module_confirm.html:17
 msgid "Удалить модуль?"
-msgstr "Модуль жасау"
+msgstr "Модульді жою керек пе?"
 
 #: .\templates\dashboard\delete_module_confirm.html:19
 #, python-format
@@ -3967,14 +4330,39 @@ msgid ""
 "действие нельзя отменить, и все данные о прогрессе студентов по этому модулю "
 "будут потеряны."
 msgstr ""
-
-#: .\templates\dashboard\delete_module_confirm.html:25
-msgid "Отмена"
-msgstr "Болдырмау"
+"<strong>\"%(name)s\"</strong> модулін жойғыңыз келетініне сенімдісіз бе? Бұл "
+"әрекетті қайтару мүмкін емес және осы модуль бойынша студенттердің үлгерімі "
+"туралы барлық деректер жоғалады."
 
 #: .\templates\dashboard\delete_module_confirm.html:28
 msgid "Да, удалить"
-msgstr ""
+msgstr "Иә, жою"
+
+#: .\templates\dashboard\delete_question_confirm.html:4
+#, fuzzy
+#| msgid "Удалить модуль"
+msgid "Удалить вопрос"
+msgstr "Модуль жасау"
+
+#: .\templates\dashboard\delete_question_confirm.html:16
+#, fuzzy
+#| msgid "Удалить модуль?"
+msgid "Удалить вопрос?"
+msgstr "Модуль жасау"
+
+#: .\templates\dashboard\delete_question_confirm.html:18
+msgid "Вы уверены, что хотите удалить этот вопрос?"
+msgstr "Сіз бұл сұрақты жойғыңыз келетініне сенімдісіз бе?"
+
+#: .\templates\dashboard\delete_question_confirm.html:19
+msgid "Это действие нельзя отменить."
+msgstr "Бұл әрекетті жою мүмкін емес."
+
+#: .\templates\dashboard\delete_question_confirm.html:29
+#, fuzzy
+#| msgid "Остались вопросы?"
+msgid "Да, удалить вопрос"
+msgstr "Сұрақ мәтіні"
 
 #: .\templates\dashboard\edit_module.html:4
 #: .\templates\dashboard\edit_module.html:17
@@ -3989,13 +4377,52 @@ msgstr ""
 msgid "Подробное описание того, что студенты изучат в этом модуле..."
 msgstr "Студенттер осы модульде не үйренетіні туралы қысқаша сипаттама"
 
-#: .\templates\dashboard\edit_module.html:127
+#: .\templates\dashboard\edit_module.html:124
+#, fuzzy
+#| msgid "Описание и контент"
+msgid "Связанный контент"
+msgstr "Сипаттамасы"
+
+#: .\templates\dashboard\edit_module.html:140
+#: .\templates\dashboard\labs_list.html:20
+#, fuzzy
+#| msgid "Добавить модуль"
+msgid "Добавить лабу"
+msgstr "Модуль жасау"
+
+#: .\templates\dashboard\edit_module.html:143
+#, fuzzy
+#| msgid "Прогресс лабы"
+msgid "Все лабы"
+msgstr "Зертханалық жұмыс прогресі"
+
+#: .\templates\dashboard\edit_module.html:152
+#, fuzzy
+#| msgid "Вопросы"
+msgid "Вопросы теста"
+msgstr "Сұрақтар"
+
+#: .\templates\dashboard\edit_module.html:160
+#: .\templates\dashboard\questions_list.html:21
+#, fuzzy
+#| msgid "Добавить модуль"
+msgid "Добавить вопрос"
+msgstr "Модуль жасау"
+
+#: .\templates\dashboard\edit_module.html:163
+#: .\templates\dashboard\questions_list.html:28
+#, fuzzy
+#| msgid "Вопросы"
+msgid "Все вопросы"
+msgstr "Сұрақтар"
+
+#: .\templates\dashboard\edit_module.html:177
 msgid ""
 "Вы уверены, что хотите сбросить модуль к исходному состоянию? Все внесенные "
 "изменения будут удалены."
 msgstr ""
 
-#: .\templates\dashboard\edit_module.html:129
+#: .\templates\dashboard\edit_module.html:179
 msgid "Вернуть старый модуль"
 msgstr "Кіруге оралу"
 
@@ -4020,6 +4447,8 @@ msgid ""
 "Управление прогрессом студентов группы. Анализ производительности и оценка "
 "лабораторных работ."
 msgstr ""
+"Топ студенттерінің үлгерімін басқару. Өнімділікті талдау және бағалау "
+"зертханалық жұмыстар."
 
 #: .\templates\dashboard\grades.html:66
 #: .\templates\dashboard\teacher_index.html:127
@@ -4156,7 +4585,7 @@ msgstr "Аяқталды"
 #: .\templates\dashboard\index.html:143
 #: .\templates\dashboard\students_list.html:62
 #: .\templates\dashboard\teacher_index.html:225
-#: .\templates\dashboard\teacher_index.html:280
+#: .\templates\dashboard\teacher_index.html:288
 msgid "назад"
 msgstr "бұрын"
 
@@ -4164,9 +4593,40 @@ msgstr "бұрын"
 msgid "У вас нет новых уведомлений."
 msgstr "Сізде жаңа хабарландырулар жоқ."
 
+#: .\templates\dashboard\labs_list.html:5
+#, fuzzy
+#| msgid "Лабораторная работа"
+msgid "Управление лабораторными работами"
+msgstr "Зертханалық жұмыс"
+
+#: .\templates\dashboard\labs_list.html:16
+#, fuzzy
+#| msgid "Например: Обновление материалов курса"
+msgid "Управление практическими заданиями курса"
+msgstr "Мысалы: Маршрутизация негіздері"
+
+#: .\templates\dashboard\labs_list.html:32
+#: .\templates\dashboard\questions_list.html:40
+#, fuzzy
+#| msgid "Действие"
+msgid "Действия"
+msgstr "Әрекет"
+
+#: .\templates\dashboard\labs_list.html:66
+#, fuzzy
+#| msgid "Лабораторные работы"
+msgid "Лабораторных работ пока нет"
+msgstr "Зертханалық жұмыстар"
+
+#: .\templates\dashboard\labs_list.html:67
+#, fuzzy
+#| msgid "Создать профиль"
+msgid "Создать первую лабу"
+msgstr "Профиль жасау"
+
 #: .\templates\dashboard\mail_students.html:4
 #: .\templates\dashboard\mail_students.html:16
-#: .\templates\dashboard\teacher_index.html:263
+#: .\templates\dashboard\teacher_index.html:271
 msgid "Рассылка студентам"
 msgstr "Студенттерге хабарлама жіберу"
 
@@ -4189,6 +4649,46 @@ msgstr ""
 #: .\templates\dashboard\mail_students.html:44
 msgid "Отправить всем студентам"
 msgstr "Сілтемені жіберу"
+
+#: .\templates\dashboard\questions_list.html:5
+#, fuzzy
+#| msgid "Сравнение моделей"
+msgid "Управление вопросами"
+msgstr "Модельдерді салыстыру"
+
+#: .\templates\dashboard\questions_list.html:15
+#, fuzzy
+#| msgid "Вопросов"
+msgid "Вопросы тестов"
+msgstr "Сұрақ"
+
+#: .\templates\dashboard\questions_list.html:16
+msgid "База вопросов для проверочных тестов"
+msgstr "Тексеру сынақтарына арналған сұрақтар базасы"
+
+#: .\templates\dashboard\questions_list.html:39
+#, fuzzy
+#| msgid "Сложность"
+msgid "Тип / Сложность"
+msgstr "Күрделілігі"
+
+#: .\templates\dashboard\questions_list.html:53
+#, fuzzy
+#| msgid "Общий балл"
+msgid "Общий"
+msgstr "Жалпы балл"
+
+#: .\templates\dashboard\questions_list.html:89
+#, fuzzy
+#| msgid "Студентов пока нет"
+msgid "Вопросов пока нет"
+msgstr "Студенттер әлі жоқ"
+
+#: .\templates\dashboard\questions_list.html:90
+#, fuzzy
+#| msgid "Создать новый модуль"
+msgid "Создать первый вопрос"
+msgstr "Жаңа модуль жасау"
 
 #: .\templates\dashboard\student_detail.html:4
 #: .\templates\dashboard\student_detail.html:16
@@ -4218,7 +4718,7 @@ msgstr "Студенттер тізімі"
 
 #: .\templates\dashboard\students_list.html:16
 #: .\templates\dashboard\teacher_index.html:195
-#: .\templates\includes\sidebar.html:83
+#: .\templates\includes\sidebar.html:88
 msgid "Все студенты"
 msgstr "Барлық студенттер"
 
@@ -4232,40 +4732,42 @@ msgstr "Аяқталған модульдер"
 
 #: .\templates\dashboard\students_list.html:72
 msgid "Студенты пока не зарегистрированы."
-msgstr "Студенттер әлі жоқ"
+msgstr "Студенттер әлі тіркелген жоқ."
 
 #: .\templates\dashboard\support.html:17
 msgid "Центр поддержки"
-msgstr ""
+msgstr "Қолдау орталығы"
 
 #: .\templates\dashboard\support.html:20
 msgid ""
 "Мы здесь, чтобы помочь вам с любыми техническими или учебными вопросами."
 msgstr ""
+"Біз сізге кез келген техникалық немесе оқу сұрақтарына көмектесу үшін "
+"осындамыз."
 
 #: .\templates\dashboard\support.html:30
 msgid "Свяжитесь с нами"
-msgstr ""
+msgstr "Бізге хабарласыңыз"
 
 #: .\templates\dashboard\support.html:32
 msgid "Напишите нам на почту, и мы ответим в течение 24 часов."
-msgstr ""
+msgstr "Бізге пошта арқылы жіберіңіз, біз 24 сағат ішінде жауап береміз."
 
 #: .\templates\dashboard\support.html:44
 msgid "Сообщество"
-msgstr ""
+msgstr "Қоғамдастық"
 
 #: .\templates\dashboard\support.html:46
 msgid "Присоединяйтесь к нашему каналу в Telegram для быстрого обсуждения."
-msgstr ""
+msgstr "Жылдам талқылау үшін біздің Telegram арнасына қосылыңыз."
 
 #: .\templates\dashboard\support.html:57
 msgid "Часто задаваемые вопросы"
-msgstr ""
+msgstr "Жиі қойылатын сұрақтар"
 
 #: .\templates\dashboard\support.html:61
 msgid "Как открыть следующий модуль?"
-msgstr ""
+msgstr "Келесі модульді қалай ашуға болады?"
 
 #: .\templates\dashboard\support.html:65
 #, python-format
@@ -4273,10 +4775,12 @@ msgid ""
 "Чтобы открыть следующий модуль, необходимо успешно пройти тест в текущем "
 "модуле (набрать 70%% или более)."
 msgstr ""
+"Келесі модульді ашу үшін ағымдағы сынақтан сәтті өту керек модуль (70% "
+"немесе одан да көп жинаңыз)."
 
 #: .\templates\dashboard\support.html:71
 msgid "Что делать, если тест аннулирован?"
-msgstr ""
+msgstr "Егер тест жойылса ?"
 
 #: .\templates\dashboard\support.html:75
 msgid ""
@@ -4284,16 +4788,21 @@ msgid ""
 "может аннулировать результат. В этом случае просто пересдайте тест заново, "
 "не отвлекаясь от страницы."
 msgstr ""
+"Егер сіз сынақ кезінде шолғыш қойындысын ауыстырған болсаңыз, қауіпсіздік "
+"жүйесі нәтижені жоюы мүмкін. Бұл жағдайда тестті қайта тапсырыңыз,беттен "
+"алаңдамай."
 
 #: .\templates\dashboard\support.html:81
 msgid "Как получить сертификат?"
-msgstr ""
+msgstr "Сертификатты қалай алуға болады?"
 
 #: .\templates\dashboard\support.html:85
 msgid ""
 "Сертификат о прохождении курса будет доступен в разделе 'Достижения' после "
 "успешной сдачи всех 13 модулей и защиты финального проекта."
 msgstr ""
+"Курсты аяқтағаны туралы Сертификат 'Жетістіктер' бөлімінде барлық 13 "
+"модульді сәтті тапсыру және соңғы жобаны қорғаудан кейін қолжетімді болады."
 
 #: .\templates\dashboard\teacher_index.html:5
 msgid "Панель управления преподавателя"
@@ -4386,21 +4895,35 @@ msgstr "Студенттер әлі жоқ"
 msgid "Быстрые действия"
 msgstr "Жылдам әрекеттер"
 
-#: .\templates\dashboard\teacher_index.html:270
+#: .\templates\dashboard\teacher_index.html:263
+#: .\templates\includes\sidebar.html:96
+#, fuzzy
+#| msgid "Управление"
+msgid "Управление лабами"
+msgstr "Басқару"
+
+#: .\templates\dashboard\teacher_index.html:267
+#: .\templates\includes\sidebar.html:100
+#, fuzzy
+#| msgid "Управление"
+msgid "Управление тестами"
+msgstr "Басқару"
+
+#: .\templates\dashboard\teacher_index.html:278
 msgid "Последняя активность"
 msgstr "Соңғы белсенділік"
 
-#: .\templates\dashboard\teacher_index.html:279
+#: .\templates\dashboard\teacher_index.html:287
 msgid "Завершил"
 msgstr "Аяқтады"
 
-#: .\templates\dashboard\teacher_index.html:284
+#: .\templates\dashboard\teacher_index.html:292
 msgid "Активности пока нет"
 msgstr "Әзірге белсенділік жоқ"
 
 #: .\templates\dashboard\test_results.html:5
 #: .\templates\dashboard\test_results.html:17
-#: .\templates\includes\sidebar.html:104
+#: .\templates\includes\sidebar.html:117
 msgid "Результаты тестов"
 msgstr "Тест нәтижелері"
 
@@ -4446,7 +4969,7 @@ msgstr "Тестке өту"
 
 #: .\templates\home.html:35
 msgid "3D Сетевая инфраструктура"
-msgstr ""
+msgstr "3D желілік инфрақұрылым"
 
 #: .\templates\home.html:46
 msgid "Комплексный подход"
@@ -4457,22 +4980,28 @@ msgid ""
 "Глубокое изучение сетевых протоколов, архитектур и стандартов. Интерактивные "
 "лекции с визуализацией данных."
 msgstr ""
+"Желілік хаттамаларды, архитектуралар мен стандарттарды терең зерттеу. "
+"Интерактивті деректерді визуализациялаумен дәрістер."
 
 #: .\templates\home.html:69
 msgid ""
 "Лабораторные работы в изолированной виртуальной среде. Настройка реального "
 "оборудования в симуляторе."
 msgstr ""
+"Оқшауланған виртуалды ортадағы зертханалық жұмыстар. Нақты орнату "
+"тренажердегі жабдық."
 
 #: .\templates\home.html:80
 msgid ""
 "Адаптивные тесты с мгновенной обратной связью. Анализ ошибок и персональные "
 "рекомендации по обучению."
 msgstr ""
+"Жедел кері байланысы бар бейімделу сынақтары. Қателерді талдау және жеке "
+"оқыту бойынша ұсыныстар."
 
 #: .\templates\home.html:89
 msgid "Программа обучения: 13 шагов к успеху"
-msgstr "Оқу бағдарламасы: сәттілікке 8 қадам"
+msgstr "Оқу бағдарламасы: сәттілікке 13 қадам"
 
 #: .\templates\home.html:96
 msgid "1. Введение"
@@ -4489,7 +5018,7 @@ msgstr "Барлық деректерді экспорттау"
 #: .\templates\home.html:197 .\templates\home.html:207
 #: .\templates\home.html:217
 msgid "Перейти →"
-msgstr ""
+msgstr "Өту →"
 
 #: .\templates\home.html:106
 msgid "2. Модель OSI"
@@ -4569,19 +5098,19 @@ msgstr "11. Бұлттар және SDN"
 
 #: .\templates\home.html:205
 msgid "Виртуализация сетей."
-msgstr "Желілерді виртуализациялау."
+msgstr "Желілерді виртуалдандыру."
 
 #: .\templates\home.html:214
 msgid "12. Клиент-сервер"
-msgstr "Клиент-сервер"
+msgstr "12. Клиент-сервер"
 
 #: .\templates\home.html:215
 msgid "REST API и SQL."
-msgstr ""
+msgstr "REST API және SQL."
 
 #: .\templates\home.html:224
 msgid "13. Диплом"
-msgstr ""
+msgstr "13. Диплом"
 
 #: .\templates\home.html:225
 msgid "Итоговая аттестация."
@@ -4657,7 +5186,7 @@ msgstr ""
 
 #: .\templates\includes\sidebar.html:12
 msgid "Старший архитектор"
-msgstr ""
+msgstr "Пайдаланушы"
 
 #: .\templates\includes\sidebar.html:23
 msgid "Панель управления"
@@ -4671,33 +5200,42 @@ msgstr "Кітапхана"
 msgid "Лаборатория"
 msgstr "Зертхана"
 
-#: .\templates\includes\sidebar.html:45
+#: .\templates\includes\sidebar.html:43 .\templates\laboratory\lab_list.html:36
+#: .\templates\laboratory\network_designer.html:5
+#, fuzzy
+#| msgid "Сетевой доступ"
+msgid "Сетевой конструктор"
+msgstr "Желілік конструктор"
+
+#: .\templates\includes\sidebar.html:50
 msgid "Модули курса"
 msgstr "Курс модульдері"
 
-#: .\templates\includes\sidebar.html:78
+#: .\templates\includes\sidebar.html:83
 msgid "Управление"
 msgstr "Басқару"
 
-#: .\templates\includes\sidebar.html:87
-msgid "Редактировать курсы"
-msgstr "Курстарды редакциялау"
+#: .\templates\includes\sidebar.html:92
+#, fuzzy
+#| msgid "Управление"
+msgid "Управление курсами"
+msgstr "Басқару"
 
-#: .\templates\includes\sidebar.html:109
+#: .\templates\includes\sidebar.html:122
 msgid "Журнал оценок"
 msgstr "Бағалар журналы"
 
-#: .\templates\includes\sidebar.html:128
+#: .\templates\includes\sidebar.html:141
 msgid "Ваш прогресс"
-msgstr "Орындалуда"
+msgstr "Сіздің жетістіктеріңіз"
 
-#: .\templates\includes\sidebar.html:130
+#: .\templates\includes\sidebar.html:143
 msgid "Модулей"
 msgstr "Модульдер"
 
 #: .\templates\laboratory\ip_lab.html:5
 msgid "Симулятор IP"
-msgstr "Бұлттық желілер"
+msgstr "IP симуляторы"
 
 #: .\templates\laboratory\ip_lab.html:5
 #: .\templates\laboratory\office_lab.html:5
@@ -4709,15 +5247,17 @@ msgstr ""
 
 #: .\templates\laboratory\ip_lab.html:36
 msgid "Subnetting"
-msgstr ""
+msgstr "Ішкі желі"
 
 #: .\templates\laboratory\ip_lab.html:38
 msgid "Мастер подсетей IPv4"
-msgstr "Бұлттық желілер"
+msgstr "IPv4 ішкі желі шебері"
 
 #: .\templates\laboratory\ip_lab.html:39
 msgid "Рассчитайте параметры сети на основе заданного IP-адреса и маски CIDR."
-msgstr ""
+msgstr "Берілген IP мекенжайы мен CIDR маскасы негізінде желі параметрлерін есептеңіз."
+"Берілген IP мекенжайы мен CIDR маскасы негізінде желі параметрлерін "
+"есептеңіз."
 
 #: .\templates\laboratory\ip_lab.html:60
 msgid "Заданный адрес"
@@ -4725,69 +5265,69 @@ msgstr "Таңдалған жауап"
 
 #: .\templates\laboratory\ip_lab.html:68
 msgid "МАСКА ПОДСЕТИ (Dotted Decimal)"
-msgstr ""
+msgstr "Ішкі желі маскасы (Dotted Decimal)"
 
 #: .\templates\laboratory\ip_lab.html:74
 msgid "КОЛИЧЕСТВО ХОСТОВ (Доступных)"
-msgstr ""
+msgstr "Хосттар Саны (қол жетімді)"
 
 #: .\templates\laboratory\ip_lab.html:80
 msgid "АДРЕС СЛЕДУЮЩЕЙ ПОДСЕТИ"
-msgstr ""
+msgstr "КЕЛЕСІ ІШКІ ЖЕЛІНІҢ МЕКЕН-ЖАЙЫ"
 
 #: .\templates\laboratory\ip_lab.html:86
 msgid "BROADCAST АДРЕС"
-msgstr ""
+msgstr "BROADCAST МЕКЕН-ЖАЙЫ"
 
 #: .\templates\laboratory\ip_lab.html:94
 msgid "ПРОВЕРИТЬ ОТВЕТЫ"
-msgstr ""
+msgstr "ЖАУАПТАРДЫ ТЕКСЕРУ"
 
 #: .\templates\laboratory\ip_lab.html:97
 msgid "НОВОЕ ЗАДАНИЕ"
-msgstr ""
+msgstr "ЖАҢА ТАПСЫРМА"
 
 #: .\templates\laboratory\ip_lab.html:108
 #: .\templates\laboratory\switching_lab.html:122
 msgid "Завершить и сохранить результат"
-msgstr ""
+msgstr "Нәтижені аяқтау және сақтау"
 
 #: .\templates\laboratory\ip_lab.html:193
 msgid "Превосходно!"
-msgstr ""
+msgstr "Керемет!"
 
 #: .\templates\laboratory\ip_lab.html:193
 msgid "Все расчеты верны. Вы готовы к работе с реальными сетями."
-msgstr ""
+msgstr "Барлық есептеулер дұрыс. Сіз нақты желілермен жұмыс істеуге дайынсыз."
 
 #: .\templates\laboratory\ip_lab.html:197
 msgid "Есть ошибки."
-msgstr ""
+msgstr "Қателер бар."
 
 #: .\templates\laboratory\ip_lab.html:197
 msgid "Проверьте выделенные поля и попробуйте снова."
-msgstr "Байланыс қатесі. Интернетті тексеріп, қайта байқап көріңіз."
+msgstr "Белгіленген өрістерді тексеріп, әрекетті қайталаңыз."
 
 #: .\templates\laboratory\ip_lab.html:216
 #: .\templates\laboratory\osi_lab.html:237
 #: .\templates\laboratory\switching_lab.html:189
 #: .\templates\laboratory\tcp_lab.html:342
 msgid "Результат сохранен!"
-msgstr ""
+msgstr "Нәтиже сақталды!"
 
 #: .\templates\laboratory\lab_list.html:5
 msgid "Практические работы"
 msgstr "Оқытушы"
 
-#: .\templates\laboratory\lab_list.html:27
+#: .\templates\laboratory\lab_list.html:28
 msgid "Лабораторная база"
 msgstr "Электрондық пошта"
 
-#: .\templates\laboratory\lab_list.html:28
+#: .\templates\laboratory\lab_list.html:29
 msgid "Практические симуляции Cisco"
 msgstr "Жаңа сілтемені сұрау"
 
-#: .\templates\laboratory\lab_list.html:30
+#: .\templates\laboratory\lab_list.html:31
 msgid ""
 "Здесь собраны все доступные интерактивные задания. Отрабатывайте навыки "
 "настройки сетевого оборудования в реальном времени."
@@ -4795,31 +5335,31 @@ msgstr ""
 "Виртуалды ортадағы нақты зертханалық жұмыстар. Нақты уақыт режимінде "
 "маршруттауды және коммутацияны баптау."
 
-#: .\templates\laboratory\lab_list.html:44
+#: .\templates\laboratory\lab_list.html:50
 msgid "Выполнено"
 msgstr "Орындалды"
 
-#: .\templates\laboratory\lab_list.html:47
+#: .\templates\laboratory\lab_list.html:53
 msgid "Доступно"
 msgstr "Қолжетімді"
 
-#: .\templates\laboratory\lab_list.html:62
+#: .\templates\laboratory\lab_list.html:68
 msgid "Последний балл"
 msgstr "Соңғы балл"
 
-#: .\templates\laboratory\lab_list.html:64
+#: .\templates\laboratory\lab_list.html:70
 msgid "0 команд выполнено"
 msgstr "0 команда орындалды"
 
-#: .\templates\laboratory\lab_list.html:68
+#: .\templates\laboratory\lab_list.html:74
 msgid "Повторить"
 msgstr "Қайталау"
 
-#: .\templates\laboratory\lab_list.html:68
+#: .\templates\laboratory\lab_list.html:74
 msgid "Запустить"
 msgstr "Іске қосу"
 
-#: .\templates\laboratory\lab_list.html:76
+#: .\templates\laboratory\lab_list.html:82
 msgid "Лабораторные работы в процессе разработки."
 msgstr "Зертханалық жұмыстар әзірлену үстінде."
 
@@ -4856,6 +5396,339 @@ msgstr "Нәтижені сақтау кезінде қате кетті."
 #: .\templates\laboratory\lab_simulator.html:320
 msgid "Сетевая ошибка при сохранении."
 msgstr "Сақтау кезінде желілік қате кетті."
+
+#: .\templates\laboratory\miminet_simulator.html:5
+#, fuzzy
+#| msgid "Симулятор IP"
+msgid "Симулятор Miminet"
+msgstr "Бұлттық желілер"
+
+#: .\templates\laboratory\miminet_simulator.html:36
+#, fuzzy
+#| msgid "Сетевой архитектор"
+msgid "Сетевой симулятор Miminet"
+msgstr "Желілік архитектор"
+
+#: .\templates\laboratory\miminet_simulator.html:37
+#, fuzzy
+#| msgid "Интерактивная модель OSI"
+msgid "Интерактивное моделирование сетей"
+msgstr "Электрондық пошта"
+
+#: .\templates\laboratory\miminet_simulator.html:43
+#, fuzzy
+#| msgid "Типы сетей"
+msgid "Примеры сетей"
+msgstr "Желі түрлері"
+
+#: .\templates\laboratory\miminet_simulator.html:47
+#: .\templates\laboratory\network_designer.html:137
+#, fuzzy
+#| msgid "Сброс пароля"
+msgid "Сбросить"
+msgstr "Құпия сөзді қайта орнату"
+
+#: .\templates\laboratory\network_designer.html:119
+#, fuzzy
+#| msgid "Рассчитать сеть"
+msgid "Новая сеть"
+msgstr "Желіні есептеңіз"
+
+#: .\templates\laboratory\network_designer.html:119
+#, fuzzy
+#| msgid "Название материала"
+msgid "Название сети"
+msgstr "Модуль атауы"
+
+#: .\templates\laboratory\network_designer.html:120
+#, fuzzy
+#| msgid "Описание"
+msgid "Описание сети..."
+msgstr "Сипаттамасы"
+
+#: .\templates\laboratory\network_designer.html:126
+#, fuzzy
+#| msgid "Предыдущий вопрос"
+msgid "Предыдущий шаг"
+msgstr "Алдыңғы сұрақ"
+
+#: .\templates\laboratory\network_designer.html:131
+#: .\templates\laboratory\network_designer.html:806
+#: .\templates\laboratory\network_designer.html:843
+#: .\templates\laboratory\network_designer.html:850
+#: .\templates\laboratory\network_designer.html:862
+#, fuzzy
+#| msgid "Запустить"
+msgid "Запуск"
+msgstr "Іске қосу"
+
+#: .\templates\laboratory\network_designer.html:133
+#, fuzzy
+#| msgid "Следующий вопрос"
+msgid "Следующий шаг"
+msgstr "Келесі сұрақ"
+
+#: .\templates\laboratory\network_designer.html:144
+msgid "Примеры"
+msgstr "Мысалдар"
+
+#: .\templates\laboratory\network_designer.html:148
+#: .\templates\laboratory\office_lab.html:132
+msgid "Очистить"
+msgstr "Тазалау"
+
+#: .\templates\laboratory\network_designer.html:158
+msgid "Роутер"
+msgstr "Роутер"
+
+#: .\templates\laboratory\network_designer.html:162
+msgid "Свитч"
+msgstr "Коммутатор"
+
+#: .\templates\laboratory\network_designer.html:166
+#, fuzzy
+#| msgid "Да"
+msgid "Хаб"
+msgstr "Иә"
+
+#: .\templates\laboratory\network_designer.html:170
+msgid "ПК"
+msgstr "ДК"
+
+#: .\templates\laboratory\network_designer.html:195
+#, fuzzy
+#| msgid "Действие"
+msgid "Свойства"
+msgstr "Әрекет"
+
+#: .\templates\laboratory\network_designer.html:197
+#, fuzzy
+#| msgid "Выберите устройство на холсте..."
+msgid "Выберите устройство для настройки"
+msgstr "Рөлді таңдап, жүйеге кіріңіз"
+
+#: .\templates\laboratory\network_designer.html:201
+#, fuzzy
+#| msgid "Разместить устройства"
+msgid "Имя устройства"
+msgstr "Құрылғыларды орналастыру"
+
+#: .\templates\laboratory\network_designer.html:211
+#: .\templates\laboratory\switching_lab.html:88
+msgid "Таблица MAC-адресов"
+msgstr "MAC мекенжай кестесі"
+
+#: .\templates\laboratory\network_designer.html:216
+msgid "Порт"
+msgstr "Порт"
+
+#: .\templates\laboratory\network_designer.html:217
+#: .\templates\laboratory\network_designer.html:234
+msgid "MAC"
+msgstr "MAC"
+
+#: .\templates\laboratory\network_designer.html:228
+#, fuzzy
+#| msgid "Таблица MAC-адресов"
+msgid "Таблица ARP"
+msgstr "MAC мекенжай кестесі"
+
+#: .\templates\laboratory\network_designer.html:233
+msgid "IP"
+msgstr ""
+
+#: .\templates\laboratory\network_designer.html:246
+#, fuzzy
+#| msgid "Отправить проект"
+msgid "Отправитель"
+msgstr "Жобаны жіберу"
+
+#: .\templates\laboratory\network_designer.html:249
+#, fuzzy
+#| msgid "Пользователь"
+msgid "Получатель"
+msgstr "Пайдаланушы"
+
+#: .\templates\laboratory\network_designer.html:255
+#, fuzzy
+#| msgid "Разместить устройства"
+msgid "Удалить устройство"
+msgstr "Құрылғыларды орналастыру"
+
+#: .\templates\laboratory\network_designer.html:261
+#, fuzzy
+#| msgid "Список студентов"
+msgid "Список событий (PDU)"
+msgstr "Студенттер тізімі"
+
+#: .\templates\laboratory\network_designer.html:263
+#: .\templates\laboratory\network_designer.html:863
+#, fuzzy
+#| msgid "Задание модуля"
+msgid "Ожидание запуска..."
+msgstr "Модуль атауы"
+
+#: .\templates\laboratory\network_designer.html:276
+#, fuzzy
+#| msgid "Что такое компьютерная сеть?"
+msgid "Примеры компьютерных сетей"
+msgstr "Компьютерлік желі дегеніміз не?"
+
+#: .\templates\laboratory\network_designer.html:277
+msgid "Выберите готовую топологию для изучения или редактирования"
+msgstr "Оқу немесе өңдеу үшін дайын топологияны таңдаңыз"
+
+#: .\templates\laboratory\network_designer.html:290
+#, fuzzy
+#| msgid "Топология «Звезда» (обычная)"
+msgid "Топология «Звезда»"
+msgstr "«Жұлдыз» топологиясы (қалыпты)"
+
+#: .\templates\laboratory\network_designer.html:291
+msgid ""
+"Классическая схема с центральным коммутатором (Switch), к которому "
+"подключены конечные узлы (PC). Самая распространенная топология в "
+"современных LAN."
+msgstr ""
+"Орталық қосқышы бар классикалық схема (Switch)соңғы түйіндер (ДК) қосылған. "
+"Ең көп таралған топология қазіргі заманғы LAN."
+
+#: .\templates\laboratory\network_designer.html:299
+msgid "Малый офис (SOHO)"
+msgstr "Шағын кеңсе (SOHO)"
+
+#: .\templates\laboratory\network_designer.html:300
+msgid ""
+"Маршрутизатор (Router) обеспечивает выход в интернет, коммутатор объединяет "
+"рабочие станции и локальный сервер."
+msgstr ""
+"Маршрутизатор (маршрутизатор) Интернетке қосылуды қамтамасыз етеді, "
+"коммутатор біріктіреді жұмыс станциялары және жергілікті сервер."
+
+#: .\templates\laboratory\network_designer.html:308
+#, fuzzy
+#| msgid "Клиент-серверная архитектура"
+msgid "Клиент-Серверная сеть"
+msgstr "Клиент-серверлік архитектура"
+
+#: .\templates\laboratory\network_designer.html:309
+msgid ""
+"Выделенный сервер обслуживает запросы нескольких клиентов. Демонстрирует "
+"разделение ролей в сети."
+msgstr ""
+"Арнайы сервер бірнеше клиенттердің сұраныстарына қызмет етеді. Көрсетеді "
+"желідегі рөлдерді бөлу."
+
+#: .\templates\laboratory\network_designer.html:317
+#, fuzzy
+#| msgid "Сетевые топологии"
+msgid "Кольцевая топология"
+msgstr "Желілік топологиялар"
+
+#: .\templates\laboratory\network_designer.html:318
+msgid ""
+"Устройства соединены последовательно, образуя замкнутый контур. Иллюстрирует "
+"принцип передачи данных по кругу."
+msgstr ""
+"Құрылғылар тізбектей қосылып, тұйық контур жасайды. Суреттейді шеңбер "
+"бойынша деректерді беру принципі."
+
+#: .\templates\laboratory\network_designer.html:427
+msgid ""
+"Твой холст пока пуст. Добавь пару устройств, чтобы я мог их проанализировать!"
+msgstr ""
+"Сіздің кенеп әлі бос. Мен оларды талдай алатындай бірнеше құрылғы қосыңыз!"
+
+#: .\templates\laboratory\network_designer.html:433
+#, fuzzy
+#| msgid "Добавлено устройство"
+msgid "У устройств"
+msgstr "Мысалы: Маршрутизация негіздері"
+
+#: .\templates\laboratory\network_designer.html:433
+#, fuzzy
+#| msgid "Заданный адрес"
+msgid "не настроены IP-адреса."
+msgstr "Таңдалған жауап"
+
+#: .\templates\laboratory\network_designer.html:434
+#, fuzzy
+#| msgid "Настройки"
+msgid "Устройства"
+msgstr "Баптаулар"
+
+#: .\templates\laboratory\network_designer.html:434
+#, fuzzy
+#| msgid "Тесты еще не пройдены"
+msgid "ни к чему не подключены."
+msgstr "Тесттер әлі тапсырылған жоқ"
+
+#: .\templates\laboratory\network_designer.html:437
+#, fuzzy
+#| msgid "Отличный результат!"
+msgid "Отличная работа! Я вижу"
+msgstr "Тамаша нәтиже!"
+
+#: .\templates\laboratory\network_designer.html:437
+#, fuzzy
+#| msgid "Быстрые действия"
+msgid "устройств и"
+msgstr "Жылдам әрекеттер"
+
+#: .\templates\laboratory\network_designer.html:437
+msgid "связей. Все настроено корректно."
+msgstr "байланыстар. Барлығы дұрыс орнатылған."
+
+#: .\templates\laboratory\network_designer.html:439
+msgid "Я нашел несколько моментов:"
+msgstr "Мен бірнеше нәрсені таптым:"
+
+#: .\templates\laboratory\network_designer.html:462
+#, fuzzy
+#| msgid "Пример из жизни"
+msgid "Пример сети загружен"
+msgstr "Өмірден мысал"
+
+#: .\templates\laboratory\network_designer.html:663
+#: .\templates\laboratory\network_designer.html:676
+msgid "Пусто"
+msgstr ""
+
+#: .\templates\laboratory\network_designer.html:697
+msgid "Тяните линию к другому устройству"
+msgstr "Сызықты басқа құрылғыға қарай тартыңыз"
+
+#: .\templates\laboratory\network_designer.html:756
+#, fuzzy
+#| msgid "Отправить ссылку"
+msgid "Отправитель установлен"
+msgstr "Сілтемені жіберу"
+
+#: .\templates\laboratory\network_designer.html:765
+#, fuzzy
+#| msgid "Соединение установлено с"
+msgid "Получатель установлен"
+msgstr "Байланыс орнатылды:"
+
+#: .\templates\laboratory\network_designer.html:794
+msgid "Очистить всё?"
+msgstr "Барлығын тазалайсыз ба?"
+
+#: .\templates\laboratory\network_designer.html:811
+#, fuzzy
+#| msgid "Выберите роль и войдите в систему"
+msgid "Выберите отправителя и получателя"
+msgstr "Рөлді таңдап, жүйеге кіріңіз"
+
+#: .\templates\laboratory\network_designer.html:817
+#, fuzzy
+#| msgid "Маршрутизация"
+msgid "Маршрут не найден!"
+msgstr "Маршруттау"
+
+#: .\templates\laboratory\network_designer.html:822
+msgid "Пауза"
+msgstr ""
 
 #: .\templates\laboratory\office_lab.html:5
 msgid "Симулятор офиса"
@@ -4899,23 +5772,19 @@ msgstr "Таңдау"
 
 #: .\templates\laboratory\office_lab.html:128
 msgid "Соединить"
-msgstr "Болдырмау"
-
-#: .\templates\laboratory\office_lab.html:132
-msgid "Очистить"
-msgstr ""
+msgstr "Қосылу"
 
 #: .\templates\laboratory\office_lab.html:148
 msgid "Готов к работе"
-msgstr "Оқытушы"
+msgstr "Жұмысқа дайын"
 
 #: .\templates\laboratory\office_lab.html:151
 msgid "Перетащите оборудование из меню слева"
-msgstr "Тестілеу"
+msgstr "Жабдықты сол жақтағы мәзірден сүйреңіз"
 
 #: .\templates\laboratory\office_lab.html:158
 msgid "Конфигурация устройства"
-msgstr ""
+msgstr "Құрылғы конфигурациясы"
 
 #: .\templates\laboratory\office_lab.html:160
 msgid "Выберите устройство на холсте..."
@@ -4923,47 +5792,47 @@ msgstr "Рөлді таңдап, жүйеге кіріңіз"
 
 #: .\templates\laboratory\office_lab.html:164
 msgid "Журнал событий"
-msgstr ""
+msgstr "Оқиғалар журналы"
 
 #: .\templates\laboratory\office_lab.html:166
 msgid "Система инициализирована"
-msgstr ""
+msgstr "Жүйе инициализацияланған"
 
 #: .\templates\laboratory\office_lab.html:218
 msgid "Добавлено устройство"
-msgstr "Мысалы: Маршрутизация негіздері"
+msgstr "Құрылғы қосылды"
 
 #: .\templates\laboratory\office_lab.html:250
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: .\templates\laboratory\office_lab.html:300
 msgid "Холст очищен"
-msgstr "Жауап мәтіні"
+msgstr "Кенеп тазартылды"
 
 #: .\templates\laboratory\office_lab.html:317
 msgid "Практика завершена!"
-msgstr "Аяқталған күні"
+msgstr "Тәжірибе аяқталды!"
 
 #: .\templates\laboratory\osi_lab.html:6
 msgid "Визуализатор OSI"
-msgstr "Навигация"
+msgstr "OSI визуализаторы"
 
 #: .\templates\laboratory\osi_lab.html:50
 msgid "Практическое задание"
-msgstr "Пайдалану шарттары"
+msgstr "Практикалық тапсырма"
 
 #: .\templates\laboratory\osi_lab.html:52
 msgid "Визуализация OSI"
-msgstr "Навигация"
+msgstr "OSI визуализациясы"
 
 #: .\templates\laboratory\osi_lab.html:90
 msgid "Перетащите сюда"
-msgstr ""
+msgstr "Мұнда сүйреңіз"
 
 #: .\templates\laboratory\osi_lab.html:104
 msgid "Доступные PDU"
-msgstr "Күрделілігі"
+msgstr "Қол жетімді PDU"
 
 #: .\templates\laboratory\osi_lab.html:135
 msgid "Подсказки уровней"
@@ -4974,46 +5843,47 @@ msgid ""
 "Выберите уровень или перетащите PDU, чтобы увидеть подробные функции "
 "архитектуры."
 msgstr ""
+"Толық мүмкіндіктерді көру үшін деңгейді таңдаңыз немесе PDU сүйреңізсәулет."
 
 #: .\templates\laboratory\osi_lab.html:207
 msgid "Прикладной уровень: работа с сетевыми службами (HTTP, DNS)."
-msgstr ""
+msgstr "Қолданбалы деңгей: Желілік қызметтермен жұмыс (HTTP, DNS)."
 
 #: .\templates\laboratory\osi_lab.html:208
 msgid "Представительский уровень: кодирование и сжатие данных."
-msgstr ""
+msgstr "ауыстыру деңгейі: деректерді кодтау және қысу."
 
 #: .\templates\laboratory\osi_lab.html:209
 msgid "Сеансовый уровень: управление сессиями связи."
-msgstr ""
+msgstr "Сеанс деңгейі: байланыс сессияларын басқару."
 
 #: .\templates\laboratory\osi_lab.html:210
 msgid "Транспортный уровень: надежная доставка данных (TCP, UDP)."
-msgstr "Кодтың соңғы жіберілуі"
+msgstr "Тасымалдау деңгейі: деректерді сенімді жеткізу (TCP, UDP)."
 
 #: .\templates\laboratory\osi_lab.html:211
 msgid "Сетевой уровень: маршрутизация пакетов по IP-адресам."
-msgstr ""
+msgstr "Желілік деңгей: пакеттерді IP мекенжайлары бойынша бағыттау."
 
 #: .\templates\laboratory\osi_lab.html:212
 msgid "Канальный уровень: передача кадров по физической среде."
-msgstr ""
+msgstr "Арна деңгейі: кадрларды физикалық орта арқылы беру."
 
 #: .\templates\laboratory\osi_lab.html:213
 msgid "Физический уровень: передача бит через кабели и сигналы."
-msgstr ""
+msgstr "Физикалық деңгей: кабельдер мен сигналдар арқылы бит беру."
 
 #: .\templates\laboratory\osi_lab.html:217
 msgid "Правильно!"
-msgstr ""
+msgstr "Дұрыс!"
 
 #: .\templates\laboratory\osi_lab.html:219
 msgid "Неверно."
-msgstr "Дұрыс па?"
+msgstr "Дұрыс емес."
 
 #: .\templates\laboratory\osi_lab.html:219
 msgid "Попробуйте другой PDU для этого уровня."
-msgstr ""
+msgstr "Осы деңгей үшін басқа PDU қолданып көріңіз."
 
 #: .\templates\laboratory\switching_lab.html:5
 msgid "Симулятор коммутации"
@@ -5021,24 +5891,22 @@ msgstr "Бұлттық желілер"
 
 #: .\templates\laboratory\switching_lab.html:40
 msgid "Switching"
-msgstr ""
+msgstr "Ауыстыру"
 
 #: .\templates\laboratory\switching_lab.html:42
 msgid "Конфигурация коммутатора L2"
-msgstr ""
+msgstr "L2 қосқышының конфигурациясы"
 
 #: .\templates\laboratory\switching_lab.html:43
 msgid ""
 "Изучите работу таблицы MAC-адресов и базовую настройку портов коммутатора."
 msgstr ""
+"MAC мекенжай кестесінің жұмысын және коммутатор порттарының негізгі "
+"конфигурациясын зерттеңіз."
 
 #: .\templates\laboratory\switching_lab.html:79
 msgid "Выберите порт для анализа трафика"
 msgstr "Рөлді таңдап, жүйеге кіріңіз"
-
-#: .\templates\laboratory\switching_lab.html:88
-msgid "Таблица MAC-адресов"
-msgstr ""
 
 #: .\templates\laboratory\switching_lab.html:110
 msgid "Задание модуля"
@@ -5046,23 +5914,23 @@ msgstr "Модуль атауы"
 
 #: .\templates\laboratory\switching_lab.html:112
 msgid "Найдите порт, к которому подключен PC_Admin с MAC-адресом"
-msgstr ""
+msgstr "MAC мекенжайы бар PC_Admin қосылған портты табыңыз"
 
 #: .\templates\laboratory\switching_lab.html:114
 msgid "Нажмите на соответствующий порт на панели коммутатора."
-msgstr ""
+msgstr "Коммутатор тақтасындағы тиісті портты басыңыз."
 
 #: .\templates\laboratory\switching_lab.html:166
 msgid "Верно! PC_Admin обнаружен на порту Fa0/5."
-msgstr ""
+msgstr "Дұрыс! PC_Admin Fa0/5 портында табылды."
 
 #: .\templates\laboratory\switching_lab.html:171
 msgid "На этом порту другое устройство. Сверьтесь с таблицей MAC."
-msgstr ""
+msgstr "Бұл портта басқа құрылғы бар. MAC кестесін тексеріңіз."
 
 #: .\templates\laboratory\tcp_lab.html:5
 msgid "Симулятор TCP"
-msgstr "Бұлттық желілер"
+msgstr "TCP тренажері"
 
 #: .\templates\laboratory\tcp_lab.html:52
 msgid "TCP Handshake"
@@ -5070,33 +5938,35 @@ msgstr ""
 
 #: .\templates\laboratory\tcp_lab.html:54
 msgid "Анимация 3-стороннего рукопожатия TCP"
-msgstr ""
+msgstr "TCP 3 жақты қол алысу анимациясы"
 
 #: .\templates\laboratory\tcp_lab.html:55
 msgid ""
 "Изучите фундаментальный механизм надежной передачи данных. Симулируйте "
 "потоки пакетов, анализируйте переходы заголовков."
 msgstr ""
+"Деректерді берудің негізгі механизмін үйреніңіз. Модельдеу пакет ағындары, "
+"тақырып ауысуларын талдаңыз."
 
 #: .\templates\laboratory\tcp_lab.html:116
 msgid "ШАГ ВПЕРЕД"
-msgstr ""
+msgstr "АЛҒА ҚАДАМ"
 
 #: .\templates\laboratory\tcp_lab.html:117
 msgid "СБРОС"
-msgstr ""
+msgstr "Қалпына келтіру"
 
 #: .\templates\laboratory\tcp_lab.html:127
 msgid "Параметры"
-msgstr ""
+msgstr "Параметрлер"
 
 #: .\templates\laboratory\tcp_lab.html:132
 msgid "ЗАДЕРЖКА СЕТИ"
-msgstr ""
+msgstr "ЖЕЛІНІҢ КЕШІГУІ"
 
 #: .\templates\laboratory\tcp_lab.html:139
 msgid "ПОТЕРЯ ПАКЕТОВ"
-msgstr ""
+msgstr "ПАКЕТТЕРДІҢ ЖОҒАЛУЫ"
 
 #: .\templates\laboratory\tcp_lab.html:150
 msgid "Лог практики"
@@ -5104,29 +5974,31 @@ msgstr "Практика"
 
 #: .\templates\laboratory\tcp_lab.html:153
 msgid "Нажмите 'Запустить' для начала..."
-msgstr ""
+msgstr "Бастау үшін 'Іске қосу' түймесін басыңыз..."
 
 #: .\templates\laboratory\tcp_lab.html:162
 msgid "Анализ заголовка сегмента TCP"
-msgstr ""
+msgstr "TCP сегментінің тақырыбын талдау"
 
 #: .\templates\laboratory\tcp_lab.html:163
 msgid "Инспекция текущего пакета на уровне бит"
-msgstr ""
+msgstr "Ағымдағы пакетті бит деңгейінде тексеру"
 
 #: .\templates\laboratory\tcp_lab.html:199
 msgid "Заметка архитектора"
-msgstr ""
+msgstr "Сәулетшінің жазбасы"
 
 #: .\templates\laboratory\tcp_lab.html:200
 msgid ""
 "Начальный номер последовательности (ISN) выбирается случайно для защиты от "
 "атак. В симуляции мы используем упрощенные значения."
 msgstr ""
+"Бастапқы реттілік нөмірі (ISN) қорғау үшін кездейсоқ таңдаладышабуылдар. "
+"Модельдеуде біз жеңілдетілген мәндерді қолданамыз."
 
 #: .\templates\laboratory\tcp_lab.html:204
 msgid "Завершить практику и сохранить результат"
-msgstr ""
+msgstr "Тәжірибені аяқтап және нәтижені сақтау"
 
 #: .\templates\laboratory\tcp_lab.html:270
 #: .\templates\laboratory\tcp_lab.html:297
@@ -5139,1237 +6011,129 @@ msgstr "Жауап нұсқасы"
 
 #: .\templates\laboratory\tcp_lab.html:310
 msgid "Соединение УСТАНОВЛЕНО"
-msgstr ""
+msgstr "Байланыс орнатылды"
 
-#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
-msgid "Messages"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
-msgid "Site Maps"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
-msgid "Static Files"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
-msgid "Syndication"
-msgstr ""
-
-#. Translators: String used to replace omitted page numbers in elided page
-#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
-#: .\venv\Lib\site-packages\django\core\paginator.py:30
-msgid "…"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:32
-msgid "That page number is not an integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:33
-msgid "That page number is less than 1"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:34
-msgid "That page contains no results"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:22
-msgid "Enter a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:70
-msgid "Enter a valid domain name."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:153
-#: .\venv\Lib\site-packages\django\forms\fields.py:775
-msgid "Enter a valid URL."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:200
-msgid "Enter a valid integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:211
+#: .\templates\socialaccount\login.html:4
+#: .\templates\socialaccount\login.html:33
 #, fuzzy
-#| msgid "Email address"
-msgid "Enter a valid email address."
-msgstr "IP-мекенжай"
+#| msgid "Продолжить через Google"
+msgid "Вход через Google"
+msgstr "Google арқылы жалғастыру"
 
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: .\venv\Lib\site-packages\django\core\validators.py:289
-msgid ""
-"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:297
-msgid ""
-"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:309
-#: .\venv\Lib\site-packages\django\core\validators.py:318
-#: .\venv\Lib\site-packages\django\core\validators.py:332
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2220
-#, python-format
-msgid "Enter a valid %(protocol)s address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:311
-msgid "IPv4"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:320
-#: .\venv\Lib\site-packages\django\utils\ipv6.py:43
-msgid "IPv6"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:334
-msgid "IPv4 or IPv6"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:375
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:381
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:416
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:425
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:434
-#, python-format
-msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:441
+#: .\templates\socialaccount\login.html:37
 #, python-format
 msgid ""
-"Ensure this value is a multiple of step size %(limit_value)s, starting from "
-"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
-msgstr ""
+"Вы собираетесь войти в систему, используя свой аккаунт %(provider_name)s."
+msgstr "Сіз %(provider_name)s есептік жазбаңызды пайдаланып кіресіз."
 
-#: .\venv\Lib\site-packages\django\core\validators.py:473
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:491
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:514
-#: .\venv\Lib\site-packages\django\forms\fields.py:366
-#: .\venv\Lib\site-packages\django\forms\fields.py:405
-msgid "Enter a number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:516
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:521
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:526
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:597
-#, python-format
-msgid ""
-"File extension “%(extension)s” is not allowed. Allowed extensions are: "
-"%(allowed_extensions)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:659
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1600
-#: .\venv\Lib\site-packages\django\forms\models.py:908
-msgid "and"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1602
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\constraints.py:22
-#, python-format
-msgid "Constraint “%(name)s” is violated."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
-msgid "This field cannot be null."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
-msgid "This field cannot be blank."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:137
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or
-#. 'month'. Eg: "Title must be unique for pub_date year"
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:141
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:180
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1162
-#, python-format
-msgid "“%(value)s” value must be either True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1163
-#, python-format
-msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1165
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1215
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1217
-msgid "String (unlimited)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1326
-msgid "Comma-separated integers"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1427
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1431
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1566
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1435
-msgid "Date (without time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1562
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
-"HH:MM[:ss[.uuuuuu]][TZ] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1570
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1575
-msgid "Date (with time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1702
-#, python-format
-msgid "“%(value)s” value must be a decimal number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1704
-msgid "Decimal number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1864
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in [DD] "
-"[[HH:]MM:]ss[.uuuuuu] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1868
-msgid "Duration"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1920
-msgid "Email address"
-msgstr "IP-мекенжай"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1945
-msgid "File path"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2023
-#, python-format
-msgid "“%(value)s” value must be a float."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2025
-msgid "Floating point number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2065
-#, python-format
-msgid "“%(value)s” value must be an integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2067
-msgid "Integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2163
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2180
-msgid "Small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2188
-msgid "IPv4 address"
-msgstr "IP-мекенжай"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2219
-msgid "IP address"
-msgstr "IP-мекенжай"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2310
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2311
-#, python-format
-msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2313
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2364
-msgid "Positive big integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2379
-msgid "Positive integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2394
-msgid "Positive small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2410
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2446
-msgid "Text"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2526
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2530
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2534
-msgid "Time"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2642
-msgid "URL"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2666
-msgid "Raw binary data"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2731
-#, python-format
-msgid "“%(value)s” is not a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2733
-msgid "Universally unique identifier"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:244
-msgid "File"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:420
-msgid "Image"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:24
-msgid "A JSON object"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
-msgid "Value must be valid JSON."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:978
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:981
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1275
-msgid "One-to-one relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1332
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1334
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1382
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
-msgid ":?.!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:95
-msgid "This field is required."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:315
-msgid "Enter a whole number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:486
-#: .\venv\Lib\site-packages\django\forms\fields.py:1267
-msgid "Enter a valid date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:509
-#: .\venv\Lib\site-packages\django\forms\fields.py:1268
-msgid "Enter a valid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:536
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:570
-msgid "Enter a valid duration."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:571
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:640
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:641
-msgid "No file was submitted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:642
-msgid "The submitted file is empty."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:644
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:649
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:717
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:889
-#: .\venv\Lib\site-packages\django\forms\fields.py:975
-#: .\venv\Lib\site-packages\django\forms\models.py:1592
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:977
-#: .\venv\Lib\site-packages\django\forms\fields.py:1096
-#: .\venv\Lib\site-packages\django\forms\models.py:1590
-msgid "Enter a list of values."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1097
-msgid "Enter a complete value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1339
-msgid "Enter a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1369
-msgid "Enter a valid JSON."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: .\venv\Lib\site-packages\django\forms\forms.py:97
-msgid ":"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\forms.py:239
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:61
-#, python-format
-msgid ""
-"ManagementForm data is missing or has been tampered with. Missing fields: "
-"%(field_names)s. You may need to file a bug report if the issue persists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:65
-#, python-format
-msgid "Please submit at most %(num)d form."
-msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:70
-#, python-format
-msgid "Please submit at least %(num)d form."
-msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:484
-#: .\venv\Lib\site-packages\django\forms\formsets.py:491
-msgid "Order"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:499
-msgid "Delete"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:901
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:906
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:913
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:922
-msgid "Please correct the duplicate values below."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1359
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1450
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1594
-#, python-format
-msgid "“%(pk)s” is not a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\utils.py:229
-#, python-format
-msgid ""
-"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:527
-msgid "Clear"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:528
-msgid "Currently"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:529
-msgid "Change"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:866
-msgid "Unknown"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:867
-msgid "Yes"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:868
-msgid "No"
-msgstr ""
-
-#. Translators: Please do not add spaces around commas.
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:873
-msgid "yes,no,maybe"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:903
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:920
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
-msgid "p.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
-msgid "a.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+#: .\templates\socialaccount\login.html:43
 #, fuzzy
-#| msgid "M"
-msgid "PM"
-msgstr "М"
+#| msgid "Продолжить обучение"
+msgid "Продолжить"
+msgstr "Оқуды жалғастыру"
 
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
+#: .\templates\socialaccount\signup.html:4
 #, fuzzy
-#| msgid "M"
-msgid "AM"
-msgstr "М"
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
-msgid "midnight"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
-msgid "noon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:7
-msgid "Monday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:8
-msgid "Tuesday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:9
-msgid "Wednesday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:10
-msgid "Thursday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:11
-msgid "Friday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:12
-msgid "Saturday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:13
-msgid "Sunday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:16
-msgid "Mon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:17
-msgid "Tue"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:18
-msgid "Wed"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:19
-msgid "Thu"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:20
-msgid "Fri"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:21
-msgid "Sat"
-msgstr "Бастау"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:22
-msgid "Sun"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:25
-msgid "January"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:26
-msgid "February"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:27
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:28
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:29
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:30
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:31
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:32
-msgid "August"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:33
-msgid "September"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:34
-msgid "October"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:35
-msgid "November"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:36
-msgid "December"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:39
-msgid "jan"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:40
-msgid "feb"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:41
-msgid "mar"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:42
-msgid "apr"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:43
-msgid "may"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:44
-msgid "jun"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:45
-msgid "jul"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:46
-msgid "aug"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:47
-msgid "sep"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:48
-msgid "oct"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:49
-msgid "nov"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:50
-msgid "dec"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:53
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:54
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:55
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:56
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:57
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:58
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:59
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:60
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:61
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:62
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:63
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:64
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:67
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:68
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:69
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:70
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:71
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:72
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:73
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:74
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:75
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:76
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:77
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:78
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\ipv6.py:20
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:67
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:278
-msgid "or"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: .\venv\Lib\site-packages\django\utils\text.py:297
-#: .\venv\Lib\site-packages\django\utils\timesince.py:135
-msgid ", "
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:8
-#, python-format
-msgid "%(num)d year"
-msgid_plural "%(num)d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:9
-#, python-format
-msgid "%(num)d month"
-msgid_plural "%(num)d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:10
-#, python-format
-msgid "%(num)d week"
-msgid_plural "%(num)d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:11
-#, python-format
-msgid "%(num)d day"
-msgid_plural "%(num)d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:12
-#, python-format
-msgid "%(num)d hour"
-msgid_plural "%(num)d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:13
-#, python-format
-msgid "%(num)d minute"
-msgid_plural "%(num)d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:29
-msgid "Forbidden"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:30
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:34
-msgid ""
-"You are seeing this message because this HTTPS site requires a “Referer "
-"header” to be sent by your web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:40
-msgid ""
-"If you have configured your browser to disable “Referer” headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for “same-"
-"origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:45
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the “Referrer-Policy: no-referrer” header, please remove them. The "
-"CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a "
-"rel=\"noreferrer\" …> for links to third-party sites."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:54
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:60
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for “same-origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:66
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
-msgid "No year specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
-msgid "Date out of range"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
-msgid "No month specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
-msgid "No day specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
-msgid "No week specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:353
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:384
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:680
+#| msgid "Продолжить через Google"
+msgid "Подтверждение входа через Google"
+msgstr "Google арқылы жалғастыру"
+
+#: .\templates\socialaccount\signup.html:33
+#, fuzzy
+#| msgid "Зарегистрироваться через Google"
+msgid "Регистрация через Google"
+msgstr "Тіркелу"
+
+#: .\templates\socialaccount\signup.html:37
 #, python-format
 msgid ""
-"Future %(verbose_name_plural)s not available because "
-"%(class_name)s.allow_future is False."
-msgstr ""
+"Вы почти закончили! Пожалуйста, подтвердите создание аккаунта через "
+"%(provider_name)s."
+msgstr "Сіз аяқтадыңыз! %(provider_name)s арқылы тіркелгі жасауды растаңыз."
 
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:720
+#: .\templates\socialaccount\signup.html:66
+#, fuzzy
+#| msgid "Вернуться к регистрации"
+msgid "Завершить регистрацию"
+msgstr "Тіркелуге оралу"
+
+#~ msgid "Ссылка (для внешних ресурсов)"
+#~ msgstr "Сілтеме (сыртқы ресурстар үшін)"
+
+#, fuzzy
+#~| msgid "Сетевые топологии"
+#~ msgid "Проектирование топологии"
+#~ msgstr "Желілік топологиялар"
+
+#, fuzzy
+#~| msgid "Симулятор IP"
+#~ msgid "Симуляция"
+#~ msgstr "Бұлттық желілер"
+
+#, fuzzy
+#~| msgid "Минимум 3 устройства в сети."
+#~ msgid "Добавьте устройства и соедините их"
+#~ msgstr "Желіде кемінде 3 құрылғы болуы керек."
+
+#, fuzzy
+#~| msgid "Поиск пути"
+#~ msgid "Поиск маршрута"
+#~ msgstr "Жолды іздеу"
+
+#~ msgid "Маршрут не найден! Устройства не связаны."
+#~ msgstr "Маршрут табылмады! Құрылғылар байланысты емес."
+
+#, fuzzy
+#~| msgid "Запустить симуляцию"
+#~ msgid "Запуск общей симуляции трафика..."
+#~ msgstr "Жаңа сілтемені сұрау"
+
+#~ msgid "ICMP Request отправлен"
+#~ msgstr "ICMP Request жіберілді"
+
+#, fuzzy
+#~| msgid "Пакет потерян | 404"
+#~ msgid "Пакет получен"
+#~ msgstr "Пакет жоғалды | 404"
+
+#, fuzzy
+#~| msgid "Письмо отправлено"
+#~ msgid "ICMP Reply отправлен"
+#~ msgstr "Хат жіберілді"
+
 #, python-format
-msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
-msgstr ""
+#~ msgid "Успешный Ping (100%% доставка)"
+#~ msgstr "Сәтті Ping (100% жеткізу)"
 
-#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
+#~ msgid "3 - стороннее рукопожатие"
+#~ msgstr "3 жақты қол алысу"
 
-#: .\venv\Lib\site-packages\django\views\generic\list.py:70
-msgid "Page is not “last”, nor can it be converted to an int."
-msgstr ""
+#, fuzzy
+#~| msgid "Email address"
+#~ msgid "Enter a valid email address."
+#~ msgstr "IP-мекенжай"
 
-#: .\venv\Lib\site-packages\django\views\generic\list.py:77
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
+#~ msgid "Email address"
+#~ msgstr "IP-мекенжай"
 
-#: .\venv\Lib\site-packages\django\views\generic\list.py:173
-#, python-format
-msgid "Empty list and “%(class_name)s.allow_empty” is False."
-msgstr ""
+#~ msgid "IPv4 address"
+#~ msgstr "IP-мекенжай"
 
-#: .\venv\Lib\site-packages\django\views\static.py:49
-msgid "Directory indexes are not allowed here."
-msgstr ""
+#~ msgid "IP address"
+#~ msgstr "IP-мекенжай"
 
-#: .\venv\Lib\site-packages\django\views\static.py:51
-#, python-format
-msgid "“%(path)s” does not exist"
-msgstr ""
+#, fuzzy
+#~| msgid "M"
+#~ msgid "PM"
+#~ msgstr "М"
 
-#: .\venv\Lib\site-packages\django\views\static.py:68
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
+#, fuzzy
+#~| msgid "M"
+#~ msgid "AM"
+#~ msgstr "М"
 
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:204
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:208
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" "
-"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
-"configured any URLs."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:217
-msgid "Django Documentation"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:218
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:226
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:227
-msgid "Get started with Django"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:235
-msgid "Django Community"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
-msgid "Connect, get help, or contribute"
-msgstr ""
+#~ msgid "Sat"
+#~ msgstr "Бастау"
 
 #~ msgid "Слаг"
 #~ msgstr "Слаг"
@@ -6395,10 +6159,6 @@ msgstr ""
 
 #~ msgid "Лшгрщ8"
 #~ msgstr "Автор"
-
-#~| msgid "Электронная почта"
-#~ msgid "Интерактивная модель OSI"
-#~ msgstr "Электрондық пошта"
 
 #~| msgid "Тестирование"
 #~ msgid "Настройка сетевого оборудования"
@@ -6451,9 +6211,6 @@ msgstr ""
 #~ msgid "Определяет позицию модуля в списке курсов"
 #~ msgstr "Модульдің курстар тізіміндегі орнын анықтайды"
 
-#~ msgid "Создать модуль"
-#~ msgstr "Модуль жасау"
-
 #, python-format
 #~ msgid "Модуль %(module.order)s: %(name)s"
 #~ msgstr "%(module.order)s-модуль: %(name)s"
@@ -6497,7 +6254,6 @@ msgstr ""
 #~ msgid "Модуль 5: LAN"
 #~ msgstr "Модуль"
 
-#~| msgid "Модуль"
 #~ msgid "Модуль 8: Финал"
 #~ msgstr "Модуль"
 

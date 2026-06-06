@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "API Документация" %} | Computer Networks{% endblock %}
+
+{% block content %}
+<div class="flex pt-16 min-h-screen bg-surface">
+    <!-- Unified Sidebar -->
+    {% include 'includes/sidebar.html' %}
+
+    <!-- Main Content -->
+    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            <header class="mb-12">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-3xl">api</span>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-widest">v1.0 Beta</span>
+                </div>
+                <h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-4">{% trans "Внутренняя API документация" %}</h1>
+                <p class="text-on-surface-variant text-lg leading-relaxed">
+                    {% trans "Computer Networks предоставляет программный интерфейс для интеграции с внешними системами управления обучением (LMS) и автоматизации проверки лабораторных работ." %}
+                </p>
+            </header>
+
+            <div class="space-y-12">
+                <!-- Authentication -->
+                <section class="space-y-4">
+                    <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "1. Аутентификация" %}</h2>
+                    <p class="text-sm text-on-surface-variant">
+                        {% trans "Все запросы к API должны содержать заголовок авторизации с JWT токеном." %}
+                    </p>
+                    <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/20 font-mono text-xs">
+                        Authorization: Bearer &lt;your_access_token&gt;
+                    </div>
+                </section>
+
+                <!-- Endpoints -->
+                <section class="space-y-6">
+                    <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "2. Конечные точки (Endpoints)" %}</h2>
+                    
+                    <!-- Get Courses -->
+                    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden shadow-sm">
+                        <div class="bg-surface-container-low px-6 py-4 flex items-center justify-between border-b border-outline-variant/10">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2 py-1 bg-blue-500 text-white rounded text-[10px] font-bold">GET</span>
+                                <code class="text-sm font-bold text-on-surface">/api/v1/courses/</code>
+                            </div>
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">{% trans "Список курсов" %}</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-xs text-on-surface-variant">{% trans "Возвращает список всех доступных учебных модулей с их описанием и статусом доступа." %}</p>
+                            <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-[10px] overflow-x-auto">
+<pre>{
+  "count": 13,
+  "results": [
+    {
+      "id": "introduction",
+      "name": "Введение в сети",
+      "is_accessible": true
+    }
+  ]
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Log Test Action -->
+                    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden shadow-sm">
+                        <div class="bg-surface-container-low px-6 py-4 flex items-center justify-between border-b border-outline-variant/10">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2 py-1 bg-emerald-500 text-white rounded text-[10px] font-bold">POST</span>
+                                <code class="text-sm font-bold text-on-surface">/courses/log-test-action/&lt;slug&gt;/</code>
+                            </div>
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">{% trans "Логирование действий (Audit Log)" %}</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-xs text-on-surface-variant">{% trans "Логирует действия студента во время тестирования для предотвращения мошенничества и анализа поведения." %}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <span class="text-[10px] font-bold text-on-surface-variant uppercase">Payload</span>
+                                    <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-[10px]">
+<pre>{
+  "action": "tab_hidden",
+  "details": "User switched to another tab"
+}</pre>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <span class="text-[10px] font-bold text-on-surface-variant uppercase">Response</span>
+                                    <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-[10px]">
+<pre>{
+  "status": "success"
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Webhooks -->
+                <section class="space-y-4">
+                    <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "3. Вебхуки (Webhooks)" %}</h2>
+                    <p class="text-sm text-on-surface-variant">
+                        {% trans "Вы можете настроить уведомления на ваш сервер при завершении студентом курса или получении сертификата." %}
+                    </p>
+                </section>
+
+                <!-- Support -->
+                <div class="p-8 bg-primary/5 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                        <span class="material-symbols-outlined text-3xl">support_agent</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-on-surface mb-1">{% trans "Нужна помощь с интеграцией?" %}</h4>
+                        <p class="text-xs text-on-surface-variant mb-4">{% trans "Наши инженеры помогут вам настроить API для вашего учебного заведения." %}</p>
+                        <a href="mailto:api-support@Computer Networks.edu" class="text-primary font-bold text-sm hover:underline">api-support@Computer Networks.edu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

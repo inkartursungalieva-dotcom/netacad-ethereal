@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -6,9 +6,11 @@ from django.utils.translation import gettext as _, activate
 from django.utils import timezone
 from django.utils import translation
 from django.conf import settings
+from django.core.mail import send_mail
 import random
 from .forms import RegisterForm, CustomAuthenticationForm, ProfileForm
 from courses.models import Module, UserProgress
+from laboratory.models import LabProgress, Lab
 from .models import Notification
 
 User = get_user_model()
@@ -84,6 +86,31 @@ def get_course_progress(user):
 def profile_view(request):
     """Отображение и редактирование профиля пользователя"""
     progress = get_course_progress(request.user)
+    user_progress_all = UserProgress.objects.filter(user=request.user).select_related('module').order_by('module__order')
+    
+    # Данные для графика успеваемости
+    progress_chart_labels = [p.module.name for p in user_progress_all]
+    progress_chart_data = [p.score for p in user_progress_all]
+    
+    # Статистика по лабораториям
+    user_lab_stats = []
+    total_lab_time = 0
+    
+    # Получаем ID модулей, у которых есть лабораторные работы, одним запросом
+    lab_module_ids = set(Lab.objects.values_list('module_id', flat=True))
+    
+    for p in user_progress_all:
+        if p.module_id in lab_module_ids:
+            time_spent_min = round(p.time_spent / 60, 1)
+            user_lab_stats.append({
+                'name': p.module.name,
+                'time_spent': time_spent_min,
+            })
+            total_lab_time += time_spent_min
+            
+    # Расчет процента для прогресс-баров
+    for stat in user_lab_stats:
+        stat['percentage'] = (stat['time_spent'] / total_lab_time * 100) if total_lab_time > 0 else 0
     
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=request.user)
@@ -98,6 +125,9 @@ def profile_view(request):
     
     context = {
         'form': form,
+        'user_lab_stats': user_lab_stats,
+        'progress_chart_labels': progress_chart_labels,
+        'progress_chart_data': progress_chart_data,
         **progress
     }
     return render(request, 'accounts/profile.html', context)
@@ -129,7 +159,7 @@ def register_view(request):
 
 
 def login_view(request):
-    """Обработка входа пользователя"""
+    """Обработка входа пользователя с 2FA"""
     if request.user.is_authenticated:
         if request.user.role == 'teacher' or request.user.is_superuser:
             return redirect('dashboard:teacher_index')
@@ -140,30 +170,67 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             
-            # Принудительно устанавливаем роль из формы для теста, если это нужно
-            # Но лучше просто доверять базе данных. 
-            # Однако, если пользователь выбрал 'teacher' в форме, мы можем проверить,
-            # совпадает ли это с ролью в базе.
-            form_role = request.POST.get('role')
+            # 2FA: Генерируем код и сохраняем в сессии
+            code = str(random.randint(100000, 999999))
+            request.session['2fa_user_id'] = user.id
+            request.session['2fa_code'] = code
+            request.session['2fa_expiry'] = (timezone.now() + timezone.timedelta(minutes=10)).timestamp()
             
-            # Вход в систему
+            # Отправляем код на Email
+            try:
+                send_mail(
+                    _('Код подтверждения входа - Computer Networks'),
+                    _('Ваш код для входа: {}').format(code),
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=True,
+                )
+                messages.info(request, _('Код подтверждения отправлен на ваш email.'))
+                return redirect('accounts:verify_2fa')
+            except Exception as e:
+                # Если почта не настроена, для тестов можем залогинить сразу (но выводим инфо)
+                if settings.DEBUG:
+                    messages.warning(request, f"DEBUG: 2FA Code is {code}")
+                    return redirect('accounts:verify_2fa')
+                messages.error(request, _('Ошибка при отправке email. Попробуйте позже.'))
+        else:
+            # Ошибки уже добавлены в форму
+            messages.error(request, _('Неверный email или пароль.'))
+    else:
+        form = CustomAuthenticationForm()
+    
+    return render(request, 'accounts/login.html', {'form': form})
+
+def verify_2fa_view(request):
+    """Страница подтверждения 2FA кода"""
+    user_id = request.session.get('2fa_user_id')
+    if not user_id:
+        return redirect('accounts:login')
+        
+    if request.method == 'POST':
+        user_code = request.POST.get('code')
+        saved_code = request.session.get('2fa_code')
+        expiry = request.session.get('2fa_expiry', 0)
+        
+        if user_code == saved_code and timezone.now().timestamp() < expiry:
+            user = get_object_or_404(User, id=user_id)
             login(request, user)
             
             # Установка языка из профиля пользователя в сессию и куки
             if user.language:
                 request.session['_language'] = user.language
                 translation.activate(user.language)
+
+            # Очистка сессии от 2FA данных
+            del request.session['2fa_user_id']
+            del request.session['2fa_code']
+            del request.session['2fa_expiry']
             
             messages.success(request, _('Добро пожаловать, {}!').format(user.username))
             
-            # Редирект в зависимости от роли
-            next_url = request.GET.get('next')
             response = None
-            
             if user.role == 'teacher' or user.is_superuser:
                 response = redirect('dashboard:teacher_index')
-            elif next_url:
-                response = redirect(next_url)
             else:
                 response = redirect('dashboard:index')
 
@@ -173,12 +240,9 @@ def login_view(request):
             
             return response
         else:
-            # Ошибки уже добавлены в форму
-            messages.error(request, _('Неверный email или пароль.'))
-    else:
-        form = CustomAuthenticationForm()
-    
-    return render(request, 'accounts/login.html', {'form': form})
+            messages.error(request, _('Неверный или просроченный код.'))
+            
+    return render(request, 'accounts/verify_2fa.html')
 
 
 @login_required

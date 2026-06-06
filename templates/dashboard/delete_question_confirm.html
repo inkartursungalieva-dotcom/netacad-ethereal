@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Удалить вопрос" %} - NetAcademy{% endblock %}
+
+{% block content %}
+<div class="flex pt-16 min-h-screen bg-surface">
+    {% include 'includes/sidebar.html' %}
+
+    <main class="lg:ml-64 flex-1 p-6 md:p-10 flex items-center justify-center">
+        <div class="max-w-md w-full bg-white dark:bg-[#2b2930] p-10 rounded-[2.5rem] shadow-2xl border border-outline-variant/10 text-center">
+            <div class="w-20 h-20 bg-error/10 text-error rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-4xl">delete_forever</span>
+            </div>
+            
+            <h2 class="text-2xl font-extrabold text-on-surface mb-2">{% trans "Удалить вопрос?" %}</h2>
+            <p class="text-on-surface-variant mb-8">
+                {% trans "Вы уверены, что хотите удалить этот вопрос?" %} 
+                {% trans "Это действие нельзя отменить." %}
+            </p>
+
+            <div class="p-4 bg-surface-container-low rounded-xl mb-8 text-left text-sm italic text-on-surface-variant border-l-4 border-error/30">
+                "{{ question.text|truncatechars:150 }}"
+            </div>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <button type="submit" class="w-full py-4 bg-error text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:bg-error-dim transition-all">
+                    {% trans "Да, удалить вопрос" %}
+                </button>
+                <a href="{% url 'dashboard:questions_list' %}" class="block w-full py-4 bg-surface-container-high text-on-surface font-bold rounded-2xl hover:bg-surface-container-highest transition-all">
+                    {% trans "Отмена" %}
+                </a>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

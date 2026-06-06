@@ -18,6 +18,9 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="theme-color" content="#68558d">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/icons/icon-192x192.png' %}">
     
     <!-- Title block -->
     <title>{% block title %}Computer Networks - Обучающий веб-сервис по сетевым технологиям{% endblock %}</title>
@@ -27,7 +30,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     
     <!-- Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -37,7 +40,7 @@
     
     <!-- Tailwind Config -->
     <script id="tailwind-config">
-        tailwind.config = {
+        tailwind.config = { 
             darkMode: "class",
             theme: {
                 extend: {
@@ -92,12 +95,20 @@
                         "on-secondary": "#fdf7ff",
                         "primary-dim": "#5c4981",
                         "on-tertiary": "#fff7f8",
-                        "tertiary-container": "#fbc4e6"
+                        "tertiary-container": "#fbc4e6",
+                        
+                        // Dark mode specific overrides
+                        "dark-primary": "#d5bfff",
+                        "dark-surface": "#121212",
+                        "dark-surface-container": "#1e1e1e",
+                        "dark-on-surface": "#e0e0e0",
+                        "dark-on-surface-variant": "#b0b0b0",
+                        "dark-outline": "#444444"
                     },
                     fontFamily: {
-                        "headline": ["Plus Jakarta Sans"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
+                        "headline": ["Montserrat", "Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Montserrat", "Inter", "sans-serif"],
+                        "label": ["Montserrat", "Inter", "sans-serif"]
                     },
                     borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
                 },
@@ -107,6 +118,51 @@
     
     <!-- Custom CSS via Django static -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Dark mode overrides */
+        .dark body {
+            background-color: #0f172a; /* Deep blue-black for better contrast */
+            color: #f1f5f9;
+        }
+        .dark .bg-surface { background-color: #0f172a !important; }
+        .dark .bg-white { background-color: #1e293b !important; }
+        .dark .text-on-surface { color: #f1f5f9 !important; }
+        .dark .text-on-surface-variant { color: #94a3b8 !important; }
+        .dark .border-outline-variant\/15 { border-color: rgba(255, 255, 255, 0.1) !important; }
+        .dark .glass-card, .dark .glass-panel {
+            background: rgba(30, 41, 59, 0.7) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(12px);
+        }
+        .dark .bg-surface-container-low { background-color: #1e293b !important; }
+        .dark .bg-surface-container-lowest { background-color: #0f172a !important; }
+        .dark .bg-surface-container-high { background-color: #334155 !important; }
+        .dark input, .dark select, .dark textarea {
+            background-color: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+        }
+        .dark .text-primary { color: #818cf8 !important; }
+        .dark .bg-primary { background-color: #6366f1 !important; }
+        .dark .text-secondary { color: #c084fc !important; }
+        
+        /* Specific fix for unreadable text in sidebar/header in dark mode */
+        .dark header, .dark aside {
+            background-color: #0f172a !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        .dark .text-[#35313a] { color: #cbd5e1 !important; }
+        
+        /* Font fix for Kazakh language */
+        :lang(kk) {
+            font-family: 'Montserrat', sans-serif !important;
+        }
+        
+        /* Ensure Material Symbols are not broken by language-specific font overrides */
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined' !important;
+        }
+    </style>
     
     <!-- Extra head content block -->
     {% block extra_head %}{% endblock %}
@@ -210,7 +266,8 @@
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'privacy' %}">{% trans "Политика конфиденциальности" %}</a>
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'terms' %}">{% trans "Условия использования" %}</a>
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'dashboard:support' %}">{% trans "Контакты" %}</a>
-                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'courses:usability_test' %}">{% trans "Оценка юзабилити" %}</a>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'courses:usability_test' %}">{% if LANGUAGE_CODE == 'kk' %}Пайдаланудың ыңғайлылығы{% else %}Удобство использования{% endif %}</a>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'api_docs' %}">API Документация</a>
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'cookies' %}">{% trans "Cookies" %}</a>
             </div>
             
@@ -245,6 +302,14 @@
 
     <!-- Global Scripts -->
     <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('{% static "js/sw.js" %}')
+                    .then(reg => console.log('SW registered'))
+                    .catch(err => console.log('SW error', err));
+            });
+        }
+
         const THEME_LABELS = {
             dark: "{% trans 'Тёмная' %}",
             light: "{% trans 'Светлая' %}"
@@ -290,6 +355,173 @@
 
     <!-- Extra scripts block -->
     {% block extra_scripts %}{% endblock %}
+
+    <!-- Global AI Assistant Widget -->
+    <div id="global-ai-assistant" class="fixed bottom-8 right-8 z-[1000] flex flex-col items-end">
+        <!-- AI Panel -->
+        <div id="ai-panel" class="hidden w-80 md:w-96 h-[500px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-outline-variant/20 flex flex-col overflow-hidden mb-4 animate-slide-up">
+            <!-- AI Header -->
+            <div class="bg-primary p-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <span class="font-bold text-sm">Computer Networks AI</span>
+                </div>
+                <button id="close-ai" class="hover:bg-white/20 p-1 rounded-full transition-colors">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            </div>
+            
+            <!-- AI Messages -->
+            <div id="ai-messages" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-surface dark:bg-slate-950">
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                    </div>
+                    <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs leading-relaxed dark:text-slate-300">
+                        {% trans "Привет! Я твой ИИ-помощник. Я знаю всё о нашей библиотеке, учебных модулях и лабораторных работах. Чем могу помочь?" %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Input -->
+            <div class="p-4 border-t border-outline-variant/10 bg-white dark:bg-slate-900">
+                <div class="relative">
+                    <input type="text" id="ai-input" placeholder="{% trans "Задай вопрос..." %}" 
+                        class="w-full pl-4 pr-12 py-3 bg-surface-container-low dark:bg-slate-800 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 text-xs dark:text-white">
+                    <button id="send-ai" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary text-white rounded-xl flex items-center justify-center hover:scale-105 transition-all">
+                        <span class="material-symbols-outlined text-sm">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Toggle Button -->
+        <button id="ai-global-toggle" class="w-14 h-14 rounded-full bg-primary text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-all group relative">
+            <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">smart_toy</span>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full animate-pulse"></span>
+        </button>
+    </div>
+
+    <style>
+        @keyframes slide-up {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up { animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('ai-global-toggle');
+            const panel = document.getElementById('ai-panel');
+            const close = document.getElementById('close-ai');
+            const input = document.getElementById('ai-input');
+            const send = document.getElementById('send-ai');
+            const messages = document.getElementById('ai-messages');
+
+            if (toggle && panel) {
+                toggle.addEventListener('click', () => panel.classList.toggle('hidden'));
+            }
+            if (close && panel) {
+                close.addEventListener('click', () => panel.classList.add('hidden'));
+            }
+
+            async function handleAISend() {
+                const text = input.value.trim();
+                if (!text) return;
+
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'flex gap-2 justify-end';
+                userMsg.innerHTML = `
+                    <div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none text-xs leading-relaxed max-w-[80%] shadow-sm">
+                        ${text}
+                    </div>
+                `;
+                messages.appendChild(userMsg);
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+
+                // Typing indicator
+                const typing = document.createElement('div');
+                typing.className = 'flex gap-2 animate-pulse';
+                typing.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                    </div>
+                    <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-[10px] font-bold uppercase tracking-widest text-primary">
+                        {% trans "ИИ думает..." %}
+                    </div>
+                `;
+                messages.appendChild(typing);
+                messages.scrollTop = messages.scrollHeight;
+
+                // Special case for local topology analysis in Network Designer
+                const q = text.toLowerCase();
+                if ((q.includes('анализ') || q.includes('ошибки') || q.includes('проверь')) && window.analyzeCurrentTopology) {
+                    const localAnalysis = window.analyzeCurrentTopology();
+                    typing.remove();
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'flex gap-2';
+                    aiMsg.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                        </div>
+                        <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs leading-relaxed dark:text-slate-300">
+                            ${localAnalysis}
+                        </div>
+                    `;
+                    messages.appendChild(aiMsg);
+                    messages.scrollTop = messages.scrollHeight;
+                    return;
+                }
+
+                try {
+                    const response = await fetch('{% url "ai_chat_api" %}', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({ message: text })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    typing.remove();
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'flex gap-2';
+                    aiMsg.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                        </div>
+                        <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs leading-relaxed dark:text-slate-300">
+                            ${data.response}
+                        </div>
+                    `;
+                    messages.appendChild(aiMsg);
+                    messages.scrollTop = messages.scrollHeight;
+                } catch (e) {
+                    typing.remove();
+                    console.error('AI Error:', e);
+                }
+            }
+
+            if (send) {
+                send.addEventListener('click', handleAISend);
+            }
+            if (input) {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') handleAISend();
+                });
+            }
+        });
+    </script>
+
     
 </body>
 </html>

@@ -1,5 +1,4 @@
 import os
-import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv # pyright: ignore[reportMissingImports]
 
@@ -23,9 +22,6 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*'] # Для отладки в облаке разрешаем всё
-_extra_hosts = os.getenv('ALLOWED_HOSTS', '')
-if _extra_hosts:
-    ALLOWED_HOSTS.extend([h.strip() for h in _extra_hosts.split(',') if h.strip()])
 
 # Доверяем доменам для CSRF (нужно для работы форм входа)
 CSRF_TRUSTED_ORIGINS = [
@@ -109,29 +105,62 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
+import dj_database_url
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Приоритет: DATABASE_URL (стандарт для Render), затем MySQL из .env, затем SQLite
-DATABASE_URL = os.getenv('DATABASE_URL')
-
-if DATABASE_URL:
+# На Render или если есть DATABASE_URL, используем PostgreSQL
+if os.getenv('DATABASE_URL'):
     DATABASES = {
         'default': dj_database_url.config(
-            default=DATABASE_URL,
+            default=os.getenv('DATABASE_URL'),
             conn_max_age=600,
             conn_health_checks=True,
         )
     }
+elif os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
+    # На случай если БД не подключена в Dashboard, оставляем SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 else:
-    # Параметры из .env для MySQL (если нет DATABASE_URL)
+    # Локальная разработка
     DB_NAME = os.getenv('DB_NAME')
     DB_USER = os.getenv('DB_USER')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
     DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
     DB_PORT = os.getenv('DB_PORT', '3306')
 
-    if DB_NAME:
+    USE_SQLITE = False
+    if not DB_NAME:
+        USE_SQLITE = True
+    else:
+        try:
+            import MySQLdb
+            conn = MySQLdb.connect(
+                host=DB_HOST,
+                user=DB_USER,
+                passwd=DB_PASSWORD,
+                port=int(DB_PORT),
+                connect_timeout=2
+            )
+            conn.close()
+        except (ImportError, Exception):
+            print("⚠️ [WARNING] MySQL недоступен. Используем SQLite.")
+            USE_SQLITE = True
+
+    if USE_SQLITE:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+    else:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
@@ -144,15 +173,6 @@ else:
                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
                     'charset': 'utf8mb4',
                 },
-            }
-        }
-    else:
-        # Fallback to SQLite (Локально или если база не настроена на Render)
-        # ВНИМАНИЕ: На Render SQLite не сохраняет данные после перезапуска!
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
 
@@ -211,6 +231,9 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# API Keys
+DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 # =============================================================================
 # 📧 EMAIL CONFIGURATION - config/settings.py
 # =============================================================================
@@ -229,7 +252,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 30
-EMAIL_SUBJECT_PREFIX = '[NetAcad Ethereal] '
+EMAIL_SUBJECT_PREFIX = '[Computer Networks] '
 
 # Для отладки
 if DEBUG:

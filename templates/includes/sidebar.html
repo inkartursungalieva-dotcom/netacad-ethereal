@@ -33,9 +33,14 @@
             <span class="text-sm">{% trans "Библиотека" %}</span>
         </a>
 
-        <a class="flex items-center gap-3 {% if request.resolver_match.app_name == 'laboratory' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'laboratory:list' %}">
-            <span class="material-symbols-outlined" {% if request.resolver_match.app_name == 'laboratory' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>terminal</span>
+        <a class="flex items-center gap-3 {% if request.resolver_match.app_name == 'laboratory' and request.resolver_match.url_name == 'list' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'laboratory:list' %}">
+            <span class="material-symbols-outlined" {% if request.resolver_match.app_name == 'laboratory' and request.resolver_match.url_name == 'list' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>terminal</span>
             <span class="text-sm">{% trans "Лаборатория" %}</span>
+        </a>
+
+        <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'designer' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'laboratory:designer' %}">
+            <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'designer' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>architecture</span>
+            <span class="text-sm">{% trans "Сетевой конструктор" %}</span>
         </a>
 
         <!-- Module List (Visible only when inside a course or on courses list) - Only for Students -->
@@ -84,7 +89,15 @@
                 </a>
                 <a href="{% url 'dashboard:create_module' %}" class="{% if request.resolver_match.url_name == 'create_module' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
                     <span class="material-symbols-outlined text-sm">edit_note</span> 
-                    <span>{% trans "Редактировать курсы" %}</span>
+                    <span>{% trans "Управление курсами" %}</span>
+                </a>
+                <a href="{% url 'dashboard:labs_list' %}" class="{% if request.resolver_match.app_name == 'dashboard' and 'lab' in request.resolver_match.url_name %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
+                    <span class="material-symbols-outlined text-sm">science</span> 
+                    <span>{% trans "Управление лабами" %}</span>
+                </a>
+                <a href="{% url 'dashboard:questions_list' %}" class="{% if request.resolver_match.app_name == 'dashboard' and 'question' in request.resolver_match.url_name %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
+                    <span class="material-symbols-outlined text-sm">quiz</span> 
+                    <span>{% trans "Управление тестами" %}</span>
                 </a>
             </div>
         {% endif %}

@@ -189,13 +189,20 @@
                     </div> 
 
                     <!-- Progress Table --> 
-                    <div class="bg-surface-container-lowest rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)] overflow-hidden"> 
-                        <div class="px-8 py-6 flex justify-between items-center border-b border-surface-container-low"> 
+                        <div class="px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-surface-container-low"> 
                             <h4 class="text-lg font-bold headline-font">{% trans "Прогресс студентов" %}</h4> 
-                            <a href="{% url 'dashboard:students_list' %}" class="text-primary font-semibold text-sm hover:underline">{% trans "Все студенты" %}</a> 
+                            
+                            <!-- Student Search -->
+                            <div class="relative w-full md:w-64 group">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm transition-colors group-focus-within:text-primary">search</span>
+                                <input type="text" id="student-search" placeholder="{% trans "Поиск студента..." %}" 
+                                    class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-xs outline-none">
+                            </div>
+
+                            <a href="{% url 'dashboard:students_list' %}" class="text-primary font-semibold text-sm hover:underline whitespace-nowrap">{% trans "Все студенты" %}</a> 
                         </div> 
                         <div class="overflow-x-auto"> 
-                            <table class="w-full text-left"> 
+                            <table class="w-full text-left" id="students-table"> 
                                 <thead class="bg-surface-container-low/50"> 
                                     <tr> 
                                         <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Имя" %}</th> 
@@ -207,17 +214,17 @@
                                 </thead> 
                                 <tbody class="divide-y divide-surface-container-low"> 
                                     {% for student in recent_students_progress %}
-                                    <tr class="hover:bg-surface-container-low/30 transition-colors"> 
+                                    <tr class="student-row hover:bg-surface-container-low/30 transition-colors"> 
                                         <td class="px-8 py-4"> 
                                             <div class="flex items-center gap-3"> 
                                                 <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-primary text-xs font-bold">
                                                     {{ student.username|slice:":1"|upper }}
                                                 </div> 
-                                                <span class="font-medium text-sm">{{ student.get_full_name|default:student.username }}</span> 
+                                                <span class="student-name font-medium text-sm">{{ student.get_full_name|default:student.username }}</span> 
                                             </div> 
                                         </td> 
                                         <td class="px-4 py-4 text-sm">
-                                            {% with last_p=student.user_progress.all.last %}
+                                            {% with last_p=student.progress.all.last %}
                                                 {% if last_p %}{{ last_p.module.name }}{% else %}{% trans "Нет прогресса" %}{% endif %}
                                             {% endwith %}
                                         </td> 
@@ -248,6 +255,30 @@
                     </div> 
                 </div> 
 
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const studentSearch = document.getElementById('student-search');
+        const studentRows = document.querySelectorAll('.student-row');
+
+        if (studentSearch) {
+            studentSearch.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase().trim();
+                
+                studentRows.forEach(row => {
+                    const name = row.querySelector('.student-name').textContent.toLowerCase();
+                    if (name.includes(term)) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %} 
+
                 <!-- Right Sidebar: Activity & Quick Actions --> 
                 <div class="space-y-8"> 
                     <!-- Quick Actions --> 
@@ -257,6 +288,14 @@
                             <a href="{% url 'dashboard:create_module' %}" class="w-full py-3 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold text-sm">
                                 <span class="material-symbols-outlined text-sm">add</span>
                                 {% trans "Создать новый модуль" %}
+                            </a>
+                            <a href="{% url 'dashboard:labs_list' %}" class="w-full py-3 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold text-sm">
+                                <span class="material-symbols-outlined text-sm">science</span>
+                                {% trans "Управление лабами" %}
+                            </a>
+                            <a href="{% url 'dashboard:questions_list' %}" class="w-full py-3 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold text-sm">
+                                <span class="material-symbols-outlined text-sm">quiz</span>
+                                {% trans "Управление тестами" %}
                             </a>
                             <a href="{% url 'dashboard:mail_students' %}" class="w-full py-3 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center gap-2 transition-all font-semibold text-sm">
                                 <span class="material-symbols-outlined text-sm">mail</span>

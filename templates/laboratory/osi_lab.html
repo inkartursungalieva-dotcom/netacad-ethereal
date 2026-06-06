@@ -3,7 +3,7 @@
 {% load static %}
 {% load osi_extras %}
 
-{% block title %}{% trans "Визуализатор OSI" %} | {% trans "NetAcad Ethereal" %}{% endblock %}
+{% block title %}{% trans "Визуализатор OSI" %} | {% trans "Computer Networks" %}{% endblock %}
 
 {% block extra_head %}
 <style>
@@ -31,6 +31,21 @@
         border-color: #4caf50 !important;
         background: rgba(76, 175, 80, 0.1);
         border-style: solid !important;
+    }
+    .pdu-btn.selected {
+        background-color: #68558d !important;
+        color: white !important;
+        border-color: #68558d !important;
+    }
+    .drop-zone.active-target {
+        border-color: #68558d !important;
+        background: rgba(104, 85, 141, 0.05);
+        animation: pulse border-outline 1.5s infinite;
+    }
+    @keyframes pulse-border {
+        0% { border-color: rgba(104, 85, 141, 0.3); }
+        50% { border-color: rgba(104, 85, 141, 1); }
+        100% { border-color: rgba(104, 85, 141, 0.3); }
     }
 </style>
 {% endblock %}
@@ -104,27 +119,30 @@
                         {% trans "Доступные PDU" %}
                     </h2> 
                     <div class="grid grid-cols-2 gap-3" id="pdu-tray"> 
-                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Data"> 
+                        <div class="draggable-pdu pdu-btn bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3 transition-all active:scale-95" draggable="true" data-pdu="Data"> 
                             <span class="material-symbols-outlined text-secondary">description</span> 
                             <span class="font-bold text-sm">Data</span> 
                         </div> 
-                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Packet"> 
+                        <div class="draggable-pdu pdu-btn bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3 transition-all active:scale-95" draggable="true" data-pdu="Packet"> 
                             <span class="material-symbols-outlined text-secondary">inventory_2</span> 
                             <span class="font-bold text-sm">Packet</span> 
                         </div> 
-                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Frame"> 
+                        <div class="draggable-pdu pdu-btn bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3 transition-all active:scale-95" draggable="true" data-pdu="Frame"> 
                             <span class="material-symbols-outlined text-secondary">view_agenda</span> 
                             <span class="font-bold text-sm">Frame</span> 
                         </div> 
-                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Segment"> 
+                        <div class="draggable-pdu pdu-btn bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3 transition-all active:scale-95" draggable="true" data-pdu="Segment"> 
                             <span class="material-symbols-outlined text-secondary">grid_view</span> 
                             <span class="font-bold text-sm">Segment</span> 
                         </div> 
-                        <div class="draggable-pdu bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3" draggable="true" data-pdu="Bits"> 
+                        <div class="draggable-pdu pdu-btn bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/20 shadow-sm flex items-center gap-3 transition-all active:scale-95" draggable="true" data-pdu="Bits"> 
                             <span class="material-symbols-outlined text-secondary">reorder</span> 
                             <span class="font-bold text-sm">Bits</span> 
                         </div> 
                     </div> 
+                    <div class="mt-4 text-[10px] text-on-surface-variant italic lg:hidden">
+                        {% trans "Нажмите на PDU, а затем на ячейку уровня, если перетаскивание неудобно." %}
+                    </div>
                 </section> 
 
                 <!-- Feedback & Info Card --> 
@@ -157,8 +175,10 @@
         const finishBtn = document.getElementById('finish-osi-lab');
         
         let score = 0;
+        let selectedPdu = null;
         const correctPlacements = new Set();
 
+        // Drag & Drop
         draggables.forEach(draggable => {
             draggable.addEventListener('dragstart', () => {
                 draggable.classList.add('dragging');
@@ -166,6 +186,24 @@
 
             draggable.addEventListener('dragend', () => {
                 draggable.classList.remove('dragging');
+            });
+
+            // Tap-to-select (Mobile alternative)
+            draggable.addEventListener('click', () => {
+                if (selectedPdu === draggable) {
+                    selectedPdu = null;
+                    draggable.classList.remove('selected');
+                    dropZones.forEach(z => z.classList.remove('active-target'));
+                } else {
+                    draggables.forEach(d => d.classList.remove('selected'));
+                    selectedPdu = draggable;
+                    draggable.classList.add('selected');
+                    dropZones.forEach(z => {
+                        if (!correctPlacements.has(z.getAttribute('data-layer'))) {
+                            z.classList.add('active-target');
+                        }
+                    });
+                }
             });
         });
 
@@ -183,24 +221,39 @@
                 e.preventDefault();
                 zone.classList.remove('hover');
                 const draggable = document.querySelector('.dragging');
-                const pduType = draggable.getAttribute('data-pdu');
-                const expectedPdu = zone.getAttribute('data-expected');
-                const layerNum = zone.getAttribute('data-layer');
+                if (draggable) handlePlacement(draggable, zone);
+            });
 
-                if (pduType === expectedPdu || (expectedPdu === 'Data' && ['Data'].includes(pduType))) {
-                    if (!correctPlacements.has(layerNum)) {
-                        zone.innerHTML = `<span class="font-bold text-sm text-green-600">${pduType}</span>`;
-                        zone.classList.add('correct');
-                        correctPlacements.add(layerNum);
-                        score++;
-                        scoreDisplay.innerText = score;
-                        showFeedback(layerNum, true);
-                    }
-                } else {
-                    showFeedback(layerNum, false);
+            // Tap-to-place (Mobile alternative)
+            zone.addEventListener('click', () => {
+                if (selectedPdu) {
+                    handlePlacement(selectedPdu, zone);
+                    selectedPdu.classList.remove('selected');
+                    selectedPdu = null;
+                    dropZones.forEach(z => z.classList.remove('active-target'));
                 }
             });
         });
+
+        function handlePlacement(draggable, zone) {
+            const pduType = draggable.getAttribute('data-pdu');
+            const expectedPdu = zone.getAttribute('data-expected');
+            const layerNum = zone.getAttribute('data-layer');
+
+            if (pduType === expectedPdu || (expectedPdu === 'Data' && ['Data'].includes(pduType))) {
+                if (!correctPlacements.has(layerNum)) {
+                    zone.innerHTML = `<span class="font-bold text-sm text-green-600">${pduType}</span>`;
+                    zone.classList.add('correct');
+                    zone.classList.remove('active-target');
+                    correctPlacements.add(layerNum);
+                    score++;
+                    scoreDisplay.innerText = score;
+                    showFeedback(layerNum, true);
+                }
+            } else {
+                showFeedback(layerNum, false);
+            }
+        }
 
         function showFeedback(layerNum, isCorrect) {
             const layerInfo = {

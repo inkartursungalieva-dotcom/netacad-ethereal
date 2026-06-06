@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Подтверждение входа (2FA)" %} | Computer Networks{% endblock %}
+
+{% block extra_head %}
+<style>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .dark .glass-card {
+        background: rgba(30, 41, 59, 0.7);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="min-h-screen flex items-center justify-center p-6 bg-surface dark:bg-slate-950 pt-24 pb-24">
+    <div class="max-w-md w-full">
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-container text-primary mb-6 shadow-lg">
+                <span class="material-symbols-outlined text-3xl">security</span>
+            </div>
+            <h1 class="font-headline text-3xl font-extrabold text-on-surface dark:text-white mb-2">Computer Networks</h1>
+            <p class="text-on-surface-variant text-sm">{% trans "Двухфакторная аутентификация" %}</p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-8 shadow-2xl">
+            <h2 class="text-xl font-bold text-on-surface dark:text-white mb-4 text-center">{% trans "Введите код подтверждения" %}</h2>
+            <p class="text-on-surface-variant text-center text-sm mb-8">
+                {% trans "Мы отправили 6-значный код на ваш Email. Пожалуйста, введите его ниже для входа в систему." %}
+            </p>
+
+            <form method="post" action="{% url 'accounts:verify_2fa' %}" class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-2">
+                    <input type="text" name="code" maxlength="6" required
+                           class="w-full text-center text-3xl font-black tracking-[0.5em] py-4 bg-surface-container-low dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-on-surface dark:text-white placeholder:text-outline-variant/30"
+                           placeholder="000000" autofocus>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="p-4 rounded-xl text-xs font-bold {% if message.tags == 'error' %}bg-error-container/20 text-error{% else %}bg-primary/10 text-primary{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <button type="submit" 
+                        class="w-full py-4 bg-primary text-on-primary font-bold rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    {% trans "Подтвердить и войти" %}
+                </button>
+            </form>
+
+            <div class="mt-8 text-center">
+                <a href="{% url 'accounts:login' %}" class="text-sm font-bold text-primary hover:underline">
+                    {% trans "Вернуться к входу" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

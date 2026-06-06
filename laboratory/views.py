@@ -45,6 +45,11 @@ def lab_detail_view(request, module_slug):
     })
 
 @login_required
+def network_designer_view(request):
+    """Отображение собственного сетевого конструктора (Network Designer)"""
+    return render(request, 'laboratory/network_designer.html')
+
+@login_required
 def save_lab_progress(request, lab_id):
     """AJAX сохранение прогресса лаборатории"""
     if request.method == 'POST':

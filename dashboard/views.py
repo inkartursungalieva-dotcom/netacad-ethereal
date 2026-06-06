@@ -2,9 +2,12 @@ import csv
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from courses.models import Module, UserProgress, UserAnswer
-from laboratory.models import LabProgress
+from courses.models import Module, UserProgress, UserAnswer, Question, Choice
+from laboratory.models import Lab, LabProgress
 from accounts.models import User, Notification
+from core.models import AuditLog
+from .forms import LabForm, QuestionForm, ChoiceFormSet
+from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 from django.db.models import Avg, Count, Q, Sum
@@ -89,7 +92,7 @@ def dashboard_index(request):
 @login_required
 @teacher_required
 def teacher_dashboard_index(request):
-    """Отображение главной страницы дашборда преподавателя"""
+    """Отображение главной страницы дашборда преподавателя (новая версия)"""
     total_students = User.objects.filter(role='student').count()
     
     # Расчет средней завершаемости
@@ -103,38 +106,39 @@ def teacher_dashboard_index(request):
     # Активные сегодня
     active_today = User.objects.filter(role='student', last_login__date=timezone.now().date()).count()
     
-    # Модуль 8 заявки (прогресс по последнему модулю)
+    # Модуль 8 заявки
     final_module = Module.objects.order_by('-order').first()
     final_requests = UserProgress.objects.filter(module=final_module).count() if final_module else 0
     
-    # Успеваемость по модулям для графика
-    module_performance = Module.objects.annotate(
-        avg_score=Avg('module_progress__score')
-    ).order_by('order')
+    # Успеваемость по модулям
+    module_perf = []
+    try:
+        module_perf = list(Module.objects.annotate(
+            avg_score=Avg('user_progress__score')
+        ).order_by('order'))
+    except:
+        module_perf = list(Module.objects.all().order_by('order'))
     
-    # Прогресс студентов для таблицы
-    students_progress = User.objects.filter(role='student').annotate(
-        current_module_count=Count('user_progress'), # Упрощенно
-        avg_score_val=Avg('user_progress__score')
-    )[:5]
+    # Прогресс студентов
+    student_perf = []
+    try:
+        student_perf = list(User.objects.filter(role='student').annotate(
+            current_module_count=Count('progress'),
+            avg_student_score=Avg('progress__score')
+        ).order_by('-last_login')[:5])
+    except:
+        student_perf = list(User.objects.filter(role='student').order_by('-last_login')[:5])
     
-    # Последняя активность
-    recent_progress = UserProgress.objects.select_related('user', 'module').order_by('-completed_at')[:5]
-    
-    # Прогресс студентов для таблицы (переименовываем для соответствия шаблону)
-    recent_students_progress = User.objects.filter(role='student').annotate(
-        current_module_count=Count('user_progress'),
-        avg_student_score=Avg('user_progress__score')
-    ).order_by('-last_login')[:5]
+    recent_act = UserProgress.objects.select_related('user', 'module').order_by('-completed_at')[:5]
     
     context = {
         'total_students': total_students,
         'avg_completion': avg_completion,
         'active_today': active_today,
-        'module_8_submissions': final_requests, # Соответствие шаблону
-        'module_performance': module_performance,
-        'recent_students_progress': recent_students_progress, # Соответствие шаблону
-        'recent_progress': recent_progress,
+        'module_8_submissions': final_requests,
+        'module_performance': module_perf,
+        'recent_students_progress': student_perf,
+        'recent_progress': recent_act,
     }
     return render(request, 'dashboard/teacher_index.html', context)
 
@@ -175,8 +179,8 @@ def export_report(request):
 def students_list(request):
     """Список всех студентов для преподавателя"""
     students = User.objects.filter(role='student').annotate(
-        completed_count=Count('user_progress', filter=Q(user_progress__is_completed=True)),
-        avg_score=Avg('user_progress__score')
+        completed_count=Count('progress', filter=Q(progress__is_completed=True)),
+        avg_score=Avg('progress__score')
     ).order_by('username')
     
     total_modules = Module.objects.count()
@@ -193,10 +197,12 @@ def student_detail(request, user_id):
     """Детальная информация о прогрессе конкретного студента"""
     student = get_object_or_404(User, id=user_id, role='student')
     progress = UserProgress.objects.filter(user=student).select_related('module').order_by('module__order')
+    audit_logs = AuditLog.objects.filter(user=student).select_related('module').order_by('-timestamp')[:50]
     
     context = {
         'student': student,
         'progress': progress,
+        'audit_logs': audit_logs,
     }
     return render(request, 'dashboard/student_detail.html', context)
 
@@ -225,7 +231,8 @@ def create_module(request):
                 slug=slug,
                 video_url=video_url,
                 image=image,
-                file=file
+                file=file,
+                is_custom=True
             )
             messages.success(request, _("Модуль '{}' успешно создан.").format(name))
             return redirect('dashboard:teacher_index')
@@ -250,6 +257,7 @@ def edit_module(request, module_id):
             module.description = description
             module.order = int(order) if order else 0
             module.video_url = video_url
+            module.is_custom = True
             
             if image:
                 module.image = image
@@ -440,3 +448,117 @@ def grades_view(request):
         }
         
     return render(request, 'dashboard/grades.html', context)
+
+# --- Управление лабораторными работами ---
+
+@login_required
+@teacher_required
+def labs_list(request):
+    """Список всех лабораторных работ"""
+    labs = Lab.objects.all().select_related('module').order_by('module__order')
+    return render(request, 'dashboard/labs_list.html', {'labs': labs})
+
+@login_required
+@teacher_required
+def create_lab(request):
+    """Создание новой лабораторной работы"""
+    if request.method == 'POST':
+        form = LabForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Лабораторная работа успешно создана."))
+            return redirect('dashboard:labs_list')
+    else:
+        # Предзаполняем модуль, если он передан в GET
+        module_id = request.GET.get('module')
+        initial = {'module': module_id} if module_id else {}
+        form = LabForm(initial=initial)
+    return render(request, 'dashboard/create_lab.html', {'form': form})
+
+@login_required
+@teacher_required
+def edit_lab(request, lab_id):
+    """Редактирование лабораторной работы"""
+    lab = get_object_or_404(Lab, id=lab_id)
+    if request.method == 'POST':
+        form = LabForm(request.POST, instance=lab)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Лабораторная работа успешно обновлена."))
+            return redirect('dashboard:labs_list')
+    else:
+        form = LabForm(instance=lab)
+    return render(request, 'dashboard/edit_lab.html', {'form': form, 'lab': lab})
+
+@login_required
+@teacher_required
+def delete_lab(request, lab_id):
+    """Удаление лабораторной работы"""
+    lab = get_object_or_404(Lab, id=lab_id)
+    if request.method == 'POST':
+        title = lab.title
+        lab.delete()
+        messages.success(request, _("Лабораторная работа '{}' удалена.").format(title))
+        return redirect('dashboard:labs_list')
+    return render(request, 'dashboard/delete_lab_confirm.html', {'lab': lab})
+
+# --- Управление вопросами тестов ---
+
+@login_required
+@teacher_required
+def questions_list(request):
+    """Список всех вопросов тестов"""
+    questions = Question.objects.all().select_related('module').order_by('module__order', 'id')
+    return render(request, 'dashboard/questions_list.html', {'questions': questions})
+
+@login_required
+@teacher_required
+def create_question(request):
+    """Создание нового вопроса с вариантами ответов"""
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        formset = ChoiceFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            with transaction.atomic():
+                question = form.save()
+                formset.instance = question
+                formset.save()
+            messages.success(request, _("Вопрос успешно создан."))
+            return redirect('dashboard:questions_list')
+    else:
+        # Предзаполняем модуль, если он передан в GET
+        module_id = request.GET.get('module')
+        initial = {'module': module_id} if module_id else {}
+        form = QuestionForm(initial=initial)
+        formset = ChoiceFormSet()
+    return render(request, 'dashboard/create_question.html', {'form': form, 'formset': formset})
+
+@login_required
+@teacher_required
+def edit_question(request, question_id):
+    """Редактирование вопроса и его вариантов ответов"""
+    question = get_object_or_404(Question, id=question_id)
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, instance=question)
+        formset = ChoiceFormSet(request.POST, instance=question)
+        if form.is_valid() and formset.is_valid():
+            with transaction.atomic():
+                form.save()
+                formset.save()
+            messages.success(request, _("Вопрос успешно обновлен."))
+            return redirect('dashboard:questions_list')
+    else:
+        form = QuestionForm(instance=question)
+        formset = ChoiceFormSet(instance=question)
+    return render(request, 'dashboard/edit_question.html', {'form': form, 'formset': formset, 'question': question})
+
+@login_required
+@teacher_required
+def delete_question(request, question_id):
+    """Удаление вопроса"""
+    question = get_object_or_404(Question, id=question_id)
+    if request.method == 'POST':
+        question.delete()
+        messages.success(request, _("Вопрос удален."))
+        return redirect('dashboard:questions_list')
+    return render(request, 'dashboard/delete_question_confirm.html', {'question': question})

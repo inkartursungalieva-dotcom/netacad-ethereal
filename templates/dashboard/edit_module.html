@@ -117,6 +117,56 @@
                         </div>
                     </div>
 
+                    <!-- Related Content Section -->
+                    <div class="space-y-6 pt-6 border-t border-outline-variant/10">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center text-sm font-bold">3</span>
+                            <h3 class="text-xl font-bold text-on-surface">{% trans "Связанный контент" %}</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-6 rounded-2xl bg-surface-container-low border border-outline-variant/5 flex flex-col gap-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-primary">science</span>
+                                        <h4 class="font-bold">{% trans "Лабораторные работы" %}</h4>
+                                    </div>
+                                    <span class="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
+                                        {% if module.lab %}1{% else %}0{% endif %}
+                                    </span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="{% url 'dashboard:create_lab' %}?module={{ module.id }}" class="flex-1 py-2 bg-primary/10 text-primary rounded-xl text-xs font-bold text-center hover:bg-primary hover:text-white transition-all">
+                                        {% trans "Добавить лабу" %}
+                                    </a>
+                                    <a href="{% url 'dashboard:labs_list' %}" class="flex-1 py-2 bg-surface-container-high text-on-surface rounded-xl text-xs font-bold text-center hover:bg-surface-container-highest transition-all">
+                                        {% trans "Все лабы" %}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="p-6 rounded-2xl bg-surface-container-low border border-outline-variant/5 flex flex-col gap-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-tertiary">quiz</span>
+                                        <h4 class="font-bold">{% trans "Вопросы теста" %}</h4>
+                                    </div>
+                                    <span class="text-xs font-bold px-2 py-1 bg-tertiary/10 text-tertiary rounded-full">
+                                        {{ module.questions.count }}
+                                    </span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="{% url 'dashboard:create_question' %}?module={{ module.id }}" class="flex-1 py-2 bg-tertiary/10 text-tertiary rounded-xl text-xs font-bold text-center hover:bg-tertiary hover:text-white transition-all">
+                                        {% trans "Добавить вопрос" %}
+                                    </a>
+                                    <a href="{% url 'dashboard:questions_list' %}" class="flex-1 py-2 bg-surface-container-high text-on-surface rounded-xl text-xs font-bold text-center hover:bg-surface-container-highest transition-all">
+                                        {% trans "Все вопросы" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="pt-8 flex flex-col md:flex-row gap-4">
                         <button type="submit" class="flex-1 py-5 bg-primary text-on-primary font-bold rounded-2xl shadow-[0_15px_30px_rgba(104,85,141,0.25)] hover:shadow-[0_20px_40px_rgba(104,85_141,0.35)] hover:scale-[1.01] transition-all flex items-center justify-center gap-3 text-lg">
                             <span class="material-symbols-outlined">save</span>

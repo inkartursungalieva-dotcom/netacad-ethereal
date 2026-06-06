@@ -1,3 +1,9 @@
+databases:
+  - name: netacad_db
+    plan: free
+    databaseName: computer_networks
+    user: inkartursungalieva
+
 services:
   - type: web
     name: netacad-ethereal-inkar
@@ -6,14 +12,23 @@ services:
     buildCommand: "./build.sh"
     startCommand: "python setup_cloud.py && gunicorn config.wsgi:application"
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: netacad_db
+          property: connectionString
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY
         generateValue: true
       - key: PYTHON_VERSION
-        value: "3.11.10"
+        value: "3.12.2"
       - key: ALLOWED_HOSTS
-        value: "*"
-      # Пароль приложения Gmail — задать в Dashboard Render (сброс пароля, рассылка)
+        value: ".onrender.com"
+      - key: DJANGO_SETTINGS_MODULE
+        value: "config.settings"
+      # Пароль приложения Gmail — задать в Dashboard Render
       - key: EMAIL_HOST_PASSWORD
         sync: false
+      - key: SITE_DOMAIN
+        value: "netacad-ethereal-inkar.onrender.com"
+

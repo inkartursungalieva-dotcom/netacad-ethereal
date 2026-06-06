@@ -2,7 +2,40 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% trans "Практические работы" %} | EthernetArch{% endblock %}
+{% block title %}{% trans "Практические работы" %} | Computer Networks{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const complexityFilter = document.getElementById('complexity-filter');
+        const labSearch = document.getElementById('lab-search');
+        const labCards = document.querySelectorAll('.lab-card');
+
+        function filterLabs() {
+            const complexity = complexityFilter.value;
+            const term = labSearch.value.toLowerCase().trim();
+
+            labCards.forEach(card => {
+                const cardComplexity = card.dataset.complexity;
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                
+                const matchesComplexity = complexity === 'all' || cardComplexity === complexity;
+                const matchesSearch = title.includes(term) || desc.includes(term);
+
+                if (matchesComplexity && matchesSearch) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        complexityFilter.addEventListener('change', filterLabs);
+        labSearch.addEventListener('input', filterLabs);
+    });
+</script>
+{% endblock %}
 
 {% block extra_head %}
 <style>
@@ -23,21 +56,63 @@
 
     <!-- Main Content -->
     <main class="lg:ml-64 flex-1 p-8 bg-surface">
-        <header class="mb-12">
-            <span class="text-primary font-bold tracking-widest uppercase text-sm mb-2 block">{% trans "Лабораторная база" %}</span>
-            <h1 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-4">{% trans "Практические симуляции Cisco" %}</h1>
-            <p class="text-on-surface-variant max-w-2xl leading-relaxed">
-                {% trans "Здесь собраны все доступные интерактивные задания. Отрабатывайте навыки настройки сетевого оборудования в реальном времени." %}
-            </p>
+        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="flex-1">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-2 block">{% trans "Лабораторная база" %}</span>
+                <h1 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-4">{% trans "Практические симуляции Cisco" %}</h1>
+                <p class="text-on-surface-variant max-w-2xl leading-relaxed mb-6">
+                    {% trans "Здесь собраны все доступные интерактивные задания. Отрабатывайте навыки настройки сетевого оборудования в реальном времени." %}
+                </p>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="relative group min-w-[200px]">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
+                        <select id="complexity-filter" class="w-full pl-10 pr-4 py-2 bg-white border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-xs font-bold uppercase tracking-widest outline-none appearance-none cursor-pointer shadow-sm">
+                            <option value="all">{% trans "Все уровни" %}</option>
+                            <option value="easy">{% trans "Начинающий" %}</option>
+                            <option value="medium">{% trans "Специалист" %}</option>
+                            <option value="hard">{% trans "Эксперт" %}</option>
+                        </select>
+                    </div>
+                    <div class="relative group flex-1 max-w-sm">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+                        <input type="text" id="lab-search" placeholder="{% trans "Поиск по названию или теме..." %}" 
+                            class="w-full pl-10 pr-4 py-2 bg-white border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-xs font-bold outline-none shadow-sm">
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'laboratory:designer' %}" class="px-8 py-4 bg-[#8E7AB5] text-white rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all flex items-center gap-3 shrink-0">
+                <span class="material-symbols-outlined">architecture</span>
+                {% trans "Сетевой конструктор" %}
+            </a>
         </header>
 
         <!-- Labs Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {% for lab in labs %}
-            <div class="glass-card rounded-3xl p-6 border border-outline-variant/15 flex flex-col hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300">
+            <div class="lab-card glass-card rounded-3xl p-6 border border-outline-variant/15 flex flex-col hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300" 
+                 data-complexity="{% if forloop.counter|divisibleby:3 %}hard{% elif forloop.counter|divisibleby:2 %}medium{% else %}easy{% endif %}">
                 <div class="flex justify-between items-start mb-6">
-                    <div class="w-14 h-14 rounded-2xl bg-primary-container text-primary flex items-center justify-center shadow-lg">
-                        <span class="material-symbols-outlined text-3xl">terminal</span>
+                    <div class="flex flex-col gap-2">
+                        <div class="w-14 h-14 rounded-2xl bg-primary-container text-primary flex items-center justify-center shadow-lg">
+                            <span class="material-symbols-outlined text-3xl">terminal</span>
+                        </div>
+                        <div class="flex gap-1">
+                            {% if forloop.counter|divisibleby:3 %}
+                                <span class="w-2 h-2 rounded-full bg-error" title="Expert"></span>
+                                <span class="w-2 h-2 rounded-full bg-error" title="Expert"></span>
+                                <span class="w-2 h-2 rounded-full bg-error" title="Expert"></span>
+                            {% elif forloop.counter|divisibleby:2 %}
+                                <span class="w-2 h-2 rounded-full bg-amber-500" title="Medium"></span>
+                                <span class="w-2 h-2 rounded-full bg-amber-500" title="Medium"></span>
+                                <span class="w-2 h-2 rounded-full bg-surface-container-highest"></span>
+                            {% else %}
+                                <span class="w-2 h-2 rounded-full bg-success" title="Easy"></span>
+                                <span class="w-2 h-2 rounded-full bg-surface-container-highest"></span>
+                                <span class="w-2 h-2 rounded-full bg-surface-container-highest"></span>
+                            {% endif %}
+                        </div>
                     </div>
                     {% if lab.progress.is_completed %}
                     <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">

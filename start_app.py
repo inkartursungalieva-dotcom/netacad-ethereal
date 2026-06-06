@@ -21,7 +21,7 @@ def fix_site_domain():
         from django.contrib.sites.models import Site
         site = Site.objects.get_or_create(id=1)[0]
         site.domain = "127.0.0.1:8000"
-        site.name = "NetAcad Ethereal (Local)"
+        site.name = "Computer Networks (Local)"
         site.save()
         print("✅ Домен сайта настроен на 127.0.0.1:8000")
     except Exception as e:
@@ -37,7 +37,7 @@ def run_django():
         # Исправляем домен сайта для Allauth и ссылок
         fix_site_domain()
 
-        print("🚀 Запуск сервера NetAcad Ethereal...")
+        print("🚀 Запуск сервера Computer Networks...")
         print("💡 Если вы видите ошибку 'отказано в подключении', убедитесь, что порт 8000 не занят.")
         # Используем 0.0.0.0 чтобы работало и через localhost и через 127.0.0.1
         execute_from_command_line([sys.argv[0], 'runserver', '0.0.0.0:8000', '--noreload'])

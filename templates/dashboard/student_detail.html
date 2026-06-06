@@ -94,6 +94,50 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Audit Logs (НОВОЕ) -->
+            <div class="mt-12">
+                <h4 class="text-lg font-bold font-headline text-on-surface mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">history_edu</span>
+                    {% trans "Логи активности во время тестов" %}
+                </h4>
+                
+                <div class="bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant/10 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-surface-container-low/50 text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4">{% trans "Модуль" %}</th>
+                                <th class="px-6 py-4">{% trans "Действие" %}</th>
+                                <th class="px-6 py-4">{% trans "Детали" %}</th>
+                                <th class="px-6 py-4">{% trans "Время" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-surface-container-low text-sm">
+                            {% for log in audit_logs %}
+                            <tr>
+                                <td class="px-6 py-4 font-bold">{{ log.module.name }}</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 rounded text-[10px] font-black uppercase
+                                        {% if log.action == 'TEST_ANNULLED' %}bg-error/10 text-error
+                                        {% elif log.action == 'WARNING_TAB_SWITCH' %}bg-amber-500/10 text-amber-600
+                                        {% else %}bg-primary/10 text-primary{% endif %}">
+                                        {{ log.action }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant text-xs">{{ log.details }}</td>
+                                <td class="px-6 py-4 text-xs text-on-surface-variant">{{ log.timestamp|date:"d.m.Y H:i:s" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="px-6 py-10 text-center text-on-surface-variant italic">
+                                    {% trans "Подозрительная активность не зафиксирована." %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
 </div>

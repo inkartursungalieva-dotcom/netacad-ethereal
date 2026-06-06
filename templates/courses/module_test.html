@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load osi_extras %}
 
-{% block title %}{% trans "NetAcad Ethereal - Тест:" %} {% translate module.name %}{% endblock %}
+{% block title %}{% trans "Computer Networks - Тест:" %} {% translate module.name %}{% endblock %}
 
 {% block extra_head %}
 <style>
@@ -294,21 +294,60 @@
         }, 1000);
 
         // Anti-cheat logic
+        let cheatedCount = 0;
         let cheated = false;
+        let lastCheatTime = 0;
+        
+        async function logAction(action, details = '') {
+            try {
+                await fetch('{% url "courses:log_test_action" module.slug %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ action, details })
+                });
+            } catch (e) { console.error('Failed to log action', e); }
+        }
+
         function handleCheat() {
-            if (!cheated) {
+            if (cheated) return;
+            
+            const now = Date.now();
+            // Prevent multiple triggers (e.g. blur and visibilitychange firing together)
+            if (now - lastCheatTime < 1000) return; 
+            
+            lastCheatTime = now;
+            cheatedCount++;
+            
+            if (cheatedCount === 1) {
+                // First warning: Block with alert and log action
+                logAction('WARNING_TAB_SWITCH', '{% trans "Первое предупреждение за выход из вкладки" %}');
+                alert('{% trans "ПРЕДУПРЕЖДЕНИЕ: Не выходите за пределы вкладки! При повторном нарушении тест будет аннулирован." %}');
+            } else if (cheatedCount >= 2) {
+                // Second attempt: Annul test
                 cheated = true;
+                logAction('TEST_ANNULLED', '{% trans "Тест аннулирован за повторный выход из вкладки" %}');
+                
+                // Show annulment modal
                 document.getElementById('cheat-modal').classList.remove('hidden');
                 document.getElementById('cheated-input').value = 'true';
                 
-                // Автоматически отправляем форму через 3 секунды, если пользователь не нажал кнопку
-                setTimeout(() => {
-                    document.getElementById('quiz-form').submit();
-                }, 3000);
-
                 const form = document.getElementById('quiz-form');
-                const inputs = form.querySelectorAll('input');
-                inputs.forEach(input => input.disabled = true);
+                const inputs = form.querySelectorAll('input, select, textarea, button');
+                
+                // Disable all inputs except CSRF token to prevent 403 error on auto-submit
+                inputs.forEach(input => {
+                    if (input.name !== 'csrfmiddlewaretoken') {
+                        input.disabled = true;
+                    }
+                });
+                
+                // Auto-submit after 3 seconds
+                setTimeout(() => {
+                    form.submit();
+                }, 3000);
             }
         }
 
@@ -318,6 +357,12 @@
                 handleCheat();
             }
         });
+
+        // Block AI Assistant Widget during test
+        const aiWidget = document.getElementById('global-ai-assistant');
+        if (aiWidget) {
+            aiWidget.style.display = 'none';
+        }
     });
 </script>
 {% endblock %}
