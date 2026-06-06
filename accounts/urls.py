@@ -14,11 +14,6 @@ urlpatterns = [
     path('notifications/read/<int:pk>/', views.mark_notification_read_view, name='mark_notification_read'),
     path('change-language/', views.change_language_view, name='change_language'),
     
-    # Подтверждение email
-    path('verify-email/', views.verify_email_view, name='verify_email'),
-    path('verify-2fa/', views.verify_2fa_view, name='verify_2fa'),
-    path('resend-verification/', views.resend_verification_view, name='resend_verification'),
-    
     # Смена пароля
     path('password-change/', 
          auth_views.PasswordChangeView.as_view(

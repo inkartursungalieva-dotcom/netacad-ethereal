@@ -117,16 +117,16 @@
 {% endblock %}
 
 {% block content %}
-<div id="designer-container" class="flex min-h-[85vh] bg-surface overflow-hidden pt-16 transition-all duration-300">
+<div id="designer-container" class="flex min-h-screen bg-surface pt-16 transition-all duration-300">
     <!-- Sidebar (Collapsible) -->
-    <div id="main-sidebar-wrapper" class="fixed inset-y-0 left-0 z-40 w-64 pt-16 transition-transform duration-300 lg:translate-x-0">
+    <div id="main-sidebar-wrapper" class="fixed inset-y-0 left-0 z-40 w-64 pt-16 transition-transform duration-300 lg:translate-x-0 bg-white">
         {% include 'includes/sidebar.html' %}
     </div>
 
     <!-- Main Content -->
     <main id="designer-main" class="flex-1 flex flex-col lg:ml-64 relative transition-all duration-300">
         <!-- Toolbar -->
-        <header class="h-auto border-b border-outline-variant/15 flex flex-wrap items-center justify-between px-6 py-4 bg-white z-10 shadow-sm gap-4">
+        <header class="h-auto border-b border-outline-variant/15 flex flex-wrap items-center justify-between px-6 py-4 bg-white z-10 shadow-sm gap-4 sticky top-16">
             <div class="flex items-center gap-4">
                 <button id="toggle-sidebar" class="w-10 h-10 rounded-xl hover:bg-primary/10 text-on-surface-variant hover:text-primary transition-all flex items-center justify-center">
                     <span class="material-symbols-outlined">menu_open</span>
@@ -136,13 +136,20 @@
                 <!-- AI Topology Generator Input -->
                 <div class="relative group">
                     <div class="flex items-center gap-2 bg-surface-container-low border border-outline-variant/20 rounded-2xl px-4 py-2 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
-                        <span class="material-symbols-outlined text-primary text-xl">auto_awesome</span>
+                        <span class="material-symbols-outlined text-primary text-xl animate-pulse">auto_awesome</span>
                         <input type="text" id="ai-prompt" 
-                            placeholder="{% trans "Опишите сеть (напр. офис с 3 ПК и сервером)..." %}" 
-                            class="bg-transparent border-none p-0 text-xs w-64 sm:w-80 outline-none focus:ring-0">
-                        <button id="ai-generate" class="text-primary hover:text-primary-dim transition-colors">
-                            <span class="material-symbols-outlined">send</span>
+                            placeholder="{% trans "ИИ: Опишите сеть (напр. 4 ПК, свитч и роутер)..." %}" 
+                            class="bg-transparent border-none p-0 text-xs w-64 sm:w-96 outline-none focus:ring-0">
+                        <button id="ai-generate" class="text-primary hover:text-primary-dim transition-colors flex items-center gap-1">
+                            <span class="material-symbols-outlined">bolt</span>
+                            <span class="text-[10px] font-bold uppercase">{% trans "Создать" %}</span>
                         </button>
+                    </div>
+                    <!-- Tooltip for AI prompt -->
+                    <div class="absolute top-full left-0 mt-2 p-3 bg-white border border-outline-variant/20 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 w-full max-w-xs">
+                        <p class="text-[10px] text-on-surface-variant italic">
+                            {% trans "Попробуйте: '5 ПК и свитч', 'Офис с сервером', 'Кольцо из 4 роутеров'" %}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -506,59 +513,113 @@
 
             addLog('{% trans "ИИ анализирует промпт..." %}', 'info');
             aiGenerateBtn.disabled = true;
+            const originalHTML = aiGenerateBtn.innerHTML;
             aiGenerateBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
 
             // Simulate AI thinking
-            await new Promise(r => setTimeout(r, 1500));
+            await new Promise(r => setTimeout(r, 1200));
 
-            let topologyType = 'star'; // Default
-            if (prompt.includes('офис') || prompt.includes('office')) topologyType = 'office';
-            else if (prompt.includes('кольцо') || prompt.includes('ring')) topologyType = 'ring';
-            else if (prompt.includes('клиент') || prompt.includes('server')) topologyType = 'clientserver';
-            
-            // Check for quantities
-            const pcMatch = prompt.match(/(\d+)\s*(пк|комп|pc|computer)/);
-            const pcCount = pcMatch ? parseInt(pcMatch[1]) : 0;
+            // Advanced Keyword & Quantity Extraction
+            const getCount = (regex) => {
+                const match = prompt.match(regex);
+                return match ? parseInt(match[1]) : 0;
+            };
 
-            const exampleData = TOPOLOGY_EXAMPLES[topologyType];
-            if (exampleData) {
-                let finalNodes = JSON.parse(JSON.stringify(exampleData.nodes));
-                let finalLinks = JSON.parse(JSON.stringify(exampleData.links));
+            const pcCount = getCount(/(\d+)\s*(пк|комп|pc|computer|клиент|client)/) || (prompt.includes('пк') || prompt.includes('pc') ? 2 : 0);
+            const routerCount = getCount(/(\d+)\s*(роутер|router|маршрутизатор)/) || (prompt.includes('роутер') || prompt.includes('router') ? 1 : 0);
+            const switchCount = getCount(/(\d+)\s*(свитч|switch|коммутатор)/) || (prompt.includes('свитч') || prompt.includes('switch') ? 1 : 0);
+            const serverCount = getCount(/(\d+)\s*(сервер|server)/) || (prompt.includes('сервер') || prompt.includes('server') ? 1 : 0);
 
-                // If user specified a specific number of PCs, adjust the star topology
-                if (pcCount > 0 && pcCount <= 8 && topologyType === 'star') {
-                    const centerSwitch = finalNodes.find(n => n.type === 'switch');
-                    if (centerSwitch) {
-                        finalNodes = [centerSwitch];
-                        finalLinks = [];
-                        for (let i = 0; i < pcCount; i++) {
-                            const angle = (i / pcCount) * Math.PI * 2;
-                            const newNode = {
-                                id: Date.now() + i,
-                                type: 'pc',
-                                name: `PC-${i + 1}`,
-                                x: centerSwitch.x + Math.cos(angle) * 200,
-                                y: centerSwitch.y + Math.sin(angle) * 200,
-                                icon: 'laptop',
-                                color: '#B197FC',
-                                ip: `192.168.1.${10 + i}`,
-                                mac: `00:00:00:0${i}`,
-                                arpTable: {}
-                            };
-                            finalNodes.push(newNode);
-                            finalLinks.push({ from: centerSwitch.id, to: newNode.id, type: 'straight' });
-                        }
-                    }
+            let topologyType = 'custom';
+            if (prompt.includes('кольцо') || prompt.includes('ring')) topologyType = 'ring';
+            else if (prompt.includes('звезда') || prompt.includes('star')) topologyType = 'star';
+            else if (prompt.includes('офис') || prompt.includes('office')) topologyType = 'office';
+
+            addLog(`{% trans "ИИ определил состав:" %} ${pcCount} ПК, ${routerCount} R, ${switchCount} SW, ${serverCount} SRV`, 'info');
+
+            let newNodes = [];
+            let newLinks = [];
+            let centerX = 500, centerY = 400;
+
+            if (topologyType === 'ring' && routerCount > 2) {
+                // Ring Topology
+                for (let i = 0; i < routerCount; i++) {
+                    const angle = (i / routerCount) * Math.PI * 2;
+                    const id = Date.now() + i;
+                    newNodes.push({
+                        id, type: 'router', name: `R-${i+1}`, x: centerX + Math.cos(angle)*250, y: centerY + Math.sin(angle)*250,
+                        icon: 'router', color: '#68558d', ip: `10.0.0.${i+1}`, mac: generateMac()
+                    });
+                }
+                for (let i = 0; i < routerCount; i++) {
+                    newLinks.push({ from: newNodes[i].id, to: newNodes[(i+1)%routerCount].id, type: 'cross' });
+                }
+            } else if (pcCount > 0 || switchCount > 0 || routerCount > 0) {
+                // Hierarchical / Star Topology (Default Smart Logic)
+                let currentId = Date.now();
+                
+                // 1. Routers
+                let lastRouter = null;
+                for (let i = 0; i < routerCount; i++) {
+                    const r = {
+                        id: currentId++, type: 'router', name: `Router-${i+1}`, x: centerX, y: centerY - 250 - (i*100),
+                        icon: 'router', color: '#68558d', ip: `192.168.${i}.1`, mac: generateMac()
+                    };
+                    newNodes.push(r);
+                    if (lastRouter) newLinks.push({ from: lastRouter.id, to: r.id, type: 'cross' });
+                    lastRouter = r;
                 }
 
-                loadExample({ nodes: finalNodes, links: finalLinks });
+                // 2. Switches
+                let swList = [];
+                for (let i = 0; i < switchCount; i++) {
+                    const sw = {
+                        id: currentId++, type: 'switch', name: `Switch-${i+1}`, x: centerX + (i - (switchCount-1)/2)*300, y: centerY,
+                        icon: 'settings_ethernet', color: '#8E7AB5', ip: '', macTable: {}
+                    };
+                    newNodes.push(sw);
+                    swList.push(sw);
+                    // Connect to router if exists
+                    if (lastRouter) newLinks.push({ from: lastRouter.id, to: sw.id, type: 'straight' });
+                }
+
+                // 3. Servers
+                for (let i = 0; i < serverCount; i++) {
+                    const srv = {
+                        id: currentId++, type: 'server', name: `Server-${i+1}`, x: centerX - 200 - (i*100), y: centerY - 100,
+                        icon: 'dns', color: '#ff4d4d', ip: `192.168.1.${200+i}`, mac: generateMac()
+                    };
+                    newNodes.push(srv);
+                    if (swList.length > 0) newLinks.push({ from: swList[0].id, to: srv.id, type: 'straight' });
+                }
+
+                // 4. PCs
+                for (let i = 0; i < pcCount; i++) {
+                    const targetSw = swList[i % swList.length] || lastRouter;
+                    const angle = (i / pcCount) * Math.PI + (Math.PI * 0.25);
+                    const pc = {
+                        id: currentId++, type: 'pc', name: `PC-${i+1}`, 
+                        x: (targetSw ? targetSw.x : centerX) + Math.cos(angle)*200, 
+                        y: (targetSw ? targetSw.y : centerY) + Math.sin(angle)*200 + 150,
+                        icon: 'laptop', color: '#B197FC', ip: `192.168.1.${10+i}`, mac: generateMac()
+                    };
+                    newNodes.push(pc);
+                    if (targetSw) newLinks.push({ from: targetSw.id, to: pc.id, type: 'straight' });
+                }
+            }
+
+            if (newNodes.length > 0) {
+                loadExample({ nodes: newNodes, links: newLinks });
                 addLog('{% trans "Топология успешно сгенерирована ИИ" %}', 'success');
             } else {
-                addLog('{% trans "Не удалось распознать структуру. Попробуйте другой запрос." %}', 'error');
+                // Fallback to basic examples if logic yields nothing
+                const fallback = TOPOLOGY_EXAMPLES[topologyType] || TOPOLOGY_EXAMPLES.star;
+                loadExample(fallback);
+                addLog('{% trans "Использован стандартный шаблон" %}', 'info');
             }
 
             aiGenerateBtn.disabled = false;
-            aiGenerateBtn.innerHTML = '<span class="material-symbols-outlined">send</span>';
+            aiGenerateBtn.innerHTML = originalHTML;
         }
 
         if (aiGenerateBtn) {

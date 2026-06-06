@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.translation import gettext as _, activate
 from django.utils import timezone
 from django.utils import translation
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import JsonResponse
 import random
+import json
 from .forms import RegisterForm, CustomAuthenticationForm, ProfileForm
 from courses.models import Module, UserProgress
 from laboratory.models import LabProgress, Lab
@@ -133,161 +137,83 @@ def profile_view(request):
     return render(request, 'accounts/profile.html', context)
 
 
+@ensure_csrf_cookie
 def register_view(request):
-    """Обработка регистрации пользователя"""
+    """Обработка регистрации пользователя (максимально надежная версия)"""
+    if request.user.is_authenticated:
+        return redirect('dashboard:index')
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            
-            # Генерация кода подтверждения (опционально)
-            user.verification_code = str(random.randint(100000, 999999))
-            user.verification_code_expires = timezone.now() + timezone.timedelta(hours=24)
-            user.last_verification_sent = timezone.now()
-            user.is_active = True  # Активируем пользователя
-            
-            user.save()
-            
-            messages.success(request, _('Регистрация успешна! Теперь вы можете войти.'))
-            return redirect('accounts:login')
+            try:
+                user = form.save(commit=False)
+                user.is_active = True
+                user.email_verified = True
+                user.save()
+                
+                # Стандартный способ логина
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                
+                messages.success(request, _('Регистрация прошла успешно!'))
+                
+                # Редирект с полным путем
+                if user.role == 'teacher' or user.is_superuser:
+                    return redirect('/dashboard/teacher/')
+                return redirect('/dashboard/')
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"CRITICAL REGISTRATION ERROR: {str(e)}", exc_info=True)
+                messages.error(request, _('Внутренняя ошибка сервера. Попробуйте еще раз.'))
         else:
-            messages.error(request, _('Пожалуйста, исправьте ошибки в форме.'))
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = RegisterForm()
     
     return render(request, 'accounts/register.html', {'form': form})
 
 
+@ensure_csrf_cookie
 def login_view(request):
-    """Обработка входа пользователя с 2FA"""
+    """Обработка входа пользователя (максимально надежная версия)"""
     if request.user.is_authenticated:
-        if request.user.role == 'teacher' or request.user.is_superuser:
-            return redirect('dashboard:teacher_index')
         return redirect('dashboard:index')
     
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user = form.get_user()
-            
-            # 2FA: Генерируем код и сохраняем в сессии
-            code = str(random.randint(100000, 999999))
-            request.session['2fa_user_id'] = user.id
-            request.session['2fa_code'] = code
-            request.session['2fa_expiry'] = (timezone.now() + timezone.timedelta(minutes=10)).timestamp()
-            
-            # Отправляем код на Email
             try:
-                send_mail(
-                    _('Код подтверждения входа - Computer Networks'),
-                    _('Ваш код для входа: {}').format(code),
-                    settings.DEFAULT_FROM_EMAIL,
-                    [user.email],
-                    fail_silently=True,
-                )
-                messages.info(request, _('Код подтверждения отправлен на ваш email.'))
-                return redirect('accounts:verify_2fa')
+                user = form.get_user()
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                
+                messages.success(request, _('Добро пожаловать!'))
+                
+                if user.role == 'teacher' or user.is_superuser:
+                    response = redirect('/dashboard/teacher/')
+                else:
+                    response = redirect('/dashboard/')
+
+                if user.language:
+                    cookie_name = getattr(settings, 'LANGUAGE_COOKIE_NAME', 'django_language')
+                    response.set_cookie(cookie_name, user.language)
+                
+                return response
             except Exception as e:
-                # Если почта не настроена, для тестов можем залогинить сразу (но выводим инфо)
-                if settings.DEBUG:
-                    messages.warning(request, f"DEBUG: 2FA Code is {code}")
-                    return redirect('accounts:verify_2fa')
-                messages.error(request, _('Ошибка при отправке email. Попробуйте позже.'))
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"CRITICAL LOGIN ERROR: {str(e)}", exc_info=True)
+                messages.error(request, _('Внутренняя ошибка сервера при входе.'))
         else:
-            # Ошибки уже добавлены в форму
             messages.error(request, _('Неверный email или пароль.'))
     else:
         form = CustomAuthenticationForm()
     
     return render(request, 'accounts/login.html', {'form': form})
 
-def verify_2fa_view(request):
-    """Страница подтверждения 2FA кода"""
-    user_id = request.session.get('2fa_user_id')
-    if not user_id:
-        return redirect('accounts:login')
-        
-    if request.method == 'POST':
-        user_code = request.POST.get('code')
-        saved_code = request.session.get('2fa_code')
-        expiry = request.session.get('2fa_expiry', 0)
-        
-        if user_code == saved_code and timezone.now().timestamp() < expiry:
-            user = get_object_or_404(User, id=user_id)
-            login(request, user)
-            
-            # Установка языка из профиля пользователя в сессию и куки
-            if user.language:
-                request.session['_language'] = user.language
-                translation.activate(user.language)
-
-            # Очистка сессии от 2FA данных
-            del request.session['2fa_user_id']
-            del request.session['2fa_code']
-            del request.session['2fa_expiry']
-            
-            messages.success(request, _('Добро пожаловать, {}!').format(user.username))
-            
-            response = None
-            if user.role == 'teacher' or user.is_superuser:
-                response = redirect('dashboard:teacher_index')
-            else:
-                response = redirect('dashboard:index')
-
-            if user.language:
-                cookie_name = getattr(settings, 'LANGUAGE_COOKIE_NAME', 'django_language')
-                response.set_cookie(cookie_name, user.language)
-            
-            return response
-        else:
-            messages.error(request, _('Неверный или просроченный код.'))
-            
-    return render(request, 'accounts/verify_2fa.html')
-
-
-@login_required
-def verify_email_view(request):
-    """Подтверждение email по коду"""
-    if request.method == 'POST':
-        code = request.POST.get('verification_code')
-        user = request.user
-        
-        if user.verification_code == code and user.verification_code_expires > timezone.now():
-            user.email_verified = True
-            user.verification_code = ''
-            user.verification_code_expires = None
-            user.save()
-            messages.success(request, _('Email успешно подтверждён!'))
-            return redirect('home')
-        else:
-            messages.error(request, _('Неверный или просроченный код.'))
-    
-    return render(request, 'accounts/verify_email.html')
-
-
-@login_required
-def resend_verification_view(request):
-    """Повторная отправка кода подтверждения"""
-    user = request.user
-    
-    # Ограничение частоты отправки (1 раз в 5 минут)
-    if user.last_verification_sent:
-        time_diff = timezone.now() - user.last_verification_sent
-        if time_diff.total_seconds() < 300:  # 5 минут
-            messages.warning(request, _('Подождите перед повторной отправкой.'))
-            return redirect('accounts:verify_email')
-    
-    # Генерация нового кода
-    user.verification_code = str(random.randint(100000, 999999))
-    user.verification_code_expires = timezone.now() + timezone.timedelta(hours=24)
-    user.last_verification_sent = timezone.now()
-    user.save()
-    
-    # Отправка письма
-    send_verification_email(user)
-    
-    messages.success(request, _('Новый код отправлен на ваш email.'))
-    return redirect('accounts:verify_email')
+# Функции подтверждения email и 2FA удалены по просьбе пользователя (упрощенный вход)
 
 def send_verification_email(user):
     """Отправляет email с кодом подтверждения (заглушка)"""

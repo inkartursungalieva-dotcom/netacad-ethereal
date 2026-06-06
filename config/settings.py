@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv # pyright: ignore[reportMissingImports]
 
@@ -21,12 +22,17 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-dev-only'
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS = ['*'] # Для отладки в облаке разрешаем всё
+ALLOWED_HOSTS = [x.strip() for x in os.getenv('ALLOWED_HOSTS', '*').split(',') if x.strip()]
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['*']
 
-# Доверяем доменам для CSRF (нужно для работы форм входа)
+# Доверяем доменам для CSRF
 CSRF_TRUSTED_ORIGINS = [
     'https://*.pythonanywhere.com',
     'https://*.onrender.com',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://0.0.0.0:8000',
 ]
 _extra_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '')
 if _extra_csrf:
@@ -34,13 +40,28 @@ if _extra_csrf:
         [x.strip() for x in _extra_csrf.split(',') if x.strip()]
     )
 
+# Добавляем текущий хост Render в доверенные
+render_url = os.getenv('RENDER_EXTERNAL_URL')
+if render_url:
+    # Добавляем и с https и без, если вдруг
+    CSRF_TRUSTED_ORIGINS.append(render_url)
+    # Также извлекаем домен
+    from urllib.parse import urlparse
+    domain = urlparse(render_url).netloc
+    if domain:
+        CSRF_TRUSTED_ORIGINS.append(f"https://{domain}")
+        CSRF_TRUSTED_ORIGINS.append(f"http://{domain}")
+    
 # HTTPS за обратным прокси (Render и др.)
 if os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     USE_X_FORWARDED_HOST = True
-    if not DEBUG:
-        SESSION_COOKIE_SECURE = True
-        CSRF_COOKIE_SECURE = True
+    # На Render часто возникают проблемы с куками если они слишком строгие
+    # SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # Оставляем стандартные для начала, чтобы "просто работало"
+    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
+    CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
 
 
 # Application definition
@@ -105,22 +126,36 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-import dj_database_url
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# На Render или если есть DATABASE_URL, используем PostgreSQL
-if os.getenv('DATABASE_URL'):
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
+# Параметры из .env
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+DB_PORT = os.getenv('DB_PORT', '3306')
+
+# Настройка БД (Приоритет: DATABASE_URL -> MySQL -> SQLite)
+db_url = os.getenv('DATABASE_URL')
+if db_url:
+    try:
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=db_url,
+                conn_max_age=0, # Отключаем persistent connections для стабильности на free tier
+            )
+        }
+    except Exception as e:
+        print(f"⚠️ [ERROR] Invalid DATABASE_URL: {e}. Falling back to SQLite.")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 elif os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
-    # На случай если БД не подключена в Dashboard, оставляем SQLite
+    # Если на Render/PA но нет DATABASE_URL, используем SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -128,13 +163,7 @@ elif os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
         }
     }
 else:
-    # Локальная разработка
-    DB_NAME = os.getenv('DB_NAME')
-    DB_USER = os.getenv('DB_USER')
-    DB_PASSWORD = os.getenv('DB_PASSWORD')
-    DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
-    DB_PORT = os.getenv('DB_PORT', '3306')
-
+    # Локальная настройка: пробуем MySQL, иначе SQLite
     USE_SQLITE = False
     if not DB_NAME:
         USE_SQLITE = True
@@ -239,19 +268,25 @@ DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 # =============================================================================
 
 # 🔐 Gmail SMTP настройки
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+if os.getenv('RENDER'):
+    # На Render отключаем SMTP чтобы не было таймаутов (10 сек)
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'False') == 'True'
+EMAIL_TIMEOUT = 10
 
 # Почта: пароль только через переменные окружения (.env локально, Dashboard на Render)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'inkartursungalieva@gmail.com')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = f"Computer Networks <{EMAIL_HOST_USER}>"
 SERVER_EMAIL = EMAIL_HOST_USER
-EMAIL_TIMEOUT = 30
+EMAIL_TIMEOUT = 10
 EMAIL_SUBJECT_PREFIX = '[Computer Networks] '
 
 # Для отладки

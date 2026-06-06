@@ -70,8 +70,8 @@
                         {% trans "Подтвердите вашу почту" %}
                     </h2>
                     <p class="text-on-surface-variant mt-2 text-sm leading-relaxed">
-                        {% blocktrans with email=user.email|default:pending_email %}
-                        Мы отправили 6-значный код на вашу электронную почту <strong>{{ email }}</strong>. 
+                        {% blocktrans %}
+                        Мы отправили 6-значный код на вашу электронную почту <strong>{{ pending_email }}</strong>. 
                         Пожалуйста, введите его ниже для активации аккаунта.
                         {% endblocktrans %}
                     </p>
@@ -276,7 +276,7 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': getCookie('csrftoken')
+                            'X-CSRFToken': '{{ csrf_token }}'
                         },
                         body: JSON.stringify({ user_id: userId, token: token })
                     });
