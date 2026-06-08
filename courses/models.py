@@ -11,7 +11,7 @@ class Module(models.Model):
     image = models.ImageField(upload_to='modules/', blank=True, null=True, verbose_name=_("Изображение"))
     video_url = models.URLField(blank=True, null=True, verbose_name=_("Ссылка на видео"))
     file = models.FileField(upload_to='modules/files/', blank=True, null=True, verbose_name=_("Файл модуля"))
-    order = models.PositiveIntegerField(default=0, verbose_name=_("Порядок"))
+    order = models.PositiveIntegerField(default=0, verbose_name=_("Порядок"), db_index=True)
     is_active = models.BooleanField(default=True, verbose_name=_("Активен?"))
     is_custom = models.BooleanField(default=False, verbose_name=_("Изменен преподавателем"))
 
@@ -85,7 +85,7 @@ class UserProgress(models.Model):
     time_spent = models.PositiveIntegerField(default=0, verbose_name=_("Затраченное время (сек)"))
     errors_count = models.PositiveIntegerField(default=0, verbose_name=_("Количество ошибок"))
     completed_at = models.DateTimeField(auto_now=True, verbose_name=_("Дата завершения"))
-    is_completed = models.BooleanField(default=False, verbose_name=_("Завершен?"))
+    is_completed = models.BooleanField(default=False, verbose_name=_("Завершен?"), db_index=True)
     share_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True, verbose_name=_("Токен доступа"))
     
     class Meta:

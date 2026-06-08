@@ -9,12 +9,22 @@ import json
 
 @login_required
 def lab_list_view(request):
-    """Список всех практических работ"""
+    """Список всех практических работ (оптимизировано)"""
     labs = Lab.objects.select_related('module').all().order_by('module__order')
-    user_progress = {p.lab_id: p for p in LabProgress.objects.filter(user=request.user)}
+    # Используем values_list для оптимизации памяти
+    user_progress_data = LabProgress.objects.filter(user=request.user).values('lab_id', 'is_completed', 'score')
+    user_progress = {p['lab_id']: p for p in user_progress_data}
     
     for lab in labs:
-        lab.progress = user_progress.get(lab.id)
+        progress_data = user_progress.get(lab.id)
+        if progress_data:
+            # Создаем объект-заглушку для совместимости с шаблоном
+            lab.progress = LabProgress(
+                is_completed=progress_data['is_completed'],
+                score=progress_data['score']
+            )
+        else:
+            lab.progress = None
         
     return render(request, 'laboratory/lab_list.html', {'labs': labs})
 

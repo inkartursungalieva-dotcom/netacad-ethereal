@@ -16,24 +16,38 @@ except ImportError:
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-dev-only')
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+# Валидация критических переменных окружения
+if not SECRET_KEY and not os.getenv('CI'):
+    raise ValueError("SECRET_KEY environment variable is not set!")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS = [x.strip() for x in os.getenv('ALLOWED_HOSTS', '*').split(',') if x.strip()]
+ALLOWED_HOSTS = [x.strip() for x in os.getenv('ALLOWED_HOSTS', '').split(',') if x.strip()]
 if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['*']
+    if DEBUG:
+        ALLOWED_HOSTS = ['*']
+    else:
+        # На Render и других платформах лучше не использовать '*' в продакшене
+        # Но для удобства пользователя на Render оставляем поддержку динамических хостов
+        ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
 # Доверяем доменам для CSRF
 CSRF_TRUSTED_ORIGINS = [
     'https://*.pythonanywhere.com',
     'https://*.onrender.com',
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'http://0.0.0.0:8000',
 ]
+# Добавляем локальные хосты для разработки
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS.extend([
+        'http://127.0.0.1:8000',
+        'http://localhost:8000',
+        'http://0.0.0.0:8000',
+    ])
+
 _extra_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '')
 if _extra_csrf:
     CSRF_TRUSTED_ORIGINS.extend(
@@ -43,25 +57,29 @@ if _extra_csrf:
 # Добавляем текущий хост Render в доверенные
 render_url = os.getenv('RENDER_EXTERNAL_URL')
 if render_url:
-    # Добавляем и с https и без, если вдруг
     CSRF_TRUSTED_ORIGINS.append(render_url)
-    # Также извлекаем домен
     from urllib.parse import urlparse
     domain = urlparse(render_url).netloc
     if domain:
         CSRF_TRUSTED_ORIGINS.append(f"https://{domain}")
-        CSRF_TRUSTED_ORIGINS.append(f"http://{domain}")
     
 # HTTPS за обратным прокси (Render и др.)
 if os.getenv('RENDER') or os.getenv('PYTHONANYWHERE_DOMAIN'):
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     USE_X_FORWARDED_HOST = True
-    # На Render часто возникают проблемы с куками если они слишком строгие
-    # SESSION_COOKIE_SECURE = True
-    # CSRF_COOKIE_SECURE = True
-    # Оставляем стандартные для начала, чтобы "просто работало"
-    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
-    CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
+    # Включаем безопасные куки только если не DEBUG
+    if not DEBUG:
+        SESSION_COOKIE_SECURE = True
+        CSRF_COOKIE_SECURE = True
+        SECURE_SSL_REDIRECT = True
+        SECURE_HSTS_SECONDS = 31536000
+        SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+        SECURE_HSTS_PRELOAD = True
+        SECURE_BROWSER_XSS_FILTER = True
+        SECURE_CONTENT_TYPE_NOSNIFF = True
+    else:
+        SESSION_COOKIE_SECURE = False
+        CSRF_COOKIE_SECURE = False
 
 
 # Application definition

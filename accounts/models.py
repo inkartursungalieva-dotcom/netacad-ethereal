@@ -79,6 +79,33 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
 
+    def get_course_progress(self):
+        """Централизованный расчет прогресса пользователя по курсу"""
+        from courses.models import Module, UserProgress
+        
+        total_modules = Module.objects.count()
+        if total_modules == 0:
+            return {
+                'completed_count': 0,
+                'total_count': 0,
+                'progress_percent': 0,
+                'unread_notifications_count': self.notifications.filter(is_read=False).count()
+            }
+
+        completed_count = UserProgress.objects.filter(
+            user=self, 
+            is_completed=True
+        ).count()
+        
+        progress_percent = int((completed_count / total_modules) * 100)
+        
+        return {
+            'completed_count': completed_count,
+            'total_count': total_modules,
+            'progress_percent': progress_percent,
+            'unread_notifications_count': self.notifications.filter(is_read=False).count()
+        }
+
 class Notification(models.Model):
     """Модель уведомлений для пользователей"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications', verbose_name=_('Пользователь'))

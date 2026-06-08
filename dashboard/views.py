@@ -32,37 +32,13 @@ def student_required(view_func):
         raise PermissionDenied
     return _wrapped_view
 
-def get_course_progress(user):
-    """Вспомогательная функция для получения прогресса курса"""
-    modules = Module.objects.all().order_by('order')
-    user_progress_list = UserProgress.objects.filter(user=user)
-    completed_modules = [p.module.id for p in user_progress_list if p.is_completed]
-    
-    completed_count = 0
-    for module in modules:
-        if module.id in completed_modules:
-            completed_count += 1
-    
-    total_count = modules.count()
-    progress_percent = int((completed_count / total_count * 100)) if total_count > 0 else 0
-    
-    # Также добавляем количество непрочитанных уведомлений
-    unread_notifications_count = Notification.objects.filter(user=user, is_read=False).count()
-    
-    return {
-        'completed_count': completed_count,
-        'total_count': total_count,
-        'progress_percent': progress_percent,
-        'unread_notifications_count': unread_notifications_count,
-    }
-
 @login_required
 def dashboard_index(request):
     """Отображение главной страницы дашборда"""
     if request.user.role == 'teacher' or request.user.is_superuser:
         return redirect('dashboard:teacher_index')
     
-    progress = get_course_progress(request.user)
+    progress = request.user.get_course_progress()
     notifications = Notification.objects.filter(user=request.user).order_by('-created_at')[:5]
     
     # Расчет дополнительных стат

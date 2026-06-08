@@ -21,7 +21,7 @@ class Lab(models.Model):
 class LabProgress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='lab_progress', verbose_name=_("Пользователь"))
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE, verbose_name=_("Лабораторная работа"))
-    is_completed = models.BooleanField(default=False, verbose_name=_("Завершено?"))
+    is_completed = models.BooleanField(default=False, verbose_name=_("Завершено?"), db_index=True)
     score = models.IntegerField(default=0, verbose_name=_("Баллы"))
     commands_history = models.JSONField(default=list, verbose_name=_("История команд"))
     completed_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Дата завершения"))

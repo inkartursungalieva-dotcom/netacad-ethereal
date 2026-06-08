@@ -44,12 +44,12 @@ def log_test_action(request, slug):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 def get_user_course_progress(user):
-    """Возвращает информацию о прогрессе пользователя по всем модулям"""
+    """Возвращает информацию о прогрессе пользователя по всем модулям (оптимизировано)"""
     modules = Module.objects.all().order_by('order')
     if not modules.exists():
         return [], 0, 0, 0
 
-    # Прогресс тестов
+    # Прогресс тестов (используем dict для быстрого доступа)
     progress_map = {p.module_id: p for p in UserProgress.objects.filter(user=user)}
     completed_module_ids = {mid for mid, p in progress_map.items() if p.is_completed}
     
@@ -59,37 +59,26 @@ def get_user_course_progress(user):
     # Определяем доступность
     is_teacher = (hasattr(user, 'role') and user.role == 'teacher') or user.is_staff
     
-    # Сначала сбрасываем доступность для всех модулей
-    for m in modules:
-        m.is_accessible = False
-        m.is_completed = m.id in completed_module_ids
-        m.lab_completed = lab_progress_map.get(m.id).is_completed if lab_progress_map.get(m.id) else False
+    # Кэшируем количество модулей
+    total_count = modules.count()
+    completed_count = 0
 
-    # Теперь вычисляем доступность по порядку
+    # Вычисляем доступность и статус за один проход
     for i, module in enumerate(modules):
-        # Логика доступности:
-        # 1. Преподавателю доступно всё.
-        # 2. Первый модуль (индекс 0) доступен всем.
-        # 3. Следующий модуль доступен, если ПРЕДЫДУЩИЙ завершен.
+        module.is_completed = module.id in completed_module_ids
+        module.lab_completed = lab_progress_map.get(module.id).is_completed if lab_progress_map.get(module.id) else False
+        
         if is_teacher:
             module.is_accessible = True
         elif i == 0:
             module.is_accessible = True
         else:
             prev_module = modules[i-1]
-            # Модуль доступен только если предыдущий завершен (is_completed=True)
             module.is_accessible = prev_module.id in completed_module_ids
-            
-        # Если текущий модуль не доступен, то и все последующие тоже должны быть недоступны
-        # Но мы продолжаем цикл, чтобы просто пометить их False (хотя они уже False)
-        # Однако, если студент каким-то образом пропустил модуль, мы блокируем цепочку.
-        if not module.is_accessible:
-            # Все последующие модули в списке (которые имеют больший индекс) остаются False
-            # так как мы сбросили их в начале.
-            pass
+        
+        if module.is_completed:
+            completed_count += 1
 
-    completed_count = len(completed_module_ids)
-    total_count = modules.count()
     progress_percent = int((completed_count / total_count) * 100) if total_count > 0 else 0
 
     return modules, completed_count, total_count, progress_percent

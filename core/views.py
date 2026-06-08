@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import json
-import requests
+import httpx
 import os
 import logging
 
@@ -34,8 +34,8 @@ def api_docs_view(request):
     return render(request, 'core/api_docs.html')
 
 @csrf_exempt
-def ai_chat_api(request):
-    """Гибридный ИИ: API DeepSeek с локальным отказоустойчивым режимом"""
+async def ai_chat_api(request):
+    """Гибридный ИИ: API DeepSeek с локальным отказоустойчивым режимом (асинхронный)"""
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
@@ -71,25 +71,24 @@ def ai_chat_api(request):
             }
 
             try:
-                response = requests.post(url, headers=headers, json=payload, timeout=15)
-                res_data = response.json()
+                async with httpx.AsyncClient() as client:
+                    response = await client.post(url, headers=headers, json=payload, timeout=15.0)
                 
                 if response.status_code == 200:
+                    res_data = response.json()
                     ai_response = res_data['choices'][0]['message']['content']
                     return JsonResponse({'response': ai_response})
                 else:
-                    error_msg = res_data.get('error', {}).get('message', 'Unknown error')
-                    logger.error(f"DeepSeek API Error ({response.status_code}): {error_msg}")
+                    logger.error(f"DeepSeek API Error ({response.status_code}): {response.text}")
                     
                     if response.status_code == 429:
                         return JsonResponse({'response': _('Превышена квота запросов к DeepSeek AI. Пожалуйста, подождите немного.')})
                     
-                    # Если другая ошибка API, выводим её для отладки пользователю
-                    return JsonResponse({'response': _('Ошибка DeepSeek API ({}): {}').format(response.status_code, error_msg)})
+                    return JsonResponse({'response': _('Ошибка DeepSeek API ({}).').format(response.status_code)})
             except Exception as e:
                 logger.error(f"AI Request Exception: {e}")
-                return JsonResponse({'response': _('Ошибка подключения к API: {}').format(str(e))})
-
+                # Fallback to local mode on connection error
+        
         # --- ЛОКАЛЬНЫЙ РЕЖИМ (если API недоступен или превышена квота) ---
         user_msg_lower = user_msg.lower()
         responses = {

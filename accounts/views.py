@@ -70,26 +70,10 @@ def change_language_view(request):
         return redirect(next_url)
     return redirect('home')
 
-def get_course_progress(user):
-    """Вспомогательная функция для получения прогресса курса (оптимизированная)"""
-    total_count = Module.objects.count()
-    if total_count == 0:
-        return {'completed_count': 0, 'total_count': 0, 'progress_percent': 0}
-
-    completed_count = UserProgress.objects.filter(user=user, is_completed=True).count()
-    
-    progress_percent = int((completed_count / total_count) * 100)
-    
-    return {
-        'completed_count': completed_count,
-        'total_count': total_count,
-        'progress_percent': progress_percent,
-    }
-
 @login_required
 def profile_view(request):
     """Отображение и редактирование профиля пользователя"""
-    progress = get_course_progress(request.user)
+    progress = request.user.get_course_progress()
     user_progress_all = UserProgress.objects.filter(user=request.user).select_related('module').order_by('module__order')
     
     # Данные для графика успеваемости
