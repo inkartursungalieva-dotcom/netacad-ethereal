@@ -328,7 +328,7 @@ def test_results_list(request):
         user_progress = UserProgress.objects.filter(user=request.user).select_related('module').order_by('-completed_at')
         is_teacher = False
         
-    progress = get_course_progress(request.user)
+    progress = request.user.get_course_progress()
     
     context = {
         'results': user_progress,
@@ -340,7 +340,7 @@ def test_results_list(request):
 @login_required
 def support_view(request):
     """Отображение страницы поддержки"""
-    progress = get_course_progress(request.user)
+    progress = request.user.get_course_progress()
     context = {
         **progress
     }
@@ -420,7 +420,7 @@ def grades_view(request):
         context = {
             'is_teacher': False,
             'grades': grades,
-            **get_course_progress(request.user)
+            **request.user.get_course_progress()
         }
         
     return render(request, 'dashboard/grades.html', context)
