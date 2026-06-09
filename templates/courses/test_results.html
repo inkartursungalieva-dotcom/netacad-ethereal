@@ -5,6 +5,24 @@
 
 {% block title %}{% trans "Результаты Теста" %} - {% translate module.name %}{% endblock %}
 
+{% block extra_js %}
+<script>
+    function copyShareLink() {
+        const url = window.location.href + (window.location.href.includes('?') ? '&' : '?') + 'share=1';
+        navigator.clipboard.writeText(url).then(() => {
+            const btn = document.querySelector('button[onclick="copyShareLink()"]');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">done</span> {% trans "Скопировано!" %}';
+            btn.classList.add('bg-success', 'text-white');
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-success', 'text-white');
+            }, 2000);
+        });
+    }
+</script>
+{% endblock %}
+
 {% block extra_head %}
 <style>
     .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -259,8 +277,23 @@
 
                             {% if item.question.hint %}
                             <div class="p-4 bg-surface-container-low dark:bg-slate-900/50 rounded-xl prose prose-sm prose-invert max-w-none">
+                                <div class="flex items-center gap-2 mb-2 text-primary">
+                                    <span class="material-symbols-outlined text-sm">lightbulb</span>
+                                    <span class="font-bold text-xs uppercase tracking-wider">{% trans "Подсказка" %}</span>
+                                </div>
                                 {% translate item.question.hint as h_text %}
                                 {{ h_text|markdown }}
+                            </div>
+                            {% endif %}
+
+                            {% if item.question.explanation %}
+                            <div class="p-4 bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/20 prose prose-sm prose-invert max-w-none">
+                                <div class="flex items-center gap-2 mb-2 text-primary">
+                                    <span class="material-symbols-outlined text-sm">info</span>
+                                    <span class="font-bold text-xs uppercase tracking-wider">{% trans "Объяснение" %}</span>
+                                </div>
+                                {% translate item.question.explanation as e_text %}
+                                {{ e_text|markdown }}
                             </div>
                             {% endif %}
                         </div>

@@ -58,9 +58,12 @@
                             </div>
                             {% if user.role == 'teacher' or user.is_superuser %}
                             <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <a href="{% url 'courses:delete_resource' resource.pk %}" class="w-8 h-8 flex items-center justify-center rounded-full bg-error-container text-error hover:bg-error hover:text-on-error transition-all" onclick="return confirm('{% trans "Удалить этот материал?" %}')">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
-                                </a>
+                                <form action="{% url 'courses:delete_resource' resource.pk %}" method="post" onsubmit="return confirm('{% trans "Удалить этот материал?" %}')">
+                                    {% csrf_token %}
+                                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full bg-error-container text-error hover:bg-error hover:text-on-error transition-all">
+                                        <span class="material-symbols-outlined text-sm">delete</span>
+                                    </button>
+                                </form>
                             </div>
                             {% endif %}
                         </div>

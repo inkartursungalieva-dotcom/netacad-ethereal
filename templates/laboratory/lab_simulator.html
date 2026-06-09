@@ -144,12 +144,16 @@
         let activeDevice = parsedLabData.devices[0];
         let history = [];
         let configMode = false;
+        let interfaceMode = null; // Текущий интерфейс для настройки
         let score = 0;
+
         let runningConfig = {
             hostname: activeDevice.name,
             interfaces: {
-                'GigabitEthernet0/0': { ip: 'unassigned', status: 'up' }
-            }
+                'GigabitEthernet0/0': { ip: 'unassigned', status: 'up' },
+                'GigabitEthernet0/1': { ip: 'unassigned', status: 'up' }
+            },
+            routes: []
         };
 
         // Auto-focus terminal on click anywhere in the terminal area
@@ -201,7 +205,8 @@
 
         function handleCommand(cmd) {
             const originalCmd = cmd;
-            const parts = cmd.trim().split(' ');
+            const parts = cmd.trim().split(/\s+/);
+            const baseCmd = parts[0].toLowerCase();
             cmd = cmd.trim().toLowerCase();
             
             // Clear initial message
@@ -220,25 +225,75 @@
             printToTerminal(originalCmd, true);
 
             // Cisco Command Logic
-            if (cmd === 'enable' || cmd === 'en') {
+            if (baseCmd === 'enable' || baseCmd === 'en') {
                 terminalPrompt.innerText = `${activeDevice.name}#`;
             } else if (cmd === 'conf t' || cmd === 'configure terminal') {
                 terminalPrompt.innerText = `${activeDevice.name}(config)#`;
                 configMode = true;
-            } else if (cmd === 'exit') {
-                if (configMode) {
+                interfaceMode = null;
+            } else if (baseCmd === 'exit') {
+                if (interfaceMode) {
+                    terminalPrompt.innerText = `${activeDevice.name}(config)#`;
+                    interfaceMode = null;
+                } else if (configMode) {
                     terminalPrompt.innerText = `${activeDevice.name}#`;
                     configMode = false;
                 } else {
                     terminalPrompt.innerText = `${activeDevice.name}>`;
                 }
-            } else if (cmd.startsWith('hostname ')) {
-                const newName = originalCmd.split(' ')[1];
+            } else if (baseCmd === 'hostname' && parts.length > 1) {
+                const newName = parts[1];
                 activeDevice.name = newName;
                 runningConfig.hostname = newName;
                 terminalPrompt.innerText = configMode ? `${newName}(config)#` : `${newName}#`;
                 deviceNameDisplay.innerText = `{% trans "Консоль" %}: ${newName}`;
                 checkTasks();
+            } else if (baseCmd === 'interface' || baseCmd === 'int') {
+                if (!configMode) {
+                    printToTerminal("% Invalid command in this mode.");
+                    return;
+                }
+                const intfName = parts[1];
+                if (runningConfig.interfaces[intfName]) {
+                    interfaceMode = intfName;
+                    terminalPrompt.innerText = `${activeDevice.name}(config-if)#`;
+                } else {
+                    printToTerminal("% Invalid interface name.");
+                }
+            } else if (baseCmd === 'ip' && parts[1] === 'address') {
+                if (!interfaceMode) {
+                    printToTerminal("% Must be in interface configuration mode.");
+                    return;
+                }
+                if (parts.length >= 4) {
+                    runningConfig.interfaces[interfaceMode].ip = parts[2];
+                    runningConfig.interfaces[interfaceMode].mask = parts[3];
+                    checkTasks();
+                } else {
+                    printToTerminal("% Incomplete command.");
+                }
+            } else if (baseCmd === 'ip' && parts[1] === 'route') {
+                if (!configMode) {
+                    printToTerminal("% Must be in global configuration mode.");
+                    return;
+                }
+                if (parts.length >= 5) {
+                    runningConfig.routes.push({ network: parts[2], mask: parts[3], nextHop: parts[4] });
+                    checkTasks();
+                } else {
+                    printToTerminal("% Incomplete command.");
+                }
+            } else if (baseCmd === 'ping') {
+                if (parts.length > 1) {
+                    printToTerminal(`Type escape sequence to abort.\nSending 5, 100-byte ICMP Echos to ${parts[1]}, timeout is 2 seconds:`);
+                    setTimeout(() => {
+                        printToTerminal("!!!!!\nSuccess rate is 100 percent (5/5)");
+                    }, 500);
+                } else {
+                    printToTerminal("% Incomplete command.");
+                }
+            } else if (cmd === 'show mac address-table' || cmd === 'sh mac add') {
+                printToTerminal("          Mac Address Table\n-------------------------------------------\nVlan    Mac Address       Type        Ports\n----    -----------       ----        -----\n   1    0010.1122.3344    DYNAMIC     Gi0/1\n   1    00a0.bcde.f123    DYNAMIC     Gi0/2");
             } else if (cmd === 'show running-config' || cmd === 'sh run') {
                 printToTerminal("Building configuration...");
                 printToTerminal("Current configuration : 1024 bytes");

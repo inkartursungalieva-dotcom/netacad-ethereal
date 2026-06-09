@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.utils import timezone
 import json
 import httpx
 import os
@@ -33,11 +33,22 @@ def api_docs_view(request):
     """Отображение документации API"""
     return render(request, 'core/api_docs.html')
 
-@csrf_exempt
 async def ai_chat_api(request):
     """Гибридный ИИ: API DeepSeek с локальным отказоустойчивым режимом (асинхронный)"""
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    # 1. Проверка авторизации (Critical 4)
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': _('Авторизуйтесь для использования ИИ-чата')}, status=401)
+    
+    # 2. Простая защита от DoS (Rate Limit) через сессию (Critical 4)
+    last_request = request.session.get('last_ai_request')
+    now = timezone.now().timestamp()
+    if last_request and (now - last_request < 5):  # Ограничение 5 секунд
+        return JsonResponse({'response': _('Вы отправляете запросы слишком часто. Пожалуйста, подождите.')})
+    
+    request.session['last_ai_request'] = now
     
     try:
         data = json.loads(request.body)

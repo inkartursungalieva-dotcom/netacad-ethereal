@@ -26,13 +26,14 @@ urlpatterns = [
     path('courses/', include('courses.urls')),  
     path('dashboard/', include('dashboard.urls')),  
     path('laboratory/', include('laboratory.urls')),  
-    
-    # Тестовые маршруты для проверки дизайна (только для отладки)
-    path('test404/', error_404_view),
-    path('test500/', error_500_view),
 ]
 
 if settings.DEBUG:
+    urlpatterns += [
+        # Тестовые маршруты для проверки дизайна (только для отладки)
+        path('test404/', error_404_view),
+        path('test500/', error_500_view),
+    ]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 else:

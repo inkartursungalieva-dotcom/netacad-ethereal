@@ -186,6 +186,11 @@
                 <a class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body" href="{% url 'dashboard:index' %}">{% trans "Панель" %}</a>
                 {% endif %}
             </div>
+
+            <!-- Mobile Menu Button (Important 13) -->
+            <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-primary">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
             
             <div class="flex items-center space-x-6">
                 <form action="{% url 'accounts:change_language' %}" method="post" class="flex items-center">
@@ -246,6 +251,59 @@
         {% endif %}
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Mobile Drawer (Important 13) -->
+    <div id="mobile-drawer" class="fixed inset-0 z-[200] hidden">
+        <div id="drawer-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-80 bg-surface dark:bg-slate-900 shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300">
+            <div class="flex items-center justify-between mb-8">
+                <span class="font-headline font-bold text-primary text-xl">Computer Networks</span>
+                <button id="close-drawer" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-4">
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'home' %}">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="font-bold">{% trans "Главная" %}</span>
+                </a>
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'courses:roadmap' %}">
+                    <span class="material-symbols-outlined">map</span>
+                    <span class="font-bold">{% trans "План обучения" %}</span>
+                </a>
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'courses:list' %}">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span class="font-bold">{% trans "Курсы" %}</span>
+                </a>
+                {% if user.is_authenticated %}
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'dashboard:index' %}">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="font-bold">{% trans "Панель" %}</span>
+                </a>
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'accounts:profile' %}">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="font-bold">{% trans "Профиль" %}</span>
+                </a>
+                {% endif %}
+            </nav>
+            <div class="mt-auto pt-6 border-t border-outline-variant/20">
+                {% if user.is_authenticated %}
+                <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="w-full flex items-center justify-center gap-3 p-4 rounded-2xl bg-error/10 text-error font-bold">
+                        <span class="material-symbols-outlined">logout</span>
+                        {% trans "Выйти" %}
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'accounts:login' %}" class="w-full flex items-center justify-center gap-3 p-4 rounded-2xl bg-primary text-on-primary font-bold">
+                    <span class="material-symbols-outlined">login</span>
+                    {% trans "Войти" %}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-[#F8F1FA] dark:bg-slate-900 w-full py-16 mt-auto">
@@ -522,6 +580,44 @@
         });
     </script>
 
-    
+    <script>
+        // Mobile Drawer Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+        const drawerContent = mobileDrawer?.querySelector('div:last-child');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+        const closeDrawerBtn = document.getElementById('close-drawer');
+
+        function openDrawer() {
+            mobileDrawer.classList.remove('hidden');
+            setTimeout(() => {
+                drawerContent.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeDrawer() {
+            drawerContent.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileDrawer.classList.add('hidden');
+            }, 300);
+        }
+
+        mobileMenuBtn?.addEventListener('click', openDrawer);
+        closeDrawerBtn?.addEventListener('click', closeDrawer);
+        drawerOverlay?.addEventListener('click', closeDrawer);
+
+        // Dark mode logic
+        const toggleTheme = () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.cookie = `darkmode=${isDark}; path=/; max-age=31536000`;
+        };
+        
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </body>
 </html>

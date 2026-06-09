@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -46,6 +47,14 @@ def change_language_view(request):
     if request.method == 'POST':
         lang_code = request.POST.get('language')
         next_url = request.POST.get('next', 'home')
+        
+        # Защита от Open Redirect (Critical 3)
+        if not url_has_allowed_host_and_scheme(
+            url=next_url,
+            allowed_hosts={request.get_host()},
+            require_https=request.is_secure(),
+        ):
+            next_url = 'home'
         
         if lang_code in dict(settings.LANGUAGES):
             # 1. Активируем язык в текущем потоке

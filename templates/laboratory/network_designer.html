@@ -467,6 +467,63 @@
     </div>
 </div>
 
+<!-- Help Modal (Important 14) -->
+<div id="help-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-6">
+    <div class="bg-surface dark:bg-slate-900 w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden animate-scale-up">
+        <div class="p-8 border-b border-outline-variant/20 flex items-center justify-between bg-primary/5">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-3xl">help</span>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black tracking-tight text-on-surface">{% trans "Справка" %}</h2>
+                    <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest">{% trans "Как пользоваться конструктором" %}</p>
+                </div>
+            </div>
+            <button onclick="document.getElementById('help-modal').classList.add('hidden')" class="w-12 h-12 rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-8 space-y-6 max-h-[60vh] overflow-y-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <h3 class="font-bold text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">add_circle</span>
+                        {% trans "Добавление устройств" %}
+                    </h3>
+                    <p class="text-sm text-on-surface-variant">{% trans "Перетащите иконки устройств из левой панели на рабочее поле." %}</p>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-bold text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">link</span>
+                        {% trans "Соединение" %}
+                    </h3>
+                    <p class="text-sm text-on-surface-variant">{% trans "Зажмите Shift и проведите линию от одного устройства к другому." %}</p>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-bold text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">settings</span>
+                        {% trans "Настройка" %}
+                    </h3>
+                    <p class="text-sm text-on-surface-variant">{% trans "Кликните на устройство или линию, чтобы открыть панель свойств справа." %}</p>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-bold text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">play_arrow</span>
+                        {% trans "Симуляция" %}
+                    </h3>
+                    <p class="text-sm text-on-surface-variant">{% trans "Нажмите кнопку 'Запуск', чтобы увидеть процесс передачи пакетов." %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-8 bg-surface-container-low flex justify-end">
+            <button onclick="document.getElementById('help-modal').classList.add('hidden')" class="px-8 py-3 rounded-full bg-primary text-on-primary font-bold hover:shadow-lg transition-all">
+                {% trans "Понятно" %}
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Scripts -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -911,6 +968,42 @@
         document.getElementById('close-examples').addEventListener('click', () => {
             examplesModal.classList.add('hidden');
         });
+
+        // Help Modal Controls (Important 14)
+        const showHelpBtn = document.getElementById('show-help');
+        if (showHelpBtn) {
+            showHelpBtn.addEventListener('click', () => {
+                helpModal.classList.remove('hidden');
+            });
+        }
+
+        // Auto IP Assignment (Important 14)
+        const autoIpBtn = document.getElementById('auto-ip-btn');
+        if (autoIpBtn) {
+            autoIpBtn.addEventListener('click', () => {
+                if (nodes.length === 0) {
+                    addLog('{% trans "Добавьте устройства на холст!" %}', 'warning');
+                    return;
+                }
+                
+                let pcIndex = 1;
+                let routerIndex = 1;
+                let serverIndex = 1;
+                
+                nodes.forEach(node => {
+                    if (node.type === 'pc' || node.type === 'laptop') {
+                        node.ip = `192.168.1.${10 + pcIndex++}`;
+                    } else if (node.type === 'router') {
+                        node.ip = `192.168.${routerIndex++}.1`;
+                    } else if (node.type === 'server') {
+                        node.ip = `192.168.1.${100 + serverIndex++}`;
+                    }
+                });
+                
+                renderNodes();
+                addLog('{% trans "IP-адреса назначены автоматически" %}', 'success');
+            });
+        }
 
         document.querySelectorAll('.example-card').forEach(card => {
             card.addEventListener('click', () => {

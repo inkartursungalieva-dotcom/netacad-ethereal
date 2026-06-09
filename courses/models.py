@@ -49,6 +49,7 @@ class Question(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='questions', verbose_name=_("Модуль"), null=True, blank=True)
     text = models.TextField(verbose_name=_("Текст вопроса"))
     hint = models.TextField(blank=True, null=True, verbose_name=_("Подсказка"))
+    explanation = models.TextField(blank=True, null=True, verbose_name=_("Объяснение"))
     difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES, default='Intermediate', verbose_name=_("Сложность"))
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Conceptual Analysis', verbose_name=_("Категория"))
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='multiple_choice', verbose_name=_("Тип вопроса"))
@@ -88,6 +89,11 @@ class UserProgress(models.Model):
     is_completed = models.BooleanField(default=False, verbose_name=_("Завершен?"), db_index=True)
     share_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True, verbose_name=_("Токен доступа"))
     
+    @property
+    def score_percent(self):
+        """Возвращает процент баллов (в этой системе score и есть процент от 0 до 100)"""
+        return self.score
+
     class Meta:
         verbose_name = _("Прогресс пользователя")
         verbose_name_plural = _("Прогресс пользователей")

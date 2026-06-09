@@ -30,7 +30,7 @@
             <nav class="bg-[#fef7fe] dark:bg-slate-950 flex justify-between items-center w-full px-6 py-3 docked full-width top-0 z-50 shadow-[0px_20px_40px_rgba(104,85,141,0.08)] fixed">
                 <div class="flex items-center gap-8">
                     <a href="{% url 'home' %}" class="text-xl font-extrabold text-[#8E7AB5] dark:text-[#d5bfff] tracking-tighter">{% trans "Computer Networks" %}</a>
-                    <form action="{% url 'set_language' %}" method="post" class="flex gap-2 items-center">
+                    <form action="{% url 'accounts:change_language' %}" method="post" class="flex gap-2 items-center">
                         {% csrf_token %}
                         <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
                         <button name="language" type="submit" value="ru" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if LANGUAGE_CODE == 'ru' %}text-primary border-primary{% endif %}">

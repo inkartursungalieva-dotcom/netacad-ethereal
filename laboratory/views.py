@@ -63,15 +63,28 @@ def network_designer_view(request):
 def save_lab_progress(request, lab_id):
     """AJAX сохранение прогресса лаборатории"""
     if request.method == 'POST':
-        lab = get_object_or_404(Lab, id=lab_id)
         data = json.loads(request.body)
+        score = int(data.get('score', 0))
+        completed = data.get('completed', False)
+        history = data.get('history', [])
         
+        # Серверная проверка (Important 15)
+        # 1. Если баллы > 0, должна быть история команд
+        if score > 0 and len(history) < 2:
+            score = 0
+            completed = False
+        
+        # 2. Базовая проверка сложности (минимум 5 команд для 100 баллов)
+        if score == 100 and len(history) < 5:
+            score = 50 # Снижаем балл за подозрительно быстрое выполнение
+        
+        lab = get_object_or_404(Lab, id=lab_id)
         progress, created = LabProgress.objects.get_or_create(user=request.user, lab=lab)
         
-        progress.score = data.get('score', progress.score)
-        progress.commands_history = data.get('history', progress.commands_history)
+        progress.score = score
+        progress.commands_history = history
         
-        if data.get('completed', False) and not progress.is_completed:
+        if completed and not progress.is_completed:
             progress.is_completed = True
             progress.completed_at = timezone.now()
             

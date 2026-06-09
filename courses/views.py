@@ -55,6 +55,7 @@ def get_user_course_progress(user):
     
     # Прогресс лабораторных работ
     lab_progress_map = {p.lab.module_id: p for p in LabProgress.objects.filter(user=user).select_related('lab')}
+    completed_lab_module_ids = {module_id for module_id, p in lab_progress_map.items() if p.is_completed}
 
     # Определяем доступность
     is_teacher = (hasattr(user, 'role') and user.role == 'teacher') or user.is_staff
@@ -66,7 +67,7 @@ def get_user_course_progress(user):
     # Вычисляем доступность и статус за один проход
     for i, module in enumerate(modules):
         module.is_completed = module.id in completed_module_ids
-        module.lab_completed = lab_progress_map.get(module.id).is_completed if lab_progress_map.get(module.id) else False
+        module.lab_completed = module.id in completed_lab_module_ids
         
         if is_teacher:
             module.is_accessible = True
@@ -74,7 +75,14 @@ def get_user_course_progress(user):
             module.is_accessible = True
         else:
             prev_module = modules[i-1]
-            module.is_accessible = prev_module.id in completed_module_ids
+            # Модуль доступен только если предыдущий завершен (тест)
+            # И если у предыдущего была лаба, она тоже должна быть завершена (Critical 9)
+            test_ok = prev_module.id in completed_module_ids
+            lab_ok = True
+            if hasattr(prev_module, 'lab'):
+                lab_ok = prev_module.id in completed_lab_module_ids
+            
+            module.is_accessible = test_ok and lab_ok
         
         if module.is_completed:
             completed_count += 1
@@ -135,14 +143,25 @@ def can_access_module(user, module):
         return True
         
     # Считаем модуль пройденным только если есть UserProgress с is_completed=True
-    # Это значит студент набрал проходной балл (обычно 70%)
     is_prev_completed = UserProgress.objects.filter(
         user=user, 
         module=previous_module, 
         is_completed=True
     ).exists()
     
-    return is_prev_completed
+    if not is_prev_completed:
+        return False
+        
+    # Добавляем проверку лабораторной работы (если она есть у модуля) (Critical 9)
+    if hasattr(previous_module, 'lab'):
+        is_lab_completed = LabProgress.objects.filter(
+            user=user,
+            lab=previous_module.lab,
+            is_completed=True
+        ).exists()
+        return is_lab_completed
+    
+    return True
 
 @login_required
 def usability_test_view(request):
@@ -272,24 +291,17 @@ def module_test_view(request, slug):
     questions = module.questions.all().prefetch_related('choices')
     
     if request.method == 'POST':
-        # Проверка на читерство (если пришел флаг из JS)
-        is_cheated = request.POST.get('cheated') == 'true'
+        # Античит (Critical 10)
+        cheated = request.POST.get('cheated') == 'true'
         time_spent = int(request.POST.get('time_spent', 0))
+        total_questions = questions.count()
         
-        if is_cheated:
-            # Если сжульничал, сохраняем попытку с 0 баллов, но не завершаем модуль
-            UserProgress.objects.update_or_create(
-                user=request.user, 
-                module=module,
-                defaults={'is_completed': False, 'score': 0, 'time_spent': time_spent}
-            )
-            messages.error(request, _("Тест аннулирован из-за переключения вкладки."))
-            return redirect('courses:list')
+        # Если студент переключал вкладки или время подозрительно мало (меньше 2 сек на вопрос)
+        is_suspicious = cheated or (time_spent < total_questions * 2)
 
         # Обработка результатов теста
         score = 0
         errors_count = 0
-        total_questions = questions.count()
         
         # Удаляем старые ответы для этого пользователя и модуля перед сохранением новых
         UserAnswer.objects.filter(user=request.user, question__module=module).delete()
@@ -300,7 +312,8 @@ def module_test_view(request, slug):
             if question.type == 'multiple_choice':
                 choice_id = request.POST.get(f'question_{question.id}')
                 if choice_id:
-                    choice = get_object_or_404(Choice, id=choice_id)
+                    # Валидация: выбор должен принадлежать именно этому вопросу
+                    choice = get_object_or_404(Choice, id=choice_id, question=question)
                     is_question_correct = choice.is_correct
                     UserAnswer.objects.create(
                         user=request.user, question=question, choice=choice, is_correct=is_question_correct
@@ -350,6 +363,11 @@ def module_test_view(request, slug):
                 errors_count += 1
         
         # Сохранение прогресса
+        if is_suspicious:
+            score = 0
+            is_completed = False
+            messages.warning(request, _("Результаты теста аннулированы из-за нарушения правил (переключение вкладок или слишком быстрые ответы)."))
+        
         pass_percentage = settings.TEST_PASS_PERCENTAGE
         is_completed = (score / total_questions * 100 >= pass_percentage) if total_questions > 0 else True
         progress, created = UserProgress.objects.update_or_create(
@@ -504,9 +522,13 @@ def add_resource_view(request):
 
 @login_required
 def delete_resource_view(request, pk):
-    """Удаление ресурса (только для преподавателей)"""
+    """Удаление ресурса (только для преподавателей, через POST)"""
     if not (request.user.role == 'teacher' or request.user.is_superuser):
         return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    if request.method != 'POST':
+        messages.error(request, _("Метод не поддерживается."))
+        return redirect('courses:resource_list')
         
     resource = get_object_or_404(Resource, pk=pk)
     resource.delete()
