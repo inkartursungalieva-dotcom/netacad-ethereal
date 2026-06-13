@@ -12,8 +12,5 @@ python manage.py collectstatic --noinput
 echo "🛠 Running migrations..."
 python manage.py migrate --noinput
 
-echo "🚀 Running cloud setup..."
-python setup_cloud.py
-
 echo "✅ Build completed!"
 

@@ -1,6 +1,6 @@
 # Dockerfile для Computer Networks Educational Platform
 
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 # Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
@@ -23,8 +23,11 @@ COPY . .
 # Создание статических файлов
 RUN python manage.py collectstatic --noinput
 
+# Создание миграций
+RUN python manage.py migrate
+
 # Экспорт порта
 EXPOSE 8000
 
 # Команда запуска
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]

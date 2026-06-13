@@ -53,7 +53,7 @@ def ai_chat_api(request):
     - network: Ошибки сети
     """
     import logging
-    logger.info(f'ai_chat_api called! User: {request.user}, Method: {request.method}')
+    logger.info('ai_chat_api called! User:', request.user, 'Method:', request.method)
     if request.method != 'POST':
         logger.warning(f"AI API: Invalid method {request.method} from user {request.user.id if request.user.is_authenticated else 'anonymous'}")
         return JsonResponse({'error': 'Method not allowed'}, status=405)
@@ -127,88 +127,79 @@ def ai_chat_api(request):
         # Собираем историю сообщений для контекста
         # Получаем все сообщения, кроме самого последнего, которое мы только что сохранили (user's new message)
         conversation_history = []
-        messages = list(conversation.messages.all().order_by('timestamp'))
-        for msg in messages[:-1]:  # exclude the last (current user) message
+        for msg in conversation.messages.all().order_by('timestamp')[:-1]:  # exclude the last (current user) message
             conversation_history.append({"role": msg.role, "content": msg.content})
 
-        # Пробуем несколько моделей Gemini по очереди
+        # Пробуем только Gemini
         if gemini_api_key:
-            models = [
-                'gemini-2.0-flash',
-                'gemini-2.0-flash-lite',
-                'gemini-2.5-pro-exp-03-25',
-                'gemini-2.0-flash-thinking-exp',
-            ]
-            
-            for model_name in models:
-                try:
-                    logger.info(f"Trying Gemini model: {model_name}")
-                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={gemini_api_key}"
-                    
-                    # Форматируем сообщения для Gemini (правильный формат с system_instruction)
-                    gemini_messages = []
-                    
-                    for hist_msg in conversation_history:
-                        role = "user" if hist_msg["role"] == "user" else "model"
-                        gemini_messages.append({"role": role, "parts": [{"text": hist_msg["content"]}]})
-                    
-                    # Добавляем текущее сообщение пользователя
-                    gemini_messages.append({"role": "user", "parts": [{"text": user_msg}]})
-                    
-                    payload = {
-                        "systemInstruction": {"role": "user", "parts": [{"text": system_prompt}]},
-                        "contents": gemini_messages,
-                        "generationConfig": {
-                            "temperature": 0.7,
-                            "topK": 40,
-                            "topP": 0.95,
-                            "maxOutputTokens": 8192,
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_api_key}"
+                
+                # Форматируем сообщения для Gemini (правильный формат с system_instruction)
+                gemini_messages = []
+                
+                for hist_msg in conversation_history:
+                    role = "user" if hist_msg["role"] == "user" else "model"
+                    gemini_messages.append({"role": role, "parts": [{"text": hist_msg["content"]}]})
+                
+                # Добавляем текущее сообщение пользователя
+                gemini_messages.append({"role": "user", "parts": [{"text": user_msg}]})
+                
+                payload = {
+                    "systemInstruction": {"role": "user", "parts": [{"text": system_prompt}]},
+                    "contents": gemini_messages,
+                    "generationConfig": {
+                        "temperature": 0.7,
+                        "topK": 40,
+                        "topP": 0.95,
+                        "maxOutputTokens": 8192,
+                    },
+                    "safetySettings": [
+                        {
+                            "category": "HARM_CATEGORY_HARASSMENT",
+                            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
                         },
-                        "safetySettings": [
-                            {
-                                "category": "HARM_CATEGORY_HARASSMENT",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            },
-                            {
-                                "category": "HARM_CATEGORY_HATE_SPEECH",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            },
-                            {
-                                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            },
-                            {
-                                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            }
-                        ]
-                    }
-                    
-                    headers = {'Content-Type': 'application/json'}
-                    
-                    with httpx.Client() as client:
-                        response = client.post(url, headers=headers, json=payload, timeout=15.0)
-                    
-                    if response.status_code == 200:
-                        res_data = response.json()
-                        candidates = res_data.get('candidates', [])
-                        if candidates:
-                            candidate = candidates[0]
-                            if 'content' in candidate:
-                                parts = candidate['content'].get('parts', [])
-                                if parts:
-                                    ai_response = parts[0].get('text')
-                                    logger.info(f"AI API: Successful response (Gemini {model_name}) for user {request.user.id}")
-                                    break  # Успешный ответ, выходим из цикла по моделям
+                        {
+                            "category": "HARM_CATEGORY_HATE_SPEECH",
+                            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                        },
+                        {
+                            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                        },
+                        {
+                            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                        }
+                    ]
+                }
+                
+                headers = {'Content-Type': 'application/json'}
+                
+                with httpx.Client() as client:
+                    response = client.post(url, headers=headers, json=payload, timeout=15.0)
+                
+                if response.status_code == 200:
+                    res_data = response.json()
+                    candidates = res_data.get('candidates', [])
+                    if candidates:
+                        candidate = candidates[0]
+                        if 'content' in candidate:
+                            parts = candidate['content'].get('parts', [])
+                            if parts:
+                                ai_response = parts[0].get('text')
+                    logger.info(f"AI API: Successful response (Gemini) for user {request.user.id}")
+                else:
+                    error_detail = response.text[:300] if response.text else 'No details'
+                    logger.error(f"Gemini API Error ({response.status_code}): {error_detail}")
+                    # Instead of falling back immediately, send an error message to user
+                    if response.status_code == 429:
+                        ai_response = "Квота API Gemini превышена. Пожалуйста, подождите немного или используйте локальный режим!"
                     else:
-                        error_detail = response.text[:300] if response.text else 'No details'
-                        logger.warning(f"Gemini {model_name} API Error ({response.status_code}): {error_detail}")
-                except Exception as e:
-                    logger.warning(f"AI API: Gemini {model_name} error for user {request.user.id}: {e}")
-                    continue  # Пробуем следующую модель
-            
-            if not ai_response:
-                logger.info("All Gemini models failed, using fallback")
+                        ai_response = f"Ошибка при подключении к Gemini API (код {response.status_code})."
+            except Exception as e:
+                logger.error(f"AI API: Gemini error for user {request.user.id}: {e}")
+                ai_response = f"Произошла ошибка при подключении к Gemini: {str(e)}"
         else:
             ai_response = "GEMINI_API_KEY не установлен в настройках!"
         
@@ -226,9 +217,58 @@ def ai_chat_api(request):
         
         return JsonResponse({'response': ai_response, 'conversation_id': conversation.id})
         
-    except json.JSONDecodeError as e:
-        logger.exception(f"AI API: Invalid JSON from user {request.user.id}: {e}")
+    except json.JSONDecodeError:
+        logger.error(f"AI API: Invalid JSON from user {request.user.id}")
         return JsonResponse({'response': _('Ошибка обработки запроса. Попробуйте снова.')})
     except Exception as e:
-        logger.exception(f"AI API: Critical exception for user {request.user.id}: {e}")
-        return JsonResponse({'response': _('Произошла системная ошибка. Попробуйте позже.'), 'status': 'error'}, status=200)
+        logger.exception(f"AI API: Critical exception for user {request.user.id}")
+        return JsonResponse({'response': _('Произошла системная ошибка. Попробуйте позже.')}, status=200)
+
+
+# ==================== ONBOARDING VIEWS ====================
+
+@login_required
+def onboarding_welcome(request):
+    """Приветственный экран онбординга"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/welcome.html')
+
+@login_required
+def onboarding_guide(request):
+    """Экран с руководством по курсу"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/guide.html')
+
+@login_required
+def onboarding_labs(request):
+    """Экран с информацией о лабораториях"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/labs.html')
+
+@login_required
+def onboarding_ai_assistant(request):
+    """Экран с информацией об ИИ-помощнике"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/ai_assistant.html')
+
+@login_required
+def onboarding_complete(request):
+    """Завершение онбординга"""
+    if request.method == 'POST':
+        request.user.completed_onboarding = True
+        request.user.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+@login_required
+def onboarding_skip(request):
+    """Пропуск онбординга"""
+    if request.method == 'POST':
+        request.user.completed_onboarding = True
+        request.user.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
