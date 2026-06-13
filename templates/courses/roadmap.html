@@ -86,9 +86,9 @@
                         {% endif %}
                     </div>
                     <h3 class="font-headline text-lg font-bold text-on-surface mb-1">
-                         {% trans module.name %}
+                         {{ module.localized_name }}
                      </h3>
-                     <p class="text-sm text-on-surface-variant mb-6">{% trans module.description %}</p>
+                     <p class="text-sm text-on-surface-variant mb-6">{{ module.localized_description }}</p>
                     <div class="flex items-center gap-4">
                         {% if module.is_accessible and module.slug %}
                         <a href="{% url 'courses:module_detail' module.slug %}" class="inline-flex items-center gap-1 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-full hover:bg-primary-dim transition-colors">
@@ -121,8 +121,8 @@
                         </span>
                         {% endif %}
                     </div>
-                    <h3 class="font-headline text-2xl font-bold mb-3">{% translate module.name %}</h3>
-                    <p class="text-sm text-on-surface-variant mb-6">{% translate module.description %}</p>
+                    <h3 class="font-headline text-2xl font-bold mb-3">{{ module.localized_name }}</h3>
+                    <p class="text-sm text-on-surface-variant mb-6">{{ module.localized_description }}</p>
                     <div class="flex items-center gap-4">
                         {% if module.is_accessible %}
                         <a href="{% url 'courses:module_detail' module.slug %}" class="inline-flex items-center gap-1 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-full hover:bg-primary-dim transition-colors">

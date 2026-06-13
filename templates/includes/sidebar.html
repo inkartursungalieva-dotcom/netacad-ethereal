@@ -74,7 +74,7 @@
                             {% elif m.slug == 'final_project' %}emoji_events
                             {% else %}school{% endif %}
                         </span> 
-                        <span>{% trans "Модуль" %} {{ m.order }}: {% translate m.name %}</span>
+                        <span>{% trans "Модуль" %} {{ m.order }}: {{ m.localized_name }}</span>
                     </a>
                     {% endif %}
                     {% endfor %}

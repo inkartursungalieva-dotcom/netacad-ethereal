@@ -29,13 +29,6 @@ urlpatterns = [
     path('courses/', include('courses.urls')),  
     path('dashboard/', include('dashboard.urls')),  
     path('laboratory/', include('laboratory.urls')),
-    # Onboarding URLs
-    path('onboarding/welcome/', core_views.onboarding_welcome, name='onboarding_welcome'),
-    path('onboarding/guide/', core_views.onboarding_guide, name='onboarding_guide'),
-    path('onboarding/labs/', core_views.onboarding_labs, name='onboarding_labs'),
-    path('onboarding/ai-assistant/', core_views.onboarding_ai_assistant, name='onboarding_ai_assistant'),
-    path('onboarding/complete/', core_views.onboarding_complete, name='onboarding_complete'),
-    path('onboarding/skip/', core_views.onboarding_skip, name='onboarding_skip'),
 ]
 
 if settings.DEBUG:
