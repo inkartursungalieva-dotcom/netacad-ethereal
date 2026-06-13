@@ -26,3 +26,10 @@ media/
 # Заметки
 заметки.txt
 Текстовый документ.txt
+
+# Translation backup files
+locale/*/LC_MESSAGES/django_old.txt
+
+# Translation helper scripts (optional, but can keep)
+# fill_translations.py
+# add_questions.py
