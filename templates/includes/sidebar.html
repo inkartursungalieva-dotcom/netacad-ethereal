@@ -33,11 +33,6 @@
             <span class="text-sm">{% trans "Библиотека" %}</span>
         </a>
 
-        <a class="flex items-center gap-3 {% if request.resolver_match.url_name == 'test_history' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'courses:test_history' %}">
-            <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'test_history' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>history</span>
-            <span class="text-sm">{% trans "История тестов" %}</span>
-        </a>
-
         <a class="flex items-center gap-3 {% if request.resolver_match.app_name == 'laboratory' and request.resolver_match.url_name == 'list' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-slate-500 hover:bg-[#e7e0ec]/50{% endif %} rounded-r-full px-6 py-3 transition-all" href="{% url 'laboratory:list' %}">
             <span class="material-symbols-outlined" {% if request.resolver_match.app_name == 'laboratory' and request.resolver_match.url_name == 'list' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>terminal</span>
             <span class="text-sm">{% trans "Лаборатория" %}</span>
