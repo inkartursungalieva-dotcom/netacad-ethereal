@@ -35,11 +35,11 @@
         <section>
           <h2>{% trans "Устройства" %}</h2>
           <div class="device-palette">
-            <button class="palette-item" data-device-type="router" type="button"><span>R</span>Router</button>
-            <button class="palette-item" data-device-type="switch" type="button"><span>SW</span>Switch</button>
-            <button class="palette-item" data-device-type="hub" type="button"><span>H</span>Hub</button>
-            <button class="palette-item" data-device-type="pc" type="button"><span>PC</span>PC</button>
-            <button class="palette-item" data-device-type="server" type="button"><span>SRV</span>Server</button>
+            <button class="palette-item" data-device-type="router" type="button"><span>R</span>{% trans "Router" %}</button>
+            <button class="palette-item" data-device-type="switch" type="button"><span>SW</span>{% trans "Switch" %}</button>
+            <button class="palette-item" data-device-type="hub" type="button"><span>H</span>{% trans "Hub" %}</button>
+            <button class="palette-item" data-device-type="pc" type="button"><span>PC</span>{% trans "PC" %}</button>
+            <button class="palette-item" data-device-type="server" type="button"><span>SRV</span>{% trans "Server" %}</button>
           </div>
         </section>
 
@@ -47,9 +47,9 @@
           <h2>{% trans "Кабель" %}</h2>
           <div class="cable-palette">
             <button class="cable-item is-active" data-cable="auto" type="button"><i></i>{% trans "Auto" %}</button>
-            <button class="cable-item" data-cable="straight" type="button"><i></i>Straight Through</button>
-            <button class="cable-item" data-cable="crossover" type="button"><i></i>Cross Over</button>
-            <button class="cable-item" data-cable="fiber" type="button"><i></i>Fiber</button>
+            <button class="cable-item" data-cable="straight" type="button"><i></i>{% trans "Straight Through" %}</button>
+            <button class="cable-item" data-cable="crossover" type="button"><i></i>{% trans "Cross Over" %}</button>
+            <button class="cable-item" data-cable="fiber" type="button"><i></i>{% trans "Fiber" %}</button>
           </div>
         </section>
 
@@ -121,31 +121,31 @@
   <div class="modal__dialog">
     <header class="modal__header">
       <div>
-        <p class="netlab__eyebrow" id="modalType">Device</p>
-        <h2 id="modalTitle">Device</h2>
+        <p class="netlab__eyebrow" id="modalType">{% trans "Device" %}</p>
+        <h2 id="modalTitle">{% trans "Device" %}</h2>
       </div>
       <button class="icon-btn" id="closeModal" type="button" aria-label="{% trans 'Закрыть' %}">×</button>
     </header>
     <nav class="tabs">
-      <button class="tab is-active" data-tab="desktop" type="button">Desktop</button>
-      <button class="tab" data-tab="config" type="button">Config</button>
-      <button class="tab" data-tab="terminal" type="button">Terminal</button>
+      <button class="tab is-active" data-tab="desktop" type="button">{% trans "Desktop" %}</button>
+      <button class="tab" data-tab="config" type="button">{% trans "Config" %}</button>
+      <button class="tab" data-tab="terminal" type="button">{% trans "Terminal" %}</button>
     </nav>
     <section class="tab-panel is-active" id="tab-desktop">
       <div class="form-grid">
-        <label>IP Address<input id="deviceIp" placeholder="192.168.1.10"></label>
-        <label>Subnet Mask<input id="deviceMask" placeholder="255.255.255.0"></label>
-        <label>Gateway<input id="deviceGateway" placeholder="192.168.1.1"></label>
-        <label>DNS<input id="deviceDns" placeholder="8.8.8.8"></label>
+        <label>{% trans "IP Address" %}<input id="deviceIp" placeholder="192.168.1.10"></label>
+        <label>{% trans "Subnet Mask" %}<input id="deviceMask" placeholder="255.255.255.0"></label>
+        <label>{% trans "Gateway" %}<input id="deviceGateway" placeholder="192.168.1.1"></label>
+        <label>{% trans "DNS" %}<input id="deviceDns" placeholder="8.8.8.8"></label>
       </div>
     </section>
     <section class="tab-panel" id="tab-config">
       <div class="form-grid">
-        <label>Hostname<input id="deviceHostname" placeholder="PC1"></label>
-        <label>Status
+        <label>{% trans "Hostname" %}<input id="deviceHostname" placeholder="PC1"></label>
+        <label>{% trans "Status" %}
           <select id="deviceStatus">
-            <option value="active">active</option>
-            <option value="down">down</option>
+            <option value="active">{% trans "active" %}</option>
+            <option value="down">{% trans "down" %}</option>
           </select>
         </label>
       </div>
