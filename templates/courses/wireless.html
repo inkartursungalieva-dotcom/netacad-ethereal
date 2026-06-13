@@ -41,22 +41,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             <div class="glass-card p-8 rounded-3xl border border-outline-variant/15">
                 <h3 class="font-headline text-2xl mb-6 text-on-surface">{% trans "Стандарты 802.11" %}</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold">ax</div>
-                        <div>
-                            <p class="font-bold">Wi-Fi 6 (802.11ax)</p>
-                            <p class="text-xs text-on-surface-variant">{% trans "Высокая плотность и скорость" %}</p>
-                        </div>
-                    </li>
-                    <li class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary font-bold">ac</div>
-                        <div>
-                            <p class="font-bold">Wi-Fi 5 (802.11ac)</p>
-                            <p class="text-xs text-on-surface-variant">{% trans "Только 5 ГГц, гигабитные скорости" %}</p>
-                        </div>
-                    </li>
-                </ul>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center pb-2 border-b border-outline-variant/10">
+                        <span class="font-medium">{% trans "802.11ax (Wi-Fi 6)" %}</span>
+                        <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">9.6 {% trans "Гбит/с" %}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-2 border-b border-outline-variant/10">
+                        <span class="font-medium">{% trans "802.11ac (Wi-Fi 5)" %}</span>
+                        <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">3.5 {% trans "Гбит/с" %}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium">{% trans "802.11n (Wi-Fi 4)" %}</span>
+                        <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">600 {% trans "Мбит/с" %}</span>
+                    </div>
+                </div>
             </div>
             <div class="glass-card p-8 rounded-3xl border border-outline-variant/15">
                 <h3 class="font-headline text-2xl mb-6 text-on-surface">{% trans "Безопасность Wi-Fi" %}</h3>
@@ -80,7 +78,6 @@
                 </div>
             </a>
 
-            {% if module.lab %}
             <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
@@ -88,16 +85,6 @@
                 </div>
                 <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
             </a>
-            {% else %}
-            <div class="flex items-center gap-4 px-10 py-4 bg-slate-100 text-slate-400 rounded-2xl border-2 border-slate-200 cursor-not-allowed opacity-70">
-                <div class="text-center">
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
-                    <p class="font-black text-lg">{% trans "Скоро будет" %}</p>
-                </div>
-                <span class="material-symbols-outlined text-2xl">lock</span>
-            </div>
-            {% endif %}
-
             <a href="{% url 'courses:module_test' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Проверка знаний" %}</p>

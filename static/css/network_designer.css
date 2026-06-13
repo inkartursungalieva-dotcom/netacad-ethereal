@@ -1,0 +1,673 @@
+:root {
+  --netlab-primary: #8e44ad;
+  --netlab-primary-dark: #6f2d91;
+  --netlab-primary-soft: #f4e8fb;
+  --netlab-ink: #20152c;
+  --netlab-muted: #756985;
+  --netlab-line: #e8dcf1;
+  --netlab-bg: #f8f5fb;
+  --netlab-ok: #18a058;
+  --netlab-warn: #f59e0b;
+  --netlab-bad: #dc2626;
+}
+
+.netlab {
+  min-height: calc(100vh - 64px);
+  background: var(--netlab-bg);
+  color: var(--netlab-ink);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.netlab__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--netlab-line);
+}
+
+.netlab__eyebrow {
+  margin: 0 0 4px;
+  color: var(--netlab-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.netlab h1,
+.modal h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.netlab__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.topology-name {
+  width: min(260px, 100%);
+  border: 1px solid var(--netlab-line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--netlab-ink);
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+}
+
+.topology-name:focus {
+  border-color: var(--netlab-primary);
+  box-shadow: 0 0 0 3px rgba(142, 68, 173, .12);
+}
+
+.submit-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  border-radius: 999px;
+  padding: 0 12px;
+  background: var(--netlab-primary-soft);
+  color: var(--netlab-primary-dark);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.submit-status.is-submitted {
+  background: rgba(24, 160, 88, .12);
+  color: var(--netlab-ok);
+}
+
+.netlab-btn,
+.palette-item,
+.cable-item,
+.tab,
+.icon-btn {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.netlab-btn {
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+.netlab-btn:hover {
+  transform: translateY(-1px);
+}
+
+.netlab-btn--primary {
+  background: var(--netlab-primary);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(142, 68, 173, .24);
+}
+
+.netlab-btn--ghost {
+  background: #fff;
+  color: var(--netlab-primary-dark);
+  border: 1px solid var(--netlab-line);
+}
+
+.netlab__body {
+  display: grid;
+  grid-template-columns: 260px minmax(420px, 1fr) 300px;
+  min-height: calc(100vh - 155px);
+}
+
+.netlab-panel {
+  background: #fff;
+  border-right: 1px solid var(--netlab-line);
+  padding: 18px;
+  overflow: auto;
+}
+
+.inspector {
+  border-left: 1px solid var(--netlab-line);
+  border-right: 0;
+}
+
+.netlab-panel section + section {
+  margin-top: 24px;
+}
+
+.netlab-panel h2 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--netlab-muted);
+}
+
+.device-palette {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.palette-item,
+.cable-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  border-radius: 8px;
+  background: var(--netlab-primary-soft);
+  color: var(--netlab-primary-dark);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 10px;
+}
+
+.palette-item span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--netlab-primary);
+  color: #fff;
+  font-size: 10px;
+}
+
+.cable-palette {
+  display: grid;
+  gap: 8px;
+}
+
+.cable-item {
+  background: #fff;
+  border: 1px solid var(--netlab-line);
+}
+
+.cable-item.is-active {
+  background: var(--netlab-primary-soft);
+  border-color: rgba(142, 68, 173, .45);
+}
+
+.cable-item i {
+  width: 34px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--netlab-primary);
+}
+
+.cable-item[data-cable="crossover"] i {
+  background: transparent;
+  border-top: 3px dashed var(--netlab-primary);
+}
+
+.cable-item[data-cable="fiber"] i {
+  background: var(--netlab-warn);
+}
+
+.quick-help ol {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--netlab-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.workspace {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace__bar {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--netlab-line);
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+}
+
+.field label,
+.modal label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--netlab-muted);
+}
+
+.field select,
+.modal input,
+.modal select,
+.modal textarea {
+  width: 100%;
+  border: 1px solid var(--netlab-line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--netlab-ink);
+  outline: none;
+}
+
+.field select:focus,
+.modal input:focus,
+.modal select:focus,
+.modal textarea:focus {
+  border-color: var(--netlab-primary);
+  box-shadow: 0 0 0 3px rgba(142, 68, 173, .12);
+}
+
+.mode-pill {
+  margin-left: auto;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: var(--netlab-primary-soft);
+  color: var(--netlab-primary-dark);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.canvas {
+  position: relative;
+  flex: 1;
+  min-height: 560px;
+  overflow: hidden;
+  background-image: radial-gradient(rgba(142, 68, 173, .18) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.links-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.link {
+  stroke: var(--netlab-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.link.is-active {
+  stroke: var(--netlab-warn);
+  stroke-width: 5;
+}
+
+.link.is-success {
+  stroke: var(--netlab-ok);
+}
+
+.link.is-error {
+  stroke: var(--netlab-bad);
+}
+
+.node {
+  position: absolute;
+  width: 92px;
+  min-height: 84px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  user-select: none;
+  cursor: grab;
+}
+
+.node:active {
+  cursor: grabbing;
+}
+
+.node.is-selected .node__icon {
+  outline: 4px solid rgba(245, 158, 11, .28);
+}
+
+.node__icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 50px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a855f7, var(--netlab-primary-dark));
+  color: #fff;
+  box-shadow: 0 16px 28px rgba(111, 45, 145, .2);
+  font-weight: 900;
+}
+
+.node[data-type="server"] .node__icon {
+  height: 62px;
+}
+
+.node__name {
+  max-width: 90px;
+  color: var(--netlab-ink);
+  font-size: 12px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.node__ip {
+  max-width: 90px;
+  color: var(--netlab-muted);
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.node__status {
+  width: 9px;
+  height: 9px;
+  border-radius: 99px;
+  background: var(--netlab-ok);
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 2px solid #fff;
+}
+
+.node[data-status="down"] .node__status {
+  background: var(--netlab-bad);
+}
+
+.packet {
+  position: absolute;
+  z-index: 8;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--netlab-warn);
+  box-shadow: 0 0 0 8px rgba(245, 158, 11, .16);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: left .55s ease, top .55s ease, opacity .2s ease, background .2s ease;
+}
+
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--netlab-muted);
+  pointer-events: none;
+}
+
+.empty-state strong {
+  color: var(--netlab-ink);
+  font-size: 22px;
+}
+
+.device-list,
+.check-list,
+.event-log {
+  display: grid;
+  gap: 8px;
+}
+
+.list-row,
+.check-row,
+.event-row {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  border: 1px solid var(--netlab-line);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.list-row b {
+  color: var(--netlab-primary-dark);
+}
+
+.muted {
+  margin: 0;
+  color: var(--netlab-muted);
+  font-size: 13px;
+}
+
+.check-row.ok {
+  border-color: rgba(24, 160, 88, .28);
+  color: var(--netlab-ok);
+}
+
+.check-row.bad {
+  border-color: rgba(220, 38, 38, .24);
+  color: var(--netlab-bad);
+}
+
+.event-row {
+  border-left: 4px solid var(--netlab-primary);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(32, 21, 44, .48);
+}
+
+.modal.is-open {
+  display: flex;
+}
+
+.modal__dialog {
+  width: min(840px, 100%);
+  max-height: min(760px, 92vh);
+  overflow: auto;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(32, 21, 44, .28);
+}
+
+.modal__dialog--narrow {
+  width: min(560px, 100%);
+}
+
+.modal__header,
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border-bottom: 1px solid var(--netlab-line);
+}
+
+.modal__footer {
+  border-top: 1px solid var(--netlab-line);
+  border-bottom: 0;
+  justify-content: flex-end;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--netlab-primary-soft);
+  color: var(--netlab-primary-dark);
+  font-size: 22px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 12px 18px 0;
+}
+
+.tab {
+  border-radius: 8px 8px 0 0;
+  padding: 10px 14px;
+  background: #f7f2fa;
+  color: var(--netlab-muted);
+  font-weight: 850;
+}
+
+.tab.is-active {
+  background: var(--netlab-primary);
+  color: #fff;
+}
+
+.tab-panel {
+  display: none;
+  padding: 18px;
+}
+
+.tab-panel.is-active {
+  display: block;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.modal label {
+  display: grid;
+  gap: 6px;
+}
+
+.modal h3 {
+  margin: 18px 0 10px;
+  font-size: 13px;
+  color: var(--netlab-primary-dark);
+}
+
+.interfaces {
+  display: grid;
+  gap: 8px;
+}
+
+.interface-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--netlab-line);
+  border-radius: 8px;
+}
+
+.terminal-output {
+  height: 340px;
+  overflow: auto;
+  border-radius: 8px;
+  padding: 14px;
+  background: #120d1b;
+  color: #eadff2;
+  font: 13px/1.55 "JetBrains Mono", Consolas, monospace;
+  white-space: pre-wrap;
+}
+
+.terminal-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #120d1b;
+  color: #eadff2;
+  font: 13px "JetBrains Mono", Consolas, monospace;
+}
+
+.terminal-line input {
+  flex: 1;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  padding: 0;
+}
+
+.help-steps {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.help-steps article {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--netlab-primary-soft);
+}
+
+.help-steps b {
+  color: var(--netlab-primary-dark);
+}
+
+.terminal-cheatsheet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 18px 18px;
+}
+
+.terminal-cheatsheet strong {
+  width: 100%;
+}
+
+.terminal-cheatsheet code {
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: #120d1b;
+  color: #eadff2;
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .netlab__body {
+    grid-template-columns: 220px minmax(360px, 1fr);
+  }
+
+  .inspector {
+    grid-column: 1 / -1;
+    border-left: 0;
+    border-top: 1px solid var(--netlab-line);
+  }
+}
+
+@media (max-width: 760px) {
+  .netlab__header,
+  .workspace__bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .netlab__body {
+    display: block;
+  }
+
+  .canvas {
+    min-height: 520px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

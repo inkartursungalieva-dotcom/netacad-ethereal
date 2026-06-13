@@ -26,6 +26,10 @@ urlpatterns = [
     path('teacher/questions/<int:question_id>/edit/', views.edit_question, name='edit_question'),
     path('teacher/questions/<int:question_id>/delete/', views.delete_question, name='delete_question'),
     
+    # Управление финальными проектами
+    path('teacher/projects/', views.projects_list, name='projects_list'),
+    path('teacher/projects/<int:project_id>/', views.project_detail, name='project_detail'),
+    
     path('teacher/mail/', views.mail_students, name='mail_students'),
     path('test-results/', views.test_results_list, name='test_results_list'),
     path('grades/', views.grades_view, name='grades'),

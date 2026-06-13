@@ -5,13 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse, FileResponse
 from django.utils.translation import gettext as _
+from django.db import models
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import io
 import os
-from .models import Module, Question, Choice, UserProgress, UserAnswer, Resource, UsabilityTest
+from .models import Module, Question, Choice, UserProgress, UserAnswer, Resource, UsabilityTest, FinalProject
 from .forms import ResourceForm
 from laboratory.models import LabProgress
 from core.models import AuditLog
@@ -19,6 +20,32 @@ import json
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+@login_required
+def submit_final_project(request):
+    """Обрабатывает отправку финального проекта"""
+    if request.method == 'POST':
+        project_title = request.POST.get('project_title', '').strip()
+        project_description = request.POST.get('project_description', '').strip()
+        language = request.POST.get('language', 'ru')
+        file = request.FILES.get('file')
+
+        if not project_title or not project_description:
+            messages.error(request, _('Пожалуйста, заполните все обязательные поля.'))
+            return redirect('courses:module_detail', 'final_project')
+
+        FinalProject.objects.create(
+            user=request.user,
+            project_title=project_title,
+            project_description=project_description,
+            language=language,
+            file=file
+        )
+        messages.success(request, _('Ваш проект успешно отправлен на проверку!'))
+        return redirect('dashboard:index')
+    
+    return redirect('courses:module_detail', 'final_project')
 
 @login_required
 def log_test_action(request, slug):
@@ -76,13 +103,9 @@ def get_user_course_progress(user):
         else:
             prev_module = modules[i-1]
             # Модуль доступен только если предыдущий завершен (тест)
-            # И если у предыдущего была лаба, она тоже должна быть завершена (Critical 9)
+            # Лабораторная работа не блокирует прогресс (так как могут быть плейсхолдеры)
             test_ok = prev_module.id in completed_module_ids
-            lab_ok = True
-            if hasattr(prev_module, 'lab'):
-                lab_ok = prev_module.id in completed_lab_module_ids
-            
-            module.is_accessible = test_ok and lab_ok
+            module.is_accessible = test_ok
         
         if module.is_completed:
             completed_count += 1
@@ -149,19 +172,8 @@ def can_access_module(user, module):
         is_completed=True
     ).exists()
     
-    if not is_prev_completed:
-        return False
-        
-    # Добавляем проверку лабораторной работы (если она есть у модуля) (Critical 9)
-    if hasattr(previous_module, 'lab'):
-        is_lab_completed = LabProgress.objects.filter(
-            user=user,
-            lab=previous_module.lab,
-            is_completed=True
-        ).exists()
-        return is_lab_completed
-    
-    return True
+    # Лабораторная работа не блокирует прогресс
+    return is_prev_completed
 
 @login_required
 def usability_test_view(request):
@@ -208,16 +220,31 @@ def export_pdf_view(request, slug):
     width, height = A4
     
     # Попробуем найти шрифт с кириллицей (стандартные не поддерживают)
-    # На Render/Linux обычно есть DejaVuSans
-    font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-    if not os.path.exists(font_path):
-        # Если локально на Windows
-        font_path = "C:/Windows/Fonts/arial.ttf"
+    font_paths = [
+        # Linux
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+        # Windows
+        "C:/Windows/Fonts/arial.ttf",
+        "C:/Windows/Fonts/Calibri.ttf",
+        # macOS
+        "/Library/Fonts/Arial.ttf",
+        "/System/Library/Fonts/Helvetica.ttc",
+    ]
     
-    try:
-        pdfmetrics.registerFont(TTFont('DejaVuSans', font_path))
-        p.setFont('DejaVuSans', 12)
-    except:
+    font_name = None
+    for path in font_paths:
+        if os.path.exists(path):
+            try:
+                pdfmetrics.registerFont(TTFont('CustomFont', path))
+                font_name = 'CustomFont'
+                break
+            except:
+                continue
+    
+    if font_name:
+        p.setFont(font_name, 12)
+    else:
         p.setFont('Helvetica', 12)
 
     p.drawString(100, height - 100, f"Результаты теста: {module.name}")
@@ -535,3 +562,21 @@ def delete_resource_view(request, pk):
     messages.success(request, _("Материал удален."))
     return redirect('courses:resource_list')
 
+@login_required
+def test_history_view(request):
+    """История прохождения тестов пользователя"""
+    user_progress = UserProgress.objects.filter(user=request.user).select_related('module').order_by('-completed_at')
+    
+    # Статистика
+    total_tests = user_progress.count()
+    passed_tests = user_progress.filter(score__gte=70).count()
+    avg_score = user_progress.aggregate(avg_score=models.Avg('score'))['avg_score'] or 0
+    
+    context = {
+        'user_progress': user_progress,
+        'total_tests': total_tests,
+        'passed_tests': passed_tests,
+        'avg_score': round(avg_score),
+    }
+    
+    return render(request, 'courses/test_history.html', context)

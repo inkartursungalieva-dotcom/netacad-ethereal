@@ -1,11 +1,18 @@
 from django.contrib import admin
-from .models import Module, Question, Choice, UserAnswer, UserProgress, Resource
+from .models import Module, Question, Choice, UserAnswer, UserProgress, Resource, FinalProject
 
 @admin.register(Resource)
 class ResourceAdmin(admin.ModelAdmin):
     list_display = ('title', 'resource_type', 'uploaded_by', 'created_at')
     list_filter = ('resource_type', 'uploaded_by')
     search_fields = ('title', 'description')
+
+@admin.register(FinalProject)
+class FinalProjectAdmin(admin.ModelAdmin):
+    list_display = ('user', 'project_title', 'status', 'created_at', 'checked_by')
+    list_filter = ('status', 'created_at')
+    search_fields = ('user__username', 'project_title', 'project_description')
+    readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):

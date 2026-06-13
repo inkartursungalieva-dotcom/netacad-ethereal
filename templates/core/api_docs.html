@@ -29,10 +29,18 @@
                 <section class="space-y-4">
                     <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "1. Аутентификация" %}</h2>
                     <p class="text-sm text-on-surface-variant">
-                        {% trans "Все запросы к API должны содержать заголовок авторизации с JWT токеном." %}
+                        {% trans "API использует сессионную аутентификацию Django. Пользователь должен быть авторизован в веб-приложении для доступа к API." %}
                     </p>
+                    <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-amber-600 dark:text-amber-400">info</span>
+                            <div class="text-sm text-amber-800 dark:text-amber-200">
+                                <strong>{% trans "Примечание:" %}</strong> {% trans "Для внешних интеграций рекомендуется использовать Django REST Framework с токенами. Текущая версия API предназначена для внутреннего использования." %}
+                            </div>
+                        </div>
+                    </div>
                     <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/20 font-mono text-xs">
-                        Authorization: Bearer &lt;your_access_token&gt;
+                        Cookie: sessionid=&lt;your_session_id&gt;
                     </div>
                 </section>
 
@@ -40,28 +48,42 @@
                 <section class="space-y-6">
                     <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "2. Конечные точки (Endpoints)" %}</h2>
                     
-                    <!-- Get Courses -->
+                    <!-- AI Chat API -->
                     <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden shadow-sm">
                         <div class="bg-surface-container-low px-6 py-4 flex items-center justify-between border-b border-outline-variant/10">
                             <div class="flex items-center gap-3">
-                                <span class="px-2 py-1 bg-blue-500 text-white rounded text-[10px] font-bold">GET</span>
-                                <code class="text-sm font-bold text-on-surface">/api/v1/courses/</code>
+                                <span class="px-2 py-1 bg-emerald-500 text-white rounded text-[10px] font-bold">POST</span>
+                                <code class="text-sm font-bold text-on-surface">/api/ai-chat/</code>
                             </div>
-                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">{% trans "Список курсов" %}</span>
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">{% trans "ИИ-помощник" %}</span>
                         </div>
                         <div class="p-6 space-y-4">
-                            <p class="text-xs text-on-surface-variant">{% trans "Возвращает список всех доступных учебных модулей с их описанием и статусом доступа." %}</p>
-                            <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-[10px] overflow-x-auto">
+                            <p class="text-xs text-on-surface-variant">{% trans "Отправляет сообщение ИИ-помощнику и возвращает ответ. Использует DeepSeek API с fallback-режимом." %}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <span class="text-[10px] font-bold text-on-surface-variant uppercase">Request</span>
+                                    <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-[10px]">
 <pre>{
-  "count": 13,
-  "results": [
-    {
-      "id": "introduction",
-      "name": "Введение в сети",
-      "is_accessible": true
-    }
-  ]
+  "message": "Объясни модель OSI"
 }</pre>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <span class="text-[10px] font-bold text-on-surface-variant uppercase">Response</span>
+                                    <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-[10px]">
+<pre>{
+  "response": "Модель OSI состоит из 7 уровней..."
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-blue-600 dark:text-blue-400 text-sm">speed</span>
+                                    <div class="text-sm text-blue-800 dark:text-blue-200">
+                                        <strong>{% trans "Rate Limiting:" %}</strong> {% trans "12 запросов в минуту с одного IP" %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -100,9 +122,42 @@
                     </div>
                 </section>
 
+                <!-- Error Codes -->
+                <section class="space-y-4">
+                    <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "4. Коды ошибок" %}</h2>
+                    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
+                        <table class="w-full text-xs">
+                            <thead class="bg-surface-container-low">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-bold text-on-surface">{% trans "Код" %}</th>
+                                    <th class="px-4 py-3 text-left font-bold text-on-surface">{% trans "Описание" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant/10">
+                                <tr>
+                                    <td class="px-4 py-3 font-mono text-error">401</td>
+                                    <td class="px-4 py-3 text-on-surface-variant">{% trans "Требуется авторизация" %}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-mono text-error">405</td>
+                                    <td class="px-4 py-3 text-on-surface-variant">{% trans "Неверный HTTP метод" %}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-mono text-error">429</td>
+                                    <td class="px-4 py-3 text-on-surface-variant">{% trans "Превышена квота запросов (Rate Limit)" %}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-mono text-error">500</td>
+                                    <td class="px-4 py-3 text-on-surface-variant">{% trans "Внутренняя ошибка сервера" %}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
                 <!-- Webhooks -->
                 <section class="space-y-4">
-                    <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "3. Вебхуки (Webhooks)" %}</h2>
+                    <h2 class="text-2xl font-black text-on-surface border-b border-outline-variant/20 pb-2">{% trans "5. Вебхуки (Webhooks)" %}</h2>
                     <p class="text-sm text-on-surface-variant">
                         {% trans "Вы можете настроить уведомления на ваш сервер при завершении студентом курса или получении сертификата." %}
                     </p>

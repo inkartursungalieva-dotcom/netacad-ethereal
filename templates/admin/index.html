@@ -1,0 +1,157 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static log %}
+
+{% block content %}
+<main class="max-w-7xl mx-auto px-8 py-10 flex flex-col lg:flex-row gap-8">
+    <!-- Left Column: Site Administration -->
+    <section class="flex-grow space-y-8">
+        <!-- Dashboard Sections Grid -->
+        <div id="admin-modules" class="space-y-6">
+            {% if app_list %}
+                {% for app in app_list %}
+                    <div class="bg-surface rounded-3xl overflow-hidden shadow-md app-section bento-card border border-surface-variant" data-app="{{ app.name|lower }}">
+                        <div class="bg-primary px-6 py-4 flex justify-between items-center cursor-pointer" onclick="toggleSection(this)">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-on-primary text-xl">
+                                    {% if app.app_label == 'accounts' %}account_circle
+                                    {% elif app.app_label == 'courses' %}school
+                                    {% elif app.app_label == 'laboratory' %}biotech
+                                    {% elif app.app_label == 'core' %}settings_suggest
+                                    {% elif app.app_label == 'socialaccount' %}group
+                                    {% else %}folder{% endif %}
+                                </span>
+                                <span class="font-display font-bold text-on-primary tracking-widest text-xs uppercase">{{ app.name }}</span>
+                            </div>
+                            <span class="material-symbols-outlined text-on-primary transition-transform duration-300">expand_more</span>
+                        </div>
+                        <div class="p-2 section-content transition-all duration-300">
+                            {% for model in app.models %}
+                                <div class="flex items-center justify-between px-4 py-3 hover:bg-primary-container rounded-2xl transition-all group model-row" data-model="{{ model.name|lower }}">
+                                    {% if model.admin_url %}
+                                        <a class="text-on-surface font-medium hover:text-primary transition-colors" href="{{ model.admin_url }}">{{ model.name }}</a>
+                                    {% else %}
+                                        <span class="text-on-surface font-medium">{{ model.name }}</span>
+                                    {% endif %}
+                                    <div class="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        {% if model.add_url %}
+                                            <a class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant hover:text-primary" href="{{ model.add_url }}">
+                                                <span class="material-symbols-outlined text-sm">add</span> {% trans "Добавить" %}
+                                            </a>
+                                        {% endif %}
+                                        {% if model.admin_url %}
+                                            <a class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant hover:text-primary" href="{{ model.admin_url }}">
+                                                <span class="material-symbols-outlined text-sm">edit</span> {% trans "Изменить" %}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-on-surface-variant italic">{% trans "У вас нет прав на просмотр или редактирование каких-либо объектов." %}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Right Column: Actions Sidebar -->
+    <aside class="w-full lg:w-80 space-y-8">
+        <!-- Recent Actions -->
+        <div class="bg-surface p-6 rounded-3xl bento-card shadow-md border border-surface-variant">
+            <h3 class="text-xl font-bold font-display text-on-surface mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">history</span>
+                {% trans "Последние действия" %}
+            </h3>
+            <div class="space-y-4">
+                {% get_admin_log 10 as admin_log for_user user %}
+                {% if not admin_log %}
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="material-symbols-outlined text-outline text-3xl">pending_actions</span>
+                        </div>
+                        <p class="text-sm text-on-surface-variant italic">{% trans "Нет последних действий." %}</p>
+                    </div>
+                {% else %}
+                    <ul class="space-y-4">
+                        {% for entry in admin_log %}
+                            <li class="flex items-start gap-4 p-3 hover:bg-surface-variant rounded-2xl transition-all group">
+                                <div class="mt-1 p-2 rounded-xl {% if entry.is_addition %}bg-green-100 text-green-700{% elif entry.is_change %}bg-blue-100 text-blue-700{% else %}bg-red-100 text-red-700{% endif %}">
+                                    <span class="material-symbols-outlined text-sm">
+                                        {% if entry.is_addition %}add_circle{% elif entry.is_change %}edit{% else %}delete{% endif %}
+                                    </span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-on-surface truncate">
+                                        {% if entry.is_deletion or not entry.get_admin_url %}
+                                            {{ entry.object_repr }}
+                                        {% else %}
+                                            <a href="{{ entry.get_admin_url }}" class="hover:text-primary transition-colors">{{ entry.object_repr }}</a>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{{ entry.content_type|capfirst }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- My Actions -->
+        <div class="bg-surface p-6 rounded-3xl bento-card shadow-md border border-primary/10">
+            <h3 class="text-lg font-bold font-display text-on-surface mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">person_play</span>
+                {% trans "Мои действия" %}
+            </h3>
+            <div class="space-y-4">
+                <a class="flex items-start gap-4 p-3 hover:bg-surface-variant rounded-2xl transition-all group" href="{% url 'admin:socialaccount_socialaccount_changelist' %}">
+                    <div class="p-3 bg-primary-container rounded-2xl text-primary group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined">edit</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-primary">{% trans "Вход через соц.сети" %}</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">{% trans "Социальные приложения" %}</p>
+                    </div>
+                </a>
+                <a href="{% url 'dashboard:create_module' %}" class="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all mt-4 flex items-center justify-center gap-2 shadow-lg">
+                    <span class="material-symbols-outlined text-lg">add_circle</span>
+                    {% trans "Начать новую лабораторную" %}
+                </a>
+            </div>
+        </div>
+
+        <!-- Helper Tip -->
+        <div class="bg-surface p-6 rounded-3xl border-2 border-dashed border-outline/30 text-center bento-card shadow-md">
+            <span class="material-symbols-outlined text-outline text-4xl mb-2">help_center</span>
+            <h4 class="font-bold text-on-surface">{% trans "Техническая поддержка" %}</h4>
+            <p class="text-xs text-on-surface-variant mt-2 leading-relaxed">{% trans "Если возникнут вопросы, не стесняйтесь обращаться в поддержку." %}</p>
+            <a class="inline-block mt-4 text-xs font-bold text-primary underline underline-offset-4" href="/api/docs/">{% trans "API Документация" %}</a>
+        </div>
+    </aside>
+</main>
+
+<script>
+    function toggleSection(header) {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.material-symbols-outlined:last-child');
+        content.classList.toggle('hidden');
+        if (content.classList.contains('hidden')) {
+            icon.style.transform = 'rotate(-90deg)';
+        } else {
+            icon.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    // Ripple-like effect for cards (interactive)
+    document.querySelectorAll('.bento-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+</script>
+{% endblock %}

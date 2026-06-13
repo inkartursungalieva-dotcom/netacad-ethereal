@@ -27,30 +27,6 @@
     <main class="lg:ml-64 flex-1 p-6 md:p-10 pb-12">
         <div class="max-w-7xl mx-auto">
             {% if is_teacher %}
-            <nav class="bg-[#fef7fe] dark:bg-slate-950 flex justify-between items-center w-full px-6 py-3 docked full-width top-0 z-50 shadow-[0px_20px_40px_rgba(104,85,141,0.08)] fixed">
-                <div class="flex items-center gap-8">
-                    <a href="{% url 'home' %}" class="text-xl font-extrabold text-[#8E7AB5] dark:text-[#d5bfff] tracking-tighter">{% trans "Computer Networks" %}</a>
-                    <form action="{% url 'accounts:change_language' %}" method="post" class="flex gap-2 items-center">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-                        <button name="language" type="submit" value="ru" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if LANGUAGE_CODE == 'ru' %}text-primary border-primary{% endif %}">
-                            <span class="material-symbols-outlined text-sm">language</span>
-                            {% trans "RU" %}
-                        </button>
-                        <button name="language" type="submit" value="kk" class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2b2930] rounded-xl border border-outline-variant/30 text-sm font-bold {% if LANGUAGE_CODE == 'kk' %}text-primary border-primary{% endif %}">
-                            <span class="material-symbols-outlined text-sm">language</span>
-                            {% trans "KZ" %}
-                        </button>
-                    </form>
-                </div> 
-                <div class="flex items-center gap-4"> 
-                    <a href="{% url 'accounts:notifications' %}" class="material-symbols-outlined text-[#8E7AB5] hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-95" title="{% trans 'Уведомления' %}">notifications</a> 
-                    <a href="{% url 'accounts:profile' %}" class="material-symbols-outlined text-[#8E7AB5] hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-95" title="{% trans 'Настройки' %}">settings</a> 
-                    <div class="h-8 w-8 rounded-full overflow-hidden border-2 border-primary-container"> 
-                        <img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjGz8BfxW0P4rpY-Qh8YhmUew_kMhTFykM5CRrbKAjGRlo4KcK9Jky-B96jtEdk0tig3xLpkVCEJW5cMXWTW-tMU4MKGc5K2N-42C-Qg9SVEHjCR3y8tORAbv1zRpau8JpHcOZoBrhQPL4BdwazdFI2-xW1tObrdCLNX-dIQD1finjp7ikS0viygLM5zKHUrpwJdfdaJd0S2JXbeZpSHipL3Erf2dW1FIaHjtav4Mqm_2rrB7ScEKRVxVu-RZcAWFLAFZyy6cnEbg"/> 
-                    </div> 
-                </div> 
-            </nav>
             <header class="mb-10">
                 <h1 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-2">{% trans "Журнал успеваемости" %}</h1>
                 <p class="text-on-surface-variant max-w-2xl">{% trans "Управление прогрессом студентов группы. Анализ производительности и оценка лабораторных работ." %}</p>
@@ -167,30 +143,58 @@
                     </thead>
                     <tbody class="divide-y divide-outline-variant/10">
                         {% for grade in grades %}
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="px-8 py-6">
-                                    <div class="text-sm font-bold text-on-surface">{{ grade.module.order }}. {{ grade.module.name }}</div>
-                                </td>
-                                <td class="px-8 py-6 text-center">
-                                    <span class="{% if grade.test_completed %}px-4 py-1.5 bg-primary/10 text-primary rounded-full font-bold text-sm{% else %}text-on-surface-variant/30{% endif %}">
-                                        {{ grade.test_score }}
+                        <tr class="hover:bg-primary/5 transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-black text-xs">
+                                        {{ grade.module.order }}
+                                    </div>
+                                    <span class="font-bold text-on-surface">{% translate grade.module.name %}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-grow h-1.5 bg-surface-container rounded-full overflow-hidden max-w-[100px]">
+                                            <div class="h-full bg-primary" style="width: {{ grade.score }}%"></div>
+                                        </div>
+                                        <span class="text-sm font-black text-on-surface">{{ grade.score }}%</span>
+                                    </div>
+                                    <span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mt-1">
+                                        {% if grade.is_completed %}{% trans "Завершено" %}{% else %}{% trans "В процессе" %}{% endif %}
                                     </span>
-                                </td>
-                                <td class="px-8 py-6 text-center">
-                                    <span class="{% if grade.lab_completed %}px-4 py-1.5 bg-secondary/10 text-secondary rounded-full font-bold text-sm{% else %}text-on-surface-variant/30{% endif %}">
-                                        {{ grade.lab_score }}
-                                    </span>
-                                </td>
-                                <td class="px-8 py-6 text-center">
-                                    {% if grade.test_completed and grade.lab_completed %}
-                                        <span class="material-symbols-outlined text-green-500 text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                                    {% elif grade.test_completed or grade.lab_completed %}
-                                        <span class="material-symbols-outlined text-amber-500 text-3xl">pending</span>
-                                    {% else %}
-                                        <span class="material-symbols-outlined text-on-surface-variant/10 text-3xl">circle</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-xs text-on-surface-variant font-medium">{{ grade.completed_at|date:"d.m.Y H:i" }}</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a href="{% url 'courses:module_detail' grade.module.slug %}" class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary hover:text-white transition-all">
+                                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-16 text-center">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mb-6 text-primary/30">
+                                        <span class="material-symbols-outlined text-5xl">monitoring</span>
+                                    </div>
+                                    <h3 class="text-xl font-black text-on-surface mb-2">{% trans "Журнал пуст" %}</h3>
+                                    <p class="text-on-surface-variant text-sm max-w-xs mx-auto mb-8">
+                                        {% trans "Вы еще не прошли ни одного тестирования. Начните обучение прямо сейчас!" %}
+                                    </p>
+                                    <a href="{% url 'courses:module_detail' 'introduction' %}" class="px-8 py-3 bg-primary text-on-primary rounded-2xl font-bold hover:shadow-lg transition-all inline-flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-sm">play_arrow</span>
+                                        {% trans "Начать с Введения" %}
+                                    </a>
+                                    <a href="{% url 'courses:roadmap' %}" class="mt-3 text-sm text-primary font-bold hover:underline inline-block">
+                                        {% trans "Или открыть план обучения" %}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>

@@ -37,12 +37,14 @@
                             <tr class="hover:bg-surface-container-low/30 transition-colors group">
                                 <td class="px-8 py-5">
                                     <span class="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">
-                                        {{ lab.module.name }}
+                                        {% if request.LANGUAGE_CODE == 'kk' and lab.module.name_kk %}{{ lab.module.name_kk }}{% else %}{{ lab.module.name }}{% endif %}
                                     </span>
                                 </td>
                                 <td class="px-6 py-5">
-                                    <div class="font-bold text-on-surface">{{ lab.title }}</div>
-                                    <div class="text-xs text-on-surface-variant line-clamp-1 mt-1">{{ lab.description|truncatechars:100 }}</div>
+                                    <div class="font-bold text-on-surface">{% if request.LANGUAGE_CODE == 'kk' and lab.title_kk %}{{ lab.title_kk }}{% else %}{{ lab.title }}{% endif %}</div>
+                                    <div class="text-xs text-on-surface-variant line-clamp-1 mt-1">
+                                        {% if request.LANGUAGE_CODE == 'kk' and lab.description_kk %}{{ lab.description_kk }}{% else %}{{ lab.description }}{% endif %}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-5 text-sm text-on-surface-variant">
                                     {{ lab.created_at|date:"d.m.Y" }}

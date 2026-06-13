@@ -6,8 +6,10 @@ import uuid
 class Module(models.Model):
     """Модель модуля обучения"""
     name = models.CharField(max_length=200, verbose_name=_("Название модуля"))
+    name_kk = models.CharField(max_length=200, verbose_name=_("Название модуля (каз)"), null=True, blank=True)
     slug = models.SlugField(unique=True, verbose_name=_("URL слаг"))
     description = models.TextField(verbose_name=_("Описание"))
+    description_kk = models.TextField(verbose_name=_("Описание (каз)"), null=True, blank=True)
     image = models.ImageField(upload_to='modules/', blank=True, null=True, verbose_name=_("Изображение"))
     video_url = models.URLField(blank=True, null=True, verbose_name=_("Ссылка на видео"))
     file = models.FileField(upload_to='modules/files/', blank=True, null=True, verbose_name=_("Файл модуля"))
@@ -22,8 +24,38 @@ class Module(models.Model):
 
     @property
     def test_duration_minutes(self):
-        """Возвращает время на тест в минутах в зависимости от количества вопросов"""
-        return max(5, self.questions.count() * 1) # Минимум 5 минут, или по 1 минуте на вопрос
+        """
+        Возвращает время на тест в минутах с учётом сложности и типа вопросов.
+        
+        Алгоритм:
+        - Easy: 0.5 минут на вопрос
+        - Intermediate: 1 минута на вопрос
+        - Hard: 1.5 минут на вопрос
+        - Бонус за сложные типы: sorting +0.5мин, matching +0.5мин, text_input +0.3мин
+        - Минимум 5 минут для любого теста
+        """
+        if not self.questions.exists():
+            return 5
+        
+        total_minutes = 0
+        difficulty_multiplier = {
+            'Easy': 0.5,
+            'Intermediate': 1.0,
+            'Hard': 1.5
+        }
+        type_bonus = {
+            'multiple_choice': 0,
+            'sorting': 0.5,
+            'matching': 0.5,
+            'text_input': 0.3
+        }
+        
+        for question in self.questions.all():
+            base_time = difficulty_multiplier.get(question.difficulty, 1.0)
+            bonus = type_bonus.get(question.type, 0)
+            total_minutes += base_time + bonus
+        
+        return max(5, int(round(total_minutes)))
 
     def __str__(self):
         return self.name
@@ -48,6 +80,7 @@ class Question(models.Model):
     ]
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='questions', verbose_name=_("Модуль"), null=True, blank=True)
     text = models.TextField(verbose_name=_("Текст вопроса"))
+    text_kk = models.TextField(verbose_name=_("Текст вопроса (каз)"), null=True, blank=True)
     hint = models.TextField(blank=True, null=True, verbose_name=_("Подсказка"))
     explanation = models.TextField(blank=True, null=True, verbose_name=_("Объяснение"))
     difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES, default='Intermediate', verbose_name=_("Сложность"))
@@ -66,6 +99,7 @@ class Choice(models.Model):
     """Модель варианта ответа"""
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices', verbose_name=_("Вопрос"))
     text = models.CharField(max_length=255, verbose_name=_("Текст ответа"))
+    text_kk = models.CharField(max_length=255, verbose_name=_("Текст ответа (каз)"), null=True, blank=True)
     is_correct = models.BooleanField(default=False, verbose_name=_("Верный?"))
     order = models.PositiveIntegerField(default=0, verbose_name=_("Порядок (для сортировки)"))
     pair_text = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Пара (для сопоставления)"))
@@ -162,3 +196,31 @@ class Resource(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class FinalProject(models.Model):
+    """Модель финального проекта студента"""
+    STATUS_CHOICES = [
+        ('pending', _('На проверке')),
+        ('reviewing', _('Проверяется')),
+        ('accepted', _('Принят')),
+        ('rejected', _('Отклонен')),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='final_projects', verbose_name=_("Студент"))
+    project_title = models.CharField(max_length=200, verbose_name=_("Название проекта"))
+    project_description = models.TextField(verbose_name=_("Описание проекта и обоснование архитектуры"))
+    language = models.CharField(max_length=2, choices=[('ru', _('Русский')), ('kk', _('Қазақша'))], default='ru', verbose_name=_("Язык проекта"))
+    file = models.FileField(upload_to='final_projects/', blank=True, null=True, verbose_name=_("Файл проекта"))
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name=_("Статус"))
+    feedback = models.TextField(blank=True, null=True, verbose_name=_("Обратная связь от преподавателя"))
+    checked_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='checked_projects', verbose_name=_("Проверил"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата отправки"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Дата обновления"))
+
+    class Meta:
+        verbose_name = _("Финальный проект")
+        verbose_name_plural = _("Финальные проекты")
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.project_title}"

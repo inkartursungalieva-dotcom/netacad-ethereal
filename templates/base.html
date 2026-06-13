@@ -2,6 +2,15 @@
 <!DOCTYPE html>
 <html class="light" lang="{{ LANGUAGE_CODE }}">
 <head>
+
+    <!-- Meta tags MUST be first in head -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="theme-color" content="#68558d">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <!-- Dark mode initialization (before DOM content) -->
     <script>
         (function() {
             const darkmode = document.cookie.match(/darkmode=true/);
@@ -14,13 +23,10 @@
             }
         })();
     </script>
-    <!-- Meta tags MUST be first in head -->
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="theme-color" content="#68558d">
-    <link rel="manifest" href="{% static 'manifest.json' %}">
     <link rel="apple-touch-icon" href="{% static 'images/icons/icon-192x192.png' %}">
+    <link rel="icon" href="{% static 'images/icons/icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/icon-192x192.png' %}">
     
     <!-- Title block -->
     <title>{% block title %}Computer Networks - Обучающий веб-сервис по сетевым технологиям{% endblock %}</title>
@@ -169,6 +175,7 @@
 </head>
 
 <body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+    {% csrf_token %}
     
     <!-- Header/Navigation -->
     <header class="bg-[#fef7fe] dark:bg-slate-950 docked full-width top-0 z-50 shadow-[0px_20px_40px_rgba(104,85,141,0.08)] sticky">
@@ -192,16 +199,28 @@
                 <span class="material-symbols-outlined">menu</span>
             </button>
             
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-8">
+                {% if user.is_authenticated and user.role == 'teacher' or user.is_superuser %}
+                <a href="/admin/" class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm font-bold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl">admin_panel_settings</span>
+                    <span class="hidden lg:inline">{% trans "Админ панель" %}</span>
+                </a>
+                {% elif not user.is_authenticated and '/accounts/' in request.path %}
+                <a href="/admin/" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high/50 hover:bg-primary/20 text-on-surface-variant hover:text-primary transition-all duration-300 backdrop-blur-md border border-outline-variant/10" title="{% trans 'Панель администратора' %}">
+                    <span class="material-symbols-outlined text-xl">admin_panel_settings</span>
+                </a>
+                {% endif %}
+
                 <form action="{% url 'accounts:change_language' %}" method="post" class="flex items-center">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-                    <div class="flex items-center text-on-surface-variant font-semibold text-sm">
+                    <div class="flex items-center text-on-surface-variant font-semibold text-sm bg-surface-container-high/50 px-4 py-2 rounded-full backdrop-blur-md border border-outline-variant/10">
                         <button name="language" type="submit" value="ru" class="hover:text-primary transition-colors {% if LANGUAGE_CODE == 'ru' %}text-primary{% endif %}">RU</button>
-                        <span class="mx-1">/</span>
+                        <span class="mx-1 opacity-30">/</span>
                         <button name="language" type="submit" value="kk" class="hover:text-primary transition-colors {% if LANGUAGE_CODE == 'kk' %}text-primary{% endif %}">KZ</button>
                     </div>
                 </form>
+
                 {% if user.is_authenticated %}
                 <a href="{% url 'accounts:profile' %}" class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-2xl text-primary cursor-pointer scale-95 active:scale-90 transition-transform">account_circle</span>
@@ -275,6 +294,10 @@
                     <span class="material-symbols-outlined">menu_book</span>
                     <span class="font-bold">{% trans "Курсы" %}</span>
                 </a>
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'laboratory:list' %}">
+                    <span class="material-symbols-outlined">terminal</span>
+                    <span class="font-bold">{% trans "Лаборатория" %}</span>
+                </a>
                 {% if user.is_authenticated %}
                 <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'dashboard:index' %}">
                     <span class="material-symbols-outlined">dashboard</span>
@@ -283,6 +306,14 @@
                 <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'accounts:profile' %}">
                     <span class="material-symbols-outlined">account_circle</span>
                     <span class="font-bold">{% trans "Профиль" %}</span>
+                </a>
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'accounts:notifications' %}">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="font-bold">{% trans "Уведомления" %}</span>
+                </a>
+                <a class="flex items-center gap-3 p-4 rounded-2xl hover:bg-primary/10 text-on-surface dark:text-slate-200 transition-colors" href="{% url 'dashboard:support' %}">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="font-bold">{% trans "Поддержка" %}</span>
                 </a>
                 {% endif %}
             </nav>
@@ -332,17 +363,6 @@
             <div>
                 <h6 class="font-bold text-on-surface headline-font mb-4">{% trans "Настройки системы" %}</h6>
                 <div class="flex flex-col space-y-4">
-                    <div class="flex items-center space-x-3 text-slate-500 dark:text-slate-400">
-                        <span class="material-symbols-outlined text-xl" data-icon="translate">translate</span>
-                        <form action="{% url 'accounts:change_language' %}" method="post" class="text-sm font-medium">
-                            {% csrf_token %}
-                            <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-                            <span>{% trans "Язык:" %} </span>
-                            <button name="language" type="submit" value="ru" class="{% if LANGUAGE_CODE == 'ru' %}text-primary font-bold underline{% else %}hover:text-primary transition-colors{% endif %}">{% trans "Русский" %}</button>
-                            <span class="mx-1">/</span>
-                            <button name="language" type="submit" value="kk" class="{% if LANGUAGE_CODE == 'kk' %}text-primary font-bold underline{% else %}hover:text-primary transition-colors{% endif %}">{% trans "Қазақша" %}</button>
-                        </form>
-                    </div>
                     <div class="flex items-center space-x-3 text-slate-500 dark:text-slate-400 cursor-pointer hover:text-primary transition-colors" id="globalThemeSwitcher">
                         <span class="material-symbols-outlined text-xl" id="globalThemeIcon">light_mode</span>
                         <span class="text-sm font-medium">{% trans "Тема:" %} <span id="globalThemeText">{% trans "Светлая" %}</span></span>
@@ -414,171 +434,7 @@
     <!-- Extra scripts block -->
     {% block extra_scripts %}{% endblock %}
 
-    <!-- Global AI Assistant Widget -->
-    <div id="global-ai-assistant" class="fixed bottom-8 right-8 z-[1000] flex flex-col items-end">
-        <!-- AI Panel -->
-        <div id="ai-panel" class="hidden w-80 md:w-96 h-[500px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-outline-variant/20 flex flex-col overflow-hidden mb-4 animate-slide-up">
-            <!-- AI Header -->
-            <div class="bg-primary p-4 flex items-center justify-between text-white">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined">smart_toy</span>
-                    <span class="font-bold text-sm">Computer Networks AI</span>
-                </div>
-                <button id="close-ai" class="hover:bg-white/20 p-1 rounded-full transition-colors">
-                    <span class="material-symbols-outlined text-sm">close</span>
-                </button>
-            </div>
-            
-            <!-- AI Messages -->
-            <div id="ai-messages" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-surface dark:bg-slate-950">
-                <div class="flex gap-2">
-                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
-                    </div>
-                    <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs leading-relaxed dark:text-slate-300">
-                        {% trans "Привет! Я твой ИИ-помощник. Я знаю всё о нашей библиотеке, учебных модулях и лабораторных работах. Чем могу помочь?" %}
-                    </div>
-                </div>
-            </div>
-            
-            <!-- AI Input -->
-            <div class="p-4 border-t border-outline-variant/10 bg-white dark:bg-slate-900">
-                <div class="relative">
-                    <input type="text" id="ai-input" placeholder="{% trans "Задай вопрос..." %}" 
-                        class="w-full pl-4 pr-12 py-3 bg-surface-container-low dark:bg-slate-800 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 text-xs dark:text-white">
-                    <button id="send-ai" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary text-white rounded-xl flex items-center justify-center hover:scale-105 transition-all">
-                        <span class="material-symbols-outlined text-sm">send</span>
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <!-- AI Toggle Button -->
-        <button id="ai-global-toggle" class="w-14 h-14 rounded-full bg-primary text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-all group relative">
-            <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">smart_toy</span>
-            <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full animate-pulse"></span>
-        </button>
-    </div>
-
-    <style>
-        @keyframes slide-up {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .animate-slide-up { animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('ai-global-toggle');
-            const panel = document.getElementById('ai-panel');
-            const close = document.getElementById('close-ai');
-            const input = document.getElementById('ai-input');
-            const send = document.getElementById('send-ai');
-            const messages = document.getElementById('ai-messages');
-
-            if (toggle && panel) {
-                toggle.addEventListener('click', () => panel.classList.toggle('hidden'));
-            }
-            if (close && panel) {
-                close.addEventListener('click', () => panel.classList.add('hidden'));
-            }
-
-            async function handleAISend() {
-                const text = input.value.trim();
-                if (!text) return;
-
-                // Add user message
-                const userMsg = document.createElement('div');
-                userMsg.className = 'flex gap-2 justify-end';
-                userMsg.innerHTML = `
-                    <div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none text-xs leading-relaxed max-w-[80%] shadow-sm">
-                        ${text}
-                    </div>
-                `;
-                messages.appendChild(userMsg);
-                input.value = '';
-                messages.scrollTop = messages.scrollHeight;
-
-                // Typing indicator
-                const typing = document.createElement('div');
-                typing.className = 'flex gap-2 animate-pulse';
-                typing.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
-                    </div>
-                    <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-[10px] font-bold uppercase tracking-widest text-primary">
-                        {% trans "ИИ думает..." %}
-                    </div>
-                `;
-                messages.appendChild(typing);
-                messages.scrollTop = messages.scrollHeight;
-
-                // Special case for local topology analysis in Network Designer
-                const q = text.toLowerCase();
-                if ((q.includes('анализ') || q.includes('ошибки') || q.includes('проверь')) && window.analyzeCurrentTopology) {
-                    const localAnalysis = window.analyzeCurrentTopology();
-                    typing.remove();
-                    const aiMsg = document.createElement('div');
-                    aiMsg.className = 'flex gap-2';
-                    aiMsg.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                            <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
-                        </div>
-                        <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs leading-relaxed dark:text-slate-300">
-                            ${localAnalysis}
-                        </div>
-                    `;
-                    messages.appendChild(aiMsg);
-                    messages.scrollTop = messages.scrollHeight;
-                    return;
-                }
-
-                try {
-                    const response = await fetch('{% url "ai_chat_api" %}', {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        },
-                        body: JSON.stringify({ message: text })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    typing.remove();
-                    const aiMsg = document.createElement('div');
-                    aiMsg.className = 'flex gap-2';
-                    aiMsg.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                            <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
-                        </div>
-                        <div class="bg-primary/5 dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs leading-relaxed dark:text-slate-300">
-                            ${data.response}
-                        </div>
-                    `;
-                    messages.appendChild(aiMsg);
-                    messages.scrollTop = messages.scrollHeight;
-                } catch (e) {
-                    typing.remove();
-                    console.error('AI Error:', e);
-                }
-            }
-
-            if (send) {
-                send.addEventListener('click', handleAISend);
-            }
-            if (input) {
-                input.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') handleAISend();
-                });
-            }
-        });
-    </script>
 
     <script>
         // Mobile Drawer Logic
@@ -605,19 +461,216 @@
         mobileMenuBtn?.addEventListener('click', openDrawer);
         closeDrawerBtn?.addEventListener('click', closeDrawer);
         drawerOverlay?.addEventListener('click', closeDrawer);
-
-        // Dark mode logic
-        const toggleTheme = () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.cookie = `darkmode=${isDark}; path=/; max-age=31536000`;
-        };
-        
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
+    </script>
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-8 left-8 z-[999] w-14 h-14 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-all opacity-0 pointer-events-none">
+        <span class="material-symbols-outlined text-2xl">arrow_upward</span>
+    </button>
+    
+    <!-- AI Assistant FAB Button -->
+    {% if user.is_authenticated %}
+    <button id="ai-fab" class="fixed bottom-8 right-8 z-[999] w-16 h-16 bg-gradient-to-br from-primary to-primary-dim text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all hover:shadow-primary/30">
+        <span class="material-symbols-outlined text-3xl">smart_toy</span>
+    </button>
+    {% endif %}
+    
+    <!-- AI Chat Modal -->
+    <div id="ai-modal" class="fixed inset-0 z-[1000] hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="ai-modal-overlay"></div>
+        <div class="absolute bottom-4 right-4 w-full max-w-md max-h-[80vh] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl flex flex-col transform translate-y-full opacity-0 transition-all duration-300" id="ai-modal-content">
+            <div class="p-4 border-b border-outline-variant/20 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">smart_toy</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-on-surface">{% trans "ИИ-помощник" %}</h3>
+                        <p class="text-xs text-on-surface-variant">{% trans "Задайте вопрос по курсу" %}</p>
+                    </div>
+                </div>
+                <button id="close-ai-modal" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 space-y-4" id="ai-messages">
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                    </div>
+                    <div class="bg-primary/5 dark:bg-slate-700 p-3 rounded-2xl rounded-tl-none text-sm leading-relaxed dark:text-slate-200">
+                        {% trans "Привет! Я ИИ-помощник по компьютерным сетям. Могу помочь с вопросами по модулям, протоколам, настройке оборудования. Что хотите узнать?" %}
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-outline-variant/20">
+                <form id="ai-form" class="flex gap-2">
+                    <input type="text" id="ai-input" placeholder="{% trans 'Введите ваш вопрос...' %}" class="flex-1 px-4 py-3 bg-surface-container rounded-xl border border-outline-variant/20 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm">
+                    <button type="submit" id="ai-send" class="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-primary-dim transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        #scroll-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
         }
+        #ai-modal-content.open {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollBtn = document.getElementById('scroll-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // AI Assistant Modal Logic
+            const aiFab = document.getElementById('ai-fab');
+            const aiModal = document.getElementById('ai-modal');
+            const aiModalContent = document.getElementById('ai-modal-content');
+            const aiModalOverlay = document.getElementById('ai-modal-overlay');
+            const closeAiModal = document.getElementById('close-ai-modal');
+            const aiInput = document.getElementById('ai-input');
+            const aiSend = document.getElementById('ai-send');
+            const aiMessages = document.getElementById('ai-messages');
+            
+            function openAiModal() {
+                aiModal.classList.remove('hidden');
+                setTimeout(() => {
+                    aiModalContent.classList.add('open');
+                }, 10);
+            }
+            
+            function closeAiModalFn() {
+                aiModalContent.classList.remove('open');
+                setTimeout(() => {
+                    aiModal.classList.add('hidden');
+                }, 300);
+            }
+            
+            aiFab?.addEventListener('click', openAiModal);
+            closeAiModal?.addEventListener('click', closeAiModalFn);
+            aiModalOverlay?.addEventListener('click', closeAiModalFn);
+            
+            // AI Chat functionality
+            let currentConversationId = null;
+            let isSending = false;
+            const aiForm = document.getElementById('ai-form');
+            
+            async function sendAiMessage(e) {
+                console.log('sendAiMessage called! Event:', e);
+                console.log('isSending:', isSending);
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                const message = aiInput.value.trim();
+                if (!message || isSending) return;
+                
+                isSending = true;
+                aiSend.disabled = true;
+                
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'flex gap-2 justify-end';
+                userMsg.innerHTML = `
+                    <div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none text-sm leading-relaxed">
+                        ${message}
+                    </div>
+                `;
+                aiMessages.appendChild(userMsg);
+                aiInput.value = '';
+                
+                // Add typing indicator
+                const typing = document.createElement('div');
+                typing.className = 'flex gap-2 typing-indicator';
+                typing.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                    </div>
+                    <div class="bg-primary/5 dark:bg-slate-700 p-3 rounded-2xl rounded-tl-none text-sm leading-relaxed dark:text-slate-200">
+                        <span class="material-symbols-outlined animate-spin text-sm">hourglass_empty</span>
+                    </div>
+                `;
+                aiMessages.appendChild(typing);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+                
+                try {
+                    const response = await fetch('/api/ai-chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value
+                        },
+                        body: JSON.stringify({ 
+                            message: message,
+                            conversation_id: currentConversationId
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    typing.remove();
+                    
+                    if (data.conversation_id) {
+                        currentConversationId = data.conversation_id;
+                    }
+                    
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'flex gap-2';
+                    aiMsg.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary text-xs">smart_toy</span>
+                        </div>
+                        <div class="bg-primary/5 dark:bg-slate-700 p-3 rounded-2xl rounded-tl-none text-sm leading-relaxed dark:text-slate-200">
+                            ${data.response || data.error}
+                        </div>
+                    `;
+                    aiMessages.appendChild(aiMsg);
+                    aiMessages.scrollTop = aiMessages.scrollHeight;
+                } catch (e) {
+                    console.error("AI Chat error:", e);
+                    typing.remove();
+                    const errMsg = document.createElement('div');
+                    errMsg.className = 'flex gap-2';
+                    errMsg.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-error text-xs">error</span>
+                        </div>
+                        <div class="bg-error/5 p-3 rounded-2xl rounded-tl-none text-sm leading-relaxed text-error">
+                            {% trans "Ошибка соединения. Попробуйте позже." %}
+                        </div>
+                    `;
+                    aiMessages.appendChild(errMsg);
+                } finally {
+                    isSending = false;
+                    aiSend.disabled = false;
+                    aiInput.focus();
+                }
+            }
+            
+            if (aiForm && !aiForm.hasAttribute('data-ai-initialized')) {
+                aiForm.setAttribute('data-ai-initialized', 'true');
+                aiForm.addEventListener('submit', sendAiMessage);
+            }
+        });
     </script>
 </body>
 </html>

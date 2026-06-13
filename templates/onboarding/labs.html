@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Лабораторные работы" %} | Computer Networks{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-primary/5 to-tertiary/5 flex items-center justify-center p-8">
+    <div class="max-w-5xl w-full">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm font-bold text-on-surface-variant mb-2">
+                <span>{% trans "Шаг 3 из 4" %}</span>
+                <span>75%</span>
+            </div>
+            <div class="h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                <div class="h-full bg-primary w-3/4 transition-all duration-500"></div>
+            </div>
+        </div>
+
+        <!-- Labs Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-secondary to-secondary-dim p-8 text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-4xl text-white">science</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-white mb-2 font-headline">
+                    {% trans "Лабораторные работы" %}
+                </h1>
+                <p class="text-secondary-fixed opacity-90">
+                    {% trans "Практика без риска для реального оборудования" %}
+                </p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- OSI Lab -->
+                    <div class="bg-surface-container-low p-6 rounded-2xl text-center hover:shadow-lg transition-shadow">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="material-symbols-outlined text-3xl text-primary">layers</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">{% trans "OSI Lab" %}</h3>
+                        <p class="text-sm text-on-surface-variant mb-4">
+                            {% trans "Визуализация 7 уровней модели OSI" %}
+                        </p>
+                        <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                            {% trans "Интерактивно" %}
+                        </span>
+                    </div>
+
+                    <!-- IP Calculator -->
+                    <div class="bg-surface-container-low p-6 rounded-2xl text-center hover:shadow-lg transition-shadow">
+                        <div class="w-16 h-16 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="material-symbols-outlined text-3xl text-tertiary">calculate</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">{% trans "IP Calculator" %}</h3>
+                        <p class="text-sm text-on-surface-variant mb-4">
+                            {% trans "Расчёт подсетей и масок" %}
+                        </p>
+                        <span class="text-xs font-bold text-tertiary bg-tertiary/10 px-3 py-1 rounded-full">
+                            {% trans "Инструмент" %}
+                        </span>
+                    </div>
+
+                    <!-- Network Designer -->
+                    <div class="bg-surface-container-low p-6 rounded-2xl text-center hover:shadow-lg transition-shadow">
+                        <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="material-symbols-outlined text-3xl text-secondary">hub</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">{% trans "Network Designer" %}</h3>
+                        <p class="text-sm text-on-surface-variant mb-4">
+                            {% trans "Конструктор сетевых топологий" %}
+                        </p>
+                        <span class="text-xs font-bold text-secondary bg-secondary/10 px-3 py-1 rounded-full">
+                            {% trans "Творчество" %}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="bg-secondary/5 p-6 rounded-2xl mb-8">
+                    <h4 class="font-bold text-lg mb-3 text-secondary">{% trans "🔧 Возможности лабораторий" %}</h4>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-on-surface-variant">
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                            {% trans "Настройка коммутаторов и маршрутизаторов" %}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                            {% trans "Проверка конфигураций без реального оборудования" %}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                            {% trans "Анализ топологий сетей" %}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                            {% trans "ИИ-анализ созданных сетей" %}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-between items-center">
+                    <a href="{% url 'onboarding_guide' %}" class="text-on-surface-variant hover:text-primary font-bold transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        {% trans "Назад" %}
+                    </a>
+                    <a href="{% url 'onboarding_ai_assistant' %}" class="bg-primary text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+                        {% trans "Далее: ИИ-помощник →" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

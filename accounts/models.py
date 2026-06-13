@@ -71,6 +71,11 @@ class User(AbstractUser):
         verbose_name=_('Дата регистрации')
     )
     
+    completed_onboarding = models.BooleanField(
+        default=False,
+        verbose_name=_('Онбординг пройден')
+    )
+    
     class Meta:
         verbose_name = _('Пользователь')
         verbose_name_plural = _('Пользователи')

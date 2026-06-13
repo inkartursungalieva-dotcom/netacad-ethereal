@@ -98,12 +98,14 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    # 'django_ratelimit',  # Временно закомментировано из-за конфликта с LocMemCache
 
     'accounts',
     'courses',
     'laboratory',
     'core',
     'dashboard',
+    'network_simulator',
 
     # 'rest_framework',
 ]
@@ -254,7 +256,11 @@ USE_TZ = True
 
 USE_I18N = True
 LOCALE_PATHS = [BASE_DIR / 'locale']
-LANGUAGES = [('ru', 'Русский'), ('kk', 'Қазақша')]
+LANGUAGES = [
+    ('ru', 'Русский'),
+    ('kk', 'Қазақша'),
+    ('en', 'English'),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -280,7 +286,8 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # API Keys
-DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 # =============================================================================
 # 📧 EMAIL CONFIGURATION - config/settings.py
 # =============================================================================
@@ -316,6 +323,23 @@ if DEBUG:
 
 # Настройки бизнес-логики
 TEST_PASS_PERCENTAGE = 70  # Процент правильных ответов для прохождения теста
+
+# Rate limiting settings
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+# Если Redis доступен, раскомментируйте ниже для production:
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/1',
+#     }
+# }
 
 # Логирование для отладки 500 ошибок в облаке
 LOGGING = {
@@ -380,4 +404,24 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# =============================================================================
+# 📊 SENTRY MONITORING
+# =============================================================================
+import sentry_sdk
+
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[
+            sentry_sdk.integrations.django.DjangoIntegration(),
+            sentry_sdk.integrations.celery.CeleryIntegration(),
+        ],
+        traces_sample_rate=0.1,  # 10% of transactions sampled
+        profiles_sample_rate=0.1,  # 10% of profiles sampled
+        environment=os.environ.get('SENTRY_ENVIRONMENT', 'development'),
+        release=os.environ.get('SENTRY_RELEASE', 'development'),
+    )
+
 SOCIALACCOUNT_QUERY_EMAIL = True

@@ -1,0 +1,390 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">
+{% block dark-mode-vars %}
+  <link rel="stylesheet" href="{% static "admin/css/dark_mode.css" %}">
+  <script src="{% static "admin/js/theme.js" %}"></script>
+{% endblock %}
+{% if not is_popup and is_nav_sidebar_enabled %}
+  <link rel="stylesheet" href="{% static "admin/css/nav_sidebar.css" %}">
+  <script src="{% static 'admin/js/nav_sidebar.js' %}" defer></script>
+{% endif %}
+
+<!-- Our custom additions -->
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght700;800&family=Montserrat:wght400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+    
+    <!-- Dark mode initialization (use our cookie-based dark mode) -->
+    <script>
+        (function() {
+            const darkmode = document.cookie.match(/darkmode=true/);
+            if (darkmode) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            }
+        })();
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Custom Admin Styles -->
+    <link rel="stylesheet" href="{% static 'admin/css/custom-admin.css' %}">
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#68558d",
+                        "on-primary": "#fff7ff",
+                        "primary-container": "#d5bfff",
+                        "on-primary-container": "#362459",
+                        "secondary": "#65597f",
+                        "surface": "#fef7fe",
+                        "on-surface": "#35313a",
+                        "surface-variant": "#e7e0ec",
+                        "on-surface-variant": "#625d67",
+                        "outline": "#7e7983",
+                        "background": "#fef7fe",
+                        
+                        // Dark mode colors
+                        "dark-primary": "#d5bfff",
+                        "dark-surface": "#0f172a",
+                        "dark-surface-container": "#1e293b",
+                        "dark-on-surface": "#f1f5f9",
+                        "dark-on-surface-variant": "#94a3b8",
+                        "dark-outline": "#475569",
+                        "dark-background": "#0f172a"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans", "Montserrat", "sans-serif"],
+                        "display": ["Plus Jakarta Sans", "Montserrat", "sans-serif"],
+                        "body": ["Inter", "Montserrat", "sans-serif"],
+                        "label": ["Inter", "Montserrat", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    
+    <!-- Admin Dark Mode Styles -->
+    <style>
+        /* Dark mode overrides for admin */
+        .dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        
+        .dark header, .dark footer {
+            background-color: #1e293b !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .dark .bg-surface-container-low {
+            background-color: #1e293b !important;
+        }
+        
+        .dark .bg-surface {
+            background-color: #0f172a !important;
+        }
+        
+        .dark .text-on-surface {
+            color: #f1f5f9 !important;
+        }
+        
+        .dark .text-on-surface-variant {
+            color: #94a3b8 !important;
+        }
+        
+        .dark input, .dark select, .dark textarea {
+            background-color: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+        }
+        
+        .dark .border-outline-variant\/10 {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Admin specific elements */
+        .dark #content, .dark .module {
+            background-color: #1e293b !important;
+            color: #f1f5f9 !important;
+        }
+        
+        .dark .module h2, .dark .module h3 {
+            background-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+        
+        .dark th {
+            background-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+        
+        .dark td {
+            border-color: #475569 !important;
+        }
+        
+        .dark a {
+            color: #818cf8 !important;
+        }
+        
+        .dark a:hover {
+            color: #a78bfa !important;
+        }
+        
+        .dark button, .dark input[type="submit"] {
+            background-color: #68558d !important;
+            color: #fff7ff !important;
+        }
+        
+        .dark button:hover, .dark input[type="submit"]:hover {
+            background-color: #534178 !important;
+        }
+        
+        /* Add theme switcher to admin header */
+        #admin-theme-switcher {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        #admin-theme-switcher:hover {
+            background-color: #e7e0ec;
+        }
+        .dark #admin-theme-switcher:hover {
+            background-color: #334155 !important;
+        }
+    </style>
+
+
+{% block extrastyle %}{% endblock %}
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+{% block extrahead %}{% endblock %}
+{% block responsive %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "admin/css/responsive.css" %}">
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+</head>
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  data-admin-utc-offset="{% now "Z" %}">
+<a href="#content-start" class="skip-to-content-link">{% translate 'Skip to main content' %}</a>
+<!-- Container -->
+<div id="container">
+
+    {% if not is_popup %}
+    <!-- Header -->
+    {% block header %}
+      <header id="header" class="sticky top-0 w-full flex justify-between items-center px-8 py-4 bg-surface-container-low z-50 shadow-md border-b border-outline-variant/10">
+        <div id="branding" class="flex items-center gap-6">
+          <h1 class="text-xl sm:text-2xl font-extrabold tracking-tighter text-primary font-display">
+            <a href="{% url 'admin:index' %}">{% trans "Django администрирования" %}</a>
+          </h1>
+          <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="{% url 'admin:index' %}" class="flex items-center gap-1 hover:text-primary transition-colors text-on-surface-variant">
+              <span class="material-symbols-outlined text-lg">dashboard</span>
+              <span class="hidden sm:inline">{% trans "Админка" %}</span>
+            </a>
+            <a href="javascript:history.back()" class="flex items-center gap-1 hover:text-primary transition-colors text-on-surface-variant">
+              <span class="material-symbols-outlined text-lg">arrow_back</span>
+              <span class="hidden sm:inline">{% trans "Назад" %}</span>
+            </a>
+            <a href="{% url 'home' %}" class="flex items-center gap-1 hover:text-primary transition-colors text-on-surface-variant">
+              <span class="material-symbols-outlined text-lg">open_in_new</span>
+              <span class="hidden sm:inline">{% trans "Сайт" %}</span>
+            </a>
+          </nav>
+        </div>
+        {% block usertools %}
+        {% if has_permission %}
+        <div id="user-tools" class="flex items-center gap-4">
+            {% block welcome-msg %}
+                <div class="hidden lg:flex items-center gap-4 text-xs font-semibold text-on-surface-variant uppercase tracking-widest">
+                  <span>{% trans "Добро пожаловать" %}, <span class="text-on-surface font-display">{{ user.get_username|upper }}</span>.</span>
+                </div>
+            {% endblock %}
+            {% block userlinks %}
+                <div class="flex items-center gap-2">
+                    <!-- Theme Switcher -->
+                    <button id="admin-theme-switcher" class="p-2 rounded-full bg-surface-variant/50 border border-outline/10 transition-all">
+                        <span class="material-symbols-outlined text-on-surface-variant">light_mode</span>
+                    </button>
+                    
+                    <!-- Language Switcher -->
+                    <div class="flex items-center bg-surface-variant/50 rounded-full px-1 py-1 border border-outline/10">
+                        <form action="{% url 'accounts:change_language' %}" method="POST" class="inline-block">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                            <button type="submit" name="language" value="ru" class="px-2 py-1 rounded-full text-[10px] font-bold transition-all {% if LANGUAGE_CODE == 'ru' %}bg-primary text-white shadow-sm{% else %}text-on-surface-variant hover:text-primary{% endif %}">
+                                RU
+                            </button>
+                        </form>
+                        <form action="{% url 'accounts:change_language' %}" method="POST" class="inline-block">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                            <button type="submit" name="language" value="kk" class="px-2 py-1 rounded-full text-[10px] font-bold transition-all {% if LANGUAGE_CODE == 'kk' %}bg-primary text-white shadow-sm{% else %}text-on-surface-variant hover:text-primary{% endif %}">
+                                KZ
+                            </button>
+                        </form>
+                    </div>
+
+                    <button class="p-2 hover:bg-surface-variant rounded-full transition-all relative">
+                        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                    </button>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 p-1 hover:bg-surface-variant rounded-full transition-all">
+                            <span class="material-symbols-outlined text-3xl text-primary">account_circle</span>
+                        </button>
+                        <div class="absolute right-0 top-full mt-2 w-48 bg-surface border border-surface-variant rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[60]">
+                            <div class="px-4 py-2 border-b border-surface-variant mb-2">
+                                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">{% trans "Профиль" %}</p>
+                                <p class="text-sm font-bold text-on-surface">{{ user.get_username }}</p>
+                            </div>
+                            {% if user.has_usable_password %}
+                            <a href="{% url 'admin:password_change' %}" class="block px-4 py-2 text-sm text-on-surface-variant hover:bg-primary-container hover:text-primary transition-colors">
+                                {% trans "Изменить пароль" %}
+                            </a>
+                            {% endif %}
+                            <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-error hover:bg-red-50 transition-colors font-bold">
+                                    {% trans "Выйти" %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+        {% endif %}
+        {% endblock %}
+      </header>
+    {% endblock %}
+    <!-- END Header -->
+    {% block nav-breadcrumbs %}
+      <nav aria-label="{% translate 'Breadcrumbs' %}">
+        {% block breadcrumbs %}
+          <div class="breadcrumbs">
+            <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+            {% if title %} &rsaquo; {{ title }}{% endif %}
+          </div>
+        {% endblock %}
+      </nav>
+    {% endblock %}
+    {% endif %}
+
+    <div class="main" id="main">
+      {% if not is_popup and is_nav_sidebar_enabled %}
+        {% block nav-sidebar %}
+          {% include "admin/nav_sidebar.html" %}
+        {% endblock %}
+      {% endif %}
+      <main id="content-start" class="content" tabindex="-1">
+        {% block messages %}
+          {% if messages %}
+          <div class="max-w-7xl mx-auto px-8 mt-4">
+            {% for message in messages %}
+            <div class="p-4 mb-4 rounded-2xl {% if message.tags == 'success' %}bg-green-50 text-green-700{% else %}bg-blue-50 text-blue-700{% endif %} flex items-center gap-3 shadow-sm">
+                <span class="material-symbols-outlined">{% if message.tags == 'success' %}check_circle{% else %}info{% endif %}</span>
+                <p class="text-sm font-bold">{{ message }}</p>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endblock messages %}
+        <!-- Content -->
+        <div id="content" class="{% block coltype %}colM{% endblock %}">
+          {% block pretitle %}{% endblock %}
+          {% block content_title %}{% if title %}<h1 class="max-w-7xl mx-auto px-8 mt-8 text-2xl font-bold font-display text-on-surface">{{ title }}</h1>{% endif %}{% endblock %}
+          {% block object-tools %}{% endblock %}
+          {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
+          {% block content %}
+            {{ content }}
+          {% endblock %}
+          {% block sidebar %}{% endblock %}
+          <br class="clear">
+        </div>
+        <!-- END Content -->
+      </main>
+    </div>
+    <footer id="footer" class="w-full py-12 mt-20 border-t border-outline-variant bg-surface-container-low">
+        <div class="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col gap-2 text-center md:text-left">
+                <h2 class="text-lg font-bold text-primary font-display">{% trans "Computer Networks" %}</h2>
+                <p class="text-[10px] font-medium text-on-surface-variant uppercase tracking-widest">{% trans "© 2024. Разработано с ❤️" %}</p>
+            </div>
+            <div class="flex items-center gap-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+                <div class="flex items-center bg-white/50 rounded-full px-1 py-1 border border-outline/10">
+                    <form action="{% url 'accounts:change_language' %}" method="POST" class="inline-block">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                        <button type="submit" name="language" value="ru" class="px-2 py-1 rounded-full text-[10px] font-bold transition-all {% if LANGUAGE_CODE == 'ru' %}bg-primary text-white{% else %}hover:text-primary{% endif %}">
+                            RU
+                        </button>
+                    </form>
+                    <form action="{% url 'accounts:change_language' %}" method="POST" class="inline-block">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                        <button type="submit" name="language" value="kk" class="px-2 py-1 rounded-full text-[10px] font-bold transition-all {% if LANGUAGE_CODE == 'kk' %}bg-primary text-white{% else %}hover:text-primary{% endif %}">
+                            KZ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- END Container -->
+
+<!-- SVGs -->
+<svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol>
+  <symbol viewBox="0 0 24 24" width="1.5rem" height="1.5rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol>
+</svg>
+<!-- END SVGs -->
+
+<!-- Admin Theme Switcher Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeSwitcher = document.getElementById('admin-theme-switcher');
+        const themeIcon = themeSwitcher?.querySelector('.material-symbols-outlined');
+        
+        // Initialize icon based on current theme
+        function updateThemeIcon() {
+            if (themeIcon) {
+                if (document.documentElement.classList.contains('dark')) {
+                    themeIcon.textContent = 'dark_mode';
+                } else {
+                    themeIcon.textContent = 'light_mode';
+                }
+            }
+        }
+        
+        updateThemeIcon();
+        
+        // Theme switcher click handler
+        themeSwitcher?.addEventListener('click', function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.documentElement.classList.toggle('light', !isDark);
+            document.cookie = `darkmode=${isDark}; path=/; max-age=31536000`;
+            updateThemeIcon();
+        });
+    });
+</script>
+
+{% block extrabody %}{% endblock extrabody %}
+</body>
+</html>

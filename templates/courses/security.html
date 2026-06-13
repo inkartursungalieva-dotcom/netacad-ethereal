@@ -84,29 +84,18 @@
                     <div>
                         <h2 class="text-2xl font-bold font-headline mb-4">{% trans "Триада CIA" %}</h2>
                         <p class="text-sm opacity-90 mb-8 leading-relaxed">{% trans "Основа всех политик кибербезопасности и архитектурных решений." %}</p>
-                        <ul class="space-y-4">
-                            <li class="flex items-center gap-4">
-                                <span class="material-symbols-outlined bg-white/20 p-2 rounded-lg">visibility_off</span>
-                                <div>
-                                    <p class="font-bold text-sm">{% trans "Конфиденциальность" %}</p>
-                                    <p class="text-xs opacity-75">{% trans "Только авторизованный доступ." %}</p>
-                                </div>
-                            </li>
-                            <li class="flex items-center gap-4">
-                                <span class="material-symbols-outlined bg-white/20 p-2 rounded-lg">task_alt</span>
-                                <div>
-                                    <p class="font-bold text-sm">{% trans "Целостность" %}</p>
-                                    <p class="text-xs opacity-75">{% trans "Данные остаются неизменными." %}</p>
-                                </div>
-                            </li>
-                            <li class="flex items-center gap-4">
-                                <span class="material-symbols-outlined bg-white/20 p-2 rounded-lg">cloud_done</span>
-                                <div>
-                                    <p class="font-bold text-sm">{% trans "Доступность" %}</p>
-                                    <p class="text-xs opacity-75">{% trans "Доступен при необходимости." %}</p>
-                                </div>
-                            </li>
-                        </ul>
+                        <div class="flex justify-between items-center pb-2 border-b border-outline-variant/10">
+                            <span class="font-medium">{% trans "Конфиденциальность" %}</span>
+                            <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">{% trans "Шифрование" %}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-outline-variant/10">
+                            <span class="font-medium">{% trans "Целостность" %}</span>
+                            <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">{% trans "Хеширование" %}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">{% trans "Доступность" %}</span>
+                            <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">{% trans "Резервирование" %}</span>
+                        </div>
                     </div>
                 </section>
 
@@ -183,24 +172,13 @@
                     </div>
                 </a>
 
-                {% if module.lab %}
-            <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
+                <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
                     <p class="font-black text-lg">{% trans "Запустить симулятор" %}</p>
                 </div>
                 <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
             </a>
-            {% else %}
-            <div class="flex items-center gap-4 px-10 py-4 bg-slate-100 text-slate-400 rounded-2xl border-2 border-slate-200 cursor-not-allowed opacity-70">
-                <div class="text-center">
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
-                    <p class="font-black text-lg">{% trans "Скоро будет" %}</p>
-                </div>
-                <span class="material-symbols-outlined text-2xl">lock</span>
-            </div>
-            {% endif %}
-
             <a href="{% url 'courses:module_test' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
                     <div class="text-center">
                         <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Проверка знаний" %}</p>

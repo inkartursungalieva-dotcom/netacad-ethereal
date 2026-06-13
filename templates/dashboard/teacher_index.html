@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load osi_extras %}
 
 {% block title %}{% trans "Панель управления преподавателя" %} - {% trans "Computer Networks" %}{% endblock %}
 
@@ -75,7 +76,7 @@
 </script> 
 <style> 
     .material-symbols-outlined { 
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; 
+        font-variation-settings: 'FILL'0, 'wght' 400, 'GRAD' 0, 'opsz' 24; 
     } 
     .headline-font { 
         font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -161,34 +162,10 @@
 
             <!-- Secondary Layout Grid --> 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> 
-                <!-- Performance Chart & Progress Table --> 
+                <!-- Progress Table --> 
                 <div class="lg:col-span-2 space-y-8"> 
-                    <!-- Module Performance Chart --> 
-                    <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)]"> 
-                        <div class="flex justify-between items-center mb-8"> 
-                            <h4 class="text-lg font-bold headline-font">{% trans "Успеваемость по модулям" %}</h4> 
-                            <div class="flex items-center gap-2"> 
-                                <span class="w-3 h-3 rounded-full bg-primary"></span> 
-                                <span class="text-xs text-on-surface-variant">{% trans "Средний балл теста" %}</span> 
-                            </div> 
-                        </div> 
-                        <div class="h-64 flex items-end justify-between gap-4 px-4"> 
-                            {% for module in module_performance %}
-                            <div class="w-full flex flex-col items-center gap-3"> 
-                                <div class="w-full bg-primary/10 rounded-t-lg relative group h-full"> 
-                                    <div class="absolute inset-x-0 bottom-0 bg-primary/40 rounded-t-lg transition-all group-hover:bg-primary/60" style="height: {{ module.avg_score|floatformat:0|default:0 }}%;">
-                                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                            {{ module.avg_score|floatformat:1|default:0 }}%
-                                        </div>
-                                    </div> 
-                                </div> 
-                                <span class="text-[10px] font-bold text-on-surface-variant" title="{{ module.name }}">{% trans "M" %}{{ module.order }}</span> 
-                            </div> 
-                            {% endfor %}
-                        </div> 
-                    </div> 
-
                     <!-- Progress Table --> 
+                    <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(104,85,141,0.04)]">
                         <div class="px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-surface-container-low"> 
                             <h4 class="text-lg font-bold headline-font">{% trans "Прогресс студентов" %}</h4> 
                             
@@ -225,7 +202,7 @@
                                         </td> 
                                         <td class="px-4 py-4 text-sm">
                                             {% with last_p=student.progress.all.last %}
-                                                {% if last_p %}{{ last_p.module.name }}{% else %}{% trans "Нет прогресса" %}{% endif %}
+                                                {% if last_p %}{% if request.LANGUAGE_CODE == 'kk' and last_p.module.name_kk %}{{ last_p.module.name_kk }}{% else %}{{ last_p.module.name }}{% endif %}{% else %}{% trans "Нет прогресса" %}{% endif %}
                                             {% endwith %}
                                         </td> 
                                         <td class="px-4 py-4 text-sm text-on-surface-variant">
@@ -254,30 +231,6 @@
                         </div> 
                     </div> 
                 </div> 
-
-{% block extra_scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const studentSearch = document.getElementById('student-search');
-        const studentRows = document.querySelectorAll('.student-row');
-
-        if (studentSearch) {
-            studentSearch.addEventListener('input', function(e) {
-                const term = e.target.value.toLowerCase().trim();
-                
-                studentRows.forEach(row => {
-                    const name = row.querySelector('.student-name').textContent.toLowerCase();
-                    if (name.includes(term)) {
-                        row.style.display = 'table-row';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
-        }
-    });
-</script>
-{% endblock %} 
 
                 <!-- Right Sidebar: Activity & Quick Actions --> 
                 <div class="space-y-8"> 
@@ -309,24 +262,50 @@
                         <h4 class="text-lg font-bold headline-font mb-6">{% trans "Последняя активность" %}</h4>
                         <div class="space-y-6">
                             {% for progress_item in recent_progress %}
+                            {% if not progress_item.user.is_superuser and not progress_item.user.is_staff %}
                             <div class="flex gap-4">
                                 <div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary shrink-0">
                                     <span class="material-symbols-outlined text-sm">check_circle</span>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-on-surface">{{ progress_item.user.username }}</p>
-                                    <p class="text-xs text-on-surface-variant">{% trans "Завершил" %} {{ progress_item.module.name }}</p>
+                                    <p class="text-sm font-bold text-on-surface">{{ progress_item.user.get_full_name|default:progress_item.user.username }}</p>
+                                    <p class="text-xs text-on-surface-variant">{% trans "Завершил" %} {% if request.LANGUAGE_CODE == 'kk' and progress_item.module.name_kk %}{{ progress_item.module.name_kk }}{% else %}{{ progress_item.module.name }}{% endif %}</p>
                                     <p class="text-[10px] text-outline mt-1">{{ progress_item.completed_at|timesince }} {% trans "назад" %}</p>
                                 </div>
                             </div>
+                            {% endif %}
                             {% empty %}
                             <p class="text-xs text-on-surface-variant italic">{% trans "Активности пока нет" %}</p>
                             {% endfor %}
                         </div>
                     </section>
                 </div> 
-            </div> 
-        </div> 
-    </main> 
-</div> 
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const studentSearch = document.getElementById('student-search');
+        const studentRows = document.querySelectorAll('.student-row');
+
+        if (studentSearch) {
+            studentSearch.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase().trim();
+                
+                studentRows.forEach(row => {
+                    const name = row.querySelector('.student-name').textContent.toLowerCase();
+                    if (name.includes(term)) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
 {% endblock %}

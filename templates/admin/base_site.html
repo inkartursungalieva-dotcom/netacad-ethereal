@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {% trans 'Django әкімшілігі' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name" class="text-2xl font-extrabold tracking-tighter text-primary font-display">
+    <a href="{% url 'admin:index' %}">Django әкімшілігі</a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -2,7 +2,7 @@ import csv
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from courses.models import Module, UserProgress, UserAnswer, Question, Choice
+from courses.models import Module, UserProgress, UserAnswer, Question, Choice, FinalProject
 from laboratory.models import Lab, LabProgress
 from accounts.models import User, Notification
 from core.models import AuditLog
@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 import random
+
 
 def teacher_required(view_func):
     """Декоратор для проверки роли преподавателя"""
@@ -32,9 +33,41 @@ def student_required(view_func):
         raise PermissionDenied
     return _wrapped_view
 
+
+@login_required
+@teacher_required
+def projects_list(request):
+    """Список всех финальных проектов для преподавателя"""
+    projects = FinalProject.objects.all().select_related('user', 'checked_by').order_by('-created_at')
+    return render(request, 'dashboard/projects_list.html', {'projects': projects})
+
+
+@login_required
+@teacher_required
+def project_detail(request, project_id):
+    """Детальная информация о проекте для проверки"""
+    project = get_object_or_404(FinalProject, id=project_id)
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        feedback = request.POST.get('feedback', '')
+        
+        if status:
+            project.status = status
+            project.feedback = feedback
+            project.checked_by = request.user
+            project.save()
+            messages.success(request, _('Статус проекта обновлен!'))
+            return redirect('dashboard:projects_list')
+    
+    return render(request, 'dashboard/project_detail.html', {'project': project})
+
 @login_required
 def dashboard_index(request):
     """Отображение главной страницы дашборда"""
+    # Перенаправление на онбординг для новых пользователей
+    if not request.user.completed_onboarding:
+        return redirect('onboarding_welcome')
+    
     if request.user.role == 'teacher' or request.user.is_superuser:
         return redirect('dashboard:teacher_index')
     
@@ -55,6 +88,9 @@ def dashboard_index(request):
         next_module = Module.objects.filter(order__gt=last_progress.module.order).order_by('order').first()
     if not next_module:
         next_module = Module.objects.order_by('order').first()
+    
+    # Последний проект пользователя
+    user_project = FinalProject.objects.filter(user=request.user).order_by('-created_at').first()
 
     context = {
         **progress,
@@ -62,6 +98,7 @@ def dashboard_index(request):
         'total_time_hours': total_time_hours,
         'completed_modules': completed_modules,
         'next_module': next_module,
+        'user_project': user_project,
     }
     return render(request, 'dashboard/index.html', context)
 
@@ -90,7 +127,8 @@ def teacher_dashboard_index(request):
     module_perf = []
     try:
         module_perf = list(Module.objects.annotate(
-            avg_score=Avg('user_progress__score')
+            avg_score=Avg('user_progress__score'),
+            completed_count=Count('user_progress', filter=Q(user_progress__is_completed=True))
         ).order_by('order'))
     except:
         module_perf = list(Module.objects.all().order_by('order'))
@@ -329,9 +367,15 @@ def test_results_list(request):
         is_teacher = False
         
     progress = request.user.get_course_progress()
+
+    results_with_percent = []
+    for result in user_progress:
+        # UserProgress model now has a @property score_percent
+        # We don't need to manually calculate it here and assign to a non-existent setter
+        results_with_percent.append(result)
     
     context = {
-        'results': user_progress,
+        'results': results_with_percent,
         'is_teacher': is_teacher,
         **progress
     }

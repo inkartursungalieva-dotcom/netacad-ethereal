@@ -16,3 +16,5 @@ PyMySQL==1.1.1
 dj-database-url==2.3.0
 psycopg2-binary==2.9.10
 httpx==0.28.1
+django-ratelimit==4.1.0
+sentry-sdk==2.20.0

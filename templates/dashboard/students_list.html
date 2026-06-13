@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load osi_extras %}
 
 {% block title %}{% trans "Список студентов" %} - NetAcademy{% endblock %}
 
@@ -69,7 +70,7 @@
                                     {{ student.avg_score|floatformat:0|default:0 }}%
                                 </span>
                             </td>
-                            <td class="px-4 py-4 text-sm text-on-surface-variant">{{ student.last_login|timesince }} {% trans "назад" %}</td>
+                            <td class="px-4 py-4 text-sm text-on-surface-variant">{{ student.last_login|custom_timesince }} {% trans "назад" %}</td>
                             <td class="px-8 py-4 text-right">
                                 <a href="{% url 'dashboard:student_detail' student.id %}" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary hover:bg-primary-container transition-all ml-auto">
                                     <span class="material-symbols-outlined">visibility</span>

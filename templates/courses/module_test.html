@@ -84,14 +84,12 @@
                     {% endif %}
 
                     <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-on-surface mb-4 leading-tight prose prose-invert max-w-none">
-                        {% translate question.text as question_text %}
-                        {{ question_text|markdown }}
+                        {% if LANGUAGE_CODE == 'kk' and question.text_kk %}{{ question.text_kk|markdown }}{% else %}{{ question.text|markdown }}{% endif %}
                     </h2>
                     
                     {% if question.hint %}
                     <div class="text-on-surface-variant leading-relaxed mb-8 prose prose-sm prose-invert max-w-none">
-                        {% translate question.hint as hint_text %}
-                        {{ hint_text|markdown }}
+                        {% if LANGUAGE_CODE == 'kk' and question.hint_kk %}{{ question.hint_kk|markdown }}{% else %}{{ question.hint|markdown }}{% endif %}
                     </div>
                     {% endif %}
 
@@ -109,7 +107,7 @@
                                         {% elif forloop.counter == 4 %}D
                                         {% else %}{{ forloop.counter }}{% endif %}
                                     </div>
-                                    <span class="text-on-surface font-semibold">{% translate choice.text %}</span>
+                                    <span class="text-on-surface font-semibold">{% if LANGUAGE_CODE == 'kk' and choice.text_kk %}{{ choice.text_kk }}{% else %}{{ choice.text }}{% endif %}</span>
                                 </label>
                                 {% endfor %}
                             </div>
@@ -119,7 +117,7 @@
                                 {% for choice in question.choices.all %}
                                 <div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10">
                                     <input type="number" name="sort_{{ question.id }}_{{ choice.id }}" min="1" max="{{ question.choices.count }}" class="w-16 px-3 py-2 rounded-lg bg-white border border-outline-variant text-center font-bold text-primary focus:ring-2 focus:ring-primary/20 outline-none" required>
-                                    <span class="text-on-surface font-medium">{% translate choice.text %}</span>
+                                    <span class="text-on-surface font-medium">{% if LANGUAGE_CODE == 'kk' and choice.text_kk %}{{ choice.text_kk }}{% else %}{{ choice.text }}{% endif %}</span>
                                 </div>
                                 {% endfor %}
                             </div>
@@ -128,7 +126,7 @@
                                 <p class="text-sm text-on-surface-variant mb-4 italic">{% trans "Подберите правильную пару для каждого элемента:" %}</p>
                                 {% for choice in question.choices.all %}
                                 <div class="flex flex-col md:flex-row md:items-center gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10">
-                                    <div class="flex-1 font-bold text-on-surface">{% translate choice.text %}</div>
+                                    <div class="flex-1 font-bold text-on-surface">{% if LANGUAGE_CODE == 'kk' and choice.text_kk %}{{ choice.text_kk }}{% else %}{{ choice.text }}{% endif %}</div>
                                     <div class="hidden md:block text-outline-variant">
                                         <span class="material-symbols-outlined">trending_flat</span>
                                     </div>
@@ -136,7 +134,7 @@
                                         <select name="match_{{ question.id }}_{{ choice.id }}" class="w-full px-4 py-2 rounded-lg bg-white border border-outline-variant text-on-surface focus:ring-2 focus:ring-primary/20 outline-none" required>
                                             <option value="">{% trans "Выберите пару..." %}</option>
                                             {% for other in question.choices.all %}
-                                                <option value="{{ other.pair_text }}">{% translate other.pair_text %}</option>
+                                                <option value="{{ other.pair_text }}">{% if LANGUAGE_CODE == 'kk' and other.pair_text_kk %}{{ other.pair_text_kk }}{% else %}{{ other.pair_text }}{% endif %}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -263,6 +261,11 @@
             });
         });
 
+        // Set testFinished flag when clicking submit
+        document.querySelector('button[type="submit"]').addEventListener('click', () => {
+            testFinished = true;
+        });
+
         // Timer
         let totalSeconds = {{ module.test_duration_minutes }} * 60;
         let seconds = 0;
@@ -297,6 +300,7 @@
         let cheatedCount = 0;
         let cheated = false;
         let lastCheatTime = 0;
+        let testFinished = false;
         
         async function logAction(action, details = '') {
             try {
@@ -312,7 +316,7 @@
         }
 
         function handleCheat() {
-            if (cheated) return;
+            if (cheated || testFinished) return;
             
             const now = Date.now();
             // Prevent multiple triggers (e.g. blur and visibilitychange firing together)
@@ -351,7 +355,7 @@
             }
         }
 
-        window.addEventListener('blur', handleCheat);
+        // Only react to actual tab switching, not alert() focus loss
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
                 handleCheat();

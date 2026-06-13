@@ -271,6 +271,7 @@
                     checkTasks();
                 } else {
                     printToTerminal("% Incomplete command.");
+                    printToTerminal(`% Hint: ${getCommandHint(cmd, baseCmd, parts)}`);
                 }
             } else if (baseCmd === 'ip' && parts[1] === 'route') {
                 if (!configMode) {
@@ -282,6 +283,7 @@
                     checkTasks();
                 } else {
                     printToTerminal("% Incomplete command.");
+                    printToTerminal(`% Hint: ${getCommandHint(cmd, baseCmd, parts)}`);
                 }
             } else if (baseCmd === 'ping') {
                 if (parts.length > 1) {
@@ -291,6 +293,7 @@
                     }, 500);
                 } else {
                     printToTerminal("% Incomplete command.");
+                    printToTerminal(`% Hint: ${getCommandHint(cmd, baseCmd, parts)}`);
                 }
             } else if (cmd === 'show mac address-table' || cmd === 'sh mac add') {
                 printToTerminal("          Mac Address Table\n-------------------------------------------\nVlan    Mac Address       Type        Ports\n----    -----------       ----        -----\n   1    0010.1122.3344    DYNAMIC     Gi0/1\n   1    00a0.bcde.f123    DYNAMIC     Gi0/2");
@@ -329,8 +332,41 @@
                 printToTerminal("  Hardware is MV96340 Ethernet, address is 0011.92a7.1b01");
                 printToTerminal("  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, reliability 255/255");
             } else {
+                const hint = getCommandHint(cmd, baseCmd, parts);
                 printToTerminal(`% Invalid input detected at '^' marker.`);
+                if (hint) {
+                    printToTerminal(`% Hint: ${hint}`);
+                }
             }
+        }
+
+        function getCommandHint(cmd, baseCmd, parts) {
+            const hints = {
+                'hostname': '{% trans "Команда неполная. Попробуйте: hostname [имя]" %}',
+                'interface': '{% trans "Пример: interface GigabitEthernet0/0 (сначала: configure terminal)" %}',
+                'int': '{% trans "Пример: interface GigabitEthernet0/0 (сначала: configure terminal)" %}',
+                'ip': parts[1] === 'address'
+                    ? '{% trans "Пример: ip address 192.168.1.1 255.255.255.0 (в режиме config-if)" %}'
+                    : parts[1] === 'route'
+                    ? '{% trans "Пример: ip route 10.0.0.0 255.0.0.0 192.168.1.1" %}'
+                    : '{% trans "Доступно: ip address ..., ip route ..." %}',
+                'ping': '{% trans "Пример: ping 8.8.8.8" %}',
+                'show': '{% trans "Попробуйте: show running-config, show ip interface brief, show version" %}',
+                'sh': '{% trans "Попробуйте: sh run, sh ip int br, sh ver" %}',
+                'copy': '{% trans "Пример: copy running-config startup-config" %}',
+                'configure': '{% trans "Пример: configure terminal (или conf t)" %}',
+                'conf': '{% trans "Пример: conf t" %}',
+                'enable': '{% trans "Войдите в привилегированный режим: enable" %}',
+                'en': '{% trans "Войдите в привилегированный режим: enable" %}',
+            };
+            if (cmd.includes('incomplete') || (baseCmd === 'hostname' && parts.length < 2)) {
+                return hints['hostname'];
+            }
+            if (hints[baseCmd]) return hints[baseCmd];
+            if (cmd.startsWith('vlan') || cmd.startsWith('switchport')) {
+                return '{% trans "VLAN-команды пока в разработке. Используйте hostname, interface, ip address, ip route." %}';
+            }
+            return '{% trans "Введите enable, затем configure terminal. Доступны: hostname, interface, ip address, ip route, ping, show ..." %}';
         }
 
         function checkTasks() {

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Практика" %} — {% translate module.name %}{% endblock %}
+
+{% block content %}
+<div class="flex min-h-screen pt-16">
+    {% include 'includes/sidebar.html' %}
+    <main class="lg:ml-64 flex-1 p-8 bg-surface">
+        <div class="max-w-3xl mx-auto text-center py-16">
+            <div class="w-24 h-24 mx-auto mb-8 rounded-3xl bg-primary-container flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-5xl">construction</span>
+            </div>
+            <h1 class="text-3xl font-extrabold text-on-surface mb-4">{% trans "Лаборатория в разработке" %}</h1>
+            <p class="text-on-surface-variant text-lg mb-2">{% trans "Модуль" %}: {% translate module.name %}</p>
+            <p class="text-on-surface-variant mb-10 max-w-lg mx-auto">
+                {% trans "Специализированный симулятор для этого модуля скоро появится. Пока вы можете отработать навыки в доступных лабораториях или сетевом конструкторе." %}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+                <a href="{% url 'courses:module_detail' module.slug %}" class="px-8 py-4 bg-surface-container-highest text-on-surface rounded-2xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    {% trans "Вернуться к теории" %}
+                </a>
+                {% if related_module %}
+                <a href="{% url 'laboratory:simulator' related_module.slug %}" class="px-8 py-4 bg-primary/10 text-primary rounded-2xl font-bold border-2 border-primary/20 hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">terminal</span>
+                    {% trans "Похожая лаборатория" %}: {% translate related_module.name %}
+                </a>
+                {% endif %}
+                <a href="{% url 'laboratory:designer' %}" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-2xl font-bold shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">architecture</span>
+                    {% trans "Сетевой конструктор" %}
+                </a>
+                <a href="{% url 'laboratory:list' %}" class="px-8 py-4 bg-secondary-container text-on-secondary-container rounded-2xl font-bold hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">science</span>
+                    {% trans "Все лаборатории" %}
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

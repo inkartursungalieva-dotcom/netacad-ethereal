@@ -114,13 +114,13 @@
                     <div class="glass-panel rounded-xl p-8">
                         <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary">analytics</span>
-                            {% if request.LANGUAGE_CODE == 'kk' %}Оқу статистикасы{% else %}Статистика обучения{% endif %}
+                            {% trans "Статистика обучения" %}
                         </h2>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <!-- График успеваемости -->
                             <div class="space-y-4">
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{% if request.LANGUAGE_CODE == 'kk' %}Модульдер бойынша прогресс{% else %}Прогресс по модулям{% endif %}</label>
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{% trans "Прогресс по модулям" %}</label>
                                 <div class="h-48 relative">
                                     <canvas id="progressChart"></canvas>
                                 </div>

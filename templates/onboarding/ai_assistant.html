@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "ИИ-помощник" %} | Computer Networks{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-primary/5 to-tertiary/5 flex items-center justify-center p-8">
+    <div class="max-w-4xl w-full">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm font-bold text-on-surface-variant mb-2">
+                <span>{% trans "Шаг 4 из 4" %}</span>
+                <span>100%</span>
+            </div>
+            <div class="h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                <div class="h-full bg-primary w-full transition-all duration-500"></div>
+            </div>
+        </div>
+
+        <!-- AI Assistant Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-primary to-primary-dim p-8 text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-4xl text-white">smart_toy</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-white mb-2 font-headline">
+                    {% trans "Ваш ИИ-помощник" %}
+                </h1>
+                <p class="text-primary-fixed opacity-90">
+                    {% trans "Умный ассистент на базе DeepSeek AI" %}
+                </p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8">
+                <div class="space-y-6 mb-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                            <span class="material-symbols-outlined text-2xl">chat</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-on-surface mb-2">{% trans "Задавайте вопросы 24/7" %}</h3>
+                            <p class="text-on-surface-variant">
+                                {% trans "ИИ-помощник готов ответить на ваши вопросы в любое время дня и ночи" %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary shrink-0">
+                            <span class="material-symbols-outlined text-2xl">translate</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-on-surface mb-2">{% trans "Двуязычная поддержка" %}</h3>
+                            <p class="text-on-surface-variant">
+                                {% trans "Общайтесь на русском или казахском языке — ИИ понимает оба" %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary shrink-0">
+                            <span class="material-symbols-outlined text-2xl">psychology</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-on-surface mb-2">{% trans "Контекстные ответы" %}</h3>
+                            <p class="text-on-surface-variant">
+                                {% trans "ИИ знает все материалы курса и может дать точные ответы с примерами" %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-error/10 rounded-xl flex items-center justify-center text-error shrink-0">
+                            <span class="material-symbols-outlined text-2xl">wifi_off</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-on-surface mb-2">{% trans "Автономный режим" %}</h3>
+                            <p class="text-on-surface-variant">
+                                {% trans "Даже при недоступности интернета ИИ работает в ограниченном режиме" %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Questions -->
+                <div class="bg-primary/5 p-6 rounded-2xl mb-8">
+                    <h4 class="font-bold text-lg mb-4 text-primary">{% trans "💬 Примеры вопросов" %}</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-white dark:bg-slate-700 p-3 rounded-xl text-sm text-on-surface-variant">
+                            "{% trans "Объясни модель OSI" %}"
+                        </div>
+                        <div class="bg-white dark:bg-slate-700 p-3 rounded-xl text-sm text-on-surface-variant">
+                            "{% trans "Как рассчитать маску подсети?" %}"
+                        </div>
+                        <div class="bg-white dark:bg-slate-700 p-3 rounded-xl text-sm text-on-surface-variant">
+                            "{% trans "В чём разница между TCP и UDP?" %}"
+                        </div>
+                        <div class="bg-white dark:bg-slate-700 p-3 rounded-xl text-sm text-on-surface-variant">
+                            "{% trans "Как настроить VLAN?" %}"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completion Message -->
+                <div class="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 p-6 rounded-2xl mb-8 border border-emerald-500/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-600 shrink-0">
+                            <span class="material-symbols-outlined text-2xl">check_circle</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-emerald-700 mb-1">{% trans "🎉 Вы готовы к обучению!" %}</h4>
+                            <p class="text-sm text-on-surface-variant">
+                                {% trans "Теперь вы знаете всё о платформе. Начните свой путь в мир компьютерных сетей!" %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-between items-center">
+                    <a href="{% url 'onboarding_labs' %}" class="text-on-surface-variant hover:text-primary font-bold transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        {% trans "Назад" %}
+                    </a>
+                    <button onclick="completeOnboarding()" class="bg-gradient-to-r from-primary to-primary-dim text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+                        {% trans "Начать обучение 🚀" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function completeOnboarding() {
+    fetch('{% url "onboarding_complete" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    }).then(() => {
+        window.location.href = '{% url "dashboard:index" %}';
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

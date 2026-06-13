@@ -123,6 +123,57 @@
                             </div>
                         </div>
                     </section>
+
+                    <!-- Module Progress -->
+                    <section class="glass-panel rounded-3xl p-8">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">school</span>
+                            {% trans "Прогресс по модулям" %}
+                        </h2>
+                        <div class="space-y-4">
+                            {% for module in sidebar_modules %}
+                            {% if module.slug %}
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low/50 hover:bg-surface-container-low transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                    <span class="material-symbols-outlined text-xl">
+                                        {% if module.slug == 'introduction' %}hub
+                                        {% elif module.slug == 'osi_model' %}account_tree
+                                        {% elif module.slug == 'tcp_ip' %}router
+                                        {% elif module.slug == 'ip_addressing' %}router
+                                        {% elif module.slug == 'protocols' %}settings_input_component
+                                        {% elif module.slug == 'lan' %}lan
+                                        {% elif module.slug == 'switching' %}settings_ethernet
+                                        {% elif module.slug == 'routing' %}alt_route
+                                        {% elif module.slug == 'security' %}verified_user
+                                        {% elif module.slug == 'wireless' %}wifi
+                                        {% elif module.slug == 'cloud' %}cloud
+                                        {% elif module.slug == 'client_server' %}dns
+                                        {% elif module.slug == 'final_project' %}emoji_events
+                                        {% else %}school{% endif %}
+                                    </span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-bold text-on-surface text-sm">{{ module.name }}</span>
+                                        <span class="text-xs text-on-surface-variant">{% trans "Модуль" %} {{ module.order }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex-1 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                                            <div class="h-full bg-primary transition-all duration-500" style="width: {% for progress in user.progress.all %}{% if progress.module.slug == module.slug %}{{ progress.score }}{% endif %}{% endfor %}0%;"></div>
+                                        </div>
+                                        <span class="text-xs font-bold text-primary w-12 text-right">
+                                            {% for progress in user.progress.all %}{% if progress.module.slug == module.slug %}{{ progress.score }}%{% endif %}{% endfor %}{% if not user.progress.all %}0%{% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                                <a href="{% url 'courses:module_detail' module.slug %}" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-primary/10 text-primary transition-colors">
+                                    <span class="material-symbols-outlined">arrow_forward</span>
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </section>
                 </div>
 
                 <!-- Sidebar Activity Area -->
@@ -143,10 +194,46 @@
                                 <span class="text-[10px] text-outline">{{ notification.created_at|timesince }} {% trans "назад" %}</span>
                             </div>
                             {% empty %}
-                            <p class="text-sm text-on-surface-variant">{% trans "У вас нет новых уведомлений." %}</p>
+                            <div class="flex flex-col items-center justify-center py-10 text-center">
+                                <div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center text-outline-variant mb-4">
+                                    <span class="material-symbols-outlined text-3xl">notifications_off</span>
+                                </div>
+                                <p class="text-xs text-on-surface-variant">{% trans "У вас нет новых уведомлений." %}</p>
+                            </div>
                             {% endfor %}
                         </div>
                     </section>
+
+                    {% if user_project %}
+                    <section class="glass-panel rounded-3xl p-8">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">assignment</span>
+                            {% trans "Финальный проект" %}
+                        </h2>
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-on-surface">{{ user_project.project_title }}</h3>
+                                <div class="mt-2">
+                                    {% if user_project.status == 'pending' %}
+                                        <span class="px-3 py-1 bg-amber-50 text-amber-700 font-bold rounded-full text-xs">{% trans "На проверке" %}</span>
+                                    {% elif user_project.status == 'reviewing' %}
+                                        <span class="px-3 py-1 bg-blue-50 text-blue-700 font-bold rounded-full text-xs">{% trans "Проверяется" %}</span>
+                                    {% elif user_project.status == 'accepted' %}
+                                        <span class="px-3 py-1 bg-emerald-50 text-emerald-700 font-bold rounded-full text-xs">{% trans "Принят" %}</span>
+                                    {% elif user_project.status == 'rejected' %}
+                                        <span class="px-3 py-1 bg-red-50 text-red-700 font-bold rounded-full text-xs">{% trans "Отклонен" %}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if user_project.feedback %}
+                            <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
+                                <div class="text-xs font-bold text-on-surface-variant uppercase mb-1">{% trans "Обратная связь" %}</div>
+                                <p class="text-sm text-on-surface">{{ user_project.feedback }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </section>
+                    {% endif %}
                 </div>
             </div>
         </div>

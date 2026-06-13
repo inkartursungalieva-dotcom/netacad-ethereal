@@ -133,7 +133,7 @@
                     <span class="material-symbols-outlined text-[15rem]">quiz</span>
                 </div>
                 <div class="relative z-10 max-w-3xl">
-                    <h2 class="font-headline text-3xl font-bold mb-4">{% trans "Проверка знаний модуля 5" %}</h2>
+                    <h2 class="font-headline text-3xl font-bold mb-4">{% trans "Проверка знаний модуля 6" %}</h2>
                     <p class="text-on-surface-variant mb-8">{% trans "Проверьте свое понимание конфигурации LAN, диагностических утилит и безопасности WPA3. 10 вопросов • Требуется 80% правильных ответов." %}</p>
                     <div class="space-y-6">
                         <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
@@ -170,7 +170,6 @@
                 </div>
             </a>
 
-            {% if module.lab %}
             <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
@@ -178,15 +177,6 @@
                 </div>
                 <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
             </a>
-            {% else %}
-            <div class="flex items-center gap-4 px-10 py-4 bg-slate-100 text-slate-400 rounded-2xl border-2 border-slate-200 cursor-not-allowed opacity-70">
-                <div class="text-center">
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
-                    <p class="font-black text-lg">{% trans "Скоро будет" %}</p>
-                </div>
-                <span class="material-symbols-outlined text-2xl">lock</span>
-            </div>
-            {% endif %}
 
             <a href="{% url 'courses:module_test' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
                 <div class="text-center">

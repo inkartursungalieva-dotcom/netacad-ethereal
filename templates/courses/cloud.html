@@ -40,17 +40,17 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             <div class="glass-card p-6 rounded-3xl border border-outline-variant/15 text-center">
-                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary font-bold">IaaS</div>
+                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary font-bold">{% trans "IaaS" %}</div>
                 <h4 class="font-bold mb-2">{% trans "Инфраструктура" %}</h4>
                 <p class="text-xs text-on-surface-variant">{% trans "Виртуальные серверы, хранилища и сети в аренду" %}</p>
             </div>
             <div class="glass-card p-6 rounded-3xl border border-outline-variant/15 text-center">
-                <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-secondary font-bold">PaaS</div>
+                <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-secondary font-bold">{% trans "PaaS" %}</div>
                 <h4 class="font-bold mb-2">{% trans "Платформа" %}</h4>
                 <p class="text-xs text-on-surface-variant">{% trans "Среда для разработки и развертывания приложений" %}</p>
             </div>
             <div class="glass-card p-6 rounded-3xl border border-outline-variant/15 text-center">
-                <div class="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-tertiary font-bold">SaaS</div>
+                <div class="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-tertiary font-bold">{% trans "SaaS" %}</div>
                 <h4 class="font-bold mb-2">{% trans "Программное обеспечение" %}</h4>
                 <p class="text-xs text-on-surface-variant">{% trans "Программное обеспечение как услуга через интернет" %}</p>
             </div>
@@ -67,7 +67,6 @@
                 </div>
             </a>
 
-            {% if module.lab %}
             <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
@@ -75,16 +74,6 @@
                 </div>
                 <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
             </a>
-            {% else %}
-            <div class="flex items-center gap-4 px-10 py-4 bg-slate-100 text-slate-400 rounded-2xl border-2 border-slate-200 cursor-not-allowed opacity-70">
-                <div class="text-center">
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
-                    <p class="font-black text-lg">{% trans "Скоро будет" %}</p>
-                </div>
-                <span class="material-symbols-outlined text-2xl">lock</span>
-            </div>
-            {% endif %}
-
             <a href="{% url 'courses:module_test' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Проверка знаний" %}</p>

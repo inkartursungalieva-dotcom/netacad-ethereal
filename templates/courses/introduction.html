@@ -29,8 +29,8 @@
                 <div class="inline-flex items-center gap-2 bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold mb-6 tracking-wider">
                     {% trans "Модуль 1" %}
                 </div>
-                <h1 class="font-headline text-5xl font-extrabold text-on-surface tracking-tight mb-4 leading-tight">
-                    {% trans "Модуль" %} {{ module.order }}: {% translate module.name %}
+                <h1 class="font-headline text-5xl md:text-7xl font-extrabold text-on-surface tracking-tighter mb-6 leading-tight">
+                    {% trans "Модуль" %} {{ module.order }}: <br/><span class="text-primary">{% if LANGUAGE_CODE == 'kk' and module.name_kk %}{{ module.name_kk }}{% else %}{{ module.name }}{% endif %}</span>
                 </h1>
                 <p class="text-on-surface-variant text-lg max-w-lg mb-8">
                     {% trans "Освойте структурные основы цифрового мира. От битов до глобальных веб-масштабов, выстройте свое понимание связности." %}
@@ -85,15 +85,15 @@
                         <span class="text-sm font-semibold">{% trans "Охват" %}</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="font-medium text-sm">LAN (Локальная)</span>
+                        <span class="font-medium text-sm">{% trans "LAN (Локальная)" %}</span>
                         <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">{% trans "Один офис / Дом" %}</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="font-medium text-sm">MAN (Городская)</span>
+                        <span class="font-medium text-sm">{% trans "MAN (Городская)" %}</span>
                         <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">{% trans "В масштабах города" %}</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="font-medium text-sm">WAN (Глобальная)</span>
+                        <span class="font-medium text-sm">{% trans "WAN (Глобальная)" %}</span>
                         <span class="text-xs text-on-surface-variant bg-surface-bright px-3 py-1 rounded-full">{% trans "Глобальная / Межконтинентальная" %}</span>
                     </div>
                 </div>
@@ -208,7 +208,6 @@
                 </div>
             </a>
 
-            {% if module.lab %}
             <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
@@ -216,15 +215,6 @@
                 </div>
                 <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
             </a>
-            {% else %}
-            <div class="flex items-center gap-4 px-10 py-4 bg-slate-100 text-slate-400 rounded-2xl border-2 border-slate-200 cursor-not-allowed opacity-70">
-                <div class="text-center">
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
-                    <p class="font-black text-lg">{% trans "Скоро будет" %}</p>
-                </div>
-                <span class="material-symbols-outlined text-2xl">lock</span>
-            </div>
-            {% endif %}
 
             <a href="{% url 'courses:module_test' 'introduction' %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
                 <div class="text-center">

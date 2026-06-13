@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Руководство по курсу" %} | Computer Networks{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-primary/5 to-tertiary/5 flex items-center justify-center p-8">
+    <div class="max-w-5xl w-full">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm font-bold text-on-surface-variant mb-2">
+                <span>{% trans "Шаг 2 из 4" %}</span>
+                <span>50%</span>
+            </div>
+            <div class="h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                <div class="h-full bg-primary w-1/2 transition-all duration-500"></div>
+            </div>
+        </div>
+
+        <!-- Guide Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-tertiary to-tertiary-dim p-8 text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-4xl text-white">map</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-white mb-2 font-headline">
+                    {% trans "Как устроен курс" %}
+                </h1>
+                <p class="text-tertiary-fixed opacity-90">
+                    {% trans "Пошаговое руководство по обучению" %}
+                </p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <!-- Module 1-4 -->
+                    <div class="bg-surface-container-low p-6 rounded-2xl">
+                        <h3 class="font-bold text-lg mb-4 text-primary">{% trans "Блок 1: Основы" %}</h3>
+                        <ul class="space-y-2 text-sm text-on-surface-variant">
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">check_circle</span>
+                                {% trans "1. Введение в сети" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">check_circle</span>
+                                {% trans "2. Модель OSI" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">check_circle</span>
+                                {% trans "3. Стек TCP/IP" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">check_circle</span>
+                                {% trans "4. IP-адресация" %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Module 5-8 -->
+                    <div class="bg-surface-container-low p-6 rounded-2xl">
+                        <h3 class="font-bold text-lg mb-4 text-tertiary">{% trans "Блок 2: Продвинутый" %}</h3>
+                        <ul class="space-y-2 text-sm text-on-surface-variant">
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-tertiary">check_circle</span>
+                                {% trans "5. Протоколы" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-tertiary">check_circle</span>
+                                {% trans "6. Настройка LAN" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-tertiary">check_circle</span>
+                                {% trans "7. Коммутация" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-tertiary">check_circle</span>
+                                {% trans "8. Маршрутизация" %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Module 9-12 -->
+                    <div class="bg-surface-container-low p-6 rounded-2xl">
+                        <h3 class="font-bold text-lg mb-4 text-secondary">{% trans "Блок 3: Эксперт" %}</h3>
+                        <ul class="space-y-2 text-sm text-on-surface-variant">
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                                {% trans "9. Безопасность" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                                {% trans "10. Wi-Fi сети" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                                {% trans "11. Облака и SDN" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-secondary">check_circle</span>
+                                {% trans "12. Клиент-сервер" %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Module 13 -->
+                    <div class="bg-gradient-to-br from-primary/10 to-tertiary/10 p-6 rounded-2xl border-2 border-primary/20">
+                        <h3 class="font-bold text-lg mb-4 text-primary">{% trans "Финал" %}</h3>
+                        <ul class="space-y-2 text-sm text-on-surface-variant">
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">emoji_events</span>
+                                {% trans "13. Дипломный проект" %}
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">workspace_premium</span>
+                                {% trans "Сертификат" %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div class="bg-primary/5 p-6 rounded-2xl mb-8">
+                    <h4 class="font-bold text-lg mb-3 text-primary">{% trans "💡 Советы по обучению" %}</h4>
+                    <ul class="space-y-2 text-sm text-on-surface-variant">
+                        <li class="flex items-start gap-2">
+                            <span class="material-symbols-outlined text-base text-primary mt-0.5">arrow_right</span>
+                            {% trans "Изучайте теорию перед прохождением тестов" %}
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="material-symbols-outlined text-base text-primary mt-0.5">arrow_right</span>
+                            {% trans "Практикуйтесь в лаборатории для закрепления знаний" %}
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="material-symbols-outlined text-base text-primary mt-0.5">arrow_right</span>
+                            {% trans "Используйте ИИ-помощник для уточнения сложных тем" %}
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="material-symbols-outlined text-base text-primary mt-0.5">arrow_right</span>
+                            {% trans "Следующий модуль открывается после успешного прохождения текущего" %}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-between items-center">
+                    <a href="{% url 'onboarding_welcome' %}" class="text-on-surface-variant hover:text-primary font-bold transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        {% trans "Назад" %}
+                    </a>
+                    <a href="{% url 'onboarding_labs' %}" class="bg-primary text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+                        {% trans "Далее: Лаборатории →" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

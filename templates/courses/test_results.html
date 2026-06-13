@@ -5,18 +5,20 @@
 
 {% block title %}{% trans "Результаты Теста" %} - {% translate module.name %}{% endblock %}
 
-{% block extra_js %}
+{% block extra_scripts %}
 <script>
     function copyShareLink() {
-        const url = window.location.href + (window.location.href.includes('?') ? '&' : '?') + 'share=1';
+        const url = "{{ share_url|default:''|escapejs }}";
+        if (!url) return;
         navigator.clipboard.writeText(url).then(() => {
-            const btn = document.querySelector('button[onclick="copyShareLink()"]');
+            const btn = document.getElementById('copy-share-btn');
+            if (!btn) return;
             const originalHtml = btn.innerHTML;
             btn.innerHTML = '<span class="material-symbols-outlined text-sm">done</span> {% trans "Скопировано!" %}';
-            btn.classList.add('bg-success', 'text-white');
+            btn.classList.add('bg-emerald-500', 'text-white');
             setTimeout(() => {
                 btn.innerHTML = originalHtml;
-                btn.classList.remove('bg-success', 'text-white');
+                btn.classList.remove('bg-emerald-500', 'text-white');
             }, 2000);
         });
     }
@@ -56,11 +58,11 @@
                 <span class="material-symbols-outlined">menu_book</span>
                 <span class="font-body text-sm">{% trans "Мои Курсы" %}</span>
             </a>
-            <a class="flex items-center gap-3 px-6 py-3 bg-[#e7e0ec] text-[#8E7AB5] font-semibold rounded-r-full transition-all duration-300" href="#">
+            <a class="flex items-center gap-3 px-6 py-3 bg-[#e7e0ec] text-[#8E7AB5] font-semibold rounded-r-full transition-all duration-300" href="{% url 'dashboard:test_results_list' %}">
                 <span class="material-symbols-outlined">assessment</span>
                 <span class="font-body text-sm">{% trans "Результаты Тестов" %}</span>
             </a>
-            <a class="flex items-center gap-3 px-6 py-3 text-slate-500 hover:bg-[#e7e0ec]/50 transition-all duration-300" href="#">
+            <a class="flex items-center gap-3 px-6 py-3 text-slate-500 hover:bg-[#e7e0ec]/50 transition-all duration-300" href="{% url 'accounts:profile' %}">
                 <span class="material-symbols-outlined">settings</span>
                 <span class="font-body text-sm">{% trans "Настройки" %}</span>
             </a>
@@ -96,7 +98,7 @@
                             <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
                             {% trans "Скачать PDF" %}
                         </a>
-                        <button onclick="copyShareLink()" class="px-6 py-3 rounded-full bg-surface-container-highest text-on-primary-container font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+                        <button type="button" id="copy-share-btn" onclick="copyShareLink()" class="px-6 py-3 rounded-full bg-surface-container-highest text-on-primary-container font-semibold hover:shadow-lg transition-all flex items-center gap-2">
                             <span class="material-symbols-outlined text-sm">share</span>
                             {% trans "Поделиться" %}
                         </button>
@@ -104,16 +106,15 @@
                             {% trans "Пересдать тест" %}
                         </a>
                         {% endif %}
-                        
-                        {% if next_module and score_percent >= 70 and not is_shared_view %}
-                        <a href="{% url 'courses:module_detail' next_module.slug %}" class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-semibold shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2">
+
+                        {% if next_module and not is_shared_view %}
+                        <a href="{% url 'courses:module_detail' next_module.slug %}" class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-semibold shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2 {% if score_percent < 70 %}opacity-80{% endif %}" title="{% if score_percent < 70 %}{% trans 'Рекомендуем пересдать тест, но вы можете продолжить обучение' %}{% endif %}">
                             {% trans "Следующий модуль" %} <span class="material-symbols-outlined">arrow_forward</span>
                         </a>
-                        {% else %}
-                        <a href="{% url 'courses:list' %}" class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-semibold shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2">
-                            {% trans "К списку курсов" %} <span class="material-symbols-outlined">arrow_forward</span>
-                        </a>
                         {% endif %}
+                        <a href="{% url 'courses:list' %}" class="px-6 py-3 rounded-full bg-surface-container-high text-on-surface font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+                            {% trans "К списку курсов" %}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -314,24 +315,26 @@
                         {% trans "Рекомендуем еще раз изучить материал модуля и пересдать тест." %}
                         {% endif %}
                     </p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        {% if score_percent >= 70 %}
-                            {% if next_module %}
-                            <a href="{% url 'courses:module_detail' next_module.slug %}" class="w-full sm:w-auto px-10 py-4 rounded-full bg-primary text-on-primary font-bold shadow-xl shadow-primary/25 hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                                {% trans "Начать Модуль" %} {{ next_module.order }}
-                                <span class="material-symbols-outlined">arrow_forward</span>
-                            </a>
-                            {% endif %}
-                        {% else %}
-                        <a href="{% url 'courses:module_test' module.slug %}" class="w-full sm:w-auto px-10 py-4 rounded-full bg-primary text-on-primary font-bold shadow-xl shadow-primary/25 hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                            {% trans "Попробовать снова" %}
-                            <span class="material-symbols-outlined">replay</span>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        {% if next_module and not is_shared_view %}
+                        <a href="{% url 'courses:module_detail' next_module.slug %}" class="px-8 py-4 bg-primary text-on-primary rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all flex items-center justify-center gap-3">
+                            {% trans "Следующий модуль" %}: {% translate next_module.name %}
+                            <span class="material-symbols-outlined">arrow_forward</span>
                         </a>
                         {% endif %}
-                        <a href="{% url 'courses:list' %}" class="w-full sm:w-auto px-10 py-4 rounded-full bg-surface-container-lowest dark:bg-slate-800 text-on-surface dark:text-white border border-outline-variant/30 font-bold hover:bg-white dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
-                            {% trans "Вернуться к списку" %}
-                            <span class="material-symbols-outlined">list</span>
+                        <a href="{% url 'laboratory:simulator' module.slug %}" class="px-8 py-4 bg-primary/10 text-primary rounded-2xl font-bold border-2 border-primary/20 hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined">terminal</span>
+                            {% trans "Практика модуля" %}
                         </a>
+                        <a href="{% url 'courses:roadmap' %}" class="px-8 py-4 bg-surface-container-high text-on-surface rounded-2xl font-bold hover:bg-surface-container-highest transition-all flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined">map</span>
+                            {% trans "План обучения" %}
+                        </a>
+                        
+                        <button onclick="copyShareLink()" class="px-8 py-4 bg-surface-container-high text-on-surface rounded-2xl font-bold hover:bg-surface-container-highest transition-all flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined text-sm">share</span>
+                            {% trans "Поделиться" %}
+                        </button>
                     </div>
                 </div>
             </div>

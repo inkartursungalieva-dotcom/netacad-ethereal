@@ -207,37 +207,33 @@
                 <h2 class="text-2xl font-extrabold font-headline">{% trans "Портал подачи работ" %}</h2>
             </div>
             <div class="bg-surface-container-lowest rounded-3xl p-8 lg:p-12 shadow-[0px_20px_40px_rgba(104,85,141,0.04)]">
-                <form class="space-y-8" id="final-project-form">
+                <form class="space-y-8" id="final-project-form" method="post" action="{% url 'courses:submit_final_project' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-xs font-bold text-on-surface-variant uppercase ml-1">{% trans "Идентификатор студента" %}</label>
-                            <input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="{% trans 'ФИО как в паспорте' %}" type="text" required/>
+                            <label class="text-xs font-bold text-on-surface-variant uppercase ml-1">{% trans "Название проекта" %}</label>
+                            <input name="project_title" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="{% trans 'Введите название проекта' %}" type="text" required/>
                         </div>
                         <div class="space-y-2">
                             <label class="text-xs font-bold text-on-surface-variant uppercase ml-1">{% trans "Язык проекта" %}</label>
-                            <select class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all">
-                                <option>{% trans "Русский (RU)" %}</option>
-                                <option>{% trans "Казахский (KZ)" %}</option>
+                            <select name="language" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all">
+                                <option value="ru">{% trans "Русский (RU)" %}</option>
+                                <option value="kk">{% trans "Казахский (KZ)" %}</option>
                             </select>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-on-surface-variant uppercase ml-1">{% trans "Описание проекта и обоснование архитектуры" %}</label>
-                        <textarea class="w-full bg-surface-container-low border-none rounded-2xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="{% trans 'Подробно опишите свои решения по проектированию топологии, меры безопасности и план IP...' %}" rows="5" required></textarea>
+                        <textarea name="project_description" class="w-full bg-surface-container-low border-none rounded-2xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="{% trans 'Подробно опишите свои решения по проектированию топологии, меры безопасности и план IP...' %}" rows="5" required></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-on-surface-variant uppercase ml-1">{% trans "Файл проекта (необязательно)" %}</label>
+                        <input type="file" name="file" class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 transition-all"/>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" class="px-12 py-4 bg-primary text-white rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all">{% trans "Отправить проект" %}</button>
                     </div>
                 </form>
-
-                <script>
-                    document.getElementById('final-project-form').addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        alert('{% trans "Ваш проект успешно отправлен на проверку преподавателю! Статус будет обновлен в личном кабинете." %}');
-                        window.location.href = "{% url 'dashboard:index' %}";
-                    });
-                </script>
             </div>
         </section>
 
@@ -252,7 +248,6 @@
                 </div>
             </a>
 
-            {% if module.lab %}
             <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
@@ -260,16 +255,6 @@
                 </div>
                 <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
             </a>
-            {% else %}
-            <div class="flex items-center gap-4 px-10 py-4 bg-slate-100 text-slate-400 rounded-2xl border-2 border-slate-200 cursor-not-allowed opacity-70">
-                <div class="text-center">
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
-                    <p class="font-black text-lg">{% trans "Скоро будет" %}</p>
-                </div>
-                <span class="material-symbols-outlined text-2xl">lock</span>
-            </div>
-            {% endif %}
-
             <a href="{% url 'courses:module_test' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
                 <div class="text-center">
                     <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Проверка знаний" %}</p>

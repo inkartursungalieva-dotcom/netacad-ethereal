@@ -16,12 +16,16 @@ urlpatterns = [
     # path('client-server/', views.client_server_view, name='client_server'),
     # path('final-project/', views.final_project_view, name='final_project'),
     
+    # Финальный проект
+    path('final-project/submit/', views.submit_final_project, name='submit_final_project'),
+    
     # Тесты модулей
     path('test/<str:slug>/', views.module_test_view, name='module_test'),
     path('test/<str:slug>/log-action/', views.log_test_action, name='log_test_action'),
     path('test/<str:slug>/results/', views.test_results_view, name='test_results'),
     path('test/<str:slug>/pdf/', views.export_pdf_view, name='export_pdf'),
     path('results/share/<str:token>/', views.shared_results_view, name='shared_results'),
+    path('test-history/', views.test_history_view, name='test_history'),
     path('usability-test/', views.usability_test_view, name='usability_test'),
 
     # Учебные ресурсы

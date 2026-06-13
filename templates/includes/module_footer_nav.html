@@ -1,0 +1,47 @@
+{% load i18n %}
+{# Унифицированная навигация: Назад | Практика | Тест | Далее #}
+<div class="mt-20 pt-8 border-t border-outline-variant/15 flex flex-wrap justify-between items-center gap-6">
+    {% if prev_url %}
+    <a href="{{ prev_url }}" class="flex items-center gap-4 px-6 py-4 bg-surface-container-low hover:bg-surface-container-high rounded-2xl transition-all group">
+        <span class="material-symbols-outlined text-primary group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        <div class="text-left">
+            <p class="text-xs text-slate-500 font-medium">{% trans "Назад" %}</p>
+            <p class="font-bold text-on-surface">{{ prev_label }}</p>
+        </div>
+    </a>
+    {% else %}
+    <a href="{% url 'courses:list' %}" class="flex items-center gap-4 px-6 py-4 bg-surface-container-low hover:bg-surface-container-high rounded-2xl transition-all group">
+        <span class="material-symbols-outlined text-primary group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        <div class="text-left">
+            <p class="text-xs text-slate-500 font-medium">{% trans "Назад" %}</p>
+            <p class="font-bold text-on-surface">{% trans "К списку курсов" %}</p>
+        </div>
+    </a>
+    {% endif %}
+
+    <a href="{% url 'laboratory:simulator' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-primary/10 text-primary rounded-2xl shadow-sm hover:bg-primary hover:text-white transition-all group border-2 border-primary/20">
+        <div class="text-center">
+            <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Практика" %}</p>
+            <p class="font-black text-lg">{% trans "Запустить симулятор" %}</p>
+        </div>
+        <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">terminal</span>
+    </a>
+
+    <a href="{% url 'courses:module_test' module.slug %}" class="flex items-center gap-4 px-10 py-4 bg-secondary-container text-on-secondary-container rounded-2xl shadow-lg hover:scale-105 transition-all group border-2 border-primary/10">
+        <div class="text-center">
+            <p class="text-xs font-bold uppercase tracking-widest opacity-70">{% trans "Проверка знаний" %}</p>
+            <p class="font-black text-lg">{% trans "Пройти тест" %}</p>
+        </div>
+        <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">quiz</span>
+    </a>
+
+    {% if next_url %}
+    <a href="{{ next_url }}" class="flex items-center gap-4 px-8 py-4 bg-primary text-white rounded-2xl shadow-lg shadow-primary/25 hover:scale-105 transition-all group">
+        <div class="text-right">
+            <p class="text-xs text-white/70 font-bold uppercase tracking-widest">{% trans "Далее" %}</p>
+            <p class="font-bold">{{ next_label }}</p>
+        </div>
+        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+    </a>
+    {% endif %}
+</div>

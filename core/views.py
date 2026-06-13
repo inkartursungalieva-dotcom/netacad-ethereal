@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.http import JsonResponse
 from django.conf import settings
@@ -7,6 +7,10 @@ import json
 import httpx
 import os
 import logging
+from .ai_fallback import AIFallbackKnowledge
+from .models import AIConversation, AIMessage
+# from django_ratelimit.decorators import ratelimit  # Временно закомментировано 
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
@@ -33,95 +37,247 @@ def api_docs_view(request):
     """Отображение документации API"""
     return render(request, 'core/api_docs.html')
 
-async def ai_chat_api(request):
-    """Гибридный ИИ: API DeepSeek с локальным отказоустойчивым режимом (асинхронный)"""
+# @ratelimit(key='ip', rate='12/m', method='POST')  # Временно закомментировано - использует session-based rate limiting
+def ai_chat_api(request):
+    """
+    Гибридный ИИ: API DeepSeek с локальным отказоустойчивым режимом и сохранением истории диалогов.
+    
+    Использует синхронный режим для совместимости с WSGI (Gunicorn).
+    
+    Обработка ошибок:
+    - 401: Требуется авторизация
+    - 405: Неверный HTTP метод
+    - 429: Превышена квота API
+    - 500/502/503: Ошибки сервера DeepSeek
+    - timeout: Таймаут запроса
+    - network: Ошибки сети
+    """
+    import logging
+    logger.info(f'ai_chat_api called! User: {request.user}, Method: {request.method}')
     if request.method != 'POST':
+        logger.warning(f"AI API: Invalid method {request.method} from user {request.user.id if request.user.is_authenticated else 'anonymous'}")
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
     # 1. Проверка авторизации (Critical 4)
     if not request.user.is_authenticated:
+        logger.warning(f"AI API: Unauthorized access attempt")
         return JsonResponse({'error': _('Авторизуйтесь для использования ИИ-чата')}, status=401)
     
-    # 2. Простая защита от DoS (Rate Limit) через сессию (Critical 4)
-    last_request = request.session.get('last_ai_request')
-    now = timezone.now().timestamp()
-    if last_request and (now - last_request < 5):  # Ограничение 5 секунд
+    # 2. Rate limiting через сессию (12 запросов в минуту)
+    rate_limit_key = 'ai_chat_requests'
+    requests_data = request.session.get(rate_limit_key, {'count': 0, 'reset_time': timezone.now().timestamp() + 60})
+    
+    # Сброс счётчика если прошла минута
+    if timezone.now().timestamp() > requests_data['reset_time']:
+        requests_data = {'count': 0, 'reset_time': timezone.now().timestamp() + 60}
+    
+    if requests_data['count'] >= 12:
+        logger.info(f"AI API: Rate limit triggered for user {request.user.id}")
         return JsonResponse({'response': _('Вы отправляете запросы слишком часто. Пожалуйста, подождите.')})
     
-    request.session['last_ai_request'] = now
+    requests_data['count'] += 1
+    request.session[rate_limit_key] = requests_data
     
     try:
         data = json.loads(request.body)
         user_msg = data.get('message', '')
+        conversation_id = data.get('conversation_id', None)
         
-        api_key = getattr(settings, 'DEEPSEEK_API_KEY', None)
+        if not user_msg or not user_msg.strip():
+            logger.warning(f"AI API: Empty message from user {request.user.id}")
+            return JsonResponse({'response': _('Пожалуйста, введите ваш вопрос.')})
         
-        # Если ключ есть, пробуем реальный ИИ через DeepSeek
-        if api_key:
-            system_prompt = (
-                "Ты — Computer Networks AI, экспертный помощник обучающей платформы по компьютерным сетям. "
-                "Твоя задача: помогать студентам и преподавателям. "
-                "Ты знаешь про 13 модулей курса (введение, OSI, IP, маршрутизация, коммутация, безопасность, беспроводные сети, облака и т.д.), "
-                "про сетевой конструктор, лабораторию OSI и IP-калькулятор. "
-                "Отвечай вежливо, профессионально на русском или казахском языке. "
-                "Если вопрос касается топологии сети, предложи использовать наш Сетевой конструктор."
+        # --- СОХРАНЕНИЕ ИСТОРИИ ДИАЛОГОВ ---
+        if not conversation_id:
+            # Создаём новый диалог
+            conversation = AIConversation.objects.create(
+                user=request.user,
+                title=user_msg[:50] if len(user_msg) > 50 else user_msg
             )
-
-            url = "https://api.deepseek.com/chat/completions"
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {api_key}'
-            }
-            payload = {
-                "model": "deepseek-chat",
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_msg}
-                ],
-                "stream": False
-            }
-
+        else:
+            # Получаем существующий диалог
             try:
-                async with httpx.AsyncClient() as client:
-                    response = await client.post(url, headers=headers, json=payload, timeout=15.0)
-                
-                if response.status_code == 200:
-                    res_data = response.json()
-                    ai_response = res_data['choices'][0]['message']['content']
-                    return JsonResponse({'response': ai_response})
-                else:
-                    logger.error(f"DeepSeek API Error ({response.status_code}): {response.text}")
-                    
-                    if response.status_code == 429:
-                        return JsonResponse({'response': _('Превышена квота запросов к DeepSeek AI. Пожалуйста, подождите немного.')})
-                    
-                    return JsonResponse({'response': _('Ошибка DeepSeek API ({}).').format(response.status_code)})
-            except Exception as e:
-                logger.error(f"AI Request Exception: {e}")
-                # Fallback to local mode on connection error
+                conversation = AIConversation.objects.get(id=conversation_id, user=request.user)
+            except AIConversation.DoesNotExist:
+                # Если диалог не найден, создаём новый
+                conversation = AIConversation.objects.create(
+                    user=request.user,
+                    title=user_msg[:50] if len(user_msg) > 50 else user_msg
+                )
         
-        # --- ЛОКАЛЬНЫЙ РЕЖИМ (если API недоступен или превышена квота) ---
-        user_msg_lower = user_msg.lower()
-        responses = {
-            'osi': _('Модель OSI состоит из 7 уровней. В нашей лаборатории есть отличный визуализатор.'),
-            'ip': _('IP-адресация — это основа маршрутизации. Используй наш IP-калькулятор.'),
-            'лаба': _('У нас есть лабораторные работы по OSI, IP, коммутации и маршрутизации.'),
-            'привет': _('Привет! Я твой помощник Computer Networks. Чем могу помочь?'),
-            'конструктор': _('В Сетевом конструкторе ты можешь создавать свои топологии.'),
-            'автор': _('Автор проекта — Инкар Болатовна.'),
-        }
+        # Сохраняем сообщение пользователя
+        AIMessage.objects.create(
+            conversation=conversation,
+            role='user',
+            content=user_msg
+        )
+        
+        gemini_api_key = getattr(settings, 'GEMINI_API_KEY', None)
+        
+        ai_response = None
+        system_prompt = (
+            "Ты — Computer Networks AI, экспертный помощник обучающей платформы по компьютерным сетям. "
+            "Твоя задача: помогать студентам и преподавателям. "
+            "Ты знаешь про 13 модулей курса (введение, OSI, IP, маршрутизация, коммутация, безопасность, беспроводные сети, облака и т.д.), "
+            "про сетевой конструктор, лабораторию OSI и IP-калькулятор. "
+            "Отвечай вежливо, профессионально на русском или казахском языке. "
+            "Если вопрос касается топологии сети, предложи использовать наш Сетевой конструктор."
+        )
 
-        response_text = ""
-        for key in responses:
-            if key in user_msg_lower:
-                response_text = responses[key]
-                break
-        
-        if not response_text:
-            response_text = _('Я временно работаю в ограниченном режиме из-за нагрузки на API DeepSeek. Пожалуйста, попробуй позже для более детального ответа или изучи материалы курса.')
+        # Собираем историю сообщений для контекста
+        # Получаем все сообщения, кроме самого последнего, которое мы только что сохранили (user's new message)
+        conversation_history = []
+        messages = list(conversation.messages.all().order_by('timestamp'))
+        for msg in messages[:-1]:  # exclude the last (current user) message
+            conversation_history.append({"role": msg.role, "content": msg.content})
 
-        return JsonResponse({'response': response_text})
+        # Пробуем несколько моделей Gemini по очереди
+        if gemini_api_key:
+            models = [
+                'gemini-2.0-flash',
+                'gemini-2.0-flash-lite',
+                'gemini-2.5-pro-exp-03-25',
+                'gemini-2.0-flash-thinking-exp',
+            ]
+            
+            for model_name in models:
+                try:
+                    logger.info(f"Trying Gemini model: {model_name}")
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={gemini_api_key}"
+                    
+                    # Форматируем сообщения для Gemini (правильный формат с system_instruction)
+                    gemini_messages = []
+                    
+                    for hist_msg in conversation_history:
+                        role = "user" if hist_msg["role"] == "user" else "model"
+                        gemini_messages.append({"role": role, "parts": [{"text": hist_msg["content"]}]})
+                    
+                    # Добавляем текущее сообщение пользователя
+                    gemini_messages.append({"role": "user", "parts": [{"text": user_msg}]})
+                    
+                    payload = {
+                        "systemInstruction": {"role": "user", "parts": [{"text": system_prompt}]},
+                        "contents": gemini_messages,
+                        "generationConfig": {
+                            "temperature": 0.7,
+                            "topK": 40,
+                            "topP": 0.95,
+                            "maxOutputTokens": 8192,
+                        },
+                        "safetySettings": [
+                            {
+                                "category": "HARM_CATEGORY_HARASSMENT",
+                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                            },
+                            {
+                                "category": "HARM_CATEGORY_HATE_SPEECH",
+                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                            },
+                            {
+                                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                            },
+                            {
+                                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                            }
+                        ]
+                    }
+                    
+                    headers = {'Content-Type': 'application/json'}
+                    
+                    with httpx.Client() as client:
+                        response = client.post(url, headers=headers, json=payload, timeout=15.0)
+                    
+                    if response.status_code == 200:
+                        res_data = response.json()
+                        candidates = res_data.get('candidates', [])
+                        if candidates:
+                            candidate = candidates[0]
+                            if 'content' in candidate:
+                                parts = candidate['content'].get('parts', [])
+                                if parts:
+                                    ai_response = parts[0].get('text')
+                                    logger.info(f"AI API: Successful response (Gemini {model_name}) for user {request.user.id}")
+                                    break  # Успешный ответ, выходим из цикла по моделям
+                    else:
+                        error_detail = response.text[:300] if response.text else 'No details'
+                        logger.warning(f"Gemini {model_name} API Error ({response.status_code}): {error_detail}")
+                except Exception as e:
+                    logger.warning(f"AI API: Gemini {model_name} error for user {request.user.id}: {e}")
+                    continue  # Пробуем следующую модель
+            
+            if not ai_response:
+                logger.info("All Gemini models failed, using fallback")
+        else:
+            ai_response = "GEMINI_API_KEY не установлен в настройках!"
         
+        # Если Gemini не дал ответа, используем локальный режим как последнее средство
+        if not ai_response or ai_response.startswith("Ошибка") or ai_response.startswith("Квота"):
+            logger.info(f"AI API: Using local fallback mode for user {request.user.id}")
+            ai_response = AIFallbackKnowledge.get_response(user_msg)
+        
+        # Сохраняем ответ ИИ
+        AIMessage.objects.create(
+            conversation=conversation,
+            role='assistant',
+            content=ai_response
+        )
+        
+        return JsonResponse({'response': ai_response, 'conversation_id': conversation.id})
+        
+    except json.JSONDecodeError as e:
+        logger.exception(f"AI API: Invalid JSON from user {request.user.id}: {e}")
+        return JsonResponse({'response': _('Ошибка обработки запроса. Попробуйте снова.')})
     except Exception as e:
-        logger.exception("Hybrid AI Exception")
+        logger.exception(f"AI API: Critical exception for user {request.user.id}: {e}")
         return JsonResponse({'response': _('Произошла системная ошибка. Попробуйте позже.')}, status=200)
+
+
+# ==================== ONBOARDING VIEWS ====================
+
+@login_required
+def onboarding_welcome(request):
+    """Приветственный экран онбординга"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/welcome.html')
+
+@login_required
+def onboarding_guide(request):
+    """Экран с руководством по курсу"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/guide.html')
+
+@login_required
+def onboarding_labs(request):
+    """Экран с информацией о лабораториях"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/labs.html')
+
+@login_required
+def onboarding_ai_assistant(request):
+    """Экран с информацией об ИИ-помощнике"""
+    if request.user.completed_onboarding:
+        return redirect('dashboard:index')
+    return render(request, 'onboarding/ai_assistant.html')
+
+@login_required
+def onboarding_complete(request):
+    """Завершение онбординга"""
+    if request.method == 'POST':
+        request.user.completed_onboarding = True
+        request.user.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+@login_required
+def onboarding_skip(request):
+    """Пропуск онбординга"""
+    if request.method == 'POST':
+        request.user.completed_onboarding = True
+        request.user.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
