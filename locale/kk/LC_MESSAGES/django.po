@@ -2404,36 +2404,36 @@ msgstr "Өзгерістерді сақтау"
 
 #: .\templates\accounts\profile.html:237
 msgid "Безопасность аккаунта"
-msgstr ""
+msgstr "Аккаунт қауіпсіздігі"
 
 #: .\templates\accounts\profile.html:242
 msgid "Email адрес"
-msgstr ""
+msgstr "Email мекенжайы"
 
 #: .\templates\accounts\profile.html:245
 msgid "Изменение email временно недоступно"
-msgstr ""
+msgstr "Email өзгерту уақытша қол жетімсіз"
 
 #: .\templates\accounts\profile.html:246 .\templates\admin\index.html:43
 #: .\templates\courses\list.html:131
 msgid "Изменить"
-msgstr ""
+msgstr "Өзгерту"
 
 #: .\templates\accounts\profile.html:252
 msgid "Последнее изменение: 3 месяца назад"
-msgstr ""
+msgstr "Соңғы өзгерту: 3 ай бұрын"
 
 #: .\templates\accounts\profile.html:255
 msgid "Сменить"
-msgstr ""
+msgstr "Алмастыру"
 
 #: .\templates\accounts\profile.html:270
 msgid "Предпочтения"
-msgstr ""
+msgstr "Балапантар"
 
 #: .\templates\accounts\profile.html:304
 msgid "Тема оформления"
-msgstr ""
+msgstr "Дизайн темасы"
 
 #: .\templates\accounts\profile.html:311 .\templates\base.html:368
 #: .\templates\base.html:393
@@ -2442,12 +2442,12 @@ msgstr "Ашық"
 
 #: .\templates\accounts\profile.html:317 .\templates\base.html:392
 msgid "Тёмная"
-msgstr ""
+msgstr "Қараңғы"
 
 #: .\templates\accounts\profile.html:330 .\templates\accounts\register.html:69
 #: .\templates\accounts\verify_email.html:61
 msgid "Обучающий веб-сервис по сетевым технологиям"
-msgstr ""
+msgstr "Желілік технологиялар бойынша оқу веб-сервисі"
 
 #: .\templates\accounts\profile.html:356
 msgid "Баллы за тесты"
@@ -2462,14 +2462,16 @@ msgid ""
 "Погрузитесь в мир сетевой архитектуры с помощью передовых визуализаций и "
 "практических модулей."
 msgstr ""
+"Кеңейтілген визуализациялар мен практикалық модульдер арқылы желілік "
+"архитектура әлеміне енгізіңіз."
 
 #: .\templates\accounts\register.html:78
 msgid "Глубокое погружение в уровни протоколов"
-msgstr ""
+msgstr "Протоколдар деңгейлеріне терең ену"
 
 #: .\templates\accounts\register.html:83
 msgid "Освоение динамического поиска пути"
-msgstr ""
+msgstr "Динамикалық жол іздеуді игеру"
 
 #: .\templates\accounts\register.html:91 .\templates\includes\sidebar.html:12
 msgid "Сетевой архитектор"
@@ -2477,35 +2479,35 @@ msgstr "Желілік архитектор"
 
 #: .\templates\accounts\register.html:101
 msgid "Создать аккаунт"
-msgstr ""
+msgstr "Аккаунт құру"
 
 #: .\templates\accounts\register.html:104
 msgid "Начните свой путь в сетевую инженерию"
-msgstr ""
+msgstr "Желілік инженерияға жолыңызды бастаңыз"
 
 #: .\templates\accounts\register.html:154
 msgid "Имя пользователя"
-msgstr ""
+msgstr "Пайдаланушы аты"
 
 #: .\templates\accounts\register.html:213
 msgid "Я согласен с"
-msgstr ""
+msgstr "Мен солайымын"
 
 #: .\templates\accounts\register.html:215
 msgid "Условиями обслуживания"
-msgstr ""
+msgstr "Қызмет көрсету шарттары"
 
 #: .\templates\accounts\register.html:236 .\templates\home.html:308
 msgid "Зарегистрироваться"
-msgstr ""
+msgstr "Тіркелу"
 
 #: .\templates\accounts\register.html:242
 msgid "Уже есть аккаунт?"
-msgstr ""
+msgstr "Аккаунтыңыз бар ма?"
 
 #: .\templates\accounts\register.html:261
 msgid "Зарегистрироваться через Google"
-msgstr ""
+msgstr "Google арқылы тіркелу"
 
 #: .\templates\accounts\register.html:274
 msgid "Условия обслуживания"
@@ -6568,7 +6570,7 @@ msgstr ""
 
 #: .\templates\laboratory\network_designer.html:38
 msgid "Router"
-msgstr ""
+msgstr "Маршрутизатор"
 
 #: .\templates\laboratory\network_designer.html:39
 msgid "Switch"
