@@ -64,10 +64,6 @@ def project_detail(request, project_id):
 @login_required
 def dashboard_index(request):
     """Отображение главной страницы дашборда"""
-    # Перенаправление на онбординг для новых пользователей
-    if not request.user.completed_onboarding:
-        return redirect('onboarding_welcome')
-    
     if request.user.role == 'teacher' or request.user.is_superuser:
         return redirect('dashboard:teacher_index')
     

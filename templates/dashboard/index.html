@@ -107,7 +107,7 @@
                             
                             <div class="flex-1 space-y-4">
                                 <div>
-                                    <h3 class="text-2xl font-black text-on-surface mb-1">{% if next_module %}{{ next_module.name }}{% else %}{% trans "Курс завершен" %}{% endif %}</h3>
+                                    <h3 class="text-2xl font-black text-on-surface mb-1">{% if next_module %}{% if LANGUAGE_CODE == 'kk' and next_module.name_kk %}{{ next_module.name_kk }}{% else %}{{ next_module.name }}{% endif %}{% else %}{% trans "Курс завершен" %}{% endif %}</h3>
                                     <div class="flex items-center gap-4">
                                         <div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden">
                                             <div class="h-full bg-primary transition-all duration-700" style="width: {{ progress_percent|default:0 }}%;"></div>
@@ -154,7 +154,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between mb-2">
-                                        <span class="font-bold text-on-surface text-sm">{{ module.name }}</span>
+                                        <span class="font-bold text-on-surface text-sm">{% if LANGUAGE_CODE == 'kk' and module.name_kk %}{{ module.name_kk }}{% else %}{{ module.name }}{% endif %}</span>
                                         <span class="text-xs text-on-surface-variant">{% trans "Модуль" %} {{ module.order }}</span>
                                     </div>
                                     <div class="flex items-center gap-3">
