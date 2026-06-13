@@ -40,6 +40,24 @@ class Lab(models.Model):
         verbose_name_plural = _("Лабораторные работы")
         ordering = ['order', 'id']
 
+    @property
+    def localized_title(self):
+        """Возвращает заголовок лабораторной работы на текущем языке"""
+        from django.utils import translation
+        lang = translation.get_language()
+        if lang == 'kk' and self.title_kk:
+            return self.title_kk
+        return self.title
+
+    @property
+    def localized_description(self):
+        """Возвращает описание лабораторной работы на текущем языке"""
+        from django.utils import translation
+        lang = translation.get_language()
+        if lang == 'kk' and self.description_kk:
+            return self.description_kk
+        return self.description
+
     def __str__(self):
         return f"{self.title} ({self.module.name})"
     

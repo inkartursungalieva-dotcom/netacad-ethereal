@@ -131,13 +131,13 @@
 
                 <div class="flex-1">
                     <h3 class="font-headline text-xl font-bold text-on-surface mb-2">
-                        {% if request.LANGUAGE_CODE == 'kk' and lab.title_kk %}{{ lab.title_kk }}{% else %}{{ lab.title }}{% endif %}
+                        {{ lab.localized_title }}
                     </h3>
                     <p class="text-xs text-primary font-black uppercase tracking-widest mb-3">
-                        {% if request.LANGUAGE_CODE == 'kk' and lab.module.name_kk %}{{ lab.module.name_kk }}{% else %}{{ lab.module.name }}{% endif %}
+                        {{ lab.module.localized_name }}
                     </p>
                     <p class="text-sm text-on-surface-variant line-clamp-3 mb-4">
-                        {% if request.LANGUAGE_CODE == 'kk' and lab.description_kk %}{{ lab.description_kk }}{% else %}{{ lab.description }}{% endif %}
+                        {{ lab.localized_description }}
                     </p>
                     
                     <!-- Lab Meta Info -->
