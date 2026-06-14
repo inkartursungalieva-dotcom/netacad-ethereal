@@ -35,6 +35,8 @@ class NetworkDevice(models.Model):
         ('hub', 'Hub'),
         ('pc', 'PC'),
         ('server', 'Server'),
+        ('firewall', 'Firewall'),
+        ('ap', 'Access Point'),
     ]
 
     topology = models.ForeignKey(

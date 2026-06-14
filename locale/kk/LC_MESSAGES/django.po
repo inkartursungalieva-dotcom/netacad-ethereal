@@ -6610,6 +6610,10 @@ msgid "Проверить сеть"
 msgstr "Желіні тексеру"
 
 #: .\templates\laboratory\network_designer.html:29
+msgid "Отправить преподавателю"
+msgstr "Оқытушыға жіберу"
+
+#: .\templates\laboratory\network_designer.html:30
 msgid "Запуск"
 msgstr "Іске қосу"
 

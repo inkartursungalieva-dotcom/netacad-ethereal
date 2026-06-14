@@ -469,7 +469,7 @@
             <span>${item.source} → ${item.target} (${item.protocol}): ${item.success ? "✅ Успешно" : "❌ Ошибка"}</span>
           </div>
         `).join("")
-      : `<p class="muted">${getTrans("noDevices", "История пуста")}</p>`;
+      : `<p class="muted">История пуста</p>`;
   }
   
   function startSimulation(fromTerminal) {
@@ -635,33 +635,7 @@
   document.getElementById("runBtn").addEventListener("click", () => startSimulation(false));
   document.getElementById("checkBtn").addEventListener("click", checkNetwork);
   
-  const saveTopologyBtn = document.getElementById("saveTopologyBtn");
-  if (saveTopologyBtn) {
-    saveTopologyBtn.addEventListener("click", () => {
-      api("/api/topology/save/", { name: null, submit: false }).then((data) => {
-        state.topology = data.topology;
-        const submitStatus = document.getElementById("submitStatus");
-        if (submitStatus) {
-          submitStatus.textContent = getTrans("draft", "Черновик");
-        }
-        logEvent(getTrans("saved", "Сохранено"), getTrans("topologySaved", "Топология сохранена"), "ok");
-      }).catch(showError);
-    });
-  }
-  
-  const submitTopologyBtn = document.getElementById("submitTopologyBtn");
-  if (submitTopologyBtn) {
-    submitTopologyBtn.addEventListener("click", () => {
-      api("/api/topology/save/", { name: null, submit: true }).then((data) => {
-        state.topology = data.topology;
-        const submitStatus = document.getElementById("submitStatus");
-        if (submitStatus) {
-          submitStatus.textContent = getTrans("submitted", "Отправлено");
-        }
-        logEvent(getTrans("submitted", "Отправлено"), getTrans("topologySubmitted", "Топология отправлена преподавателю"), "ok");
-      }).catch(showError);
-    });
-  }
+
 
   document.getElementById("autoIpBtn").addEventListener("click", () => {
     let ipCounter = 10;
@@ -686,6 +660,8 @@
       const sidebar = document.querySelector("aside.fixed");
       const netlab = document.querySelector(".netlab");
       if (sidebar && netlab) {
+        sidebar.classList.toggle("hidden");
+        sidebar.classList.toggle("flex");
         sidebar.classList.toggle("lg:flex");
         netlab.classList.toggle("lg:ml-64");
       }
@@ -747,10 +723,6 @@
     state.topology = topology;
     state.devices = topology.devices || [];
     state.connections = topology.connections || [];
-    const submitStatus = document.getElementById("submitStatus");
-    if (submitStatus) {
-      submitStatus.textContent = topology.is_submitted ? getTrans("submitted", "Отправлено") : getTrans("draft", "Черновик");
-    }
     render();
     if (!localStorage.getItem("netlab-help-seen")) {
       showModal(helpModal);

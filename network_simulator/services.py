@@ -83,7 +83,7 @@ def get_or_create_user_topology(user):
 
 def validate_ip_config(device):
     errors = []
-    if device.type in {"pc", "server", "router"}:
+    if device.type in {"pc", "server", "router", "firewall", "ap"}:
         if not device.ip_address:
             errors.append("нет IP")
         else:

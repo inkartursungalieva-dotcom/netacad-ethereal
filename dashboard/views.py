@@ -62,22 +62,6 @@ def project_detail(request, project_id):
     
     return render(request, 'dashboard/project_detail.html', {'project': project})
 
-
-@login_required
-@teacher_required
-def network_topologies_list(request):
-    """Список всех отправленных сетевых топологий для преподавателя"""
-    topologies = NetworkTopology.objects.filter(is_submitted=True).select_related('user').order_by('-submitted_at')
-    return render(request, 'dashboard/network_topologies_list.html', {'topologies': topologies})
-
-
-@login_required
-@teacher_required
-def network_topology_detail(request, topology_id):
-    """Детальная информация о сетевой топологии для проверки"""
-    topology = get_object_or_404(NetworkTopology, id=topology_id)
-    return render(request, 'dashboard/network_topology_detail.html', {'topology': topology})
-
 @login_required
 def dashboard_index(request):
     """Отображение главной страницы дашборда"""

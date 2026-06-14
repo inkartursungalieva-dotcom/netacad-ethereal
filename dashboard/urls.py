@@ -30,10 +30,7 @@ urlpatterns = [
     path('teacher/projects/', views.projects_list, name='projects_list'),
     path('teacher/projects/<int:project_id>/', views.project_detail, name='project_detail'),
     
-    # Управление сетевыми топологиями
-    path('teacher/topologies/', views.network_topologies_list, name='network_topologies_list'),
-    path('teacher/topologies/<int:topology_id>/', views.network_topology_detail, name='network_topology_detail'),
-    
+
     path('teacher/mail/', views.mail_students, name='mail_students'),
     path('test-results/', views.test_results_list, name='test_results_list'),
     path('grades/', views.grades_view, name='grades'),
