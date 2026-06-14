@@ -41,7 +41,7 @@
         </div>
         <div class="flex items-center gap-4">
             <span id="timer" class="text-sm font-mono font-bold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">00:00</span>
-            <button onclick="document.getElementById('quiz-form').submit()" type="button" class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all">
+            <button id="top-submit-btn" type="button" class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all">
                 {% trans "Завершить" %}
             </button>
         </div>
@@ -200,6 +200,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // VARIABLE DECLARATIONS FIRST
+        let testFinished = false;
+        let cheatedCount = 0;
+        let cheated = false;
+        let lastCheatTime = 0;
+        
         const steps = document.querySelectorAll('.question-step');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
@@ -261,9 +267,13 @@
             });
         });
 
-        // Set testFinished flag when clicking submit
+        // Set testFinished flag when clicking submit or top button
         document.querySelector('button[type="submit"]').addEventListener('click', () => {
             testFinished = true;
+        });
+        document.getElementById('top-submit-btn').addEventListener('click', () => {
+            testFinished = true;
+            document.getElementById('quiz-form').submit();
         });
 
         // Timer
@@ -281,6 +291,7 @@
                 clearInterval(timerInterval);
                 timerElement.innerText = "00:00";
                 timerElement.classList.add('text-error', 'animate-pulse');
+                testFinished = true; // Set flag here too
                 alert('{% trans "Время вышло! Ваш тест будет автоматически отправлен." %}');
                 document.getElementById('quiz-form').submit();
                 return;
@@ -295,12 +306,6 @@
                 timerElement.classList.add('text-error');
             }
         }, 1000);
-
-        // Anti-cheat logic
-        let cheatedCount = 0;
-        let cheated = false;
-        let lastCheatTime = 0;
-        let testFinished = false;
         
         async function logAction(action, details = '') {
             try {

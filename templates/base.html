@@ -201,9 +201,8 @@
             
             <div class="flex items-center space-x-8">
                 {% if user.is_authenticated and user.role == 'teacher' or user.is_superuser %}
-                <a href="/admin/" class="text-[#35313a] dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm font-bold flex items-center gap-2">
+                <a href="/admin/" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high/50 hover:bg-primary/20 text-on-surface-variant hover:text-primary transition-all duration-300 backdrop-blur-md border border-outline-variant/10" title="{% trans 'Панель администратора' %}">
                     <span class="material-symbols-outlined text-xl">admin_panel_settings</span>
-                    <span class="hidden lg:inline">{% trans "Админ панель" %}</span>
                 </a>
                 {% elif not user.is_authenticated and '/accounts/' in request.path %}
                 <a href="/admin/" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high/50 hover:bg-primary/20 text-on-surface-variant hover:text-primary transition-all duration-300 backdrop-blur-md border border-outline-variant/10" title="{% trans 'Панель администратора' %}">
@@ -356,7 +355,7 @@
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'terms' %}">{% trans "Условия использования" %}</a>
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'dashboard:support' %}">{% trans "Контакты" %}</a>
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'courses:usability_test' %}">{% if LANGUAGE_CODE == 'kk' %}Пайдаланудың ыңғайлылығы{% else %}Удобство использования{% endif %}</a>
-                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'api_docs' %}">{% trans "API Документация" %}</a>
+                <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'api_docs' %}">API Документация</a>
                 <a class="text-slate-500 dark:text-slate-400 hover:text-[#8E7AB5] transition-colors font-body text-sm" href="{% url 'legal' 'cookies' %}">{% trans "Cookies" %}</a>
             </div>
             

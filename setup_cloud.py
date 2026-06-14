@@ -34,7 +34,7 @@ def setup():
             domain = allowed.split(',')[0].strip()
 
     if not domain:
-        domain = 'netacad-ethereal-inkar-au9p.onrender.com' # Обновлено с учетом -au9p
+        domain = 'netacad-ethereal-inkar-au9p.onrender.com'
     
     print(f"DEBUG: Using domain for Site: {domain}")
     site, _ = Site.objects.get_or_create(id=1, defaults={'domain': domain, 'name': 'Computer Networks'})

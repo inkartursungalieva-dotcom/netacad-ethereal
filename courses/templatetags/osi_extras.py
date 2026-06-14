@@ -16,6 +16,8 @@ def custom_timesince(value):
     """
     Custom timesince filter with proper translations
     """
+    if not value:
+        return _("никогда")
     now = timezone.now()
     delta = now - value
 

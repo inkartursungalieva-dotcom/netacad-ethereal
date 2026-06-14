@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{{ module.localized_name }} - {% trans "Computer Networks" %}{% endblock %}
+{% block title %}{{ module.name }} - {% trans "Computer Networks" %}{% endblock %}
 
 {% block content %}
 <div class="flex pt-16 min-h-screen bg-surface">
@@ -19,7 +19,7 @@
                         <div class="flex items-center gap-2 mb-1">
                             <span class="text-[10px] font-bold text-primary uppercase tracking-[0.2em] bg-primary/10 px-2 py-0.5 rounded">{% trans "Модуль" %} {{ module.order }}</span>
                         </div>
-                        <h1 class="text-4xl font-extrabold font-headline text-on-surface tracking-tight leading-tight">{{ module.localized_name }}</h1>
+                        <h1 class="text-4xl font-extrabold font-headline text-on-surface tracking-tight leading-tight">{{ module.name }}</h1>
                     </div>
                 </div>
                 
@@ -46,7 +46,7 @@
                 <div class="bg-white dark:bg-[#2b2930] p-8 md:p-12 rounded-[3rem] shadow-xl border border-outline-variant/10 min-h-[400px]">
                     <div class="prose prose-slate dark:prose-invert max-w-none">
                         <div class="text-lg text-on-surface-variant leading-relaxed mb-10 whitespace-pre-wrap">
-                            {{ module.localized_description|safe }}
+                            {{ module.description|safe }}
                         </div>
                         
                         <!-- YouTube Video -->

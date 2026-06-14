@@ -111,7 +111,7 @@
                 <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
                         <h3 class="font-headline text-xl font-bold text-on-surface">
-                            {{ module.localized_name }}
+                            {% if request.LANGUAGE_CODE == 'kk' and module.name_kk %}{{ module.name_kk }}{% else %}{{ module.name }}{% endif %}
                         </h3>
                         {% if module.lab_completed %}
                         <div class="flex items-center gap-1 px-2 py-0.5 bg-primary/10 text-primary rounded-md border border-primary/20" title="{% trans 'Практика выполнена' %}">
@@ -121,7 +121,13 @@
                         {% endif %}
                     </div>
                     <p class="text-sm text-on-surface-variant line-clamp-2 mb-4">
-                        {{ module.localized_description }}
+                        {% if request.LANGUAGE_CODE == 'kk' and module.description_kk %}
+                            {{ module.description_kk }}
+                        {% elif module.description %}
+                            {{ module.description }}
+                        {% else %}
+                            {% trans "Освойте основные концепции и протоколы современной сетевой архитектуры." %}
+                        {% endif %}
                     </p>
                     
                     {% if user.role == 'teacher' or user.is_superuser %}

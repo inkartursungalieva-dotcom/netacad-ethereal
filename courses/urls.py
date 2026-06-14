@@ -25,7 +25,7 @@ urlpatterns = [
     path('test/<str:slug>/results/', views.test_results_view, name='test_results'),
     path('test/<str:slug>/pdf/', views.export_pdf_view, name='export_pdf'),
     path('results/share/<str:token>/', views.shared_results_view, name='shared_results'),
-    path('test-history/', views.test_history_view, name='test_history'),
+
     path('usability-test/', views.usability_test_view, name='usability_test'),
 
     # Учебные ресурсы

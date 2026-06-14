@@ -562,21 +562,4 @@ def delete_resource_view(request, pk):
     messages.success(request, _("Материал удален."))
     return redirect('courses:resource_list')
 
-@login_required
-def test_history_view(request):
-    """История прохождения тестов пользователя"""
-    user_progress = UserProgress.objects.filter(user=request.user).select_related('module').order_by('-completed_at')
-    
-    # Статистика
-    total_tests = user_progress.count()
-    passed_tests = user_progress.filter(score__gte=70).count()
-    avg_score = user_progress.aggregate(avg_score=models.Avg('score'))['avg_score'] or 0
-    
-    context = {
-        'user_progress': user_progress,
-        'total_tests': total_tests,
-        'passed_tests': passed_tests,
-        'avg_score': round(avg_score),
-    }
-    
-    return render(request, 'courses/test_history.html', context)
+

@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _, get_language
+from django.utils.translation import gettext_lazy as _
 import uuid
 
 class Module(models.Model):
@@ -21,22 +21,6 @@ class Module(models.Model):
         verbose_name = _("Модуль")
         verbose_name_plural = _("Модули")
         ordering = ['order']
-
-    @property
-    def localized_name(self):
-        """Возвращает имя модуля на текущем языке"""
-        lang = get_language()
-        if lang == 'kk' and self.name_kk:
-            return self.name_kk
-        return self.name
-
-    @property
-    def localized_description(self):
-        """Возвращает описание модуля на текущем языке"""
-        lang = get_language()
-        if lang == 'kk' and self.description_kk:
-            return self.description_kk
-        return self.description
 
     @property
     def test_duration_minutes(self):
@@ -108,14 +92,6 @@ class Question(models.Model):
         verbose_name = _("Вопрос")
         verbose_name_plural = _("Вопросы")
 
-    @property
-    def localized_text(self):
-        """Возвращает текст вопроса на текущем языке"""
-        lang = get_language()
-        if lang == 'kk' and self.text_kk:
-            return self.text_kk
-        return self.text
-
     def __str__(self):
         return self.text[:50]
 
@@ -127,19 +103,12 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False, verbose_name=_("Верный?"))
     order = models.PositiveIntegerField(default=0, verbose_name=_("Порядок (для сортировки)"))
     pair_text = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Пара (для сопоставления)"))
+    pair_text_kk = models.CharField(max_length=255, verbose_name=_("Пара (для сопоставления) (каз)"), null=True, blank=True)
     
     class Meta:
         verbose_name = _("Вариант ответа")
         verbose_name_plural = _("Варианты ответа")
         ordering = ['order', 'id']
-
-    @property
-    def localized_text(self):
-        """Возвращает текст варианта ответа на текущем языке"""
-        lang = get_language()
-        if lang == 'kk' and self.text_kk:
-            return self.text_kk
-        return self.text
 
     def __str__(self):
         return self.text
