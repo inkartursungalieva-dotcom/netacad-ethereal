@@ -6,6 +6,7 @@ from courses.models import Module, UserProgress, UserAnswer, Question, Choice, F
 from laboratory.models import Lab, LabProgress
 from accounts.models import User, Notification
 from core.models import AuditLog
+from network_simulator.models import NetworkTopology
 from .forms import LabForm, QuestionForm, ChoiceFormSet
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
@@ -60,6 +61,22 @@ def project_detail(request, project_id):
             return redirect('dashboard:projects_list')
     
     return render(request, 'dashboard/project_detail.html', {'project': project})
+
+
+@login_required
+@teacher_required
+def network_topologies_list(request):
+    """Список всех отправленных сетевых топологий для преподавателя"""
+    topologies = NetworkTopology.objects.filter(is_submitted=True).select_related('user').order_by('-submitted_at')
+    return render(request, 'dashboard/network_topologies_list.html', {'topologies': topologies})
+
+
+@login_required
+@teacher_required
+def network_topology_detail(request, topology_id):
+    """Детальная информация о сетевой топологии для проверки"""
+    topology = get_object_or_404(NetworkTopology, id=topology_id)
+    return render(request, 'dashboard/network_topology_detail.html', {'topology': topology})
 
 @login_required
 def dashboard_index(request):
@@ -143,7 +160,7 @@ def teacher_dashboard_index(request):
     except:
         student_perf = list(User.objects.filter(role='student').order_by('-last_login')[:5])
     
-    recent_act = UserProgress.objects.select_related('user', 'module').order_by('-completed_at')[:5]
+    recent_act = UserProgress.objects.filter(user__role='student').select_related('user', 'module').order_by('-completed_at')[:5]
     
     context = {
         'total_students': total_students,
@@ -174,7 +191,7 @@ def export_report(request):
         _('Дата завершения')
     ])
     
-    progress_data = UserProgress.objects.select_related('user', 'module').all()
+    progress_data = UserProgress.objects.filter(user__role='student').select_related('user', 'module').all()
     for p in progress_data:
         writer.writerow([
             p.user.username,
@@ -359,7 +376,7 @@ def test_results_list(request):
     """Отображение страницы результатов тестов"""
     # Если это преподаватель или админ, показываем результаты всех студентов
     if request.user.role == 'teacher' or request.user.is_superuser:
-        user_progress = UserProgress.objects.all().select_related('module', 'user').order_by('-completed_at')
+        user_progress = UserProgress.objects.filter(user__role='student').select_related('module', 'user').order_by('-completed_at')
         is_teacher = True
     else:
         # Для студента показываем только его результаты

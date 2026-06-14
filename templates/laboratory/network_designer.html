@@ -13,15 +13,20 @@
 
   <div class="netlab lg:ml-64 flex-1" data-csrf="{{ csrf_token }}">
     <header class="netlab__header">
-      <div>
-        <p class="netlab__eyebrow">{% trans "Учебный симулятор" %}</p>
-        <h1>{% trans "Сетевой конструктор" %}</h1>
+      <div class="flex items-center gap-4">
+        <div>
+          <p class="netlab__eyebrow">{% trans "Учебный симулятор" %}</p>
+          <h1>{% trans "Сетевой конструктор" %}</h1>
+        </div>
+        <span class="netlab-status" id="submitStatus">{% trans 'Черновик' %}</span>
       </div>
       <div class="netlab__actions">
         <button class="netlab-btn netlab-btn--ghost" id="toggleSidebarBtn" type="button" title="{% trans 'Скрыть/показать меню' %}">☰</button>
         <button class="netlab-btn netlab-btn--ghost" id="autoIpBtn" type="button" title="{% trans 'Автоматически назначить IP-адреса' %}">🔧 {% trans "Авто IP" %}</button>
         <button class="netlab-btn netlab-btn--ghost" id="helpBtn" type="button">{% trans "Помощь" %}</button>
         <button class="netlab-btn netlab-btn--ghost" id="checkBtn" type="button">{% trans "Проверить сеть" %}</button>
+        <button class="netlab-btn netlab-btn--primary" id="saveTopologyBtn" type="button">💾 {% trans "Сохранить" %}</button>
+        <button class="netlab-btn netlab-btn--success" id="submitTopologyBtn" type="button">📤 {% trans "Отправить преподавателю" %}</button>
         <button class="netlab-btn netlab-btn--primary" id="runBtn" type="button">▶ {% trans "Запуск" %}</button>
       </div>
     </header>
@@ -31,12 +36,14 @@
         <section>
           <h2>{% trans "Устройства" %}</h2>
           <div class="device-palette">
-            <button class="palette-item" data-device-type="router" type="button"><span>R</span>Router</button>
-            <button class="palette-item" data-device-type="switch" type="button"><span>SW</span>Switch</button>
-            <button class="palette-item" data-device-type="hub" type="button"><span>H</span>Hub</button>
-            <button class="palette-item" data-device-type="pc" type="button"><span>PC</span>PC</button>
-            <button class="palette-item" data-device-type="server" type="button"><span>SRV</span>Server</button>
-          </div>
+          <button class="palette-item" data-device-type="router" type="button"><span>R</span>Router</button>
+          <button class="palette-item" data-device-type="switch" type="button"><span>SW</span>Switch</button>
+          <button class="palette-item" data-device-type="hub" type="button"><span>H</span>Hub</button>
+          <button class="palette-item" data-device-type="pc" type="button"><span>PC</span>PC</button>
+          <button class="palette-item" data-device-type="server" type="button"><span>SRV</span>Server</button>
+          <button class="palette-item" data-device-type="firewall" type="button"><span>FW</span>Firewall</button>
+          <button class="palette-item" data-device-type="ap" type="button"><span>AP</span>Access Point</button>
+        </div>
         </section>
 
         <section>
@@ -74,6 +81,9 @@
             <label for="protocolSelect">{% trans "Протокол" %}</label>
             <select id="protocolSelect">
               <option value="icmp">ICMP (Ping)</option>
+              <option value="tcp">TCP</option>
+              <option value="http">HTTP</option>
+              <option value="dns">DNS</option>
             </select>
           </div>
           <span class="mode-pill" id="modePill">{% trans "Кабель" %}: Auto</span>
@@ -107,6 +117,10 @@
         <section>
           <h2>{% trans "События симуляции" %}</h2>
           <div class="event-log" id="eventLog"></div>
+        </section>
+        <section>
+          <h2>{% trans "История симуляций" %}</h2>
+          <div class="simulation-history" id="simulationHistory"></div>
         </section>
       </aside>
     </main>

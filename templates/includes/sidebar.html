@@ -102,6 +102,10 @@
                     <span class="material-symbols-outlined text-sm">quiz</span> 
                     <span>{% trans "Управление тестами" %}</span>
                 </a>
+                <a href="{% url 'dashboard:network_topologies_list' %}" class="{% if request.resolver_match.url_name == 'network_topologies_list' or request.resolver_match.url_name == 'network_topology_detail' %}bg-[#e7e0ec] text-[#8E7AB5] font-bold{% else %}text-[#49454f] dark:text-[#cac4d0] hover:bg-[#e7e0ec] dark:hover:bg-[#35313a]{% endif %} px-4 py-2 mx-2 flex items-center gap-3 transition-all rounded-r-full cursor-pointer text-xs">
+                    <span class="material-symbols-outlined text-sm">architecture</span> 
+                    <span>{% trans "Сетевые топологии" %}</span>
+                </a>
             </div>
         {% endif %}
 

@@ -119,6 +119,40 @@
   border: 1px solid var(--netlab-line);
 }
 
+.netlab-btn--success {
+  background: var(--netlab-ok);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(24, 160, 88, .24);
+}
+
+.netlab-input {
+  width: min(260px, 100%);
+  border: 1px solid var(--netlab-line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--netlab-ink);
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+}
+
+.netlab-input:focus {
+  border-color: var(--netlab-primary);
+  box-shadow: 0 0 0 3px rgba(142, 68, 173, .12);
+}
+
+.netlab-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  border-radius: 999px;
+  padding: 0 12px;
+  background: var(--netlab-primary-soft);
+  color: var(--netlab-primary-dark);
+  font-size: 12px;
+  font-weight: 850;
+}
+
 .netlab__body {
   display: grid;
   grid-template-columns: 260px minmax(420px, 1fr) 300px;

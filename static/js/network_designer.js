@@ -17,6 +17,7 @@
     originalDeviceData: null,
     terminalMode: "exec",
     terminalInterface: null,
+    simulationHistory: [],
   };
 
   const canvas = document.getElementById("canvas");
@@ -60,7 +61,7 @@
   }
 
   function iconFor(type) {
-    return { router: "R", switch: "SW", hub: "H", pc: "PC", server: "SRV" }[type] || "NET";
+    return { router: "R", switch: "SW", hub: "H", pc: "PC", server: "SRV", firewall: "FW", ap: "AP" }[type] || "NET";
   }
 
   function deviceLabel(device) {
@@ -457,6 +458,20 @@
     terminalPrompt.textContent = prompt;
   }
 
+  function renderSimulationHistory() {
+    const historyContainer = document.getElementById("simulationHistory");
+    if (!historyContainer) return;
+    
+    historyContainer.innerHTML = state.simulationHistory.length 
+      ? state.simulationHistory.map((item, index) => `
+          <div class="list-row">
+            <b>${new Date(item.timestamp).toLocaleString()}</b>
+            <span>${item.source} → ${item.target} (${item.protocol}): ${item.success ? "✅ Успешно" : "❌ Ошибка"}</span>
+          </div>
+        `).join("")
+      : `<p class="muted">${getTrans("noDevices", "История пуста")}</p>`;
+  }
+  
   function startSimulation(fromTerminal) {
     if (!sourceSelect.value || !targetSelect.value) {
       showError(new Error(getTrans("addMinTwoDevices", "Добавьте минимум два устройства")));
@@ -469,10 +484,23 @@
       target_device: targetSelect.value,
       protocol: protocolSelect.value,
     }).then((data) => {
+      const sourceDevice = byId(sourceSelect.value);
+      const targetDevice = byId(targetSelect.value);
+      
+      state.simulationHistory.unshift({
+        timestamp: Date.now(),
+        source: sourceDevice ? sourceDevice.name : sourceSelect.value,
+        target: targetDevice ? targetDevice.name : targetSelect.value,
+        protocol: protocolSelect.value.toUpperCase(),
+        success: data.result.success,
+      });
+      
       animatePath(data.result.path, data.result.success);
       renderChecks(data.result.checks);
       data.result.hops.forEach((hop, index) => logEvent(`${index + 1}. ${hop.name}`, hop.state, hop.state));
       if (fromTerminal) terminalOutput.textContent += `${data.result.message}\n`;
+      
+      renderSimulationHistory();
     }).catch(showError);
   }
 
@@ -607,29 +635,33 @@
   document.getElementById("runBtn").addEventListener("click", () => startSimulation(false));
   document.getElementById("checkBtn").addEventListener("click", checkNetwork);
   
-  document.getElementById("saveTopologyBtn").addEventListener("click", () => {
-    const name = document.getElementById("topologyName").value;
-    api("/api/topology/save/", { name: name || null, submit: false }).then((data) => {
-      state.topology = data.topology;
-      document.getElementById("submitStatus").textContent = getTrans("draft", "Черновик");
-      logEvent(getTrans("saved", "Сохранено"), getTrans("topologySaved", "Топология сохранена"), "ok");
-    }).catch(showError);
-  });
+  const saveTopologyBtn = document.getElementById("saveTopologyBtn");
+  if (saveTopologyBtn) {
+    saveTopologyBtn.addEventListener("click", () => {
+      api("/api/topology/save/", { name: null, submit: false }).then((data) => {
+        state.topology = data.topology;
+        const submitStatus = document.getElementById("submitStatus");
+        if (submitStatus) {
+          submitStatus.textContent = getTrans("draft", "Черновик");
+        }
+        logEvent(getTrans("saved", "Сохранено"), getTrans("topologySaved", "Топология сохранена"), "ok");
+      }).catch(showError);
+    });
+  }
   
-  document.getElementById("submitTopologyBtn").addEventListener("click", () => {
-    const name = document.getElementById("topologyName").value;
-    api("/api/topology/save/", { name: name || null, submit: true }).then((data) => {
-      state.topology = data.topology;
-      document.getElementById("submitStatus").textContent = getTrans("submitted", "Отправлено");
-      logEvent(getTrans("submitted", "Отправлено"), getTrans("topologySubmitted", "Топология отправлена преподавателю"), "ok");
-    }).catch(showError);
-  });
-
-  document.getElementById("topologyName").addEventListener("change", () => {
-    if (state.topology) {
-      document.getElementById("topologyName").value = state.topology.name || "";
-    }
-  });
+  const submitTopologyBtn = document.getElementById("submitTopologyBtn");
+  if (submitTopologyBtn) {
+    submitTopologyBtn.addEventListener("click", () => {
+      api("/api/topology/save/", { name: null, submit: true }).then((data) => {
+        state.topology = data.topology;
+        const submitStatus = document.getElementById("submitStatus");
+        if (submitStatus) {
+          submitStatus.textContent = getTrans("submitted", "Отправлено");
+        }
+        logEvent(getTrans("submitted", "Отправлено"), getTrans("topologySubmitted", "Топология отправлена преподавателю"), "ok");
+      }).catch(showError);
+    });
+  }
 
   document.getElementById("autoIpBtn").addEventListener("click", () => {
     let ipCounter = 10;
@@ -669,10 +701,30 @@
     });
   });
 
+  // Terminal autocomplete commands
+  const terminalCommands = ["enable", "configure terminal", "show ip interface brief", "show running-config", "interface", "ip address", "no shutdown", "shutdown", "ping", "exit"];
+  
   document.getElementById("terminalForm").addEventListener("submit", (event) => {
     event.preventDefault();
     terminalCommand(terminalInput.value);
     terminalInput.value = "";
+  });
+  
+  terminalInput.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      const input = terminalInput.value.trim();
+      if (!input) return;
+      
+      // Find matching commands
+      const matches = terminalCommands.filter(cmd => cmd.toLowerCase().startsWith(input.toLowerCase()));
+      if (matches.length === 1) {
+        terminalInput.value = matches[0];
+      } else if (matches.length > 1) {
+        terminalOutput.textContent += `\n${matches.join("  ")}\n`;
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      }
+    }
   });
 
   // Add delete button to modal
@@ -695,8 +747,10 @@
     state.topology = topology;
     state.devices = topology.devices || [];
     state.connections = topology.connections || [];
-    document.getElementById("topologyName").value = topology.name || "";
-    document.getElementById("submitStatus").textContent = topology.is_submitted ? getTrans("submitted", "Отправлено") : getTrans("draft", "Черновик");
+    const submitStatus = document.getElementById("submitStatus");
+    if (submitStatus) {
+      submitStatus.textContent = topology.is_submitted ? getTrans("submitted", "Отправлено") : getTrans("draft", "Черновик");
+    }
     render();
     if (!localStorage.getItem("netlab-help-seen")) {
       showModal(helpModal);

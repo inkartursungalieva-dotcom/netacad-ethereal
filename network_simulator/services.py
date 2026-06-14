@@ -58,6 +58,16 @@ def default_interfaces(device_type):
             "FastEthernet0/3": {"status": "up"},
             "FastEthernet0/4": {"status": "up"},
         }
+    if device_type == "firewall":
+        return {
+            "GigabitEthernet0/0": {"status": "up", "ip_address": "", "subnet_mask": ""},
+            "GigabitEthernet0/1": {"status": "up", "ip_address": "", "subnet_mask": ""},
+        }
+    if device_type == "ap":
+        return {
+            "FastEthernet0": {"status": "up", "ip_address": "", "subnet_mask": ""},
+            "WiFi0": {"status": "up"},
+        }
     return {"FastEthernet0": {"status": "up", "ip_address": "", "subnet_mask": ""}}
 
 

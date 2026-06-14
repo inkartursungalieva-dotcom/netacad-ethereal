@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Сетевые топологии" %} - NetAcademy{% endblock %}
+
+{% block content %}
+<div class="flex pt-16 min-h-screen bg-surface">
+    {% include 'includes/sidebar.html' %}
+
+    <main class="lg:ml-64 flex-1 p-8">
+        <div class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <a href="{% url 'dashboard:teacher_index' %}" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-surface-container-highest transition-all">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+                <h2 class="text-3xl font-extrabold font-headline text-on-surface">{% trans "Сетевые топологии" %}</h2>
+            </div>
+        </div>
+
+        <div class="bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant/10 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left" id="topologies-table">
+                    <thead class="bg-surface-container-low/50">
+                        <tr>
+                            <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Студент" %}</th>
+                            <th class="px-4 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Название топологии" %}</th>
+                            <th class="px-4 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">{% trans "Дата отправки" %}</th>
+                            <th class="px-8 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">{% trans "Действие" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-container-low">
+                        {% for topology in topologies %}
+                        <tr class="topology-row hover:bg-surface-container-low/30 transition-colors">
+                            <td class="px-8 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary font-bold">
+                                        {{ topology.user.username|slice:":1"|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-on-surface text-sm">{{ topology.user.get_full_name|default:topology.user.username }}</div>
+                                        <div class="text-[10px] text-on-surface-variant">@{{ topology.user.username }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-on-surface">{{ topology.name }}</td>
+                            <td class="px-4 py-4 text-sm text-on-surface-variant">{{ topology.submitted_at|date:"d.m.Y H:i" }}</td>
+                            <td class="px-8 py-4 text-right">
+                                <a href="{% url 'dashboard:network_topology_detail' topology.id %}" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary hover:bg-primary-container transition-all ml-auto">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-8 py-12 text-center text-on-surface-variant italic">
+                                {% trans "Топологий пока нет." %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

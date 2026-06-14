@@ -322,6 +322,7 @@ def module_test_view(request, slug):
         cheated = request.POST.get('cheated') == 'true'
         time_spent = int(request.POST.get('time_spent', 0))
         total_questions = questions.count()
+        is_admin_or_teacher = request.user.role == 'teacher' or request.user.is_superuser
         
         # Если студент переключал вкладки или время подозрительно мало (меньше 2 сек на вопрос)
         is_suspicious = cheated or (time_spent < total_questions * 2)
@@ -330,8 +331,9 @@ def module_test_view(request, slug):
         score = 0
         errors_count = 0
         
-        # Удаляем старые ответы для этого пользователя и модуля перед сохранением новых
-        UserAnswer.objects.filter(user=request.user, question__module=module).delete()
+        # Удаляем старые ответы только для студентов
+        if not is_admin_or_teacher:
+            UserAnswer.objects.filter(user=request.user, question__module=module).delete()
         
         for question in questions:
             is_question_correct = False
@@ -342,9 +344,10 @@ def module_test_view(request, slug):
                     # Валидация: выбор должен принадлежать именно этому вопросу
                     choice = get_object_or_404(Choice, id=choice_id, question=question)
                     is_question_correct = choice.is_correct
-                    UserAnswer.objects.create(
-                        user=request.user, question=question, choice=choice, is_correct=is_question_correct
-                    )
+                    if not is_admin_or_teacher:
+                        UserAnswer.objects.create(
+                            user=request.user, question=question, choice=choice, is_correct=is_question_correct
+                        )
             
             elif question.type == 'sorting':
                 all_sorted_correct = True
@@ -354,10 +357,11 @@ def module_test_view(request, slug):
                         user_order = int(user_order)
                         correct = (user_order == choice.order)
                         if not correct: all_sorted_correct = False
-                        UserAnswer.objects.create(
-                            user=request.user, question=question, choice=choice, 
-                            user_order=user_order, is_correct=correct
-                        )
+                        if not is_admin_or_teacher:
+                            UserAnswer.objects.create(
+                                user=request.user, question=question, choice=choice, 
+                                user_order=user_order, is_correct=correct
+                            )
                 is_question_correct = all_sorted_correct
             
             elif question.type == 'matching':
@@ -366,10 +370,11 @@ def module_test_view(request, slug):
                     user_match = request.POST.get(f'match_{question.id}_{choice.id}')
                     correct = (user_match == choice.pair_text)
                     if not correct: all_matched_correct = False
-                    UserAnswer.objects.create(
-                        user=request.user, question=question, choice=choice,
-                        matched_text=user_match, is_correct=correct
-                    )
+                    if not is_admin_or_teacher:
+                        UserAnswer.objects.create(
+                            user=request.user, question=question, choice=choice,
+                            matched_text=user_match, is_correct=correct
+                        )
                 is_question_correct = all_matched_correct
             
             elif question.type == 'text_input':
@@ -380,16 +385,22 @@ def module_test_view(request, slug):
                     if user_text == choice.text.strip().lower():
                         is_question_correct = True
                         break
-                UserAnswer.objects.create(
-                    user=request.user, question=question, user_input=user_text, is_correct=is_question_correct
-                )
+                if not is_admin_or_teacher:
+                    UserAnswer.objects.create(
+                        user=request.user, question=question, user_input=user_text, is_correct=is_question_correct
+                    )
 
             if is_question_correct:
                 score += 1
             else:
                 errors_count += 1
         
-        # Сохранение прогресса
+        # Если пользователь - преподаватель или админ, не сохраняем результат
+        if is_admin_or_teacher:
+            messages.info(request, _("Тест пройден! Ваш результат: {score}/{total} (результат не сохранен, так как вы администратор)").format(score=score, total=total_questions))
+            return redirect('courses:list')
+            
+        # Сохранение прогресса для студентов
         if is_suspicious:
             score = 0
             is_completed = False

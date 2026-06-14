@@ -30,12 +30,15 @@ def lab_list_view(request):
     
     labs = labs_queryset.order_by('order', 'module__order')
     
-    # Оптимизированный загрузка прогресса пользователя
-    user_progress_data = LabProgress.objects.filter(
-        user=request.user
-    ).values('lab_id', 'is_completed', 'score', 'attempts', 'time_spent')
-    
-    user_progress = {p['lab_id']: p for p in user_progress_data}
+    # Оптимизированный загрузка прогресса пользователя (не для админов/преподавателей)
+    if request.user.role == 'teacher' or request.user.is_superuser:
+        user_progress = {}
+    else:
+        user_progress_data = LabProgress.objects.filter(
+            user=request.user
+        ).values('lab_id', 'is_completed', 'score', 'attempts', 'time_spent')
+        
+        user_progress = {p['lab_id']: p for p in user_progress_data}
     
     for lab in labs:
         progress_data = user_progress.get(lab.id)
@@ -73,7 +76,11 @@ def lab_detail_view(request, module_slug):
             'module': module,
             'related_module': related,
         })
-    progress, created = LabProgress.objects.get_or_create(user=request.user, lab=lab)
+    # Если пользователь - преподаватель или админ, не создаем прогресс
+    if request.user.role == 'teacher' or request.user.is_superuser:
+        progress = None
+    else:
+        progress, created = LabProgress.objects.get_or_create(user=request.user, lab=lab)
     
     # Определяем шаблон в зависимости от типа лаборатории (по слагу)
     template_name = 'laboratory/lab_simulator.html'
@@ -108,6 +115,15 @@ def save_lab_progress(request, lab_id):
         completed = data.get('completed', False)
         history = data.get('history', [])
         time_spent = int(data.get('time_spent', 0))  # Время в секундах
+        
+        # Если пользователь - преподаватель или админ, не сохраняем результат
+        if request.user.role == 'teacher' or request.user.is_superuser:
+            return JsonResponse({
+                'status': 'success',
+                'attempts': 1,
+                'time_spent': time_spent,
+                'message': 'Результат не сохранен (вы администратор)'
+            })
         
         # Серверная проверка (Important 15)
         # 1. Если баллы > 0, должна быть история команд
