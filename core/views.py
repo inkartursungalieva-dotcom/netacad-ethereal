@@ -127,7 +127,9 @@ def ai_chat_api(request):
         # Собираем историю сообщений для контекста
         # Получаем все сообщения, кроме самого последнего, которое мы только что сохранили (user's new message)
         conversation_history = []
-        for msg in conversation.messages.all().order_by('timestamp')[:-1]:  # exclude the last (current user) message
+        messages = list(conversation.messages.all().order_by('timestamp'))
+
+        for msg in messages[:-1]:  # exclude the last (current user) message
             conversation_history.append({"role": msg.role, "content": msg.content})
 
         # Пробуем только Gemini
