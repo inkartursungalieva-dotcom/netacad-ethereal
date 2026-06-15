@@ -113,7 +113,8 @@ def ai_chat_api(request):
         )
         
         gemini_api_key = getattr(settings, 'GEMINI_API_KEY', None)
-        
+        logger.info(f"GEMINI_API_KEY exists: {bool(gemini_api_key)}")
+        logger.info(f"GEMINI_API_KEY prefix: {gemini_api_key[:10] if gemini_api_key else 'None'}")
         ai_response = None
         system_prompt = (
             "Ты — Computer Networks AI, экспертный помощник обучающей платформы по компьютерным сетям. "
