@@ -53,7 +53,11 @@ def ai_chat_api(request):
     - network: Ошибки сети
     """
     import logging
-    logger.info('ai_chat_api called! User:', request.user, 'Method:', request.method)
+    logger.info(
+    "ai_chat_api called! User: %s Method: %s",
+    request.user,
+    request.method
+)
     if request.method != 'POST':
         logger.warning(f"AI API: Invalid method {request.method} from user {request.user.id if request.user.is_authenticated else 'anonymous'}")
         return JsonResponse({'error': 'Method not allowed'}, status=405)
@@ -113,8 +117,12 @@ def ai_chat_api(request):
         )
         
         gemini_api_key = getattr(settings, 'GEMINI_API_KEY', None)
-        logger.info(f"GEMINI_API_KEY exists: {bool(gemini_api_key)}")
-        logger.info(f"GEMINI_API_KEY prefix: {gemini_api_key[:10] if gemini_api_key else 'None'}")
+        logger.warning(f"GEMINI_API_KEY exists: {bool(gemini_api_key)}")
+        if gemini_api_key:
+         logger.warning(f"Key prefix: {gemini_api_key[:10]}")
+        else:
+         logger.warning("GEMINI_API_KEY is None")  
+       
         ai_response = None
         system_prompt = (
             "Ты — Computer Networks AI, экспертный помощник обучающей платформы по компьютерным сетям. "
@@ -149,7 +157,8 @@ def ai_chat_api(request):
                 gemini_messages.append({"role": "user", "parts": [{"text": user_msg}]})
                 
                 payload = {
-                    "systemInstruction": {"role": "user", "parts": [{"text": system_prompt}]},
+                    "system_instruction": {
+    "parts": [{"text": system_prompt}]},
                     "contents": gemini_messages,
                     "generationConfig": {
                         "temperature": 0.7,
@@ -181,7 +190,8 @@ def ai_chat_api(request):
                 
                 with httpx.Client() as client:
                     response = client.post(url, headers=headers, json=payload, timeout=15.0)
-                
+                logger.info(f"Gemini status: {response.status_code}")
+                logger.info(f"Gemini response: {response.text[:1000]}")
                 if response.status_code == 200:
                     res_data = response.json()
                     candidates = res_data.get('candidates', [])
